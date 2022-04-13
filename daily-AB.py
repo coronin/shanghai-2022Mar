@@ -8,8 +8,8 @@ z = [
 #'','']
 #'','']
 #'','']
-#'','']
-'0411','']
+#'0412','https://mp.weixin.qq.com/s/OZGM-pNkefZqWr0IFRJj1g']
+'0411','https://mp.weixin.qq.com/s/vxFiV2HeSvByINUlTmFKZA']
 #'0410','https://mp.weixin.qq.com/s/u0XfHF8dgfEp8vGjRtcwXA']
 #'0409','https://mp.weixin.qq.com/s/_Je5_5_HqBcs5chvH5SFfA']
 #'0408','https://mp.weixin.qq.com/s/79NsKhMHbg09Y0xaybTXjA']
@@ -36,6 +36,7 @@ z = [
 #'0318','https://mp.weixin.qq.com/s/xLVPnOTErTe3dmAenUyDGQ']
 # no place info before 3/18
 # 从3月18日起三天内，我市对非重点区域内人员分时分批次开展一次免费核酸检测
+# 从3月13日启动校园封闭管理
 
 wx = BeautifulSoup(request.urlopen(z[1]).read(), features="lxml")
 wxx = wx.find('div', {'id' : 'img-content'})
