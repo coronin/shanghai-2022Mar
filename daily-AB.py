@@ -40,9 +40,9 @@ z = [
 
 wx = BeautifulSoup(request.urlopen(z[1]).read(), features="lxml")
 wxx = wx.find('div', {'id' : 'img-content'})
-res = wxx.get_text().replace('，', ',').replace('。', ',').replace('、', ','
+res = wxx.get_text().replace('，', ',').replace('。', ',').replace('、', ',').replace('；', ',').replace(';', ','
                    ).replace(' ', ',').replace('\t', ','
-                   ).replace(''分别居住于：'', ',')
+                   ).replace('分别居住于', ',').replace('：', ',')
 Z = [ s.strip() for s in list(filter(None, res.split(',') )) ]
 print(len(Z))
 for zz in Z:

@@ -30,11 +30,12 @@ def read_a_list(s):
                 #print(s, line)
                 break
             continue
-        if not line or line.find('居住于：'
+        if not line or line.find('居住于'
              ) > -1 or line.find('通报：'
              ) > -1 or line.find('资料：'
              ) > -1 or line.find('编辑：'
              ) > -1 or line.find('修改'
+             ) > -1 or line.find('shanghaifabu'
              ) > -1 or line.find('上海发布'
              ) > -1 or line.find('各区信息'
              ) > -1 or line.find('区新增'
@@ -42,6 +43,7 @@ def read_a_list(s):
              ) > -1 or line.find('2022年'
              ) > -1 or line.find('3月'
              ) > -1 or line.find('4月'
+             ) > -1 or line.find('1例为'
              ) > -1 or line.find('感染者'
              ) > -1 or line.find('中发现'
              ) > -1 or line.find('落实终末消毒'
