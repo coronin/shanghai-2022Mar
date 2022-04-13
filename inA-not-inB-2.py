@@ -14,7 +14,7 @@ by_district = {'浦东新区':[], '黄浦区':[], '静安区':[], '徐汇区':[]
 districts = ('浦东新区', '黄浦区', '静安区', '徐汇区', '长宁区',
              '普陀区', '虹口区', '杨浦区', '宝山区', '闵行区',
              '嘉定区', '金山区', '松江区', '青浦区', '奉贤区', '崇明区' )
-by_address = {'上海发布':['0313'] }
+by_address = {'shanghaifabu':['0313'] }
 
 def read_a_list(s):
     f = open('%s.txt' % s, 'r')
@@ -24,6 +24,10 @@ def read_a_list(s):
     running_district = ''
     for l in pre:
         line = l.strip().replace('（住宅）', '')
+        if line == 'shanghaifabu':
+            #print(s, line)
+            by_address[line] += [s]
+            continue
         for dd in districts:
             if line.find(dd) > -1:
                 running_district = dd
@@ -47,7 +51,6 @@ def read_a_list(s):
              ) > -1 or line.find('资料：'
              ) > -1 or line.find('编辑：'
              ) > -1 or line.find('修改'
-             ) > -1 or line.find('shanghaifabu'
              ) > -1 or line.find('上海发布'
              ) > -1 or line.find('各区信息'
              ) > -1 or line.find('区新增'
@@ -61,15 +64,15 @@ def read_a_list(s):
              ) > -1 or line.find('落实终末消毒'
              ) > -1 or line.find('滑动查看' ) > -1:
             continue
-        elif line not in post: ## raw address, one day = one list
-            post.append(line) # clean address
+        elif line not in post: # raw address, one day = one list
+            post.append(line)  # clean address
             if running_district and (line not in by_district[running_district]):
                 by_district[running_district].append(line)
             if by_address.get(line):
                 by_address[line] += [s]
             else:
                 by_address[line] = [s]
-    #print(len(post))
+    #print(s, len(post))
     return post
 
 A = []
@@ -79,7 +82,7 @@ for s in As:
     A += read_a_list(s)
     #print(s)
 print('in A, estimated', len(list(set(A))) )
-#print(list(set(by_district['杨浦区'])))
+#print('A', list(set(by_district['杨浦区'])))
 
 for s in Bs:
     B += read_a_list(s)
@@ -90,7 +93,7 @@ for dd in districts:
 print('by district, estimated total', ddc )
 BB = list(set(B))
 print('in B, estimated', len(BB) )
-# print(list(set(by_district['杨浦区'])))
+# print('B', list(set(by_district['杨浦区'])))
 
 Z = []
 count = 0
