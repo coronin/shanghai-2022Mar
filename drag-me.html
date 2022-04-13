@@ -36,17 +36,10 @@
     for (ii = 0; ii < Ds.length; ii += 1) {
       document.getElementById(Ds[ii]).style.background = 'white';
     }
-    let days;
+    let dl;
     for (i = 0; i < As.length; i += 1) {
       if (As[i].indexOf(k) > -1) {
-        days = j.address[ As[i] ]
-        onList.textContent += As[i] + ': ' + days;
-        const release = parseInt(days[days.length - 1]) + 14 - 400;
-        if (release < 31) {
-          onList.textContent += ' --> 4/' + release + '\n';
-        } else {
-          onList.textContent += ' --> 5/' + (release-30) + '\n';
-        }
+        dl = j.address[ As[i] ];
         let ii; let ij; let ik; let il = false;
         for (ii = 0; ii < Ds.length; ii += 1) {
           ij = j.districts[ Ds[ii] ];
@@ -59,6 +52,13 @@
             }
           }
           if (il) { break; }
+        }
+        onList.textContent += Ds[ii] + ',' + As[i] + ': ' + dl;
+        const release = parseInt(dl[dl.length - 1]) + 14 - 400;
+        if (release < 31) {
+          onList.textContent += ' --> 4/' + release + '\n';
+        } else {
+          onList.textContent += ' --> 5/' + (release-30) + '\n';
         }
       }
     }

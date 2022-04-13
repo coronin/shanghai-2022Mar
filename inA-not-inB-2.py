@@ -82,10 +82,6 @@ def read_a_list(s, tag=''):
     #print(s, len(post))
     return post
 
-B = read_a_list(Bs[-1], tag='latest')
-for s in Bs[:-1]:
-    B += read_a_list(s)
-
 A = []
 for s in As:
     A += read_a_list(s)
@@ -93,6 +89,10 @@ for s in As:
 print('in A, estimated', len(list(set(A))) )
 #print('A', list(set(by_district['杨浦区'])))
 
+B = []
+for s in Bs[:-1]:
+    B += read_a_list(s)
+B += read_a_list(Bs[-1], tag='latest')
 ddc = 0
 for dd in districts:
     print(dd, len(by_district[dd]) )
