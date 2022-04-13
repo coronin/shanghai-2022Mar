@@ -131,5 +131,5 @@ j = {'date':datestr,
      'districts':by_district,
      'address':by_address }
 fz = open('full.json', 'w')
-fz.write(json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
+fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
 fz.close()

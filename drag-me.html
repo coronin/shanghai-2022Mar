@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<head>
+  <title>search full.json</title>
+  <script type="text/javascript" src="full.json"></script>
+  <script type="text/javascript">
+  let i; let j; let As;
+  function load () {
+    j = JSON.parse(data);
+    datestr.textContent = j.date;
+    let k; let l;
+    k = Object.keys(j.districts);
+    As = Object.keys(j.address);
+    console.log( j.address['shanghaifabu'] );
+    for (i = 0; i < k.length; i += 1) {
+      l = document.createElement('tr');
+      l.id = k[i];
+      l.innerHTML = '<tr><td>' + k[i] + '</td><td>' + j.districts[ k[i] ].length + '</td></tr>';
+      districtTable.appendChild(l);
+    }
+  }
+  function search () {
+    let k = addr.value;
+    if (k === '') {
+      addr.focus();
+      return;
+    }
+    console.log(k);
+    onList.textContent = '';
+    for (i = 0; i < As.length; i += 1) {
+      if (As[i].indexOf(k) > -1) {
+        onList.textContent += As[i] + ': ' + j.address[ As[i] ] + '\n';
+      }
+    }
+    onList.style.Height = '100%';
+  }
+  </script>
+</head>
+<body onload="load()">
+  <p>
+    <label for="addr">上榜地址</label>
+    <input type="text" id="addr" name="addr" />
+    <button onclick="search();">搜索</button>
+  </p>
+  <pre style="width:100%" id="onList"></pre>
+  <p>
+    数据更新时间 <span id="datestr" style="color:blue;"></span>
+  </p>
+  <table id="districtTable" style="border:1px solid blue;color:blue;"></table>
+</body>
