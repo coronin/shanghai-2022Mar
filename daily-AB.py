@@ -43,6 +43,7 @@ wxx = wx.find('div', {'id' : 'img-content'})
 res = wxx.get_text().replace('，', ',').replace('。', ',').replace('、', ',').replace('；', ',').replace(';', ','
                    ).replace(' ', ',').replace('\t', ','
                    ).replace('分别居住于', ',').replace('：', ',')
+## 成功 目前
 Z = [ s.strip() for s in list(filter(None, res.split(',') )) ]
 print(len(Z))
 for zz in Z:
