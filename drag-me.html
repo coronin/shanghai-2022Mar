@@ -1,7 +1,8 @@
 <!DOCTYPE html lang="zh">
 <head>
-  <title>search listed address in shanghai, since 2022 March</title>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>search listed address, since 2022 March 18th</title>
   <script src="full.json?v=0412"></script>
   <script>
   let i; let j; let As; let Ds;
@@ -36,7 +37,7 @@
     for (ii = 0; ii < Ds.length; ii += 1) {
       document.getElementById(Ds[ii]).style.background = 'white';
     }
-    let dl;
+    let dl; let kk; let ks;
     for (i = 0; i < As.length; i += 1) {
       if (As[i].indexOf(k) > -1) {
         dl = j.address[ As[i] ];
@@ -53,21 +54,25 @@
           }
           if (il) { break; }
         }
-        onList.textContent += Ds[ii] + ',' + As[i] + ': ' + dl;
-        let kk = document.createElement('span');
-        //kk.id = As[i];
-        kk.innerHTML = '<a href="https://maps.baidu.com/search/?querytype=s&wd=' +
-                       As[i] + '" target="_blank">' +
-                       As[i] + '</a> &nbsp; ';
-
-        linkAddr.appendChild(kk);
-
+        //onList.textContent += Ds[ii] + ',' + As[i] + ': ' + dl;
+        ks = '<span>' + Ds[ii] +
+             '<a href="https://maps.baidu.com/search/?querytype=s&wd=' +
+                        As[i] + '" target="_blank">' +
+                        As[i] + '</a>' + ': ' + dl;
         const release = parseInt(dl[dl.length - 1]) + 14 - 400;
         if (release < 31) {
-          onList.textContent += ' --> 4/' + release + '\n';
+          //onList.textContent += ' --> 4/' + release + '\n';
+          ks += ' &rarr; <em>4/' + release + '</em></span>';
         } else {
-          onList.textContent += ' --> 5/' + (release-30) + '\n';
+          //onList.textContent += ' --> 5/' + (release-30) + '\n';
+          ks += ' &rarr; <em>5/' + (release-30) + '</em></span>';
         }
+        let kk = document.createElement('p');
+        //kk.id = As[i];
+        kk.style.padding = '0';
+        kk.style.margin = '0';
+        kk.innerHTML = ks;
+        onList.appendChild(kk);
       }
     }
   }
@@ -82,11 +87,11 @@
     <input type="text" id="addr" name="addr" />
     <button onclick="search();">搜索</button>
   </p>
-  <pre style="width:100%;color:blue;" id="onList"></pre>
-  <p id="linkAddr" style="font-size:75%;width:60%;line-height:2em;"></p>
+  <div style="width:100%;color:blue;" id="onList"></div>
+  <h2>各区统计</h2>
   <table id="districtTable" style="border:1px solid blue;color:blue;font-size:75%;text-align:center;">
     <tr style="color:black;"><th>行政单位</th><th>0412新增</th><th>上榜合计</th><th>预计下榜</th></tr>
   </table>
-  <p><br/><br/>预计下榜的地址</p>
+  <h2>预计下榜的地址</h2>
   <div style="color:green;list-style-type:none;font-size:75%;" id="released"></div>
 </body>
