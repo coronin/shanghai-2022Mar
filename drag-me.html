@@ -60,7 +60,9 @@
                         As[i] + '" target="_blank">' +
                         As[i] + '</a>' + ': ' + dl;
         const release = parseInt(dl[dl.length - 1]) + 14 - 400;
-        if (release < 31) {
+        if (release < 1) {
+          ks += ' 已经解封</span>';
+        } else if (release < 31) {
           //onList.textContent += ' --> 4/' + release + '\n';
           ks += ' &rarr; <em>4/' + release + '</em></span>';
         } else {
