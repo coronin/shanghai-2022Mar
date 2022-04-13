@@ -54,9 +54,9 @@
           if (il) { break; }
         }
         onList.textContent += Ds[ii] + ',' + As[i] + ': ' + dl;
-        const kk = document.createElement('div');
-        kk.id = As[i];
-        kk.innerHtml = '<a href="https://maps.baidu.com/search/?querytype=s&wd=' +
+        let kk = document.createElement('span');
+        //kk.id = As[i];
+        kk.innerHTML = '<a href="https://maps.baidu.com/search/?querytype=s&wd=' +
                        As[i] + '" target="_blank">' +
                        As[i] + '</a> &nbsp; ';
 
@@ -82,8 +82,8 @@
     <input type="text" id="addr" name="addr" />
     <button onclick="search();">搜索</button>
   </p>
-  <div id="linkAddr">AAA</div>
   <pre style="width:100%;color:blue;" id="onList"></pre>
+  <p id="linkAddr" style="font-size:75%;width:60%;line-height:2em;"></p>
   <table id="districtTable" style="border:1px solid blue;color:blue;font-size:75%;text-align:center;">
     <tr style="color:black;"><th>行政单位</th><th>0412新增</th><th>上榜合计</th><th>预计下榜</th></tr>
   </table>
