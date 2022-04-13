@@ -40,13 +40,17 @@ z = [
 
 wx = BeautifulSoup(request.urlopen(z[1]).read(), features="lxml")
 wxx = wx.find('div', {'id' : 'img-content'})
-res = wxx.get_text().replace('，',',').replace('。',',').replace('、',',').replace(' ',',').replace('\t',',')
+res = wxx.get_text().replace('，', ',').replace('。', ',').replace('、', ','
+                   ).replace(' ', ',').replace('\t', ','
+                   ).replace(''分别居住于：'', ',')
 Z = [ s.strip() for s in list(filter(None, res.split(',') )) ]
 print(len(Z))
 for zz in Z:
-	if len(zz) > 50:
-		print(zz)
+    if len(zz) > 50:
+        print(zz)
 print(z[1])
 fz = open('%s.txt' % z[0], 'w')
 fz.write( u'\n'.join(Z) )
 fz.close()
+
+print('CAUTION: please check %s.txt for missing line break' % z[0] )

@@ -5,12 +5,17 @@ As = ('0318','0319',
       )
 Bs = ('0330','0331',
       '0401','0402','0403','0404','0405','0406','0407','0408','0409','0410',
-      '0411'#,'0412'
+      '0411','0412'
       )
 
 by_district = {'浦东新区':[], '黄浦区':[], '静安区':[], '徐汇区':[], '长宁区':[],
                '普陀区':[], '虹口区':[], '杨浦区':[], '宝山区':[], '闵行区':[],
                '嘉定区':[], '金山区':[], '松江区':[], '青浦区':[], '奉贤区':[], '崇明区':[] }
+districts = ('浦东新区', '黄浦区', '静安区', '徐汇区', '长宁区',
+             '普陀区', '虹口区', '杨浦区', '宝山区', '闵行区',
+             '嘉定区', '金山区', '松江区', '青浦区', '奉贤区', '崇明区' )
+by_address = {'上海发布':['0313'] }
+
 def read_a_list(s):
     f = open('%s.txt' % s, 'r')
     pre = f.readlines()
@@ -18,9 +23,14 @@ def read_a_list(s):
     post = []
     running_district = ''
     for l in pre:
-        line = l.strip().replace('（住宅）')
-        if not line or line.find('分别居住于'
-             ) > -1 or line.find('居住于：'
+        line = l.strip().replace('（住宅）', '')
+        for dd in districts:
+            if line.find(dd) > -1 and line != dd:
+                running_district = dd
+                #print(s, line)
+                break
+            continue
+        if not line or line.find('居住于：'
              ) > -1 or line.find('通报：'
              ) > -1 or line.find('资料：'
              ) > -1 or line.find('编辑：'
@@ -37,15 +47,14 @@ def read_a_list(s):
              ) > -1 or line.find('落实终末消毒'
              ) > -1 or line.find('滑动查看' ) > -1:
             continue
-        if line in list(by_district.keys()):
-            running_district = line
-            if line == '金山区':
-                print(s, line)
-            continue
         if l not in post:
             post.append(line)
-            if running_district:
+            if running_district and (line not in by_district[running_district]):
                 by_district[running_district].append(line)
+            if by_address.get(line):
+                by_address[line] += [s]
+            else:
+                by_address[line] = [s]
     #print(len(post))
     return post
 
@@ -64,17 +73,25 @@ BB = list(set(B))
 print('B~', len(BB) )
 # print(list(set(by_district['杨浦区'])))
 
+ddc = 0
+for dd in districts:
+    print(dd, len(by_district[dd]) )
+    ddc += len(by_district[dd])
+print('by district, estimated', ddc )
+
 Z = []
 count = 0
-print('sorted by name')
+#print('sorted by listed dates')
 for line in A:
-    if line.find('国权北路1566') > -1 or line.find('淞沪路2005') > -1 or line.find('淞塘路98') > -1 or line.find('武川路') > -1 :
-        print('in A', line)
-    if line not in Z and line not in B: # and line not in notThese:
+    #if line.find('国权北路1566') > -1 or line.find('淞沪路2005') > -1 or line.find('邯郸路220') > -1 :
+    #    print('in A', line)
+    if line not in Z and line not in BB: # and line not in notThese:
         count += 1
         #print(line)
         Z.append(line)
-print(count)
+print('in A, not in B, estimated', count)
+check = ''
+print(check, by_address[check] )
 
 # from datetime import datetime
 # fz = open('negative.txt', 'w')
@@ -86,5 +103,4 @@ print(count)
 # fz.write('\n# 供参考\n')
 # fz.write( u'\n'.join(Z) )
 # fz.write( u'\n####\n')
-#fz.close()
-
+# fz.close()
