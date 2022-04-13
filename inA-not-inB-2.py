@@ -46,9 +46,15 @@ def read_a_list(s):
              ) > -1 or line.find('中发现'
              ) > -1 or line.find('落实终末消毒'
              ) > -1 or line.find('滑动查看' ) > -1:
+            if line and running_district and by_district.get(running_district):
+                try:
+                    by_district[running_district].remove(line)
+                except:
+                    #print(s, line)
+                    pass
             continue
-        if l not in post:
-            post.append(line)
+        if l not in post: # raw address
+            post.append(line) # clean address
             if running_district and (line not in by_district[running_district]):
                 by_district[running_district].append(line)
             if by_address.get(line):
@@ -64,20 +70,19 @@ B = []
 for s in As:
     A += read_a_list(s)
     #print(s)
-print('A~', len(list(set(A))) )
+print('in A, estimated', len(list(set(A))) )
 #print(list(set(by_district['杨浦区'])))
 
 for s in Bs:
     B += read_a_list(s)
-BB = list(set(B))
-print('B~', len(BB) )
-# print(list(set(by_district['杨浦区'])))
-
 ddc = 0
 for dd in districts:
     print(dd, len(by_district[dd]) )
     ddc += len(by_district[dd])
-print('by district, estimated', ddc )
+print('by district, estimated total', ddc )
+BB = list(set(B))
+print('in B, estimated', len(BB) )
+# print(list(set(by_district['杨浦区'])))
 
 Z = []
 count = 0
@@ -90,17 +95,30 @@ for line in A:
         #print(line)
         Z.append(line)
 print('in A, not in B, estimated', count)
-check = ''
-print(check, by_address[check] )
+to_check = ['龙吴路2588弄', '国权北路1566弄', '国权北路1450弄', '东安路130号' ]
+for ch in to_check:
+    if by_address.get(ch):
+        print(ch, by_address[ch] )
+    else:
+        print(ch, 'zero' )
 
-# from datetime import datetime
-# fz = open('negative.txt', 'w')
-# fz.write('# %s' % datetime.now() )
-# fz.write('\n# 被列入 %s 上海发布的感染者居住地' % ','.join(As) )
-# fz.write('\n# 但没有出现在之后的上海发布')
-# fz.write('\n# 因微信页面可被编辑，本列表基于分析时的页面')
-# fz.write('\n# 疾控，满足7+7和第13天全员核酸阴性，小区解封')
-# fz.write('\n# 供参考\n')
-# fz.write( u'\n'.join(Z) )
-# fz.write( u'\n####\n')
-# fz.close()
+from datetime import datetime
+datestr = '%s' % datetime.now()
+fz = open('negative.txt', 'w')
+fz.write('# %s' %  datestr)
+fz.write('\n# 被列入 %s 上海发布的感染者居住地' % ','.join(As) )
+fz.write('\n# 但没有出现在之后的上海发布')
+fz.write('\n# 因微信页面可被编辑，本列表基于分析时的页面')
+fz.write('\n# 疾控，满足7+7和第13天全员核酸阴性，小区解封')
+fz.write('\n# 供参考\n')
+fz.write( u'\n'.join(Z) )
+fz.write( u'\n####\n')
+fz.close()
+
+import json
+j = {'date':datestr,
+     'districts':by_district,
+     'address':by_address }
+fz = open('full.json', 'w')
+fz.write(json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
+fz.close()
