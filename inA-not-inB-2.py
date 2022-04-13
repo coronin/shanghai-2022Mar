@@ -25,13 +25,25 @@ def read_a_list(s):
     for l in pre:
         line = l.strip().replace('（住宅）', '')
         for dd in districts:
-            if line.find(dd) > -1 and line != dd:
+            if line.find(dd) > -1:
                 running_district = dd
                 #print(s, line)
                 break
+            pass
+        if line in districts:
+            continue
+        if line.find(running_district) > -1:
             continue
         if not line or line.find('居住于'
-             ) > -1 or line.find('通报：'
+             ) > -1 or line.find('微信号'
+             ) > -1 or line.find('微信平台'
+             ) > -1 or line.find('功能介绍'
+             ) > -1 or line.find('梦幻的城市'
+             ) > -1 or line.find('共同成长'
+             ) > -1 or line.find('上海的资讯'
+             ) > -1 or line.find('上海的理由'
+             ) > -1 or line.find('收录于'
+             ) > -1 or line.find('按照统一'
              ) > -1 or line.find('资料：'
              ) > -1 or line.find('编辑：'
              ) > -1 or line.find('修改'
@@ -48,14 +60,8 @@ def read_a_list(s):
              ) > -1 or line.find('中发现'
              ) > -1 or line.find('落实终末消毒'
              ) > -1 or line.find('滑动查看' ) > -1:
-            if line and running_district and by_district.get(running_district):
-                try:
-                    by_district[running_district].remove(line)
-                except:
-                    #print(s, line)
-                    pass
             continue
-        if l not in post: # raw address
+        elif line not in post: ## raw address, one day = one list
             post.append(line) # clean address
             if running_district and (line not in by_district[running_district]):
                 by_district[running_district].append(line)
@@ -97,7 +103,7 @@ for line in A:
         #print(line)
         Z.append(line)
 print('in A, not in B, estimated', count)
-to_check = ['龙吴路2588弄', '国权北路1566弄', '国权北路1450弄', '东安路130号' ]
+to_check = ['龙吴路2588弄', '国权北路1566弄', '国权北路1450弄', '东安路130号', '邯郸路220号' ]
 for ch in to_check:
     if by_address.get(ch):
         print(ch, by_address[ch] )
