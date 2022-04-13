@@ -29,9 +29,17 @@
     for (ii = 0; ii < Ds.length; ii += 1) {
       document.getElementById(Ds[ii]).style.background = 'white';
     }
+    let days;
     for (i = 0; i < As.length; i += 1) {
       if (As[i].indexOf(k) > -1) {
-        onList.textContent += As[i] + ': ' + j.address[ As[i] ] + '\n';
+        days = j.address[ As[i] ]
+        onList.textContent += As[i] + ': ' + days;
+        const release = parseInt(days[days.length - 1]) + 14 - 400;
+        if (release < 31) {
+          onList.textContent += ' --> 4/' + release + '\n';
+        } else {
+          onList.textContent += ' --> 5/' + (release-30) + '\n';
+        }
         let ii; let ij; let ik; let il = false;
         for (ii = 0; ii < Ds.length; ii += 1) {
           ij = j.districts[ Ds[ii] ];
@@ -52,13 +60,13 @@
 </head>
 <body onload="load()">
   <p>
+    数据更新时间 <span id="datestr" style="color:blue;"></span>
+  </p>
+  <p>
     <label for="addr">上榜地址</label>
     <input type="text" id="addr" name="addr" />
     <button onclick="search();">搜索</button>
   </p>
   <pre style="width:100%;color:blue" id="onList"></pre>
-  <p>
-    数据更新时间 <span id="datestr" style="color:blue;"></span>
-  </p>
   <table id="districtTable" style="border:1px solid blue;color:blue;font-size:75%;"></table>
 </body>
