@@ -8,15 +8,17 @@ Bs = ('0330','0331',
       '0411','0412'
       )
 
-by_district = {'浦东新区':[], '黄浦区':[], '静安区':[], '徐汇区':[], '长宁区':[],
-               '普陀区':[], '虹口区':[], '杨浦区':[], '宝山区':[], '闵行区':[],
-               '嘉定区':[], '金山区':[], '松江区':[], '青浦区':[], '奉贤区':[], '崇明区':[] }
 districts = ('浦东新区', '黄浦区', '静安区', '徐汇区', '长宁区',
              '普陀区', '虹口区', '杨浦区', '宝山区', '闵行区',
              '嘉定区', '金山区', '松江区', '青浦区', '奉贤区', '崇明区' )
+by_district = {'浦东新区':[], '黄浦区':[], '静安区':[], '徐汇区':[], '长宁区':[],
+               '普陀区':[], '虹口区':[], '杨浦区':[], '宝山区':[], '闵行区':[],
+               '嘉定区':[], '金山区':[], '松江区':[], '青浦区':[], '奉贤区':[], '崇明区':[] }
+districts_released = {}
+districts_latest = {}
 by_address = {'shanghaifabu':['0313'] }
 
-def read_a_list(s):
+def read_a_list(s, tag=''):
     f = open('%s.txt' % s, 'r')
     pre = f.readlines()
     f.close()
@@ -68,6 +70,11 @@ def read_a_list(s):
             post.append(line)  # clean address
             if running_district and (line not in by_district[running_district]):
                 by_district[running_district].append(line)
+                if tag == 'latest':
+                    if (districts_latest.get(running_district)):
+                        districts_latest[running_district] += [line]
+                    else:
+                        districts_latest[running_district] = [line]
             if by_address.get(line):
                 by_address[line] += [s]
             else:
@@ -75,17 +82,17 @@ def read_a_list(s):
     #print(s, len(post))
     return post
 
-A = []
-B = []
+B = read_a_list(Bs[-1], tag='latest')
+for s in Bs[:-1]:
+    B += read_a_list(s)
 
+A = []
 for s in As:
     A += read_a_list(s)
     #print(s)
 print('in A, estimated', len(list(set(A))) )
 #print('A', list(set(by_district['杨浦区'])))
 
-for s in Bs:
-    B += read_a_list(s)
 ddc = 0
 for dd in districts:
     print(dd, len(by_district[dd]) )
@@ -105,6 +112,14 @@ for line in A:
         count += 1
         #print(line)
         Z.append(line)
+        for dd in districts:
+            if line in by_district[dd]:
+                if (districts_released.get(dd)):
+                    districts_released[dd] += [line]
+                else:
+                    districts_released[dd] = [line]
+                break
+            pass
 print('in A, not in B, estimated', count)
 to_check = ['龙吴路2588弄', '国权北路1566弄', '国权北路1450弄', '东安路130号', '邯郸路220号' ]
 for ch in to_check:
@@ -129,7 +144,10 @@ fz.close()
 import json
 j = {'date':datestr,
      'districts':by_district,
-     'address':by_address }
+     'address':by_address,
+     'latest':districts_latest,
+     'released':districts_released }
 fz = open('full.json', 'w')
 fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
 fz.close()
+print('\n\nupdate html with th and full.json?v=%s\n\n' % Bs[-1] )

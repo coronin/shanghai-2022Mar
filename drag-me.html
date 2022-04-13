@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+<!DOCTYPE html lang="zh">
 <head>
   <title>search listed address in shanghai, since 2022 March</title>
   <meta charset="UTF-8">
-  <script type="text/javascript" src="full.json?v=0.3"></script>
-  <script type="text/javascript">
+  <script src="full.json?v=0412"></script>
+  <script>
   let i; let j; let As; let Ds;
   function load () {
     j = JSON.parse(data);
@@ -15,8 +15,14 @@
     for (i = 0; i < Ds.length; i += 1) {
       k = document.createElement('tr');
       k.id = Ds[i];
-      k.innerHTML = '<tr><td>' + Ds[i] + '</td><td>' + j.districts[ Ds[i] ].length + '</td></tr>';
+      k.innerHTML = '<tr><td>' + Ds[i] + '</td><td>' +
+                    j.latest[ Ds[i] ].length + '</td><td>' +
+                    j.districts[ Ds[i] ].length + '</td><td style="color:green;">' +
+                    j.released[ Ds[i] ].length + '</td></tr>';
       districtTable.appendChild(k);
+      k = document.createElement('p');
+      k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> ' + j.released[ Ds[i] ];
+      released.appendChild(k);
     }
   }
   function search () {
@@ -68,8 +74,10 @@
     <input type="text" id="addr" name="addr" />
     <button onclick="search();">搜索</button>
   </p>
-  <pre style="width:100%;color:blue" id="onList"></pre>
-  <table id="districtTable" style="border:1px solid blue;color:blue;font-size:75%;">
-    <tr style="color:black"><th>行政单位</th><th>上榜合计</th></tr>
+  <pre style="width:100%;color:blue;" id="onList"></pre>
+  <table id="districtTable" style="border:1px solid blue;color:blue;font-size:75%;text-align:center;">
+    <tr style="color:black;"><th>行政单位</th><th>0412新增</th><th>上榜合计</th><th>预计下榜</th></tr>
   </table>
+  <p><br/><br/>预计下榜的地址</p>
+  <div style="color:green;list-style-type:none;font-size:75%;" id="released"></div>
 </body>
