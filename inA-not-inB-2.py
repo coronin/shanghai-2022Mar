@@ -18,7 +18,7 @@ def read_a_list(s):
     post = []
     running_district = ''
     for l in pre:
-        line = l.strip()
+        line = l.strip().replace('（住宅）')
         if not line or line.find('分别居住于'
              ) > -1 or line.find('居住于：'
              ) > -1 or line.find('通报：'
