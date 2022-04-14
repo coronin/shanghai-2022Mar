@@ -19,13 +19,13 @@
       k.id = Ds[i];
       if (j.released_today[ Ds[i] ] ) {
         k.innerHTML = '<tr><td>' + Ds[i] + '</td><td>' +
-                      j.today[ Ds[i] ].length + '</td><td>' +
+                      (j.today[ Ds[i] ] || []).length + '</td><td>' +
                       j.districts[ Ds[i] ].length + '</td><td style="color:green;">' +
                       j.released[ Ds[i] ].length + '</td><td style="color:green;">' +
                       j.released_today[ Ds[i] ].length + '</td></tr>';
       } else {
         k.innerHTML = '<tr><td>' + Ds[i] + '</td><td>' +
-                      j.today[ Ds[i] ].length + '</td><td>' +
+                      (j.today[ Ds[i] ] || []).length + '</td><td>' +
                       j.districts[ Ds[i] ].length + '</td><td style="color:green;">' +
                       j.released[ Ds[i] ].length + '</td><td>' +
                       j.released_today[ Ds[i] ].length + '</td></tr>';
