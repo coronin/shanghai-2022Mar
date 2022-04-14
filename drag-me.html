@@ -6,6 +6,7 @@
   <script src="full.json?v=0412"></script>
   <script>
   let i; let j; let As; let Ds;
+
   function load () {
     j = JSON.parse(data);
     datestr.textContent = j.date;
@@ -16,16 +17,29 @@
     for (i = 0; i < Ds.length; i += 1) {
       k = document.createElement('tr');
       k.id = Ds[i];
-      k.innerHTML = '<tr><td>' + Ds[i] + '</td><td>' +
-                    j.today[ Ds[i] ].length + '</td><td>' +
-                    j.districts[ Ds[i] ].length + '</td><td style="color:green;">' +
-                    j.released[ Ds[i] ].length + '</td></tr>';
+      if (j.released_today[ Ds[i] ] ) {
+        k.innerHTML = '<tr><td>' + Ds[i] + '</td><td>' +
+                      j.today[ Ds[i] ].length + '</td><td>' +
+                      j.districts[ Ds[i] ].length + '</td><td style="color:green;">' +
+                      j.released[ Ds[i] ].length + '</td><td style="color:green;">' +
+                      j.released_today[ Ds[i] ].length + '</td></tr>';
+      } else {
+        k.innerHTML = '<tr><td>' + Ds[i] + '</td><td>' +
+                      j.today[ Ds[i] ].length + '</td><td>' +
+                      j.districts[ Ds[i] ].length + '</td><td style="color:green;">' +
+                      j.released[ Ds[i] ].length + '</td><td>' +
+                      j.released_today[ Ds[i] ].length + '</td></tr>';
+      }
       districtTable.appendChild(k);
+      k = document.createElement('p');
+      k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> ' + j.released_today[ Ds[i] ];
+      latest_released.appendChild(k);
       k = document.createElement('p');
       k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> ' + j.released[ Ds[i] ];
       released.appendChild(k);
     }
   }
+
   function search () {
     let k = addr.value;
     if (k === '') {
@@ -56,9 +70,9 @@
         }
         //onList.textContent += Ds[ii] + ',' + As[i] + ': ' + dl;
         ks = '<span>' + Ds[ii] +
-             '<a href="https://maps.baidu.com/search/?querytype=s&wd=' +
+             ' [<a href="https://maps.baidu.com/search/?querytype=s&wd=' +
                         As[i] + '" target="_blank">' +
-                        As[i] + '</a>' + ': ' + dl;
+                        As[i] + '</a>] ' + dl;
         const release = parseInt(dl[dl.length - 1]) + 14 - 400;
         if (release < 1) {
           ks += ' 已经解封</span>';
@@ -78,9 +92,13 @@
       }
     }
   }
+
+  function show_full () {
+    released.style.visibility = 'visible';
+  }
   </script>
 </head>
-<body onload="load()">
+<body onload="load();">
   <p>
     数据更新时间 <span id="datestr" style="color:blue;">fetching... not ready</span>
   </p>
@@ -92,8 +110,10 @@
   <div style="width:100%;color:blue;" id="onList"></div>
   <h2>各区统计</h2>
   <table id="districtTable" style="border:1px solid blue;color:blue;font-size:75%;text-align:center;">
-    <tr style="color:black;"><th>行政单位</th><th>0412新增</th><th>上榜合计</th><th>预计下榜</th></tr>
+    <tr style="color:black;"><th>行政单位</th><th>0412新增</th><th>上榜合计</th><th>累计下榜</th><th>0412下榜</th></tr>
   </table>
-  <h2>预计下榜的地址</h2>
-  <div style="color:green;list-style-type:none;font-size:75%;" id="released"></div>
+  <h2>0422下榜的地址</h2>
+  <div style="color:green;list-style-type:none;font-size:75%;" id="latest_released"></div>
+  <h2 onclick="show_full();" style="cursor:pointer;">点击显示已经下榜的地址</h2>
+  <div style="color:green;list-style-type:none;font-size:75%;visibility:hidden;" id="released"></div>
 </body>
