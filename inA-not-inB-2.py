@@ -83,6 +83,8 @@ def read_a_list(s, tag=''):
     #print(s, len(post))
     return post
 
+print('====================')
+
 A = []
 for s in As:
     A += read_a_list(s)
@@ -94,14 +96,14 @@ B = []
 for s in Bs[:-1]:
     B += read_a_list(s)
 B += read_a_list(Bs[-1], tag='today')
-ddc = 0
-for dd in districts:
-    print(dd, len(by_district[dd]) )
-    ddc += len(by_district[dd])
-print('by district, estimated total', ddc )
 BB = list(set(B))
 print('in B, estimated', len(BB) )
 # print('B', list(set(by_district['杨浦区'])))
+ddc = 0
+for dd in districts:
+    #print(dd, len(by_district[dd]) )
+    ddc += len(by_district[dd])
+print('by district total, w/dupl', ddc )
 
 Z = []
 count = 0
@@ -144,7 +146,12 @@ for line, dates in by_address.items():
                     latest_released[dd] = [line]
                 break
             pass
-print('released today, estimated', count, '\n')
+print('\nreleased %s, estimated' % Bs[-1], count)
+for dd in districts:
+    try:
+        print(dd, len(latest_released[dd]) )
+    except:
+        print(dd, 0)
 
 from datetime import datetime
 datestr = '%s' % datetime.now()
