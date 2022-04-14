@@ -15,7 +15,7 @@ by_district = {'浦东新区':[], '黄浦区':[], '静安区':[], '徐汇区':[]
                '普陀区':[], '虹口区':[], '杨浦区':[], '宝山区':[], '闵行区':[],
                '嘉定区':[], '金山区':[], '松江区':[], '青浦区':[], '奉贤区':[], '崇明区':[] }
 districts_released = {}
-districts_latest = {}
+districts_today = {}
 by_address = {'shanghaifabu':['0313'] }
 
 def read_a_list(s, tag=''):
@@ -70,11 +70,11 @@ def read_a_list(s, tag=''):
             post.append(line)  # clean address
             if running_district and (line not in by_district[running_district]):
                 by_district[running_district].append(line)
-                if tag == 'latest':
-                    if (districts_latest.get(running_district)):
-                        districts_latest[running_district] += [line]
+                if tag == 'today':
+                    if (districts_today.get(running_district)):
+                        districts_today[running_district] += [line]
                     else:
-                        districts_latest[running_district] = [line]
+                        districts_today[running_district] = [line]
             if by_address.get(line):
                 by_address[line] += [s]
             else:
@@ -92,7 +92,7 @@ print('in A, estimated', len(list(set(A))) )
 B = []
 for s in Bs[:-1]:
     B += read_a_list(s)
-B += read_a_list(Bs[-1], tag='latest')
+B += read_a_list(Bs[-1], tag='today')
 ddc = 0
 for dd in districts:
     print(dd, len(by_district[dd]) )
@@ -121,12 +121,29 @@ for line in A:
                 break
             pass
 print('in A, not in B, estimated', count)
+
 to_check = ['龙吴路2588弄', '国权北路1566弄', '国权北路1450弄', '东安路130号', '邯郸路220号' ]
 for ch in to_check:
     if by_address.get(ch):
         print(ch, by_address[ch] )
     else:
         print(ch, 'zero' )
+
+latest_released = {}
+count = 0
+for line, dates in by_address.items():
+    if dates[-1] == As[-1]:
+        count += 1
+        #print(line)
+        for dd in districts:
+            if line in by_district[dd]:
+                if (latest_released.get(dd)):
+                    latest_released[dd] += [line]
+                else:
+                    latest_released[dd] = [line]
+                break
+            pass
+print('released today, estimated', count)
 
 from datetime import datetime
 datestr = '%s' % datetime.now()
@@ -143,10 +160,11 @@ fz.close()
 
 import json
 j = {'date':datestr,
-     'districts':by_district,
      'address':by_address,
-     'latest':districts_latest,
-     'released':districts_released }
+     'today':districts_today,
+     'districts':by_district,
+     'released':districts_released,
+     'released_today':latest_released }
 fz = open('full.json', 'w')
 fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
 fz.close()

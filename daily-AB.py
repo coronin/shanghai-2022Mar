@@ -43,11 +43,13 @@ wxx = wx.find('div', {'id' : 'img-content'})
 res = wxx.get_text().replace('，', ',').replace('。', ',').replace('、', ',').replace('；', ',').replace(';', ','
                    ).replace(' ', ',').replace('\t', ','
                    ).replace('分别居住于', ',').replace('：', ',')
-## 成功 目前
+
 Z = [ s.strip() for s in list(filter(None, res.split(',') )) ]
 print(len(Z))
 for zz in Z:
     if len(zz) > 50:
+        print('\n', zz, '\n')
+    elif zz.find('成功') > -1 or zz.find('目前') > -1:
         print(zz)
 print(z[1])
 fz = open('%s.txt' % z[0], 'w')
