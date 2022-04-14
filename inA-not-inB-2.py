@@ -25,7 +25,8 @@ def read_a_list(s, tag=''):
     post = []
     running_district = ''
     for l in pre:
-        line = l.strip().replace('（住宅）', '')
+        line = l.strip().replace('（住宅）', ''
+                       ).replace('（公寓）', '')
         if line == 'shanghaifabu':
             #print(s, line)
             by_address[line] += [s]
@@ -120,7 +121,7 @@ for line in A:
                     districts_released[dd] = [line]
                 break
             pass
-print('in A, not in B, estimated', count)
+print('in A, not in B, estimated', count, '\n')
 
 to_check = ['龙吴路2588弄', '国权北路1566弄', '国权北路1450弄', '东安路130号', '邯郸路220号' ]
 for ch in to_check:
@@ -143,7 +144,7 @@ for line, dates in by_address.items():
                     latest_released[dd] = [line]
                 break
             pass
-print('released today, estimated', count)
+print('released today, estimated', count, '\n')
 
 from datetime import datetime
 datestr = '%s' % datetime.now()
