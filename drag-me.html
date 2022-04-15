@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>search listed address, since 2022 March 18th</title>
-  <script src="full.json?v=0413"></script>
+  <script src="full.json?v=0414"></script>
   <script>
   let i; let j; let As; let Ds;
 
@@ -72,10 +72,15 @@
         ks = '<span>' + Ds[ii] +
              ' [<a href="https://maps.baidu.com/search/?querytype=s&wd=' +
                         As[i] + '" target="_blank">' +
-                        As[i] + '</a>] ' + dl;
+                        As[i] + '</a>] ';
+        if (('' + dl).indexOf('0414') > 0) {
+          ks += '<span style="color:red">' + dl + '</span>';
+        } else {
+          ks += dl;
+        }
         const release = parseInt(dl[dl.length - 1]) + 14 - 400;
         if (release < 1) {
-          ks += ' 已经解封</span>';
+          ks += ' <span style="color:green">已经解封</span></span>';
         } else if (release < 31) {
           //onList.textContent += ' --> 4/' + release + '\n';
           ks += ' &rarr; <em>4/' + release + '</em></span>';
@@ -110,9 +115,9 @@
   <div style="width:100%;color:blue;" id="onList"></div>
   <h2>各区统计</h2>
   <table id="districtTable" style="border:1px solid blue;color:blue;font-size:75%;text-align:center;">
-    <tr style="color:black;"><th>行政单位</th><th>0413新增</th><th>上榜合计</th><th>累计下榜</th><th>0413下榜</th></tr>
+    <tr style="color:black;"><th>行政单位</th><th>0414新增</th><th>上榜合计</th><th>累计下榜</th><th>0414下榜</th></tr>
   </table>
-  <h2>0413下榜的地址</h2>
+  <h2>0414下榜的地址</h2>
   <div style="color:green;list-style-type:none;font-size:75%;" id="latest_released"></div>
   <h2 onclick="show_full();" style="cursor:pointer;">点击显示已经下榜的地址</h2>
   <div style="color:green;list-style-type:none;font-size:75%;visibility:hidden;" id="released"></div>
