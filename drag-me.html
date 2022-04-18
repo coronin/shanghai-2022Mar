@@ -79,7 +79,7 @@
           ks += dl;
         }
         const release = parseInt(dl[dl.length - 1]) + 14 - 400;
-        if (release < 17) {
+        if (release <= 17) {
           ks += ' <span style="color:green">已经解封</span></span>';
         } else if (release < 31) {
           //onList.textContent += ' --> 4/' + release + '\n';
