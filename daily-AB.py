@@ -6,8 +6,8 @@ from urllib import request
 z = [
 #'','']
 #'','']
-#'','']
 '','']
+#'0418','https://mp.weixin.qq.com/s/GWI6LxYLHOvv1dioN5olxg']
 #'0417','https://mp.weixin.qq.com/s/LguiUZj-zxy4xy19WO0_UA']
 #'0416','https://mp.weixin.qq.com/s/dRa-PExJr1qkRis88eGCnQ']
 #'0415','https://mp.weixin.qq.com/s/ZkhimhWpa92I2EWn3hmd8w']
