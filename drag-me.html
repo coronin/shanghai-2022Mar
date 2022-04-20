@@ -6,6 +6,7 @@
   <script src="full.json?v=0419"></script>
   <script>
   let i; let j; let As; let Ds;
+  const today = new Date();
 
   function load () {
     j = JSON.parse(data);
@@ -79,8 +80,7 @@
           ks += dl;
         }
         const release = parseInt(dl[dl.length - 1]) + 14 - 400;
-        const today = new Date();
-        if (release < (today.getDate() - 1)) {
+        if (release < today.getDate() ) {
           ks += ' <span style="color:green">已经解封</span></span>';
         } else if (release < 31) {
           //onList.textContent += ' --> 4/' + release + '\n';
