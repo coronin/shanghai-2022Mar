@@ -20,16 +20,15 @@
       k.id = Ds[i];
       if (j.released_today[ Ds[i] ] ) {
         k.innerHTML = '<tr><td>' + Ds[i] + '</td><td>' +
-                      (j.today[ Ds[i] ] || []).length + '</td><td>' +
-                      j.districts[ Ds[i] ].length + '</td><td style="color:green;">' +
-                      j.released[ Ds[i] ].length + '</td><td style="color:green;">' +
-                      j.released_today[ Ds[i] ].length + '</td></tr>';
+                      j.districts[ Ds[i] ].length + '</td><td>' +
+                      (j.today[ Ds[i] ] || []).length + '</td><td style="color:green;">' +
+                      (j.released[ Ds[i] ] || []).length + '</td><td style="color:green;">' +
+                      (j.released_today[ Ds[i] ] || []).length + '</td></tr>';
       } else {
         k.innerHTML = '<tr><td>' + Ds[i] + '</td><td>' +
-                      (j.today[ Ds[i] ] || []).length + '</td><td>' +
-                      j.districts[ Ds[i] ].length + '</td><td style="color:green;">' +
-                      j.released[ Ds[i] ].length + '</td><td>' +
-                      j.released_today[ Ds[i] ].length + '</td></tr>';
+                      j.districts[ Ds[i] ].length + '</td><td>' +
+                      (j.today[ Ds[i] ] || []).length + '</td><td style="color:green;">' +
+                      (j.released[ Ds[i] ] || []).length + '</td><td>&ndash;</td></tr>';
       }
       districtTable.appendChild(k);
       k = document.createElement('p');
@@ -116,7 +115,7 @@
   <div style="width:100%;color:blue;" id="onList"></div>
   <h2>各区统计（地址数）</h2>
   <table id="districtTable" style="border:1px solid blue;color:blue;font-size:75%;text-align:center;">
-    <tr style="color:black;"><th>行政单位</th><th>0423新增</th><th>上榜合计</th>
+    <tr style="color:black;"><th>行政单位</th><th>上榜合计</th><th>0423新增</th>
       <th>累计下榜</th><th>0423下榜</th></tr>
   </table>
   <h2>0423下榜的地址</h2>
