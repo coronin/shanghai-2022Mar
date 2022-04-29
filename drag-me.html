@@ -18,6 +18,10 @@
     for (i = 0; i < Ds.length; i += 1) {
       k = document.createElement('tr');
       k.id = Ds[i];
+      // if (Ds[i] === '普陀区') {
+      //   console.log( j.inB[ Ds[i] ] );
+      //   console.log( j.today[ Ds[i] ] );
+      // }
       if (j.released_today[ Ds[i] ] ) {
         k.innerHTML = '<tr><td>' + Ds[i] + '</td><td>' +
                       j.districts[ Ds[i] ].length + '</td><td>' +
@@ -30,7 +34,8 @@
                       j.districts[ Ds[i] ].length + '</td><td>' +
                       (j.inB[ Ds[i] ] || []).length + '</td><td style="color:red;">' +
                       (j.today[ Ds[i] ] || []).length + '</td><td style="color:green;">' +
-                      (j.released[ Ds[i] ] || []).length + '</td><td>&ndash;</td></tr>';
+                      (j.released[ Ds[i] ] || []).length + '</td><td style="color:green;">' +
+                      '&ndash;</td></tr>';
       }
       districtTable.appendChild(k);
       if (j.released_today[ Ds[i] ] ) {
@@ -59,7 +64,7 @@
     for (i = 0; i < As.length; i += 1) {
       if (As[i].indexOf(k) > -1) {
         dl = j.address[ As[i] ];
-        let ii; let ij; let ik; let il = 0;
+        let ii; let ij; let ik; let il = 0; let release;
         for (ii = 0; ii < Ds.length; ii += 1) {
           ij = j.districts[ Ds[ii] ];
           for (ik = 0; ik < ij.length; ik += 1) {
@@ -73,26 +78,30 @@
              ' [<a href="https://maps.baidu.com/search/?querytype=s&wd=' +
                         As[i] + '" target="_blank">' +
                         As[i] + '</a>] ';
-        if (il === 1) {
+        if (il === 1) { // 地址同名 有待优化, 团结村
           if (('' + dl).indexOf('0428') > 0) {
             ks += '<span style="color:red">' + dl + '</span>';
           } else {
             ks += dl;
           }
-          const release = parseInt(dl[dl.length - 1]) + 14 - 400;
-          if (release < today.getDate()-1 ) {
-            ks += ' <span style="color:green">已满14天</span></span>';
-          } else if (release === today.getDate()-1 ) {
-            ks += ' <span style="color:green">第14天</span></span>';
-          } else if (release < 31) {
-            //onList.textContent += ' --> 4/' + release + '\n';
-            ks += ' &rarr; <em>4/' + release + '</em></span>';
-          } else {
-            //onList.textContent += ' --> 5/' + (release-30) + '\n';
-            ks += ' &rarr; <em>5/' + (release-30) + '</em></span>';
-          }
+          release = parseInt(dl[dl.length - 1]);
         } else {
-          ks += '<span style="color:grey">地址同名 暂不支持</span>';
+          const s1 = ('' + dl).split(Ds[ii]);
+          const s2 = s1[s1.length - 2];
+          ks += s2.substr(s2.lastIndexOf(',') + 1);
+          release = parseInt( s2.substr(s2.lastIndexOf(',') + 1) );
+        }
+        release += (14 - 400);
+        if (release < today.getDate()-1 ) {
+          ks += ' <span style="color:green">已满14天</span></span>';
+        } else if (release === today.getDate()-1 ) {
+          ks += ' <span style="color:green">第14天</span></span>';
+        } else if (release < 31) {
+          //onList.textContent += ' --> 4/' + release + '\n';
+          ks += ' &rarr; <em>4/' + release + '</em></span>';
+        } else {
+          //onList.textContent += ' --> 5/' + (release-30) + '\n';
+          ks += ' &rarr; <em>5/' + (release-30) + '</em></span>';
         }
         let kk = document.createElement('p');
         //kk.id = As[i];
@@ -125,7 +134,7 @@
   <div style="width:100%;color:blue;" id="onList"></div>
   <h2>各区统计（地址数）</h2>
   <table id="districtTable" style="border:1px solid blue;color:blue;font-size:75%;text-align:center;">
-    <tr style="color:black;"><th>行政单位</th><th>上榜合计</th><th>两周内</th><th>0428新增</th>
+    <tr style="color:black;"><th>行政单位</th><th>累计上榜</th><th>两周内</th><th>0428新增</th>
       <th>累计下榜</th><th>0428下榜</th></tr>
   </table>
   <h2>0428下榜的地址</h2>

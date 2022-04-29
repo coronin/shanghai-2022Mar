@@ -76,22 +76,21 @@ def read_a_list(s, tag=''):
             if line not in by_district[running_district]:
                 by_district[running_district].append(line)
             if tag == 'today':
-                if (districts_today.get(running_district)) and (
-        line not in districts_today[running_district] ):
+                if districts_today.get(running_district):
                     districts_today[running_district] += [line]
                 else:
                     districts_today[running_district] = [line]
             if tag in ('inB', 'today'):
-                if (districts_inB.get(running_district)) and (
-        line not in districts_inB[running_district] ):
-                    districts_inB[running_district] += [line]
+                if districts_inB.get(running_district):
+                    if line not in districts_inB[running_district]:
+                        districts_inB[running_district] += [line]
                 else:
                     districts_inB[running_district] = [line]
             if by_address.get(line): # 不同区 有同名地址
                 if s not in by_address[line]:
                     by_address[line] += [s]
                 else:
-                    by_address[line] += [ '%s%s' % (s, running_district) ]
+                    by_address[line] += ['%s%s' % (s, running_district) ]
             else:
                 by_address[line] = [s]
         else:
