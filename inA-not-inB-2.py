@@ -31,13 +31,13 @@ def read_a_list(s, tag=''):
         line = l.strip().replace('（住宅）', ''
                        ).replace('（公寓）', '')
         if line == 'shanghaifabu':
-            #print(s, line)
+            #print('>>>>', s, line)
             by_address[line] += [s]
             continue
         for dd in districts:
             if line.find(dd) > -1:
                 running_district = dd
-                #print(s, line)
+                #print('>>>>', s, line)
                 break
             pass
         if line in districts:
@@ -87,13 +87,13 @@ def read_a_list(s, tag=''):
                     districts_inB[running_district] += [line]
                 else:
                     districts_inB[running_district] = [line]
-            if by_address.get(line): # 不同区 有同名地址
+            if by_address.get(line) and (
+       s not in by_address[line] ): # 不同区 有同名地址
                 by_address[line] += [s]
             else:
                 by_address[line] = [s]
         else:
             print('>>', s, line, len(post) )
-    #print(s, len(post))
     return post
 
 print('====================')
@@ -101,7 +101,7 @@ print('====================')
 A = []
 for s in As:
     A += read_a_list(s)
-    #print(s)
+    #print('>>>>', s)
 print('in A, estimated', len(list(set(A))) )
 #print('A', list(set(by_district['杨浦区'])))
 
@@ -114,20 +114,24 @@ print('in B, estimated', len(BB) )
 # print('B', list(set(by_district['杨浦区'])))
 ddc = 0
 for dd in districts:
-    #print(dd, len(by_district[dd]) )
+    #print('>>>>', dd, len(by_district[dd]) )
     ddc += len(by_district[dd])
 print('by district total, w/dupl', ddc )
 
 Z = []
 count = 0
 #print('sorted by listed dates')
-for line in A:
+for longline in A:
     #if line.find('国权北路1566') > -1 or line.find('淞沪路2005') > -1 or line.find('邯郸路220') > -1 :
     #    print('in A', line)
-    if line not in Z and line not in BB: # and line not in notThese:
+    if longline not in Z and longline not in BB: # and line not in notThese:
         count += 1
-        #print(line)
-        Z.append(line)
+        Z.append(longline)
+        if longline.startswith('浦东新区'):
+            line = longline[4:]
+        else:
+            line = longline[3:]
+        #print('>>>>', line)
         for dd in districts:
             if line in by_district[dd]:
                 if (districts_released.get(dd)):
@@ -150,7 +154,7 @@ count = 0
 for line, dates in by_address.items():
     if dates[-1] == As[-1]:
         count += 1
-        #print(line)
+        #print('>>>>', line)
         for dd in districts:
             if line in by_district[dd]:
                 if (latest_released.get(dd)):

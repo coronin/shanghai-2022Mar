@@ -33,9 +33,11 @@
                       (j.released[ Ds[i] ] || []).length + '</td><td>&ndash;</td></tr>';
       }
       districtTable.appendChild(k);
-      k = document.createElement('p');
-      k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> ' + j.released_today[ Ds[i] ];
-      latest_released.appendChild(k);
+      if (j.released_today[ Ds[i] ] ) {
+        k = document.createElement('p');
+        k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> ' + j.released_today[ Ds[i] ];
+        latest_released.appendChild(k);
+      }
       k = document.createElement('p');
       k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> ' + j.released[ Ds[i] ];
       released.appendChild(k);
