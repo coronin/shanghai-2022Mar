@@ -21,12 +21,14 @@
       if (j.released_today[ Ds[i] ] ) {
         k.innerHTML = '<tr><td>' + Ds[i] + '</td><td>' +
                       j.districts[ Ds[i] ].length + '</td><td>' +
+                      (j.inB[ Ds[i] ] || []).length + '</td><td style="color:red;">' +
                       (j.today[ Ds[i] ] || []).length + '</td><td style="color:green;">' +
                       (j.released[ Ds[i] ] || []).length + '</td><td style="color:green;">' +
                       (j.released_today[ Ds[i] ] || []).length + '</td></tr>';
       } else {
         k.innerHTML = '<tr><td>' + Ds[i] + '</td><td>' +
                       j.districts[ Ds[i] ].length + '</td><td>' +
+                      (j.inB[ Ds[i] ] || []).length + '</td><td style="color:red;">' +
                       (j.today[ Ds[i] ] || []).length + '</td><td style="color:green;">' +
                       (j.released[ Ds[i] ] || []).length + '</td><td>&ndash;</td></tr>';
       }
@@ -80,9 +82,9 @@
         }
         const release = parseInt(dl[dl.length - 1]) + 14 - 400;
         if (release < today.getDate()-1 ) {
-          ks += ' <span style="color:green">已解封</span></span>';
+          ks += ' <span style="color:green">已满14天</span></span>';
         } else if (release === today.getDate()-1 ) {
-          ks += ' <span style="color:green">今日解封</span></span>';
+          ks += ' <span style="color:green">第14天</span></span>';
         } else if (release < 31) {
           //onList.textContent += ' --> 4/' + release + '\n';
           ks += ' &rarr; <em>4/' + release + '</em></span>';
@@ -117,7 +119,7 @@
   <div style="width:100%;color:blue;" id="onList"></div>
   <h2>各区统计（地址数）</h2>
   <table id="districtTable" style="border:1px solid blue;color:blue;font-size:75%;text-align:center;">
-    <tr style="color:black;"><th>行政单位</th><th>上榜合计</th><th>0428新增</th>
+    <tr style="color:black;"><th>行政单位</th><th>上榜合计</th><th>两周内</th><th>0428新增</th>
       <th>累计下榜</th><th>0428下榜</th></tr>
   </table>
   <h2>0428下榜的地址</h2>
