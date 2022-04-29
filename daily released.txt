@@ -1,10 +1,10 @@
 
 
 ====================
-in A, estimated 24965
-in B, estimated 21273
-by district total, w/dupl 33580
-in A, not in B, estimated 12138
+in A, estimated 25122
+in B, estimated 21331
+by district total, w/dupl 33604
+in A, not in B, estimated 12273
 
 released 0428, estimated 833
 浦东新区 197

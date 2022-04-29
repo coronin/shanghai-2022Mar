@@ -67,27 +67,32 @@ def read_a_list(s, tag=''):
              ) > -1 or line.find('1例为'
              ) > -1 or line.find('感染者'
              ) > -1 or line.find('中发现'
+             ) > -1 or line.find('涉及的场所'
              ) > -1 or line.find('落实终末消毒'
              ) > -1 or line.find('滑动查看' ) > -1:
             continue
-        elif line not in post: # raw address, one day = one list
-            post.append(line)  # clean address
-            if running_district and (line not in by_district[running_district]):
+        elif running_district and '%s%s' % (running_district,line) not in post:
+            post.append( '%s%s' % (running_district,line) )
+            if line not in by_district[running_district]:
                 by_district[running_district].append(line)
-                if tag == 'today':
-                    if (districts_today.get(running_district)):
-                        districts_today[running_district] += [line]
-                    else:
-                        districts_today[running_district] = [line]
-                if tag in ('inB', 'today'):
-                    if (districts_inB.get(running_district)):
-                        districts_inB[running_district] += [line]
-                    else:
-                        districts_inB[running_district] = [line]
-            if by_address.get(line):
+            if tag == 'today':
+                if (districts_today.get(running_district)) and (
+        line not in districts_today[running_district] ):
+                    districts_today[running_district] += [line]
+                else:
+                    districts_today[running_district] = [line]
+            if tag in ('inB', 'today'):
+                if (districts_inB.get(running_district)) and (
+        line not in districts_inB[running_district] ):
+                    districts_inB[running_district] += [line]
+                else:
+                    districts_inB[running_district] = [line]
+            if by_address.get(line): # 不同区 有同名地址
                 by_address[line] += [s]
             else:
                 by_address[line] = [s]
+        else:
+            print('>>', s, line, len(post) )
     #print(s, len(post))
     return post
 
