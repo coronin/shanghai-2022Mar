@@ -4,10 +4,10 @@ As = ('0318','0319','0320',
       '0321','0322','0323','0324','0325','0326','0327','0328','0329','0330',
       '0331',
       '0401','0402','0403','0404','0405','0406','0407','0408','0409','0410',
-      '0411','0412','0413'
+      '0411','0412','0413','0414'
       )
-Bs = ('0414','0415','0416','0417','0418','0419','0420',
-      '0421','0422','0423','0424','0425','0426','0427'
+Bs = ('0415','0416','0417','0418','0419','0420',
+      '0421','0422','0423','0424','0425','0426','0427','0428'
       )
 
 districts = ('浦东新区', '黄浦区', '静安区', '徐汇区', '长宁区',
@@ -18,6 +18,7 @@ by_district = {'浦东新区':[], '黄浦区':[], '静安区':[], '徐汇区':[]
                '嘉定区':[], '金山区':[], '松江区':[], '青浦区':[], '奉贤区':[], '崇明区':[] }
 districts_released = {}
 districts_today = {}
+districts_inB = {}
 by_address = {'shanghaifabu':['0313'] }
 
 def read_a_list(s, tag=''):
@@ -78,6 +79,11 @@ def read_a_list(s, tag=''):
                         districts_today[running_district] += [line]
                     else:
                         districts_today[running_district] = [line]
+                if tag in ('inB', 'today'):
+                    if (districts_inB.get(running_district)):
+                        districts_inB[running_district] += [line]
+                    else:
+                        districts_inB[running_district] = [line]
             if by_address.get(line):
                 by_address[line] += [s]
             else:
@@ -96,7 +102,7 @@ print('in A, estimated', len(list(set(A))) )
 
 B = []
 for s in Bs[:-1]:
-    B += read_a_list(s)
+    B += read_a_list(s, tag='inB')
 B += read_a_list(Bs[-1], tag='today')
 BB = list(set(B))
 print('in B, estimated', len(BB) )
@@ -172,6 +178,7 @@ import json
 j = {'date':datestr,
      'address':by_address,
      'today':districts_today,
+     'inB':districts_inB,
      'districts':by_district,
      'released':districts_released,
      'released_today':latest_released }
