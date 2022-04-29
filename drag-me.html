@@ -59,40 +59,40 @@
     for (i = 0; i < As.length; i += 1) {
       if (As[i].indexOf(k) > -1) {
         dl = j.address[ As[i] ];
-        let ii; let ij; let ik; let il = false;
+        let ii; let ij; let ik; let il = 0;
         for (ii = 0; ii < Ds.length; ii += 1) {
           ij = j.districts[ Ds[ii] ];
           for (ik = 0; ik < ij.length; ik += 1) {
             if (ij[ik] === As[i]) {
               document.getElementById(Ds[ii]).style.background = 'yellow';
               //console.log(Ds[ii]);
-              il = true;
-              break;
-            }
-          }
-          if (il) { break; }
-        }
+              il += 1;
+
         //onList.textContent += Ds[ii] + ',' + As[i] + ': ' + dl;
         ks = '<span>' + Ds[ii] +
              ' [<a href="https://maps.baidu.com/search/?querytype=s&wd=' +
                         As[i] + '" target="_blank">' +
                         As[i] + '</a>] ';
-        if (('' + dl).indexOf('0428') > 0) {
-          ks += '<span style="color:red">' + dl + '</span>';
+        if (il === 1) {
+          if (('' + dl).indexOf('0428') > 0) {
+            ks += '<span style="color:red">' + dl + '</span>';
+          } else {
+            ks += dl;
+          }
+          const release = parseInt(dl[dl.length - 1]) + 14 - 400;
+          if (release < today.getDate()-1 ) {
+            ks += ' <span style="color:green">已满14天</span></span>';
+          } else if (release === today.getDate()-1 ) {
+            ks += ' <span style="color:green">第14天</span></span>';
+          } else if (release < 31) {
+            //onList.textContent += ' --> 4/' + release + '\n';
+            ks += ' &rarr; <em>4/' + release + '</em></span>';
+          } else {
+            //onList.textContent += ' --> 5/' + (release-30) + '\n';
+            ks += ' &rarr; <em>5/' + (release-30) + '</em></span>';
+          }
         } else {
-          ks += dl;
-        }
-        const release = parseInt(dl[dl.length - 1]) + 14 - 400;
-        if (release < today.getDate()-1 ) {
-          ks += ' <span style="color:green">已满14天</span></span>';
-        } else if (release === today.getDate()-1 ) {
-          ks += ' <span style="color:green">第14天</span></span>';
-        } else if (release < 31) {
-          //onList.textContent += ' --> 4/' + release + '\n';
-          ks += ' &rarr; <em>4/' + release + '</em></span>';
-        } else {
-          //onList.textContent += ' --> 5/' + (release-30) + '\n';
-          ks += ' &rarr; <em>5/' + (release-30) + '</em></span>';
+          ks += '<span style="color:grey">地址同名 暂不支持</span>';
         }
         let kk = document.createElement('p');
         //kk.id = As[i];
@@ -100,6 +100,10 @@
         kk.style.margin = '0';
         kk.innerHTML = ks;
         onList.appendChild(kk);
+
+            }
+          }
+        }
       }
     }
   }

@@ -71,8 +71,8 @@ def read_a_list(s, tag=''):
              ) > -1 or line.find('落实终末消毒'
              ) > -1 or line.find('滑动查看' ) > -1:
             continue
-        elif running_district and '%s%s' % (running_district,line) not in post:
-            post.append( '%s%s' % (running_district,line) )
+        elif running_district and '%s%s' % (running_district, line) not in post:
+            post.append( '%s%s' % (running_district, line) )
             if line not in by_district[running_district]:
                 by_district[running_district].append(line)
             if tag == 'today':
@@ -87,9 +87,11 @@ def read_a_list(s, tag=''):
                     districts_inB[running_district] += [line]
                 else:
                     districts_inB[running_district] = [line]
-            if by_address.get(line) and (
-       s not in by_address[line] ): # 不同区 有同名地址
-                by_address[line] += [s]
+            if by_address.get(line): # 不同区 有同名地址
+                if s not in by_address[line]:
+                    by_address[line] += [s]
+                else:
+                    by_address[line] += [ '%s%s' % (s, running_district) ]
             else:
                 by_address[line] = [s]
         else:
