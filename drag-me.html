@@ -2,7 +2,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>shanghaifabu listed address, since 2022 March 18th</title>
+  <title>listed address, since 2022 March 18th</title>
   <script src="full.json?v=0429"></script>
   <script>
   let i; let j; let As; let Ds;
@@ -17,26 +17,28 @@
     console.log( j.address['shanghaifabu'] );
     for (i = 0; i < Ds.length; i += 1) {
       k = document.createElement('tr');
-      k.id = Ds[i];
       // if (Ds[i] === '普陀区') {
       //   console.log( j.inB[ Ds[i] ] );
       //   console.log( j.today[ Ds[i] ] );
       // }
       if (j.released_today[ Ds[i] ] ) {
-        k.innerHTML = '<tr><td>' + Ds[i] + '</td><td>' +
-                      j.districts[ Ds[i] ].length + '</td><td>' +
+        k.innerHTML = '<td>' + Ds[i] + '</td><td>' +
+                      j.districts[ Ds[i] ].length + '</td><td id="' +
+                      Ds[i] + 'dot" style="text-align:left;"></td><td>' +
                       (j.inB[ Ds[i] ] || []).length + '</td><td style="color:red;">' +
                       (j.today[ Ds[i] ] || []).length + '</td><td style="color:green;">' +
                       (j.released[ Ds[i] ] || []).length + '</td><td style="color:green;">' +
-                      (j.released_today[ Ds[i] ] || []).length + '</td></tr>';
+                      (j.released_today[ Ds[i] ] || []).length + '</td>';
       } else {
-        k.innerHTML = '<tr><td>' + Ds[i] + '</td><td>' +
-                      j.districts[ Ds[i] ].length + '</td><td>' +
+        k.innerHTML = '<td>' + Ds[i] + '</td><td>' +
+                      j.districts[ Ds[i] ].length + '</td><td id="' +
+                      Ds[i] + 'dot" style="text-align:left;"></td><td>' +
                       (j.inB[ Ds[i] ] || []).length + '</td><td style="color:red;">' +
                       (j.today[ Ds[i] ] || []).length + '</td><td style="color:green;">' +
                       (j.released[ Ds[i] ] || []).length + '</td><td style="color:green;">' +
-                      '&ndash;</td></tr>';
+                      '&ndash;</td>';
       }
+      k.id = Ds[i];
       districtTable.appendChild(k);
       k = document.createElement('p');
       if (j.latest_added && j.latest_added[ Ds[i] ] ) {
@@ -69,6 +71,7 @@
     onList.textContent = '';
     for (ii = 0; ii < Ds.length; ii += 1) {
       document.getElementById(Ds[ii]).style.background = 'white';
+      document.getElementById(Ds[ii] + 'dot').textContent = '';
     }
     let dl; let kk; let ks; let sb = 0;
     for (i = 0; i < As.length; i += 1) {
@@ -80,6 +83,7 @@
           for (ik = 0; ik < ij.length; ik += 1) {
             if (ij[ik] === As[i]) {
               document.getElementById(Ds[ii]).style.background = 'yellow';
+              document.getElementById(Ds[ii] + 'dot').textContent += '|';
               //console.log(Ds[ii]);
               il += 1;
               sb += 1;
@@ -145,7 +149,7 @@
 </head>
 <body onload="load();">
   <p>
-    数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a>，
+    数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a><br/>
     更新时间 <span id="datestr" style="color:blue;">fetching... not ready</span>
   </p>
   <p>
@@ -156,7 +160,7 @@
   <div style="width:100%;color:blue;" id="onList"></div>
   <h2>各区统计（地址数）</h2>
   <table id="districtTable" style="border:1px solid blue;color:blue;font-size:75%;text-align:center;">
-    <tr style="color:black;"><th>行政单位</th><th>累计上榜</th><th>两周内</th><th>0429涉及</th>
+    <tr style="color:black;"><th>行政单位</th><th>累计上榜</th><th></th><th>两周内</th><th>0429涉及</th>
       <th>累计下榜</th><th>0429下榜</th></tr>
   </table>
   <h2>值得关注的地址</h2>
