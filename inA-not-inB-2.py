@@ -4,10 +4,10 @@ As = ('0318','0319','0320',
       '0321','0322','0323','0324','0325','0326','0327','0328','0329','0330',
       '0331',
       '0401','0402','0403','0404','0405','0406','0407','0408','0409','0410',
-      '0411','0412','0413','0414'
+      '0411','0412','0413','0414','0415'
       )
-Bs = ('0415','0416','0417','0418','0419','0420',
-      '0421','0422','0423','0424','0425','0426','0427','0428'
+Bs = ('0416','0417','0418','0419','0420',
+      '0421','0422','0423','0424','0425','0426','0427','0428','0429'
       )
 
 districts = ('浦东新区', '黄浦区', '静安区', '徐汇区', '长宁区',
@@ -68,14 +68,16 @@ def read_a_list(s, tag=''):
              ) > -1 or line.find('1例为'
              ) > -1 or line.find('感染者'
              ) > -1 or line.find('中发现'
+             ) > -1 or line.find('落实管控'
              ) > -1 or line.find('涉及的场所'
              ) > -1 or line.find('落实终末消毒'
              ) > -1 or line.find('滑动查看' ) > -1:
             continue
+        elif running_district and tag == 'list':
+            post.append( '%s%s' % (running_district, line) )
+            continue
         elif running_district and '%s%s' % (running_district, line) not in post:
             post.append( '%s%s' % (running_district, line) )
-            if tag == 'list':
-                continue
             if line not in by_district[running_district]:
                 by_district[running_district].append(line)
             if tag == 'today':
@@ -169,23 +171,30 @@ for line, dates in by_address.items():
                     latest_released[dd] += [line]
                 else:
                     latest_released[dd] = [line]
-                break
+                break # 地址同名 有待优化
             pass
 
 print('\nreleased %s, estimated' % Bs[-1], count)
 for dd in districts:
-    try:
-        print(dd, len(latest_released[dd]) )
-    except:
+    if latest_released.get(dd):
+        print('%s\t%s' % (dd, len(latest_released[dd]) ))
+    else:
         print(dd, 0)
 
 
 latest_added = {}
 Bs2 = read_a_list(Bs[-2], tag='list')
 for dd in districts:
+    if not districts_today.get(dd):
+        continue
+    #print('>>>>', dd, len(districts_today[dd]) )
     for line in districts_today[dd]:
         if ('%s%s' % (dd, line)) not in Bs2:
-            print(dd, line)
+            #print('>>>>', dd, line)
+            if (latest_added.get(dd)):
+                latest_added[dd] += [line]
+            else:
+                latest_added[dd] = [line]
 
 
 from datetime import datetime
@@ -208,7 +217,8 @@ j = {'date':datestr,
      'inB':districts_inB,
      'districts':by_district,
      'released':districts_released,
-     'released_today':latest_released }
+     'released_today':latest_released,
+     'latest_added':latest_added }
 fz = open('full.json', 'w')
 fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
 fz.close()
