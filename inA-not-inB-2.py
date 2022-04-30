@@ -70,10 +70,11 @@ def read_a_list(s, tag=''):
              ) > -1 or line.find('4月'
              ) > -1 or line.find('5月'
              ) > -1 or line.find('1例为'
+             ) > -1 or line.find('病例'
              ) > -1 or line.find('感染者'
              ) > -1 or line.find('中发现'
              ) > -1 or line.find('落实管控'
-             ) > -1 or line.find('涉及的场所'
+             ) > -1 or line.find('采取封控'
              ) > -1 or line.find('落实终末消毒'
              ) > -1 or line.find('滑动查看' ) > -1:
             continue
