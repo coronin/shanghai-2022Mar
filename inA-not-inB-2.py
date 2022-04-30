@@ -21,6 +21,7 @@ districts_today = {}
 districts_inB = {}
 by_address = {'shanghaifabu':['0313'] }
 
+
 def read_a_list(s, tag=''):
     f = open('%s.txt' % s, 'r')
     pre = f.readlines()
@@ -73,6 +74,8 @@ def read_a_list(s, tag=''):
             continue
         elif running_district and '%s%s' % (running_district, line) not in post:
             post.append( '%s%s' % (running_district, line) )
+            if tag == 'list':
+                continue
             if line not in by_district[running_district]:
                 by_district[running_district].append(line)
             if tag == 'today':
@@ -97,6 +100,7 @@ def read_a_list(s, tag=''):
             print('>>', s, line, len(post) )
     return post
 
+
 print('====================')
 
 A = []
@@ -118,6 +122,7 @@ for dd in districts:
     #print('>>>>', dd, len(by_district[dd]) )
     ddc += len(by_district[dd])
 print('by district total, w/dupl', ddc )
+
 
 Z = []
 count = 0
@@ -143,12 +148,14 @@ for longline in A:
             pass
 print('in A, not in B, estimated', count, '\n')
 
+
 to_check = ['龙吴路2588弄', '国权北路1566弄', '国权北路1450弄', '东安路130号', '邯郸路220号' ]
 for ch in to_check:
     if by_address.get(ch):
         print(ch, by_address[ch] )
     else:
         print(ch, 'zero' )
+
 
 latest_released = {}
 count = 0
@@ -164,12 +171,22 @@ for line, dates in by_address.items():
                     latest_released[dd] = [line]
                 break
             pass
+
 print('\nreleased %s, estimated' % Bs[-1], count)
 for dd in districts:
     try:
         print(dd, len(latest_released[dd]) )
     except:
         print(dd, 0)
+
+
+latest_added = {}
+Bs2 = read_a_list(Bs[-2], tag='list')
+for dd in districts:
+    for line in districts_today[dd]:
+        if ('%s%s' % (dd, line)) not in Bs2:
+            print(dd, line)
+
 
 from datetime import datetime
 datestr = '%s' % datetime.now()

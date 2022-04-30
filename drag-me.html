@@ -38,7 +38,12 @@
                       '&ndash;</td></tr>';
       }
       districtTable.appendChild(k);
-      if (j.released_today[ Ds[i] ] ) {
+      if (j.latest_added && j.latest_added[ Ds[i] ] ) {
+        k = document.createElement('p');
+        k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> ' + j.latest_added[ Ds[i] ];
+        latest_added.appendChild(k);
+      }
+      if (j.released_today && j.released_today[ Ds[i] ] ) {
         k = document.createElement('p');
         k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> ' + j.released_today[ Ds[i] ];
         latest_released.appendChild(k);
@@ -117,8 +122,12 @@
     }
   }
 
-  function show_full () {
-    released.style.visibility = 'visible';
+  function show_full (t) {
+    if (t === 1) {
+      released.style.display = 'block';
+    } else if (t === 2) {
+      latest_released.style.display = 'block';
+    }
   }
   </script>
 </head>
@@ -134,11 +143,13 @@
   <div style="width:100%;color:blue;" id="onList"></div>
   <h2>各区统计（地址数）</h2>
   <table id="districtTable" style="border:1px solid blue;color:blue;font-size:75%;text-align:center;">
-    <tr style="color:black;"><th>行政单位</th><th>累计上榜</th><th>两周内</th><th>0428新增</th>
+    <tr style="color:black;"><th>行政单位</th><th>累计上榜</th><th>两周内</th><th>0428涉及</th>
       <th>累计下榜</th><th>0428下榜</th></tr>
   </table>
-  <h2>0428下榜的地址</h2>
-  <div style="color:green;list-style-type:none;font-size:75%;" id="latest_released"></div>
-  <h2 onclick="show_full();" style="cursor:pointer;">点击显示已经下榜的地址</h2>
-  <div style="color:green;list-style-type:none;font-size:75%;visibility:hidden;" id="released"></div>
+  <h2>值得关注的地址</h2>
+  <div style="list-style-type:none;font-size:75%;" id="latest_added"></div>
+  <h2 onclick="show_full(2);" style="cursor:pointer;">点击显示0428下榜的地址</h2>
+  <div style="color:green;list-style-type:none;font-size:75%;display:none;" id="latest_released"></div>
+  <h2 onclick="show_full(1);" style="cursor:pointer;">点击显示累计下榜的地址</h2>
+  <div style="color:green;list-style-type:none;font-size:75%;display:none;" id="released"></div>
 </body>
