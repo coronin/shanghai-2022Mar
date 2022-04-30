@@ -45,6 +45,11 @@ def read_a_list(s, tag=''):
             continue
         if line.find(running_district) > -1:
             continue
+        if running_district and (line.find('资料') > -1 or
+                                 line.find('卫健委') > -1 or
+                                 line.find('新闻办编辑') > -1):
+            running_district = ''
+            continue
         if not line or line.find('居住于'
              ) > -1 or line.find('微信号'
              ) > -1 or line.find('微信平台'
@@ -55,8 +60,6 @@ def read_a_list(s, tag=''):
              ) > -1 or line.find('上海的理由'
              ) > -1 or line.find('收录于'
              ) > -1 or line.find('按照统一'
-             ) > -1 or line.find('资料：'
-             ) > -1 or line.find('编辑：'
              ) > -1 or line.find('修改'
              ) > -1 or line.find('上海发布'
              ) > -1 or line.find('各区信息'
@@ -65,6 +68,7 @@ def read_a_list(s, tag=''):
              ) > -1 or line.find('2022年'
              ) > -1 or line.find('3月'
              ) > -1 or line.find('4月'
+             ) > -1 or line.find('5月'
              ) > -1 or line.find('1例为'
              ) > -1 or line.find('感染者'
              ) > -1 or line.find('中发现'

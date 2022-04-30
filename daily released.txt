@@ -1,9 +1,9 @@
 
 
 ====================
-in A, estimated 25846
-in B, estimated 20795
-by district total, w/dupl 33901
+in A, estimated 25840
+in B, estimated 20789
+by district total, w/dupl 33895
 in A, not in B, estimated 13106
 
 released 0429, estimated 947
