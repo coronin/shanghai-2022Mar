@@ -38,16 +38,20 @@
                       '&ndash;</td></tr>';
       }
       districtTable.appendChild(k);
+      k = document.createElement('p');
       if (j.latest_added && j.latest_added[ Ds[i] ] ) {
-        k = document.createElement('p');
         k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> ' + j.latest_added[ Ds[i] ];
-        latest_added.appendChild(k);
+      } else {
+        k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> 无';
       }
+      latest_added.appendChild(k);
+      k = document.createElement('p');
       if (j.released_today && j.released_today[ Ds[i] ] ) {
-        k = document.createElement('p');
         k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> ' + j.released_today[ Ds[i] ];
-        latest_released.appendChild(k);
+      } else {
+        k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> 无';
       }
+      latest_released.appendChild(k);
       k = document.createElement('p');
       k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> ' + j.released[ Ds[i] ];
       released.appendChild(k);
@@ -58,6 +62,7 @@
     let k = addr.value;
     if (k === '') {
       addr.focus();
+      search_button.textContent = '搜索';
       return;
     }
     console.log(k);
@@ -65,7 +70,7 @@
     for (ii = 0; ii < Ds.length; ii += 1) {
       document.getElementById(Ds[ii]).style.background = 'white';
     }
-    let dl; let kk; let ks;
+    let dl; let kk; let ks; let sb = 0;
     for (i = 0; i < As.length; i += 1) {
       if (As[i].indexOf(k) > -1) {
         dl = j.address[ As[i] ];
@@ -77,9 +82,10 @@
               document.getElementById(Ds[ii]).style.background = 'yellow';
               //console.log(Ds[ii]);
               il += 1;
+              sb += 1;
 
         //onList.textContent += Ds[ii] + ',' + As[i] + ': ' + dl;
-        ks = '<span>' + Ds[ii] +
+        ks = '<span style="color:grey;">' + sb + '.</span> <span>' + Ds[ii] +
              ' [<a href="https://maps.baidu.com/search/?querytype=s&wd=' +
                         As[i] + '" target="_blank">' +
                         As[i] + '</a>] ';
@@ -120,6 +126,12 @@
         }
       }
     }
+    if (sb === 0) {
+      addr.focus();
+      search_button.textContent = '无结果，可输入再搜';
+    } else {
+      search_button.textContent = '查到' + sb + '个地址，可输入再搜';
+    }
   }
 
   function show_full (t) {
@@ -138,7 +150,7 @@
   <p>
     <label for="addr">上榜地址</label>
     <input type="text" id="addr" name="addr" />
-    <button onclick="search();">搜索</button>
+    <button id="search_button" onclick="search();">搜索</button>
   </p>
   <div style="width:100%;color:blue;" id="onList"></div>
   <h2>各区统计（地址数）</h2>
