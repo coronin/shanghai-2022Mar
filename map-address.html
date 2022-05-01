@@ -4,40 +4,40 @@
   <meta name="viewport" content="width=device-width">
   <title>d3js listed address</title>
   <script src="d3.min.v3.js"></script>
-  <script src="d3.geo.projection.min.v0.js"></script>
+  <!-- script src="d3.geo.projection.min.v0.js"></script -->
   <script src="topojson.min.180.js"></script>
   <script src="sh.topojson?v=0430"></script>
   <script>
   function load () {
     const svgWidth = 500,
           svgHeight = 500;
-    //const pj = d3.geo.kavrayskiy7(),
     const pj = d3.geo.mercator().scale(20000
                 ).center([121.43752, 31.179973]
                 ).translate([svgWidth/2, svgHeight/2]);
-    const dc = d3.scale.category20();
-    //      g = d3.geo.graticule();
-    const pg = d3.geo.path().projection(pj);
-    const svg = d3.select('#app').append('svg'
-                 ).attr('width', svgWidth
-                 ).attr('height', svgHeight);
-    // svg.append('path').datum(g
-    //   ).attr('class', 'grid'
-    //   ).attr('d', pg);
-    // svg.append('path').datum(g.outline
-    //   ).attr('class', 'grid outline'
-    //   ).attr('d', pg);
+    //const dc = d3.scale.category20();
+    //const pg = d3.geo.path().projection(pj);
+    const svg = document.getElementById('app');
+    svg.width = svgWidth;
+    svg.height = svgHeight;
+    const map = svg.getContext('2d');
+    const pg = d3.geo.path().projection(pj).context(map);
     const j = JSON.parse(data);
-    const dt = topojson.feature(j, j.objects.collection).features,
-          dn = topojson.neighbors(j.objects.collection.geometries);
-    // http://bl.ocks.org/jasondavies/4188334
-    svg.selectAll('.district'
-      ).data(dt).enter().insert('path', '.grid'
-      ).attr('class', 'district'
-      ).attr('d', pg).style('fill', function (d, i) {
-       return dc(d.color = d3.max(dn[i], function (n) {
-       return dt[n].color; }) + 1 | 0);
-      });
+
+    const dt = topojson.feature(j, j.objects.collection);
+    dt.features.forEach(d => {
+      console.log(d);
+      map.beginPath();
+      pg(d);
+      map.lineWidth = 1;
+      map.stroke();
+    });
+    // // http://bl.ocks.org/jasondavies/4188334
+    // //dt.forEach(function (dtt) {
+    //   svg.selectAll('.district'
+    //     ).data(dt).enter().append('path'
+    //     ).attr('class', 'district'
+    //     ).attr('d', pg);
+    // //});
   }
   </script>
   <style type="text/css">
@@ -54,5 +54,5 @@
   <p>
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a>
     </p>
-  <div id="app"></div>
+  <canvas id="app"></canvas>
 </body>
