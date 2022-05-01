@@ -3,44 +3,51 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>d3js listed address</title>
-  <script src="d3.min.670.js"></script>
-  <!-- script src="topojson.min.180.js"></script -->
-  <!-- script src="sh.topojson?v=0430"></script -->
-  <script src="datav.aliyun.sh.2021.5.geojson?v=0430"></script>
+  <script src="d3.min.v3.js"></script>
+  <script src="topojson.min.180.js"></script>
+  <script src="sh.topojson?v=0430"></script>
   <script>
+  const svgWidth = 500;
+  const svgHeight = 500;
+  const svg = d3.select('#app'
+               ).append('svg'
+               ).attr('height', svgHeight
+               ).attr('width', svgWidth);
+  let pj, pg, zoom;
+
   function load () {
-    const svgWidth = 500;
-    const svgHeight = 500;
-    const padding = 10;
-    const svg = d3.select('#app'
-                 ).append('svg'
-                 ).attr('height', svgHeight
-                 ).attr('width', svgWidth);
-    // const x0 = padding;
-    // const y0 = padding;
-    // const x1 = svgWidth - padding * 2;
-    // const y1 = svgHeight - padding * 2;
-    const GeoJson = JSON.parse(data);
-    //const pj = d3.geoMercator().fitExtent([[x0,y0],[x1,y1]], GeoJson);
-    const pj = d3.geoMercator().scale(1200).center([121.43752, 31.179973]); // 徐汇区
-
-    console.log(GeoJson);
-
-    const pg = d3.geoPath().projection(pj);
-    // d3.json('datav.aliyun.sh.2021.5.json').then(data => {
-    //   svg.selectAll('path'
-    //     ).data(data.features
-    //     ).enter(
-    //     ).append('path'
-    //     ).attr('d', pg);
-    // });
+    const tj = JSON.parse(data);
+    pj = d3.geo.mercator(
+          ).scale((1 << 22)/2/Math.PI
+          ).translate([svgWidth/2, svgHeight/2]);
+    const ct = pj([-1.79636106388265,46.7740619963089]); // 徐汇区
+    pg = d3.geo.path().projection(pj);
+    zoom = d3.behavior.zoom(
+            ).scale(pj.scale() * 2 * Math.PI
+            ).scaleExtent([1 << 22, 1 << 28]
+            ).translate([svgWidth - ct[0], svgHeight - ct[1]]
+            ).on('zoom', zoomed);
+    svg.call(zoom);
+    const dt = topojson.feature(tj, tj.objects.collection);
+    pj.scale(1).translate([0, 0]);
+    const b = pg.bounds(dt);
+    console.log(b);
+    const s = 0.9/Math.max((b[1][0] - b[0][0])/svgWidth, (b[1][1] - b[0][1])/svgHeight);
+    const t = [(svgWidth - s * (b[1][0] + b[0][0]))/2,
+               (svgHeight - s * (b[1][1] + b[0][1]))/2];
+    pj.scale(s).translate(t);
     svg.selectAll('path'
-      ).data(GeoJson.features
-      ).join('path'
-      ).attr('d', pg
-      ).attr('stroke-width', 0.5
-      ).attr('stroke', '#ff0000'
-      ).attr('fill', '#f0f0f0');
+      ).data(dt.features
+      ).enter(
+      ).append('path'
+      ).attr('d', pg);
+    zoomed();
+  }
+
+  function zoomed () {
+    pj.scale(zoom.scale()/2/Math.PI
+     ).translate(zoom.translate());
+    svg.attr('d', pg);
   }
   </script>
   <style type="text/css">
