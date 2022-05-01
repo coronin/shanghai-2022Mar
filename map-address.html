@@ -4,14 +4,13 @@
   <meta name="viewport" content="width=device-width">
   <title>d3js listed address</title>
   <script src="d3.min.v3.js"></script>
-  <!-- script src="d3.geo.projection.min.v0.js"></script -->
   <script src="topojson.min.180.js"></script>
   <script src="sh.topojson?v=0430"></script>
   <script>
   function load () {
     const svgWidth = 800,
           svgHeight = 600;
-    const pj = d3.geo.mercator().scale(25000
+    const pj = d3.geo.mercator().scale(32000
                 ).center([121.43752, 31.179973]
                 ).translate([svgWidth/2, svgHeight/2]);
     // const svg = d3.select('#app'
@@ -24,7 +23,8 @@
     app.height = svgHeight;
     const j = JSON.parse(data);
     const dt = topojson.feature(j, j.objects.collection);
-    // const dn = topojson.neighbors(j.objects.collection.geometries);
+    const dn = topojson.neighbors(j.objects.collection.geometries);
+
     // const dd = svg.selectAll('path'
     //              ).data(dt.features
     //              ).enter().append('path'
@@ -42,12 +42,18 @@
     //     d3.select(this).style("fill","#ccc");
     //     d.neighbors.style("fill","#ccc");
     // });
+
     dt.features.forEach(d => {
-      console.log(d.properties.subFeatureIndex, d.properties.name, d);
-      map.fillStyle = 'rgba(255,20,20,'+ 1/(d.properties.subFeatureIndex+1) + ')';
+      console.log(d.properties.name, dn[d.properties.subFeatureIndex], d);
       map.beginPath();
       pg(d);
-      map.fill();
+      map.strokeStyle = 'white';
+      map.stroke();
+      if (d.properties.name !== '崇明区') {
+        map.fillStyle = 'rgba(255,20,20,'+ 1/(d.properties.subFeatureIndex+1) + ')';
+        //map.fillStyle = 'rgba(255,20,'+ Math.floor(255 - 17 * d.properties.subFeatureIndex) + ',0.2)';
+        map.fill();
+      }
     });
   }
   </script>
