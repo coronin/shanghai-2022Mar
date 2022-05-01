@@ -212,13 +212,15 @@ fz.write('\n# 但没有出现在之后的上海发布')
 fz.write('\n# 因微信页面可被编辑，本列表基于分析时的页面')
 fz.write('\n# 疾控，满足7+7和第13天全员核酸阴性，小区解封')
 fz.write('\n# 供参考\n')
-fz.write( u'\n'.join(Z) )
-fz.write( u'\n####\n')
+fz.write('\n'.join(Z) )
+fz.write('\n####\n')
 fz.close()
 
 fz = open('inB.txt', 'w')
 fz.write('# %s' %  datestr)
-fz.write( u'\n'.join(BB) )
+for longline in BB:
+    #if
+    fz.write('\n%s' % longline)
 fz.close
 
 import json

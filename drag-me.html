@@ -11,6 +11,7 @@
   function load () {
     j = JSON.parse(data);
     datestr.textContent = j.date;
+    end_pre.textContent = j.date;
     let k;
     Ds = Object.keys(j.districts);
     As = Object.keys(j.address);
@@ -188,5 +189,5 @@
   <div style="color:green;list-style-type:none;font-size:75%;display:none;" id="latest_released" data-value="1"></div>
   <h2 onclick="show_full('released');" style="cursor:pointer;">累计下榜的地址<i id="released_once" style="color:grey;">点击显示</i></h2>
   <div style="color:green;list-style-type:none;font-size:75%;display:none;" id="released" data-value="1"></div>
-  <pre style="color:grey">EOF</pre>
+  <pre id="end_pre" style="color:grey">EOF</pre>
 </body>

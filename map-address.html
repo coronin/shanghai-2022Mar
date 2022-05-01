@@ -1,0 +1,55 @@
+<!DOCTYPE html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>d3js listed address</title>
+  <script src="d3.min.670.js"></script>
+  <!-- script src="topojson.min.180.js"></script -->
+  <!-- script src="sh.topojson?v=0430"></script -->
+  <script src="datav.aliyun.sh.2021.5.geojson?v=0430"></script>
+  <script>
+  function load () {
+    const svgWidth = 500;
+    const svgHeight = 500;
+    const padding = 10;
+    const svg = d3.select('#app'
+                 ).append('svg'
+                 ).attr('height', svgHeight
+                 ).attr('width', svgWidth);
+    // const x0 = padding;
+    // const y0 = padding;
+    // const x1 = svgWidth - padding * 2;
+    // const y1 = svgHeight - padding * 2;
+    const GeoJson = JSON.parse(data);
+    //const pj = d3.geoMercator().fitExtent([[x0,y0],[x1,y1]], GeoJson);
+    const pj = d3.geoMercator().scale(1200).center([121.43752, 31.179973]); // 徐汇区
+
+    console.log(GeoJson);
+
+    const pg = d3.geoPath().projection(pj);
+    // d3.json('datav.aliyun.sh.2021.5.json').then(data => {
+    //   svg.selectAll('path'
+    //     ).data(data.features
+    //     ).enter(
+    //     ).append('path'
+    //     ).attr('d', pg);
+    // });
+    svg.selectAll('path'
+      ).data(GeoJson.features
+      ).join('path'
+      ).attr('d', pg
+      ).attr('stroke-width', 0.5
+      ).attr('stroke', '#ff0000'
+      ).attr('fill', '#f0f0f0');
+  }
+  </script>
+  <style type="text/css">
+    body {background-color:white;}
+  </style>
+</head>
+<body onload="load();">
+  <p>
+    数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a>
+    </p>
+  <div id="app"></div>
+</body>
