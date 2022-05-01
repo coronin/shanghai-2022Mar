@@ -9,35 +9,46 @@
   <script src="sh.topojson?v=0430"></script>
   <script>
   function load () {
-    const svgWidth = 500,
-          svgHeight = 500;
-    const pj = d3.geo.mercator().scale(20000
+    const svgWidth = 800,
+          svgHeight = 600;
+    const pj = d3.geo.mercator().scale(25000
                 ).center([121.43752, 31.179973]
                 ).translate([svgWidth/2, svgHeight/2]);
-    //const dc = d3.scale.category20();
-    //const pg = d3.geo.path().projection(pj);
-    const svg = document.getElementById('app');
-    svg.width = svgWidth;
-    svg.height = svgHeight;
-    const map = svg.getContext('2d');
+    // const svg = d3.select('#app'
+    //              ).append('svg'
+    //              ).attr('width', svgWidth
+    //              ).attr('height', svgHeight);
+    const map = document.getElementById('app').getContext('2d');
     const pg = d3.geo.path().projection(pj).context(map);
+    app.width = svgWidth;
+    app.height = svgHeight;
     const j = JSON.parse(data);
-
     const dt = topojson.feature(j, j.objects.collection);
+    // const dn = topojson.neighbors(j.objects.collection.geometries);
+    // const dd = svg.selectAll('path'
+    //              ).data(dt.features
+    //              ).enter().append('path'
+    //              ).style('fill', '#ccc'
+    //              ).attr('d', pg);
+    // svg.selectAll('path').each(function (d,i) {
+    //   d.neighbors = d3.selectAll(
+    //     dn[i].map(function (k) {
+    //       return dd[0][k];
+    //     }));
+    // }).on("mouseover",function (d,i) {
+    //     d3.select(this).style("fill","red");
+    //     d.neighbors.style("fill","steelblue");
+    // }).on("mouseout",function(d,i){
+    //     d3.select(this).style("fill","#ccc");
+    //     d.neighbors.style("fill","#ccc");
+    // });
     dt.features.forEach(d => {
-      console.log(d);
+      console.log(d.properties.subFeatureIndex, d.properties.name, d);
+      map.fillStyle = 'rgba(255,20,20,'+ 1/(d.properties.subFeatureIndex+1) + ')';
       map.beginPath();
       pg(d);
-      map.lineWidth = 1;
-      map.stroke();
+      map.fill();
     });
-    // // http://bl.ocks.org/jasondavies/4188334
-    // //dt.forEach(function (dtt) {
-    //   svg.selectAll('.district'
-    //     ).data(dt).enter().append('path'
-    //     ).attr('class', 'district'
-    //     ).attr('d', pg);
-    // //});
   }
   </script>
   <style type="text/css">
@@ -54,5 +65,6 @@
   <p>
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a>
     </p>
+  <!-- div id="app"></div -->
   <canvas id="app"></canvas>
 </body>
