@@ -82,17 +82,21 @@
       k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> ' + j.released[ Ds[i] ];
       released.appendChild(k);
     }
-    // map-address.html
+    map = document.getElementById('app').getContext('2d');
+  }
+
+  function draw () { // map-address.html
+    app.width = svgWidth;
+    app.height = svgHeight;
+    app.style.display = 'block';
+    app.style.padding = '10px 0 0 0';
     const jj = JSON.parse(sh);
     const dt = topojson.feature(jj, jj.objects.collection);
     const dn = topojson.neighbors(jj.objects.collection.geometries);
     const pj = d3.geo.mercator(
                 ).scale(d3scale).center(d3center
                 ).translate([svgWidth/2, svgHeight/2]);
-    map = document.getElementById('app').getContext('2d');
     const pg = d3.geo.path().projection(pj).context(map);
-    app.width = svgWidth;
-    app.height = svgHeight;
     map.strokeStyle = 'grey';
     dt.features.forEach(d => {
       map.beginPath();
@@ -112,8 +116,12 @@
     search_button.textContent = '搜索';
     if (k === '') {
       addr.focus();
+      app.style.display = 'none';
       return;
     }
+    map.clearRect(0, 0, svgWidth, svgHeight);
+    draw();
+    let map_i = 0;
     console.log(k);
     onList.textContent = '';
     let ii;
@@ -149,6 +157,9 @@
                   3, 0 * Math.PI, 2 * Math.PI);
           map.strokeStyle = 'red';
           map.stroke();
+          map_i += 1;
+        } else {
+          console.log('missing', Ds[ii] + As[i]);
         }
         ks += Ds[ii] +
               '<a href="https://maps.baidu.com/search/?querytype=s&wd=' +
@@ -191,6 +202,9 @@
           }
         }
       }
+    }
+    if (map_i === 0) {
+      app.style.display = 'none';
     }
     if (sb === 0) {
       addr.focus();
@@ -236,8 +250,9 @@
     <tr style="color:black;"><th>行政单位</th><th>累计上榜</th><th></th><th>两周内</th><th>今日涉及</th>
       <th>累计下榜</th><th>今日下榜</th></tr>
   </table>
-  <br/>
-  <canvas id="app"></canvas>
+
+  <canvas id="app" style="display:none;"></canvas>
+
   <h2 onclick="show_full('latest_added');" style="cursor:pointer;">值得关注的地址</h2>
   <div style="color:red;list-style-type:none;font-size:75%;" id="latest_added"></div>
   <h2 onclick="show_full('latest_released');" style="cursor:pointer;">今日下榜的地址<i id="latest_released_once" style="color:grey;">点击显示</i></h2>
