@@ -79,10 +79,19 @@
         //map.fillStyle = 'rgba(255,20,'+ Math.floor(255 - 17 * d.properties.subFeatureIndex) + ',0.2)';
         map.fill();
       }
-      // map.fillText(d.properties.center[0],
-      //              d.properties.center[1],
-      //              d.properties.name);
+      map.fillStyle = 'grey';
+      map.fillText(d.properties.name,
+                   mapX(d.properties.center[0]),
+                   mapY(d.properties.center[1]));
     });
+  }
+
+  function mapX(z) {
+    return Math.round((z - d3center[0]) * d3scale/57 + svgWidth/2);
+  }
+
+  function mapY(z) {
+    return Math.round((d3center[1] - z) * d3scale/49 + svgHeight/2);
   }
 
   function search () {
@@ -91,15 +100,13 @@
       addr.focus();
       //return;
     }
-
-    console.log(Math.round((121.522797 - d3center[0]) * d3scale - svgWidth/2));
-    console.log(Math.round((31.270755 - d3center[0]) * d3scale - svgHeight/2));
-
-    //121.522797, 31.270755
+    const kk = k.split(',');
+    const kk0 = 121.522797; //parseFloat(kk[0]);
+    const kk1 = 31.270755; //parseFloat(kk[1]);
+    // 121.522797, 31.270755 ==> 450, 250
     map.beginPath();
-    map.arc(400,
-            300,
-            5, 0 * Math.PI, 2 * Math.PI);
+    map.arc(mapX(kk0), mapY(kk1),
+            3, 0 * Math.PI, 2 * Math.PI);
     map.strokeStyle = 'red';
     map.stroke();
   }
