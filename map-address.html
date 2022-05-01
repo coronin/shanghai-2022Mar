@@ -7,23 +7,48 @@
   <script src="topojson.min.180.js"></script>
   <script src="sh.topojson?v=0430"></script>
   <script>
+  let map;
+  let d3scale = 32000;
+  let d3center = [121.43752, 31.179973]; // 徐汇区
+  const svgWidth = 800;
+  const svgHeight = 600;
+
   function load () {
-    const svgWidth = 800,
-          svgHeight = 600;
-    const pj = d3.geo.mercator().scale(32000
-                ).center([121.43752, 31.179973]
-                ).translate([svgWidth/2, svgHeight/2]);
+    let hash = decodeURIComponent(window.location.hash.slice(1));
+    if (hash.length === 2) {
+      hash += '区';
+    }
+    hash && console.log(hash);
+    const j = JSON.parse(data);
+    const dt = topojson.feature(j, j.objects.collection);
+    const dn = topojson.neighbors(j.objects.collection.geometries);
+    const districts = ['浦东新区', '黄浦区', '静安区', '徐汇区', '长宁区',
+                       '普陀区', '虹口区', '杨浦区', '宝山区', '闵行区',
+                       '嘉定区', '金山区', '松江区', '青浦区', '奉贤区', '崇明区'];
+    let pj, i;
+    if (hash) {
+      for (i = 0; i < dt.features.length; i += 1) {
+        if (dt.features[i].properties.name === hash) {
+          break;
+        }
+      }
+    }
+    if (i && i < 16) {
+      d3scale = 64000;
+      d3center = dt.features[i].properties.center;
+    }
+    pj = d3.geo.mercator(
+      ).scale(d3scale).center(d3center
+      ).translate([svgWidth/2, svgHeight/2]);
+
     // const svg = d3.select('#app'
     //              ).append('svg'
     //              ).attr('width', svgWidth
     //              ).attr('height', svgHeight);
-    const map = document.getElementById('app').getContext('2d');
+    map = document.getElementById('app').getContext('2d');
     const pg = d3.geo.path().projection(pj).context(map);
     app.width = svgWidth;
     app.height = svgHeight;
-    const j = JSON.parse(data);
-    const dt = topojson.feature(j, j.objects.collection);
-    const dn = topojson.neighbors(j.objects.collection.geometries);
 
     // const dd = svg.selectAll('path'
     //              ).data(dt.features
@@ -43,33 +68,51 @@
     //     d.neighbors.style("fill","#ccc");
     // });
 
+    map.strokeStyle = 'grey';
     dt.features.forEach(d => {
-      console.log(d.properties.name, dn[d.properties.subFeatureIndex], d);
+      //console.log(d.properties.name, dn[d.properties.subFeatureIndex], d);
       map.beginPath();
       pg(d);
-      map.strokeStyle = 'white';
       map.stroke();
-      if (d.properties.name !== '崇明区') {
-        map.fillStyle = 'rgba(255,20,20,'+ 1/(d.properties.subFeatureIndex+1) + ')';
+      if (i && i < 16 && d.properties.subFeatureIndex === i || i >= 16) {
+        map.fillStyle = 'rgba(255,20,20,'+ 1/(i+2) + ')';
         //map.fillStyle = 'rgba(255,20,'+ Math.floor(255 - 17 * d.properties.subFeatureIndex) + ',0.2)';
         map.fill();
       }
+      // map.fillText(d.properties.center[0],
+      //              d.properties.center[1],
+      //              d.properties.name);
     });
+  }
+
+  function search () {
+    let k = addr.value;
+    if (k === '') {
+      addr.focus();
+      //return;
+    }
+
+    console.log(Math.round((121.522797 - d3center[0]) * d3scale - svgWidth/2));
+    console.log(Math.round((31.270755 - d3center[0]) * d3scale - svgHeight/2));
+
+    //121.522797, 31.270755
+    map.beginPath();
+    map.arc(400,
+            300,
+            5, 0 * Math.PI, 2 * Math.PI);
+    map.strokeStyle = 'red';
+    map.stroke();
   }
   </script>
   <style type="text/css">
     body {background-color:white;}
-    .district {
-      fill: #ccc;
-      stroke: #fff;
-      stroke-width: .5px;
-      stroke-linejoin: round;
-    }
   </style>
 </head>
 <body onload="load();">
   <p>
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a>
+    &nbsp;&nbsp;&nbsp; <input type="text" id="addr" name="addr" />
+    <button onclick="search();">定位</button>
     </p>
   <!-- div id="app"></div -->
   <canvas id="app"></canvas>
