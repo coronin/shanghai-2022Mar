@@ -220,9 +220,16 @@ f = open('map-location.csv', 'r')
 csv = f.readlines()
 f.close()
 C = []
+CC = {}
 for l in csv:
-    if l and len(l.split(',')) > 3:
-        C.append(l.split(',')[0])
+    if not l:
+        continue
+    ls = l.split(',')
+    if len(ls) > 3 and ls[0] not in C:
+        C.append( ls[0].strip() )
+        CC[ ls[0].strip() ] = [ ls[1], ls[2] ]
+        # 3 是否精确
+        # 4 可信度
 fz = open('inB.txt', 'w')
 fz.write('# %s' %  datestr)
 for longline in BB:
@@ -232,14 +239,20 @@ fz.close
 
 import json
 j = {'date':datestr,
-     'address':by_address,
-     'today':districts_today,
-     'inB':districts_inB,
-     'districts':by_district,
-     'released':districts_released,
-     'released_today':latest_released,
-     'latest_added':latest_added }
-fz = open('full.json', 'w')
-fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
+     'locations':CC }
+fz = open('map-location.json', 'w')
+fz.write("csv='%s'" % json.dumps(j, ensure_ascii=False) )
 fz.close()
-print('\n\nupdate html with th and full.json?v=%s\n\n' % Bs[-1] )
+
+# j = {'date':datestr,
+#      'address':by_address,
+#      'today':districts_today,
+#      'inB':districts_inB,
+#      'districts':by_district,
+#      'released':districts_released,
+#      'released_today':latest_released,
+#      'latest_added':latest_added }
+# fz = open('full.json', 'w')
+# fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
+# fz.close()
+# print('\n\nupdate html with th and full.json?v=%s\n\n' % Bs[-1] )

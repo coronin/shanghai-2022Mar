@@ -4,12 +4,16 @@
   <meta name="viewport" content="width=device-width">
   <title>listed address, since 2022 March 18th</title>
   <script src="full.json?v=0430"></script>
+  <script src="map-location.json"></script>
+  <script src="sh.topojson"></script>
   <script>
-  let i; let j; let As; let Ds;
+  let i; let j; let As; let Ds; let Ml; let Ms;
   const today = new Date();
 
   function load () {
     j = JSON.parse(data);
+    Ml = JSON.parse(csv);
+    Ms = Object.keys(Ml.locations);
     datestr.textContent = j.date;
     end_pre.textContent = j.date;
     let k;
@@ -99,6 +103,9 @@
         } else {
           ks = '<span style="color:grey;">' + sb + '.</span> <span>';
         }
+        if (Ms.indexOf(Ds[ii] + As[i]) > -1) {
+          console.log( Ml.locations[Ds[ii] + As[i]] );
+        }
         ks += Ds[ii] +
               '<a href="https://maps.baidu.com/search/?querytype=s&wd=' +
               As[i] + '" target="_blank">' + As[i] + '</a> ';
@@ -168,7 +175,7 @@
 </head>
 <body onload="load();">
   <p>
-    数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a><br/>
+    数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a> &nbsp;&nbsp;
     更新时间 <span id="datestr" style="color:blue;">fetching... not ready</span><br/>
     本页的<span style="background-color:yellow;">今日</span>为2022年4月30日 <!-- 0430 -->
   </p>

@@ -2,7 +2,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>d3js listed address</title>
+  <title>d3js - test only</title>
   <script src="d3.min.v3.js"></script>
   <script src="topojson.min.180.js"></script>
   <script src="sh.topojson?v=0430"></script>
@@ -19,7 +19,7 @@
       hash += '区';
     }
     hash && console.log(hash);
-    const j = JSON.parse(data);
+    const j = JSON.parse(sh);
     const dt = topojson.feature(j, j.objects.collection);
     const dn = topojson.neighbors(j.objects.collection.geometries);
     const districts = ['浦东新区', '黄浦区', '静安区', '徐汇区', '长宁区',
@@ -118,7 +118,7 @@
 <body onload="load();">
   <p>
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a>
-    &nbsp;&nbsp;&nbsp; <input type="text" id="addr" name="addr" />
+    &nbsp;&nbsp; <input type="text" id="addr" name="addr" />
     <button onclick="search();">定位</button>
     </p>
   <!-- div id="app"></div -->
