@@ -216,11 +216,18 @@ fz.write('\n'.join(Z) )
 fz.write('\n####\n')
 fz.close()
 
+f = open('map-location.csv', 'r')
+csv = f.readlines()
+f.close()
+C = []
+for l in csv:
+    if l and len(l.split(',')) > 3:
+        C.append(l.split(',')[0])
 fz = open('inB.txt', 'w')
 fz.write('# %s' %  datestr)
 for longline in BB:
-    #if
-    fz.write('\n%s' % longline)
+    if longline not in C:
+        fz.write('\n%s' % longline)
 fz.close
 
 import json
