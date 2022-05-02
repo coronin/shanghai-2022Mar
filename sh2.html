@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>listed address, in map, since 2022 March 18th</title>
-  <script src="full.json?v=0430"></script>
+  <script src="full.json?v=0501"></script>
   <script src="d3.min.v3.js"></script>
   <script src="topojson.min.180.js"></script><!-- http://geojson.io -->
   <script src="sh.json"></script><!-- http://datav.aliyun.com/portal/school/atlas/area_generator -->
@@ -230,7 +230,7 @@
               '<a href="https://maps.baidu.com/search/?querytype=s&wd=' +
               As[i] + '" target="_blank">' + As[i] + '</a> ';
         if (il === 1) { // 地址同名 有待优化, 团结村
-          if (('' + dl).indexOf('0430') > 0) {
+          if (('' + dl).indexOf('0501') > 0) {
             ks += '<span style="color:red">' + dl + '</span>';
           } else {
             ks += dl;
@@ -307,8 +307,8 @@
   <p>
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a> &nbsp;&nbsp;
     更新时间 <span id="datestr" style="color:blue;">fetching... not ready</span><br/>
-    本页的<span style="background-color:yellow;">今日</span>为2022年4月30日 <!-- 0430 -->
-    <br/><span style="color:purple">搜索：上海市，可以在地图中展示今日上榜地址</span>
+    本页的<span style="background-color:yellow;">今日</span>为2022年5月1日 <!-- 0501 -->
+    <br/><span style="color:purple">搜索 上海市，可以在地图中展示今日上榜地址</span>
   </p>
   <p>
     <label for="addr">上榜地址</label>
@@ -325,13 +325,13 @@
 
   <canvas id="app" style="display:none;"></canvas>
 
-  <h2 onclick="show_full('latest_added');" style="color:red;cursor:pointer;">⬇️值得关注的地址</h2>
+  <h2 onclick="show_full('latest_added');" style="color:red;cursor:pointer;">值得关注的地址</h2>
   <div style="color:red;list-style-type:none;font-size:75%;" id="latest_added"></div>
 
-  <h2 onclick="show_full('latest_released');" style="cursor:pointer;">⬇️今日下榜的地址<i id="latest_released_once" style="color:grey;">点击显示</i></h2>
+  <h2 onclick="show_full('latest_released');" style="cursor:pointer;">今日下榜的地址<i id="latest_released_once" style="color:grey;">点击显示</i></h2>
   <div style="color:green;list-style-type:none;font-size:75%;display:none;" id="latest_released" data-value="1"></div>
 
-  <h2 onclick="show_full('released');" style="cursor:pointer;">⬇️累计下榜的地址<i id="released_once" style="color:grey;">点击显示</i></h2>
+  <h2 onclick="show_full('released');" style="cursor:pointer;">累计下榜的地址<i id="released_once" style="color:grey;">点击显示</i></h2>
   <div style="color:green;list-style-type:none;font-size:75%;display:none;" id="released" data-value="1"></div>
 
   <pre id="end_pre" style="color:grey">EOF</pre>
