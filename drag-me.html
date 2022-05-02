@@ -118,17 +118,30 @@
         }
         ks = ks.replace(/030/g, '3/').replace(/040/g, '4/'
               ).replace(/03/g, '3/').replace(/04/g, '4/');
-        release += (14 - 400);
-        if (release < today.getDate()-1 ) {
-          ks += ' <span style="color:green">已满14天</span></span>';
-        } else if (release === today.getDate()-1 ) {
-          ks += ' <span style="color:green">第14天</span></span>';
-        } else if (release < 31) {
+        release += (14 - 300);
+        if (release > 100) {
+          release -= 100;
+        } else if (release > 31) {
+          release -= 31; // 单次3月18日的地址
+        }
+        if (release < 31) {
           //onList.textContent += ' --> 4/' + release + '\n';
-          ks += ' &rarr; <em>4/' + release + '</em></span>';
+          ks += ' &rarr; <em>4/' + release + '</em>';
+          ks += ' <span style="color:green">已满14天</span></span>';
         } else {
-          //onList.textContent += ' --> 5/' + (release-30) + '\n';
-          ks += ' &rarr; <em>5/' + (release-30) + '</em></span>';
+          if (release > 100) { // 最近一次在5月
+            release -= 100;
+          } else {
+            release -= 30;
+          }
+          ks += ' &rarr; <em>5/' + release + '</em>';
+          if (release < today.getDate()-1 ) {
+            ks += ' <span style="color:green">已满14天</span></span>';
+          } else if (release === today.getDate()-1 ) {
+            ks += '<span style="color:green">是第14天</span></span>';
+          } else {
+            ks += '</span>';
+          }
         }
         let kk = document.createElement('p');
         //kk.id = As[i];
