@@ -227,7 +227,8 @@ for l in csv:
     ls = l.split(',')
     if len(ls) > 3 and ls[0] not in C:
         C.append( ls[0].strip() )
-        CC[ ls[0].strip() ] = [ ls[1], ls[2] ]
+        CC[ ls[0].strip() ] = [ ls[1], ls[2], ls[3] ]
+        # 1经度 2纬度
         # 3 是否精确
         # 4 可信度
 fz = open('inB.txt', 'w')
@@ -255,4 +256,4 @@ fz.close()
 # fz = open('full.json', 'w')
 # fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
 # fz.close()
-# print('\n\nupdate html with th and full.json?v=%s\n\n' % Bs[-1] )
+# print('\n\nupdate drag-me.html and sh2.html with full.json?v=%s\n\n' % Bs[-1] )
