@@ -116,11 +116,11 @@
     const cafe1 = topojson.feature(cafe0, cafe0.objects.collection);
     cafe1.features.forEach(d => {
       map.beginPath();
-      map.arc(mapX( d.geometry.coordinates[0] ),
-              mapY( d.geometry.coordinates[1] ),
-              1, 0 * Math.PI, 2 * Math.PI);
-      map.strokeStyle = 'blue';
-      map.stroke();
+      map.fillStyle = 'blue';
+      map.fillRect(mapX( d.geometry.coordinates[0] ),
+                   mapY( d.geometry.coordinates[1] ),
+                   3, 3 );
+      map.fill();
     });
   }
 
@@ -292,12 +292,9 @@
     if (map_i === 0) {
       app.style.display = 'none';
     } else {
-      console.log(map_x);
-      console.log(map_addr);
       // https://stackoverflow.com/questions/10359907
       const average = arr => arr.reduce((prev, curr) => prev + curr) / arr.length;
       d3center = [average(map_x), average(map_y) ];
-      console.log(d3center);
       draw_sh();
       for (i = 0; i < map_i; i += 1) {
         draw_addr(map_addr[i]);
