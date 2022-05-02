@@ -8,6 +8,7 @@
   <script src="topojson.min.180.js"></script><!-- http://geojson.io -->
   <script src="sh.json"></script><!-- http://datav.aliyun.com/portal/school/atlas/area_generator -->
   <script src="sh-awesome-cn-cafe.json"></script>
+  <script src="sh-river.json"></script>
   <script src="sh-lines.json"></script>
   <script src="map-location.json"></script>
   <script>
@@ -122,12 +123,12 @@
                    3, 3 );
     });
     map.fillText('方块 精致的咖啡馆', 0, 0)
-    map.lineWidth = 3;
     map.strokeStyle = 'rgba(0,0,255,0.2)';
-    const line0 = JSON.parse(lines);
-    const line1 = topojson.feature(line0, line0.objects.collection);
     let dots;
-    line1.features.forEach(d => {
+    map.lineWidth = 6;
+    const river0 = JSON.parse(river);
+    const river1 = topojson.feature(river0, river0.objects.collection);
+    river1.features.forEach(d => {
       dots = d.geometry.coordinates;
       map.beginPath();
       map.moveTo(mapX(dots[0][0]), mapY(dots[0][1]));
@@ -137,6 +138,17 @@
       map.stroke();
     });
     map.lineWidth = 1.0;
+    const line0 = JSON.parse(lines);
+    const line1 = topojson.feature(line0, line0.objects.collection);
+    line1.features.forEach(d => {
+      dots = d.geometry.coordinates;
+      map.beginPath();
+      map.moveTo(mapX(dots[0][0]), mapY(dots[0][1]));
+      for (i = 1; i < dots.length; i += 1) {
+        map.lineTo(mapX(dots[i][0]), mapY(dots[i][1]));
+      }
+      map.stroke();
+    });
   }
 
   function draw_addr (s) {
