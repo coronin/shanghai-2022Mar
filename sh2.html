@@ -98,9 +98,12 @@
     dt.features.forEach(d => {
       map.beginPath();
       pg(d);
+      if (['黄浦区','徐汇区','长宁区','静安区','普陀区','虹口区','杨浦区'
+          ].indexOf(d.properties.name) > -1) {
+        map.fillStyle = 'rgba(200,200,200,0.2)'; // d.properties.subFeatureIndex
+        map.fill(); // 'nonzero', 'evenodd'
+      }
       map.stroke();
-      // map.fillStyle = 'rgba(200,200,200,'+ 1/(d.properties.subFeatureIndex+4) + ')';
-      // map.fill();
       map.textBaseline = 'top';
       map.textAlign = 'start';
       map.fillStyle = 'grey';
