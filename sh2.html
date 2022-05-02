@@ -13,10 +13,10 @@
   let i; let j; let As; let Ds;
   const today = new Date();
   let Ml; let Ms; let map;
-  let d3scale = 32000;
-  let d3center = [121.43752, 31.179973]; // 徐汇区
-  let svgWidth = 600;
-  let svgHeight = 400;
+  let d3scale; let svgWidth; let svgHeight;
+  const centers = {'徐汇区':[121.43752, 31.179973],'浦东新区':[121.490317, 31.222771],'长宁区':[121.4222, 31.218123],'静安区':[121.448224, 31.229003],'普陀区':[121.392499, 31.241701],'虹口区':[121.491832, 31.26097],'杨浦区':[121.522797, 31.270755],'闵行区':[121.375972, 31.111658],'宝山区':[121.489934, 31.398896],'嘉定区':[121.250333, 31.383524],'浦东新区':[121.567706, 31.245944],'金山区':[121.330736, 30.724697],'松江区':[121.223543, 31.03047],'青浦区':[121.113021, 31.151209],'奉贤区':[121.458472, 30.912345],'崇明区':[121.397516, 31.626946]};
+  let d3center = centers['徐汇区'];
+  let dotNotDraw = 0;
 
   function mapX(z) {
     return Math.round((z - d3center[0]) * d3scale/57 + svgWidth/2);
@@ -105,6 +105,8 @@
       map.stroke();
       //map.fillStyle = 'rgba(255,20,20,'+ 1/(d.properties.subFeatureIndex+2) + ')';
       //map.fill();
+      map.textBaseline = 'top';
+      map.textAlign = 'start';
       map.fillStyle = 'grey';
       map.fillText(d.properties.name,
                    mapX(d.properties.center[0]),
@@ -134,9 +136,10 @@
         map.strokeStyle = 'rgba(255,0,0,0.8)';
       }
       map.stroke();
-    }// else {
-    //  console.log('Missing', s);
-    //}
+    } else {
+      dotNotDraw += 1;
+      //console.log('address not draw:', s);
+    }
   }
 
   function search () {
@@ -148,7 +151,9 @@
       return;
     }
     map.clearRect(0, 0, svgWidth, svgHeight);
-    draw_sh();
+    d3scale = 32000;
+    svgWidth = 640;
+    svgHeight = 480;
     let ii;
     if (Ds.indexOf(k) > -1) {
       if (!j.latest_added[k]) {
@@ -156,15 +161,22 @@
         app.style.display = 'none';
         return;
       }
+      d3scale = 72000;
+      d3center = centers[k];
+      draw_sh();
       for (ii = 0; ii < j.today[k].length; ii += 1) { // .latest_added
         draw_dot(k + j.today[k][ii]);
       }
+      if (dotNotDraw) {
+        map.fillStyle = 'red';
+        map.fillText(k + '没有显示的地址' + dotNotDraw + '个', 0, 0)
+        dotNotDraw = 0;
+      }
       return;
     } else if (k === '上海市') {
-      d3scale = 64000;
-      svgWidth = 1200;
-      svgHeight = 800;
-      map.clearRect(0, 0, svgWidth, svgHeight);
+      d3scale = 48000;
+      svgWidth = 1250;
+      svgHeight = 1000;
       draw_sh();
       for (i = 0; i < Ds.length; i += 1) {
         if (!j.today[Ds[i] ]) {
@@ -174,8 +186,14 @@
           draw_dot(Ds[i] + j.today[Ds[i] ][ii] );
         }
       }
+      if (dotNotDraw) {
+        map.fillStyle = 'red';
+        map.fillText('未显示的地址' + dotNotDraw + '个', 0, 0)
+        dotNotDraw = 0;
+      }
       return;
     }
+    draw_sh();
     let map_i = 0;
     console.log(k);
     onList.textContent = '';
@@ -250,6 +268,11 @@
         }
       }
     }
+    if (dotNotDraw) {
+      map.fillStyle = 'red';
+      map.fillText('未显示的地址' + dotNotDraw + '个', 0, 0)
+      dotNotDraw = 0;
+    }
     if (map_i === 0) {
       app.style.display = 'none';
     }
@@ -285,7 +308,7 @@
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a> &nbsp;&nbsp;
     更新时间 <span id="datestr" style="color:blue;">fetching... not ready</span><br/>
     本页的<span style="background-color:yellow;">今日</span>为2022年4月30日 <!-- 0430 -->
-    <br/><span style="color:red">搜索：上海市，可以在地图中展示今日上榜地址</span>
+    <br/><span style="color:purple">搜索：上海市，可以在地图中展示今日上榜地址</span>
   </p>
   <p>
     <label for="addr">上榜地址</label>
@@ -293,6 +316,7 @@
     <button id="search_button" onclick="search();">搜索</button>
   </p>
   <div style="width:100%;color:blue;" id="onList"></div>
+
   <h2>各区统计（地址数）</h2>
   <table id="districtTable" style="border:1px solid blue;color:blue;font-size:75%;text-align:center;">
     <tr style="color:black;"><th>行政单位</th><th>累计上榜</th><th></th><th>两周内</th><th>今日涉及</th>
@@ -301,12 +325,15 @@
 
   <canvas id="app" style="display:none;"></canvas>
 
-  <h2 onclick="show_full('latest_added');" style="cursor:pointer;">值得关注的地址</h2>
+  <h2 onclick="show_full('latest_added');" style="color:red;cursor:pointer;">⬇️值得关注的地址</h2>
   <div style="color:red;list-style-type:none;font-size:75%;" id="latest_added"></div>
-  <h2 onclick="show_full('latest_released');" style="cursor:pointer;">今日下榜的地址<i id="latest_released_once" style="color:grey;">点击显示</i></h2>
+
+  <h2 onclick="show_full('latest_released');" style="cursor:pointer;">⬇️今日下榜的地址<i id="latest_released_once" style="color:grey;">点击显示</i></h2>
   <div style="color:green;list-style-type:none;font-size:75%;display:none;" id="latest_released" data-value="1"></div>
-  <h2 onclick="show_full('released');" style="cursor:pointer;">累计下榜的地址<i id="released_once" style="color:grey;">点击显示</i></h2>
+
+  <h2 onclick="show_full('released');" style="cursor:pointer;">⬇️累计下榜的地址<i id="released_once" style="color:grey;">点击显示</i></h2>
   <div style="color:green;list-style-type:none;font-size:75%;display:none;" id="released" data-value="1"></div>
+
   <pre id="end_pre" style="color:grey">EOF</pre>
 </body>
 </html>
