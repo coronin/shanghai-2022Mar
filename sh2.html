@@ -112,23 +112,31 @@
                    mapX(d.properties.center[0]),
                    mapY(d.properties.center[1]));
     });
+    map.fillStyle = 'blue';
     const cafe0 = JSON.parse(cafe);
     const cafe1 = topojson.feature(cafe0, cafe0.objects.collection);
     cafe1.features.forEach(d => {
       map.beginPath();
-      map.fillStyle = 'blue';
       map.fillRect(mapX( d.geometry.coordinates[0] ),
                    mapY( d.geometry.coordinates[1] ),
                    3, 3 );
     });
     map.fillText('方块 精致的咖啡馆', 0, 0)
+    map.lineWidth = 3;
+    map.strokeStyle = 'rgba(0,0,255,0.2)';
     const line0 = JSON.parse(lines);
     const line1 = topojson.feature(line0, line0.objects.collection);
-    cafe1.features.forEach(d => {
-
-      console.log(d);
-
+    let dots;
+    line1.features.forEach(d => {
+      dots = d.geometry.coordinates;
+      map.beginPath();
+      map.moveTo(mapX(dots[0][0]), mapY(dots[0][1]));
+      for (i = 1; i < dots.length; i += 1) {
+        map.lineTo(mapX(dots[i][0]), mapY(dots[i][1]));
+      }
+      map.stroke();
     });
+    map.lineWidth = 1.0;
   }
 
   function draw_addr (s) {
