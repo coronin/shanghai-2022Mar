@@ -182,6 +182,7 @@
   <style type="text/css">
     body {background-color:white;}
     p {line-height:1.5em;}
+    .click {cursor:pointer;padding:0 .2em;box-shadow:inset 0 -.5em #d0d0d0;}
   </style>
 </head>
 <body onload="load();">
@@ -201,11 +202,11 @@
     <tr style="color:black;"><th>行政单位</th><th>累计上榜</th><th></th><th>两周内</th><th>今日涉及</th>
       <th>累计下榜</th><th>今日下榜</th></tr>
   </table>
-  <h2 onclick="show_full('latest_added');" style="cursor:pointer;">值得关注的地址</h2>
+  <h2 onclick="show_full('latest_added');" class="click">值得关注的地址</h2>
   <div style="color:red;list-style-type:none;font-size:75%;" id="latest_added"></div>
-  <h2 onclick="show_full('latest_released');" style="cursor:pointer;">今日下榜的地址<i id="latest_released_once" style="color:grey;">点击显示</i></h2>
+  <h2 onclick="show_full('latest_released');" class="click">今日下榜的地址<i id="latest_released_once" style="color:grey;">点击显示</i></h2>
   <div style="color:green;list-style-type:none;font-size:75%;display:none;" id="latest_released" data-value="1"></div>
-  <h2 onclick="show_full('released');" style="cursor:pointer;">累计下榜的地址<i id="released_once" style="color:grey;">点击显示</i></h2>
+  <h2 onclick="show_full('released');" class="click">累计下榜的地址<i id="released_once" style="color:grey;">点击显示</i></h2>
   <div style="color:green;list-style-type:none;font-size:75%;display:none;" id="released" data-value="1"></div>
   <pre id="end_pre" style="color:grey">EOF</pre>
 </body>

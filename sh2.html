@@ -42,7 +42,7 @@
       //   console.log( j.inB[ Ds[i] ] );
       //   console.log( j.today[ Ds[i] ] );
       // }
-        k.innerHTML = '<td onclick="search(this.textContent);" style="cursor:pointer;">' +
+        k.innerHTML = '<td onclick="search(this.textContent);" class="click">' +
                       Ds[i] + '</td><td>' +
                       j.districts[ Ds[i] ].length + '</td><td id="' +
                       Ds[i] + 'line" style="text-align:left;"></td><td>' +
@@ -130,7 +130,7 @@
       if (Ml.locations[s][2]) {
         map.strokeStyle = 'rgba(255,0,0,1)';
       } else {
-        map.strokeStyle = 'rgba(255,0,0,0.75)';
+        map.strokeStyle = 'rgba(255,0,0,.75)';
       }
       map.stroke();
     } else {
@@ -326,6 +326,7 @@
   <style type="text/css">
     body {background-color:white;}
     p {line-height:1.5em;}
+    .click {cursor:pointer;padding:0 .2em;box-shadow:inset 0 -.5em #d0d0d0;}
   </style>
 </head>
 <body onload="load();">
@@ -333,7 +334,7 @@
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a><br/>
     更新时间 <span id="datestr" style="color:blue;">fetching... not ready</span><br/>
     本页的<span style="background-color:yellow;">今日</span>为2022年5月1日 <!-- 0501 -->
-    <br/>搜索<span onclick="search(this.textContent);" style="color:purple;cursor:pointer">上海市</span>，可以在地图中展示今日上榜地址
+    <br/>搜索<span onclick="search(this.textContent);" class="click">上海市</span>，可以在地图中展示今日上榜地址
   </p>
   <p>
     <label for="addr">上榜地址</label>
@@ -350,13 +351,13 @@
 
   <canvas id="app" style="display:none;"></canvas>
 
-  <h2 onclick="show_full('latest_added');" style="color:red;cursor:pointer;">值得关注的地址</h2>
+  <h2 onclick="show_full('latest_added');" style="color:red;" class="click">值得关注的地址</h2>
   <div style="color:red;list-style-type:none;font-size:75%;" id="latest_added"></div>
 
-  <h2 onclick="show_full('latest_released');" style="cursor:pointer;">今日下榜的地址<i id="latest_released_once" style="color:grey;">点击显示</i></h2>
+  <h2 onclick="show_full('latest_released');" class="click">今日下榜的地址<i id="latest_released_once" style="color:grey;">点击显示</i></h2>
   <div style="color:green;list-style-type:none;font-size:75%;display:none;" id="latest_released" data-value="1"></div>
 
-  <h2 onclick="show_full('released');" style="cursor:pointer;">累计下榜的地址<i id="released_once" style="color:grey;">点击显示</i></h2>
+  <h2 onclick="show_full('released');" class="click">累计下榜的地址<i id="released_once" style="color:grey;">点击显示</i></h2>
   <div style="color:green;list-style-type:none;font-size:75%;display:none;" id="released" data-value="1"></div>
 
   <pre id="end_pre" style="color:grey">EOF</pre>
