@@ -223,7 +223,7 @@ csv = f.readlines()
 f.close()
 C = []
 CC = {}
-for l in csv:
+for l in csv[1:]:
     if not l:
         continue
     ls = l.split(',')
@@ -235,6 +235,7 @@ for l in csv:
         # 4 可信度
 fz = open('inB-not-map.txt', 'w')
 fz.write('# %s' %  datestr)
+fz.write('# https://maplocation.sjfkai.com/')
 for longline in BB:
     if longline not in C:
         fz.write('\n%s' % longline)
