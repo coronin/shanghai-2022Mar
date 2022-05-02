@@ -43,9 +43,10 @@
       districtTable.appendChild(k);
       k = document.createElement('p');
       if (j.latest_added && j.latest_added[ Ds[i] ] ) {
-        k.innerHTML = '<span style="color:black;">' + Ds[i] + '：下列' +
-                      j.latest_added[ Ds[i] ].length + '个地址不同于昨日，今日涉及' + (j.today[ Ds[i] ] || []).length +
-                      '个地址</span><br/>' + j.latest_added[ Ds[i] ];
+        k.innerHTML = '<span style="color:black;">' + Ds[i] + '：今日涉及' +
+                      (j.today[ Ds[i] ] || []).length +
+                      '个地址，下列' + j.latest_added[ Ds[i] ].length +
+                      '个地址不同于昨日</span><br/>' + j.latest_added[ Ds[i] ];
       } else {
         k.innerHTML = '<span style="color:black;">' + Ds[i] + '：今日涉及' +
                       (j.today[ Ds[i] ] || []).length +

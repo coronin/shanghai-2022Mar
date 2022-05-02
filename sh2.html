@@ -42,30 +42,26 @@
       //   console.log( j.inB[ Ds[i] ] );
       //   console.log( j.today[ Ds[i] ] );
       // }
+        k.innerHTML = '<td onclick="search(this.textContent);" style="cursor:pointer;">' +
+                      Ds[i] + '</td><td>' +
+                      j.districts[ Ds[i] ].length + '</td><td id="' +
+                      Ds[i] + 'line" style="text-align:left;"></td><td>' +
+                      (j.inB[ Ds[i] ] || []).length + '</td><td style="color:red;">' +
+                      (j.today[ Ds[i] ] || []).length + '</td><td style="color:green;">' +
+                      (j.released[ Ds[i] ] || []).length + '</td>';
       if (j.released_today[ Ds[i] ] ) {
-        k.innerHTML = '<td>' + Ds[i] + '</td><td>' +
-                      j.districts[ Ds[i] ].length + '</td><td id="' +
-                      Ds[i] + 'line" style="text-align:left;"></td><td>' +
-                      (j.inB[ Ds[i] ] || []).length + '</td><td style="color:red;">' +
-                      (j.today[ Ds[i] ] || []).length + '</td><td style="color:green;">' +
-                      (j.released[ Ds[i] ] || []).length + '</td><td style="color:green;">' +
-                      (j.released_today[ Ds[i] ] || []).length + '</td>';
+        k.innerHTML += '<td style="color:green;">' + (j.released_today[ Ds[i] ] || []).length + '</td>';
       } else {
-        k.innerHTML = '<td>' + Ds[i] + '</td><td>' +
-                      j.districts[ Ds[i] ].length + '</td><td id="' +
-                      Ds[i] + 'line" style="text-align:left;"></td><td>' +
-                      (j.inB[ Ds[i] ] || []).length + '</td><td style="color:red;">' +
-                      (j.today[ Ds[i] ] || []).length + '</td><td style="color:green;">' +
-                      (j.released[ Ds[i] ] || []).length + '</td><td style="color:green;">' +
-                      '&ndash;</td>';
+        k.innerHTML += '<td style="color:green;">&ndash;</td>';
       }
       k.id = Ds[i];
       districtTable.appendChild(k);
       k = document.createElement('p');
       if (j.latest_added && j.latest_added[ Ds[i] ] ) {
-        k.innerHTML = '<span style="color:black;">' + Ds[i] + '：下列' +
-                      j.latest_added[ Ds[i] ].length + '个地址不同于昨日，今日涉及' + (j.today[ Ds[i] ] || []).length +
-                      '个地址</span><br/>' + j.latest_added[ Ds[i] ];
+        k.innerHTML = '<span style="color:black;">' + Ds[i] + '：今日涉及' +
+                      (j.today[ Ds[i] ] || []).length +
+                      '个地址，下列' + j.latest_added[ Ds[i] ].length +
+                      '个地址不同于昨日</span><br/>' + j.latest_added[ Ds[i] ];
       } else {
         k.innerHTML = '<span style="color:black;">' + Ds[i] + '：今日涉及' +
                       (j.today[ Ds[i] ] || []).length +
@@ -103,8 +99,8 @@
       map.beginPath();
       pg(d);
       map.stroke();
-      //map.fillStyle = 'rgba(255,20,20,'+ 1/(d.properties.subFeatureIndex+2) + ')';
-      //map.fill();
+      // map.fillStyle = 'rgba(200,200,200,'+ 1/(d.properties.subFeatureIndex+4) + ')';
+      // map.fill();
       map.textBaseline = 'top';
       map.textAlign = 'start';
       map.fillStyle = 'grey';
@@ -134,7 +130,7 @@
       if (Ml.locations[s][2]) {
         map.strokeStyle = 'rgba(255,0,0,1)';
       } else {
-        map.strokeStyle = 'rgba(255,0,0,0.8)';
+        map.strokeStyle = 'rgba(255,0,0,0.75)';
       }
       map.stroke();
     } else {
@@ -143,13 +139,15 @@
     }
   }
 
-  function search () {
-    let k = addr.value;
+  function search (k) {
     search_button.textContent = '搜索';
     if (k === '') {
       addr.focus();
       app.style.display = 'none';
       return;
+    }
+    if (addr.value !== k) {
+      addr.value = k;
     }
     map.clearRect(0, 0, svgWidth, svgHeight);
     d3scale = 72000; // 32000
@@ -157,10 +155,14 @@
     svgHeight = 480;
     let ii;
     if (Ds.indexOf(k) > -1) {
-      if (!j.latest_added[k]) {
+      if (!j.today[k]) { // .latest_added
+        addr.value = '';
         addr.focus();
         app.style.display = 'none';
         return;
+      }
+      if (k === '崇明区') {
+        d3scale = 32000;
       }
       d3center = centers[k];
       draw_sh();
@@ -331,12 +333,12 @@
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a><br/>
     更新时间 <span id="datestr" style="color:blue;">fetching... not ready</span><br/>
     本页的<span style="background-color:yellow;">今日</span>为2022年5月1日 <!-- 0501 -->
-    <br/><span style="color:purple">搜索 上海市，可以在地图中展示今日上榜地址</span>
+    <br/>搜索<span onclick="search(this.textContent);" style="color:purple;cursor:pointer">上海市</span>，可以在地图中展示今日上榜地址
   </p>
   <p>
     <label for="addr">上榜地址</label>
     <input type="text" id="addr" name="addr" />
-    <button id="search_button" onclick="search();">搜索</button>
+    <button id="search_button" onclick="search(addr.value);">搜索</button>
   </p>
   <div style="width:100%;color:blue;" id="onList"></div>
 
