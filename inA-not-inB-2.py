@@ -232,7 +232,7 @@ for l in csv:
         # 1经度 2纬度
         # 3 是否精确
         # 4 可信度
-fz = open('inB.txt', 'w')
+fz = open('inB-not-map.txt', 'w')
 fz.write('# %s' %  datestr)
 for longline in BB:
     if longline not in C:
@@ -246,15 +246,15 @@ fz = open('map-location.json', 'w')
 fz.write("csv='%s'" % json.dumps(j, ensure_ascii=False) )
 fz.close()
 
-# j = {'date':datestr,
-#      'address':by_address,
-#      'today':districts_today,
-#      'inB':districts_inB,
-#      'districts':by_district,
-#      'released':districts_released,
-#      'released_today':latest_released,
-#      'latest_added':latest_added }
-# fz = open('full.json', 'w')
-# fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
-# fz.close()
-# print('\n\nupdate drag-me.html and sh2.html with full.json?v=%s\n\n' % Bs[-1] )
+j = {'date':datestr,
+     'address':by_address,
+     'today':districts_today,
+     'inB':districts_inB,
+     'districts':by_district,
+     'released':districts_released,
+     'released_today':latest_released,
+     'latest_added':latest_added }
+fz = open('full.json', 'w')
+fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
+fz.close()
+print('\n\nupdate drag-me.html and sh2.html with full.json?v=%s\n\n' % Bs[-1] )

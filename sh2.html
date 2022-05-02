@@ -244,7 +244,7 @@
         }
         ks = ks.replace(/030/g, '3/').replace(/040/g, '4/'
               ).replace(/03/g, '3/').replace(/04/g, '4/');
-        release += (14 - 400);
+        release += (14 - 400); // 318+14 必然到4月
         if (release < today.getDate()-1 ) {
           ks += ' <span style="color:green">已满14天</span></span>';
         } else if (release === today.getDate()-1 ) {
@@ -252,8 +252,9 @@
         } else if (release < 31) {
           //onList.textContent += ' --> 4/' + release + '\n';
           ks += ' &rarr; <em>4/' + release + '</em></span>';
+        } else if (release > 100) {
+          ks += ' &rarr; <em>5/' + (release-100) + '</em></span>';
         } else {
-          //onList.textContent += ' --> 5/' + (release-30) + '\n';
           ks += ' &rarr; <em>5/' + (release-30) + '</em></span>';
         }
         let kk = document.createElement('p');

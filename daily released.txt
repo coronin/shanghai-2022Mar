@@ -1,4 +1,30 @@
 
+
+====================
+in A, estimated 27291
+in B, estimated 19459
+by district total, w/dupl 34314
+in A, not in B, estimated 14855
+
+released 0501, estimated 985
+浦东新区	260
+黄浦区	85
+静安区	66
+徐汇区	61
+长宁区	43
+普陀区	55
+虹口区	72
+杨浦区	46
+宝山区	53
+闵行区	104
+嘉定区	55
+金山区 0
+松江区	50
+青浦区	29
+奉贤区	5
+崇明区	1
+
+
 ====================
 in A, estimated 26576
 in B, estimated 20139
