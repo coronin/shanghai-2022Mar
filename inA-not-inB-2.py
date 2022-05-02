@@ -97,10 +97,11 @@ def read_a_list(s, tag=''):
                         districts_inB[running_district] += [line]
                 else:
                     districts_inB[running_district] = [line]
-            if by_address.get(line): # 不同区 有同名地址
+            if by_address.get(line):
                 if s not in by_address[line]:
                     by_address[line] += [s]
                 else:
+                    # 不同区 地址同名, 团结村 国权北路555
                     by_address[line] += ['%s%s' % (s, running_district) ]
             else:
                 by_address[line] = [s]
@@ -178,7 +179,7 @@ for line, dates in by_address.items():
                     latest_released[dd] += [line]
                 else:
                     latest_released[dd] = [line]
-                break # 地址同名 有待优化
+                break # 地址同名, 团结村 国权北路555
             pass
 
 print('\nreleased %s, estimated' % Bs[-1], count)

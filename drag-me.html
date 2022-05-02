@@ -103,7 +103,9 @@
         ks += Ds[ii] +
               '<a href="https://maps.baidu.com/search/?querytype=s&wd=' +
               As[i] + '" target="_blank">' + As[i] + '</a> ';
-        if (il === 1) { // 地址同名 有待优化, 团结村
+        const s1 = ('' + dl).split(Ds[ii]);
+        const s2 = s1[s1.length - 2];
+        if (il === 1 || !s2) { // 地址同名, 团结村 国权北路555
           if (('' + dl).indexOf('0501') > 0) {
             ks += '<span style="color:red">' + dl + '</span>';
           } else {
@@ -111,13 +113,12 @@
           }
           release = parseInt(dl[dl.length - 1]);
         } else {
-          const s1 = ('' + dl).split(Ds[ii]);
-          const s2 = s1[s1.length - 2];
           ks += s2.substr(s2.lastIndexOf(',') + 1);
           release = parseInt( s2.substr(s2.lastIndexOf(',') + 1) );
         }
         ks = ks.replace(/030/g, '3/').replace(/040/g, '4/'
-              ).replace(/03/g, '3/').replace(/04/g, '4/');
+              ).replace(/03/g, '3/').replace(/04/g, '4/'
+              ).replace(/050/g, '5/').replace(/05/g, '5/');
         release += (14 - 300);
         if (release > 100) {
           release -= 100;
