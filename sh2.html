@@ -124,7 +124,7 @@
     });
   }
 
-  function draw_dot (s) {
+  function draw_addr (s) {
     if (Ms.indexOf(s) > -1) {
       map.beginPath();
       map.arc(mapX( Ml.locations[s][0] ),
@@ -151,7 +151,7 @@
       return;
     }
     map.clearRect(0, 0, svgWidth, svgHeight);
-    d3scale = 32000;
+    d3scale = 72000; // 32000
     svgWidth = 640;
     svgHeight = 480;
     let ii;
@@ -161,11 +161,10 @@
         app.style.display = 'none';
         return;
       }
-      d3scale = 72000;
       d3center = centers[k];
       draw_sh();
       for (ii = 0; ii < j.today[k].length; ii += 1) { // .latest_added
-        draw_dot(k + j.today[k][ii]);
+        draw_addr(k + j.today[k][ii]);
       }
       if (dotNotDraw) {
         map.fillStyle = 'red';
@@ -183,7 +182,7 @@
           continue;
         }
         for (ii = 0; ii < j.today[ Ds[i] ].length; ii += 1) {
-          draw_dot(Ds[i] + j.today[Ds[i] ][ii] );
+          draw_addr(Ds[i] + j.today[Ds[i] ][ii] );
         }
       }
       if (dotNotDraw) {
@@ -193,8 +192,6 @@
       }
       return;
     }
-    draw_sh();
-    let map_i = 0;
     console.log(k);
     onList.textContent = '';
     for (ii = 0; ii < Ds.length; ii += 1) {
@@ -202,6 +199,10 @@
       document.getElementById(Ds[ii] + 'line').textContent = '';
     }
     let dl; let kk; let ks; let sb = 0;
+    let map_i = 0;
+    let map_x = new Array();
+    let map_y = new Array();
+    let map_addr = new Array();
     for (i = 0; i < As.length; i += 1) {
       if (As[i].indexOf(k) > -1) {
         dl = j.address[ As[i] ];
@@ -222,9 +223,11 @@
         } else {
           ks = '<span style="color:grey;">' + sb + '.</span> <span>';
         }
-        draw_dot(Ds[ii] + As[i]);
         if (Ms.indexOf(Ds[ii] + As[i]) > -1) {
           map_i += 1;
+          map_x.push(parseFloat( Ml.locations[Ds[ii] + As[i]][0] ));
+          map_y.push(parseFloat( Ml.locations[Ds[ii] + As[i]][1] ));
+          map_addr.push( Ds[ii] + As[i] );
         }
         ks += Ds[ii] +
               '<a href="https://maps.baidu.com/search/?querytype=s&wd=' +
@@ -288,6 +291,17 @@
     }
     if (map_i === 0) {
       app.style.display = 'none';
+    } else {
+      console.log(map_x);
+      console.log(map_addr);
+      // https://stackoverflow.com/questions/10359907
+      const average = arr => arr.reduce((prev, curr) => prev + curr) / arr.length;
+      d3center = [average(map_x), average(map_y) ];
+      console.log(d3center);
+      draw_sh();
+      for (i = 0; i < map_i; i += 1) {
+        draw_addr(map_addr[i]);
+      }
     }
     if (sb === 0) {
       addr.focus();
@@ -318,7 +332,7 @@
 </head>
 <body onload="load();">
   <p>
-    数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a> &nbsp;&nbsp;
+    数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a><br/>
     更新时间 <span id="datestr" style="color:blue;">fetching... not ready</span><br/>
     本页的<span style="background-color:yellow;">今日</span>为2022年5月1日 <!-- 0501 -->
     <br/><span style="color:purple">搜索 上海市，可以在地图中展示今日上榜地址</span>
