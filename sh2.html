@@ -123,8 +123,8 @@
                    3, 3 );
     });
     map.fillText('方块 精致的咖啡馆', 0, 0)
-    map.strokeStyle = 'rgba(0,0,255,0.2)';
     let dots;
+    map.strokeStyle = 'rgba(0,0,255,0.2)';
     map.lineWidth = 6;
     const river0 = JSON.parse(river);
     const river1 = topojson.feature(river0, river0.objects.collection);
@@ -137,6 +137,7 @@
       }
       map.stroke();
     });
+    map.strokeStyle = 'rgba(0,0,255,0.3)';
     map.lineWidth = 1.0;
     const line0 = JSON.parse(lines);
     const line1 = topojson.feature(line0, line0.objects.collection);
