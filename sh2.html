@@ -8,6 +8,7 @@
   <script src="topojson.min.180.js"></script><!-- http://geojson.io -->
   <script src="sh.json"></script><!-- http://datav.aliyun.com/portal/school/atlas/area_generator -->
   <script src="sh-awesome-cn-cafe.json"></script>
+  <script src="sh-lines.json"></script>
   <script src="map-location.json"></script>
   <script>
   let i; let j; let As; let Ds;
@@ -119,9 +120,15 @@
       map.fillRect(mapX( d.geometry.coordinates[0] ),
                    mapY( d.geometry.coordinates[1] ),
                    3, 3 );
-      map.fill();
     });
     map.fillText('方块 精致的咖啡馆', 0, 0)
+    const line0 = JSON.parse(lines);
+    const line1 = topojson.feature(line0, line0.objects.collection);
+    cafe1.features.forEach(d => {
+
+      console.log(d);
+
+    });
   }
 
   function draw_addr (s) {
