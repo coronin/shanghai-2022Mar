@@ -60,12 +60,14 @@
       districtTable.appendChild(k);
       k = document.createElement('p');
       if (j.latest_added && j.latest_added[ Ds[i] ] ) {
-        k.innerHTML = '<span style="color:black;">' + Ds[i] + '：今日涉及' +
+        k.innerHTML = '<span style="color:black;"><strong onclick="search(this.textContent);"' +
+                      ' class="click">' + Ds[i] + '</strong> 今日涉及' +
                       (j.today[ Ds[i] ] || []).length +
                       '个地址，下列' + j.latest_added[ Ds[i] ].length +
                       '个地址不同于昨日</span><br/>' + j.latest_added[ Ds[i] ];
       } else {
-        k.innerHTML = '<span style="color:black;">' + Ds[i] + '：今日涉及' +
+        k.innerHTML = '<span style="color:black;"><strong onclick="search(this.textContent);"' +
+                      ' class="click">' + Ds[i] + '</strong> 今日涉及' +
                       (j.today[ Ds[i] ] || []).length +
                       '个地址</span>';
       }
@@ -205,6 +207,7 @@
         map.fillText(k + j.today[k].length + '个地址 其中' + dotNotDraw + '个没法显示', 0, 15)
         dotNotDraw = 0;
       }
+      app.scrollIntoView();
       return;
     } else if (k === '上海市') {
       d3scale = 48000;
@@ -224,6 +227,7 @@
         map.fillText('未显示的地址' + dotNotDraw + '个', 0, 15)
         dotNotDraw = 0;
       }
+      app.scrollIntoView();
       return;
     }
     console.log(k);
@@ -290,7 +294,7 @@
         }
         if (release < 31) {
           //onList.textContent += ' --> 4/' + release + '\n';
-          ks += ' &rarr; <em>4/' + release + '</em>';
+          ks += ' &rarr; <strong>4/' + release + '</strong>';
           ks += ' <span style="color:green">已满14天</span></span>';
         } else {
           if (release > 100) { // 最近一次在5月
@@ -298,7 +302,7 @@
           } else {
             release -= 30;
           }
-          ks += ' &rarr; <em>5/' + release + '</em>';
+          ks += ' &rarr; <strong>5/' + release + '</strong>';
           if (release < today.getDate()-1 ) {
             ks += ' <span style="color:green">已满14天</span></span>';
           } else if (release === today.getDate()-1 ) {
@@ -365,7 +369,7 @@
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a><br/>
     更新时间 <span id="datestr" style="color:blue;">fetching... not ready</span><br/>
     本页的<span style="background-color:yellow;">今日</span>为2022年5月1日 <!-- 0501 -->
-    <br/>搜索<span onclick="search(this.textContent);" class="click">上海市</span>，可以在地图中展示今日上榜地址
+    <br/>搜索<span onclick="search(this.textContent);" class="click">上海市</span> 可以在地图中展示今日上榜地址
   </p>
   <p>
     <label for="addr">上榜地址</label>
