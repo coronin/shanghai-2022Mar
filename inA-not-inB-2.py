@@ -1,6 +1,5 @@
 ## EXCEL ##  =countif(B:B,A1)=0
 
-# 以下不能有末尾逗号 没有空字符检查
 As = ('0318','0319','0320',
       '0321','0322','0323','0324','0325','0326','0327','0328','0329','0330',
       '0331',
@@ -11,7 +10,7 @@ Bs = ('0419','0420',
       '0421','0422','0423','0424','0425','0426','0427','0428','0429','0430',
       '0501','0502'
       )
-# 以上不能有末尾逗号 没有空字符检查
+#### 以上不能有末尾逗号 没有空字符检查
 
 districts = ('浦东新区', '黄浦区', '静安区', '徐汇区', '长宁区',
              '普陀区', '虹口区', '杨浦区', '宝山区', '闵行区',
@@ -137,6 +136,11 @@ for dd in districts:
 print('by district total, w/dupl', ddc )
 
 
+from datetime import datetime
+datestr = '%s' % datetime.now()
+import json
+####
+
 Z = []
 count = 0
 #print('sorted by listed dates')
@@ -185,11 +189,6 @@ for dd in districts:
         print(dd, 0)
 
 
-from datetime import datetime
-datestr = '%s' % datetime.now()
-import json
-
-
 latest_added = {}
 Bs2 = read_a_list(Bs[-2], tag='list')
 for dd in districts:
@@ -204,6 +203,7 @@ for dd in districts:
             else:
                 latest_added[dd] = [line]
 
+
 print('\n\n')
 to_check = ('海波路850弄', '龙吴路2588弄',
             '国权北路1566弄', '国权北路1450弄', '东安路130号', '邯郸路220号' )
@@ -212,6 +212,7 @@ for ch in to_check:
         print(ch, by_address[ch] )
     else:
         print(ch, 'zero' )
+
 
 fz = open('negative.txt', 'w')
 fz.write('# %s %s' % (Bs[-1], datestr))
@@ -238,6 +239,7 @@ fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, in
 fz.close()
 print('\nupdate drag-me.html and sh2.html with full.json?v=%s' % Bs[-1] )
 
+####
 f = open('map-location.csv', 'r')
 csv = f.readlines()
 f.close()

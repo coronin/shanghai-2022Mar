@@ -20,6 +20,7 @@
   const centers = {'徐汇区':[121.43752, 31.179973],'黄浦区':[121.490317, 31.222771],'长宁区':[121.4222, 31.218123],'静安区':[121.448224, 31.229003],'普陀区':[121.392499, 31.241701],'虹口区':[121.491832, 31.26097],'杨浦区':[121.522797, 31.270755],'闵行区':[121.375972, 31.111658],'宝山区':[121.489934, 31.398896],'嘉定区':[121.250333, 31.383524],'浦东新区':[121.567706, 31.245944],'金山区':[121.330736, 30.724697],'松江区':[121.223543, 31.03047],'青浦区':[121.113021, 31.151209],'奉贤区':[121.458472, 30.912345],'崇明区':[121.397516, 31.626946]};
   const sh_district7 = ['黄浦区','徐汇区','长宁区','静安区','普陀区','虹口区','杨浦区'];
   let dotNotDraw = 0;
+  const baseURL = window.location.toString().split('#')[0];
 
   function mapX (z) {
     return Math.round((z - d3center[0]) * d3scale/57 + svgWidth/2);
@@ -31,7 +32,8 @@
 
   function load_js () {
     let k = document.createElement('script');
-    const hash = decodeURIComponent(window.location.hash.slice(1));
+    const hash = decodeURIComponent(window.location.hash.slice(1)
+                                   ).split('?')[0];
     if (hash.length === 4 && parseInt(hash) > 317) {
       k.src = 'full' + hash + '.json';
       console.log('Load full.json for', hash);
@@ -42,7 +44,7 @@
     k.onload = function () { load(); };
   }
 
-  function pngDownload (fileH, imgURL) {
+  function pngDown (fileH, imgURL) {
     const dlLink = document.createElement('a');
     dlLink.download = fileH + '2022' + j.tag + (Math.random() + '').substr(1,5) + '.png';
     dlLink.href = imgURL;
@@ -58,18 +60,22 @@
     const fileH = addr.value || '表格';
     if (app.style.display !== 'none') {
       const canvasElement = document.getElementById('app');
-      pngDownload(fileH, canvasElement.toDataURL('image/png') );
+      pngDown(fileH, canvasElement.toDataURL('image/png') );
     } else {
       html2canvas(document.querySelector("#districtTable")).then(canvasElement => {
-        pngDownload(fileH, canvasElement.toDataURL('image/png') );
+        pngDown(fileH, canvasElement.toDataURL('image/png') );
       });
     }
   }
 
-  function yesterdayMap () {
+  function yesterdayMap (q) {
     if (j.address['shanghaifabu'].length > 2) {
-      window.location = (window.location + '').split('#')[0] +
-                        '#' + j.address['shanghaifabu'].slice(-3)[0];
+      const url = baseURL + '#' + j.address['shanghaifabu'].slice(-3)[0];
+      if (q) {
+        window.location = url + '?' + q;
+      } else {
+        window.location = url;
+      }
       window.location.reload();
     } else {
       window.alert('没有前一日的数据');
@@ -134,6 +140,10 @@
       released.appendChild(k);
     }
     map = document.getElementById('app').getContext('2d');
+    if (window.location.hash.indexOf('?') === 5) {
+      search(decodeURIComponent(
+        window.location.hash.split('?')[1] ));
+    }
   }
 
   function draw_sh () { // map-address.html
@@ -231,6 +241,8 @@
     if (addr.value !== k) {
       addr.value = k;
     }
+    window.location.replace = baseURL + '#' + j.tag + '?' + k;
+    document.title = 'sh.teach.bio/2 ' + k + ' [2022' + j.tag + ']';
     map.clearRect(0, 0, svgWidth, svgHeight);
     svgWidth = 640;
     svgHeight = 480;
@@ -424,6 +436,7 @@
     body {background-color:white;}
     p {line-height:1.5em;}
     .click, button {cursor:pointer;}
+    button {margin-top:.2em;}
     ._L {padding:0 .2em;box-shadow:inset 0 -.5em #d0d0d0;}
   </style>
 </head>
@@ -449,7 +462,7 @@
 
   <canvas id="app" style="display:none;"></canvas>
   <button id="app_button" onclick="exportCanvasAsPNG();">save</button>
-  <button onclick="yesterdayMap();"><<</button>
+  <button onclick="yesterdayMap(addr.value);"><<</button>
 
   <h2 onclick="show_full('latest_added');" style="color:red;" class="click _L">值得关注的地址</h2>
   <div style="color:red;list-style-type:none;font-size:75%;" id="latest_added"></div>
