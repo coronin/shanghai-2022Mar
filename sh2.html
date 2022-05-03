@@ -11,6 +11,7 @@
   <script src="sh-awesome-cn-cafe.json"></script>
   <script src="sh-river.json"></script>
   <script src="sh-lines.json"></script>
+  <script src="html2canvas.min.141.js"></script>
   <script>
   let i; let j; let As; let Ds;
   const today = new Date();
@@ -20,11 +21,11 @@
   const sh_district7 = ['黄浦区','徐汇区','长宁区','静安区','普陀区','虹口区','杨浦区'];
   let dotNotDraw = 0;
 
-  function mapX(z) {
+  function mapX (z) {
     return Math.round((z - d3center[0]) * d3scale/57 + svgWidth/2);
   }
 
-  function mapY(z) {
+  function mapY (z) {
     return Math.round((d3center[1] - z) * d3scale/49 + svgHeight/2);
   }
 
@@ -33,27 +34,46 @@
     const hash = decodeURIComponent(window.location.hash.slice(1));
     if (hash.length === 4 && parseInt(hash) > 317) {
       k.src = 'full' + hash + '.json';
-      console.log('Load json from', hash);
+      console.log('Load full.json for', hash);
     } else {
       k.src = 'full0502.json';
     }
     document.getElementsByTagName('head')[0].appendChild(k);
-    k.onload = function() {
-      load();
-    };
+    k.onload = function () { load(); };
   }
 
-  function exportCanvasAsPNG() {
-    // https://stackoverflow.com/questions/923885/
-    const canvasElement = document.getElementById('app');
-    const imgURL = canvasElement.toDataURL('image/png');
+  function pngDownload (fileH, imgURL) {
     const dlLink = document.createElement('a');
-    dlLink.download = '2022' + j.tag + Math.floor(Math.random() * 10000) + '.png';
+    dlLink.download = fileH + '2022' + j.tag + (Math.random() + '').substr(1,5) + '.png';
     dlLink.href = imgURL;
     dlLink.dataset.downloadurl = ['image/png', dlLink.download, dlLink.href].join(':');
     document.body.appendChild(dlLink);
     dlLink.click();
     document.body.removeChild(dlLink);
+  }
+
+  function exportCanvasAsPNG () {
+    // https://stackoverflow.com/questions/923885/
+    // https://stackoverflow.com/questions/53757970/
+    const fileH = addr.value || '表格';
+    if (app.style.display !== 'none') {
+      const canvasElement = document.getElementById('app');
+      pngDownload(fileH, canvasElement.toDataURL('image/png') );
+    } else {
+      html2canvas(document.querySelector("#districtTable")).then(canvasElement => {
+        pngDownload(fileH, canvasElement.toDataURL('image/png') );
+      });
+    }
+  }
+
+  function yesterdayMap () {
+    if (j.address['shanghaifabu'].length > 2) {
+      window.location = (window.location + '').split('#')[0] +
+                        '#' + j.address['shanghaifabu'].slice(-3)[0];
+      window.location.reload();
+    } else {
+      window.alert('没有前一日的数据');
+    }
   }
 
   function load () {
@@ -68,13 +88,6 @@
     As = Object.keys(j.address);
     console.log( j.address['shanghaifabu'] );
     let k;
-    // for (i = 1; i < j.address['shanghaifabu'].length - 1; i += 1) {
-    //   k = document.createElement('a');
-    //   k.href = (window.location + '').split('#')[0] + '#' + j.address['shanghaifabu'][i];
-    //   k.textContent = j.address['shanghaifabu'][i];
-    //   k.style = 'click';
-    //   shanghaifabu.appendChild(k);
-    // }
     for (i = 0; i < Ds.length; i += 1) {
       k = document.createElement('tr');
       // if (Ds[i] === '普陀区') {
@@ -98,13 +111,13 @@
       k = document.createElement('p');
       if (j.latest_added && j.latest_added[ Ds[i] ] ) {
         k.innerHTML = '<span style="color:black;"><strong onclick="search(this.textContent);"' +
-                      ' class="click">' + Ds[i] + '</strong> 今日涉及' +
+                      ' class="click _L">' + Ds[i] + '</strong> 今日涉及' +
                       (j.today[ Ds[i] ] || []).length +
                       '个地址，下列' + j.latest_added[ Ds[i] ].length +
                       '个地址不同于昨日</span><br/>' + j.latest_added[ Ds[i] ];
       } else {
         k.innerHTML = '<span style="color:black;"><strong onclick="search(this.textContent);"' +
-                      ' class="click">' + Ds[i] + '</strong> 今日涉及' +
+                      ' class="click _L">' + Ds[i] + '</strong> 今日涉及' +
                       (j.today[ Ds[i] ] || []).length +
                       '个地址</span>';
       }
@@ -410,7 +423,8 @@
   <style type="text/css">
     body {background-color:white;}
     p {line-height:1.5em;}
-    .click {cursor:pointer;padding:0 .2em;box-shadow:inset 0 -.5em #d0d0d0;}
+    .click {cursor:pointer;}
+    ._L {padding:0 .2em;box-shadow:inset 0 -.5em #d0d0d0;}
   </style>
 </head>
 <body onload="load_js();">
@@ -418,7 +432,7 @@
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a> <span id="shanghaifabu"></span><br/>
     更新时间 <span id="datestr" style="color:blue;">fetching... not ready</span><br/>
     本页的<span style="background-color:yellow;">今日</span>为2022年<span id="tag_m"></span>月<span id="tag_d"></span>日 <!-- data.tag -->
-    <br/>搜索<span onclick="search(this.textContent);" class="click">上海市</span> 可以在地图中展示今日上榜地址
+    <br/>搜索<span onclick="search(this.textContent);" class="click _L">上海市</span> 可以在地图中展示今日上榜地址
   </p>
   <p>
     <label for="addr">上榜地址</label>
@@ -435,14 +449,15 @@
 
   <canvas id="app" style="display:none;"></canvas>
   <button id="app_button" onclick="exportCanvasAsPNG();">save the image</button>
+  <button onclick="yesterdayMap();"><<</button>
 
-  <h2 onclick="show_full('latest_added');" style="color:red;" class="click">值得关注的地址</h2>
+  <h2 onclick="show_full('latest_added');" style="color:red;" class="click _L">值得关注的地址</h2>
   <div style="color:red;list-style-type:none;font-size:75%;" id="latest_added"></div>
 
-  <h2 onclick="show_full('latest_released');" class="click">今日下榜的地址<i id="latest_released_once" style="color:grey;">点击显示</i></h2>
+  <h2 onclick="show_full('latest_released');" class="click _L">今日下榜的地址<i id="latest_released_once" style="color:grey;">点击显示</i></h2>
   <div style="color:green;list-style-type:none;font-size:75%;display:none;" id="latest_released" data-value="1"></div>
 
-  <h2 onclick="show_full('released');" class="click">累计下榜的地址<i id="released_once" style="color:grey;">点击显示</i></h2>
+  <h2 onclick="show_full('released');" class="click _L">累计下榜的地址<i id="released_once" style="color:grey;">点击显示</i></h2>
   <div style="color:green;list-style-type:none;font-size:75%;display:none;" id="released" data-value="1"></div>
 
   <pre id="end_pre" style="color:grey">EOF</pre>
