@@ -310,13 +310,13 @@ released 0421, estimated 785
 
 
 ====================
-in A, estimated 15489
-in B, estimated 23761
-by district total, w/dupl 29254
-in A, not in B, estimated 5339
+in A, estimated 15584
+in B, estimated 23857
+by district total, w/dupl 29268
+in A, not in B, estimated 5411
 
-released 0420, estimated 837
-浦东新区	133
+released 0420, estimated 836
+浦东新区	132
 黄浦区	71
 静安区	55
 徐汇区	47

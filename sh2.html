@@ -96,10 +96,14 @@
     end_pre.textContent = 'Page updated on ' + j.date;
     tag_m.textContent = parseInt(j.tag.substr(0,2) );
     tag_d.textContent = parseInt(j.tag.substr(2,2) );
+    const tags = document.getElementsByClassName('_tag');
+    let k;
+    for (k = 0; k < tags.length; k += 1) {
+      tags[k].textContent = j.tag;
+    }
     Ds = Object.keys(j.districts);
     As = Object.keys(j.address);
     console.log( j.address['shanghaifabu'] );
-    let k;
     for (i = 0; i < Ds.length; i += 1) {
       k = document.createElement('tr');
       // if (Ds[i] === '普陀区') {
@@ -123,13 +127,13 @@
       k = document.createElement('p');
       if (j.latest_added && j.latest_added[ Ds[i] ] ) {
         k.innerHTML = '<span style="color:black;"><strong onclick="search(this.textContent);"' +
-                      ' class="click _L">' + Ds[i] + '</strong> 今日涉及' +
+                      ' class="click _L">' + Ds[i] + '</strong> ' + j.tag + '涉及' +
                       (j.today[ Ds[i] ] || []).length +
                       '个地址，下列' + j.latest_added[ Ds[i] ].length +
                       '个地址不同于昨日</span><br/>' + j.latest_added[ Ds[i] ];
       } else {
         k.innerHTML = '<span style="color:black;"><strong onclick="search(this.textContent);"' +
-                      ' class="click _L">' + Ds[i] + '</strong> 今日涉及' +
+                      ' class="click _L">' + Ds[i] + '</strong> ' + j.tag + '涉及' +
                       (j.today[ Ds[i] ] || []).length +
                       '个地址</span>';
       }
@@ -285,11 +289,14 @@ console.log('address not draw:', s); //@@@@
         return;
       }
       if (k === '崇明区') {
-        if (scaleChange) {d3scale = 32000;}
+        if (scaleChange && d3scale < 32000) {
+          d3scale = 32000; }
       } else if (k === '黄浦区') {
-        if (scaleChange) {d3scale = 192000;}
+        if (scaleChange && d3scale < 192000) {
+          d3scale = 192000; }
       } else if (sh_district7.indexOf(k) > -1) {
-        if (scaleChange) {d3scale = 128000;}
+        if (scaleChange && d3scale < 128000) {
+          d3scale = 128000; }
       }
       d3center = centers[k];
       draw_sh();
@@ -309,7 +316,8 @@ console.log('address not draw:', s); //@@@@
     } else if (k === '上海市') {
       svgWidth = 1250;
       svgHeight = 1000;
-      if (scaleChange) {d3scale = 48000;}
+      if (scaleChange && d3scale < 48000) {
+        d3scale = 48000; }
       d3center = centers['黄浦区'];
       draw_sh();
       for (i = 0; i < Ds.length; i += 1) {
@@ -337,6 +345,7 @@ console.log('address not draw:', s); //@@@@
     for (ii = 0; ii < Ds.length; ii += 1) {
       document.getElementById(Ds[ii]).style.background = 'white';
       document.getElementById(Ds[ii] + 'line').textContent = '';
+      th_k.textContent = '';
     }
     let dl; let kk; let ks; let sb = 0;
     let map_x = new Array();
@@ -367,6 +376,8 @@ console.log('address not draw:', s); //@@@@
           map_x.push(parseFloat( Ml.locations[Ds[ii] + As[i]][0] ));
           map_y.push(parseFloat( Ml.locations[Ds[ii] + As[i]][1] ));
           map_addr.push( Ds[ii] + As[i] );
+        } else {
+          dotNotDraw += 1;
         }
         ks += Ds[ii] +
               '<a href="https://maps.baidu.com/search/?querytype=s&wd=' +
@@ -427,6 +438,7 @@ console.log('address not draw:', s); //@@@@
     if (map_i === 0) {
       app.style.display = 'none';
     } else {
+      th_k.textContent = k;
       // https://stackoverflow.com/questions/10359907
       const average = arr => arr.reduce((prev, curr) => prev + curr) / arr.length;
       d3center = [average(map_x), average(map_y) ];
@@ -434,36 +446,39 @@ console.log('address not draw:', s); //@@@@
         const map_XYcover = Math.max.apply(null, [
           Math.max.apply(null, map_x) - Math.min.apply(null, map_x),
           Math.max.apply(null, map_y) - Math.min.apply(null, map_y) ]);
+        // 黄浦区 0.0531 ~ 192000
         d3scale = 0.0531/map_XYcover * 192000;
-
-
-console.log(scaleChange, map_i, d3scale); //@@@@
-
-
-        let map_XYtest0 = 1;
-        let map_XYtest1 = 1;
-        for (i = 1; i < map_i; i++) {
-          map_XYtest0 = Math.min.apply(null, [map_XYtest0,
-            Math.abs(map_x[i]-map_x[i-1]) ]);
-          map_XYtest1 = Math.min.apply(null, [map_XYtest1,
-            Math.abs(map_y[i]-map_y[i-1]) ]);
+        let map_XYtest = 1;
+        for (ii = 1; ii < map_i; ii++) {
+          for (i = ii; i < map_i; i++) {
+            map_XYtest = Math.min.apply(null, [map_XYtest, Math.sqrt(
+              Math.pow((map_x[i]-map_x[i-ii]), 2) +
+              Math.pow((map_y[i]-map_y[i-ii]), 2) )]);
+            // map_XYtest0 = Math.min.apply(null, [map_XYtest0,
+            //   Math.abs(map_x[i]-map_x[i-ii]) ]);
+            // map_XYtest1 = Math.min.apply(null, [map_XYtest1,
+            //   Math.abs(map_y[i]-map_y[i-ii]) ]);
+          }
         }
-        // 0.0004325 ~ 589318 arc=3 touch
+        // .arc(3) 0.0004325 ~ 589318
         d3scale = Math.max.apply(null, [72000,
-          Math.floor(Math.min.apply(null, [
+          Math.min.apply(null, [
             d3scale,
-            map_XYtest0 / 0.0004325 * 589318,
-            map_XYtest1 / 0.0004325 * 589318 ])) ]);
-
-console.log(map_XYtest0 / 0.0004325 * 589318, map_XYtest1 / 0.0004325 * 589318, d3scale); //@@@@
-
+            Math.floor(map_XYtest / 0.0004325 * 589318) ])
+        ]);
       }
       draw_sh();
       for (i = 0; i < map_i; i += 1) {
         draw_addr(map_addr[i]);
       }
       map.fillStyle = 'red';
-      map.fillText('关键词【' + k + '】定位了' + map_i + '个地址 [2022' + j.tag + ']', 0, 15);
+      if (dotNotDraw) {
+        map.fillText('【' + k + '】' + (map_i + dotNotDraw) +
+                     '个地址 显示了其中' + map_i + '个 [2022' + j.tag + ']', 0, 15);
+        dotNotDraw = 0;
+      } else {
+        map.fillText('【' + k + '】' + map_i + '个地址 [2022' + j.tag + ']', 0, 15);
+      }
     }
     if (sb === 0) {
       addr.focus();
@@ -494,14 +509,15 @@ console.log(map_XYtest0 / 0.0004325 * 589318, map_XYtest1 / 0.0004325 * 589318, 
     .click, button {cursor:pointer;}
     button {margin-top:.2em;}
     ._L {padding:0 .2em;box-shadow:inset 0 -.5em #d0d0d0;}
+    #th_k {text-align:left;box-shadow:inset 0 -.5em yellow;}
   </style>
 </head>
 <body onload="load_js();">
   <p>
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a> <span id="shanghaifabu"></span><br/>
     更新时间 <span id="datestr" style="color:blue;">fetching... not ready</span><br/>
-    本页的<span style="background-color:yellow;">今日</span>为2022年<span id="tag_m"></span>月<span id="tag_d"></span>日 <!-- data.tag -->
-    <br/>搜索<span onclick="search(this.textContent);" class="click _L">上海市</span> 可以在地图中展示今日上榜地址
+    本页为<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
+    <br/>搜索<span onclick="search(this.textContent);" class="click _L">上海市</span> 可以在地图中展示<span class="_tag"></span>上榜地址
   </p>
   <p>
     <label for="addr">上榜地址</label>
@@ -512,8 +528,8 @@ console.log(map_XYtest0 / 0.0004325 * 589318, map_XYtest1 / 0.0004325 * 589318, 
 
   <h2>各区统计（地址数）</h2>
   <table id="districtTable" style="border:1px solid blue;color:blue;font-size:75%;text-align:center;">
-    <tr style="color:black;"><th>行政单位</th><th>累计上榜</th><th></th><th>两周内</th><th>今日涉及</th>
-      <th>累计下榜</th><th>今日下榜</th></tr>
+    <tr style="color:black;"><th>行政单位</th><th>累计上榜</th><th id="th_k"></th><th>两周内</th><th><span class="_tag"></span>涉及</th>
+      <th>累计下榜</th><th><span class="_tag"></span>下榜</th></tr>
   </table>
 
   <canvas id="app" style="display:none;"></canvas>
@@ -524,7 +540,7 @@ console.log(map_XYtest0 / 0.0004325 * 589318, map_XYtest1 / 0.0004325 * 589318, 
   <h2 onclick="show_full('latest_added');" style="color:red;" class="click _L">值得关注的地址</h2>
   <div style="color:red;list-style-type:none;font-size:75%;" id="latest_added"></div>
 
-  <h2 onclick="show_full('latest_released');" class="click _L">今日下榜的地址<i id="latest_released_once" style="color:grey;">点击显示</i></h2>
+  <h2 onclick="show_full('latest_released');" class="click _L"><span class="_tag"></span>下榜的地址<i id="latest_released_once" style="color:grey;">点击显示</i></h2>
   <div style="color:green;list-style-type:none;font-size:75%;display:none;" id="latest_released" data-value="1"></div>
 
   <h2 onclick="show_full('released');" class="click _L">累计下榜的地址<i id="released_once" style="color:grey;">点击显示</i></h2>
