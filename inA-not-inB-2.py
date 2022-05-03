@@ -185,6 +185,11 @@ for dd in districts:
         print(dd, 0)
 
 
+from datetime import datetime
+datestr = '%s' % datetime.now()
+import json
+
+
 latest_added = {}
 Bs2 = read_a_list(Bs[-2], tag='list')
 for dd in districts:
@@ -208,12 +213,8 @@ for ch in to_check:
     else:
         print(ch, 'zero' )
 
-
-from datetime import datetime
-datestr = '%s' % datetime.now()
-import json
 fz = open('negative.txt', 'w')
-fz.write('# %s' %  datestr)
+fz.write('# %s %s' % (Bs[-1], datestr))
 fz.write('\n# 被列入 %s 上海发布的感染者居住地' % ','.join(As) )
 fz.write('\n# 但没有出现在之后的上海发布')
 fz.write('\n# 因微信页面可被编辑，本列表基于分析时的页面')
@@ -222,6 +223,20 @@ fz.write('\n# 供参考\n')
 fz.write('\n'.join(Z) )
 fz.write('\n####\n')
 fz.close()
+
+j = {'date':datestr,
+     'tag':Bs[-1],
+     'address':by_address,
+     'today':districts_today,
+     'inB':districts_inB,
+     'districts':by_district,
+     'released':districts_released,
+     'released_today':latest_released,
+     'latest_added':latest_added }
+fz = open('full%s.json' % Bs[-1], 'w')
+fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
+fz.close()
+print('\nupdate drag-me.html and sh2.html with full.json?v=%s' % Bs[-1] )
 
 f = open('map-location.csv', 'r')
 csv = f.readlines()
@@ -239,11 +254,12 @@ for l in csv[1:]:
         # 3 是否精确
         # 4 可信度
 fz = open('inB-not-map.txt', 'w')
-fz.write('# %s' %  datestr)
-fz.write('# https://maplocation.sjfkai.com/')
+fz.write('# %s %s' % (Bs[-1], datestr))
+fz.write('\n# https://maplocation.sjfkai.com/')
 for longline in BB:
     if longline not in C:
         fz.write('\n%s' % longline)
+fz.write('\n####\n')
 fz.close
 
 j = {'date':datestr,
@@ -252,17 +268,4 @@ j = {'date':datestr,
 fz = open('map-location%s.json' % Bs[-1], 'w')
 fz.write("csv='%s'" % json.dumps(j, ensure_ascii=False) )
 fz.close()
-
-# j = {'date':datestr,
-#      'tag':Bs[-1],
-#      'address':by_address,
-#      'today':districts_today,
-#      'inB':districts_inB,
-#      'districts':by_district,
-#      'released':districts_released,
-#      'released_today':latest_released,
-#      'latest_added':latest_added }
-# fz = open('full%s.json' % Bs[-1], 'w')
-# fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
-# fz.close()
-# print('\n\nupdate drag-me.html and sh2.html with full.json?v=%s\n\n' % Bs[-1] )
+print('\ncheck inB-not-map.txt, update map-location.csv and redo\n')
