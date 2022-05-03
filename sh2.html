@@ -15,10 +15,11 @@
   let i; let j; let As; let Ds;
   const today = new Date();
   let Ml; let Ms; let map;
-  let d3scale; let svgWidth; let svgHeight;
+  let d3scale; let d3center; let svgWidth; let svgHeight;
   const centers = {'徐汇区':[121.43752, 31.179973],'黄浦区':[121.490317, 31.222771],'长宁区':[121.4222, 31.218123],'静安区':[121.448224, 31.229003],'普陀区':[121.392499, 31.241701],'虹口区':[121.491832, 31.26097],'杨浦区':[121.522797, 31.270755],'闵行区':[121.375972, 31.111658],'宝山区':[121.489934, 31.398896],'嘉定区':[121.250333, 31.383524],'浦东新区':[121.567706, 31.245944],'金山区':[121.330736, 30.724697],'松江区':[121.223543, 31.03047],'青浦区':[121.113021, 31.151209],'奉贤区':[121.458472, 30.912345],'崇明区':[121.397516, 31.626946]};
-  let d3center = centers['徐汇区'];
+  const sh_district7 = ['黄浦区','徐汇区','长宁区','静安区','普陀区','虹口区','杨浦区'];
   let dotNotDraw = 0;
+
 
   function mapX(z) {
     return Math.round((z - d3center[0]) * d3scale/57 + svgWidth/2);
@@ -102,8 +103,7 @@
     dt.features.forEach(d => {
       map.beginPath();
       pg(d);
-      if (['黄浦区','徐汇区','长宁区','静安区','普陀区','虹口区','杨浦区'
-          ].indexOf(d.properties.name) > -1) {
+      if (sh_district7.indexOf(d.properties.name) > -1) {
         map.fillStyle = 'rgba(200,200,200,0.2)'; // d.properties.subFeatureIndex
         map.fill(); // 'nonzero', 'evenodd'
       }
@@ -124,7 +124,7 @@
                    mapY( d.geometry.coordinates[1] ),
                    3, 3 );
     });
-    map.fillText('方块 精致的咖啡馆', 0, 0)
+    map.fillText('方块 精致的咖啡馆', 0, 0);
     let dots;
     map.strokeStyle = 'rgba(0,0,255,0.2)';
     map.lineWidth = 6;
@@ -183,10 +183,11 @@
       addr.value = k;
     }
     map.clearRect(0, 0, svgWidth, svgHeight);
-    d3scale = 72000; // 32000
     svgWidth = 640;
     svgHeight = 480;
+    d3scale = 72000; // 32000
     let ii;
+    let map_i = 0;
     if (Ds.indexOf(k) > -1) {
       if (!j.today[k]) { // .latest_added
         addr.value = '';
@@ -196,23 +197,30 @@
       }
       if (k === '崇明区') {
         d3scale = 32000;
+      } else if (k === '黄浦区') {
+        d3scale = 192000;
+      } else if (sh_district7.indexOf(k) > -1) {
+        d3scale = 128000;
       }
       d3center = centers[k];
       draw_sh();
       for (ii = 0; ii < j.today[k].length; ii += 1) { // .latest_added
         draw_addr(k + j.today[k][ii]);
       }
+      map.fillStyle = 'red';
       if (dotNotDraw) {
-        map.fillStyle = 'red';
-        map.fillText(k + j.today[k].length + '个地址 其中' + dotNotDraw + '个没法显示', 0, 15)
+        map.fillText(k + j.today[k].length + '个地址 其中' + dotNotDraw + '个没法显示', 0, 15);
         dotNotDraw = 0;
+      } else {
+        map.fillText(k + ' ' + j.today[k].length + '个地址', 0, 15);
       }
       app.scrollIntoView();
       return;
     } else if (k === '上海市') {
-      d3scale = 48000;
       svgWidth = 1250;
       svgHeight = 1000;
+      d3scale = 48000;
+      d3center = centers['黄浦区'];
       draw_sh();
       for (i = 0; i < Ds.length; i += 1) {
         if (!j.today[Ds[i] ]) {
@@ -220,12 +228,16 @@
         }
         for (ii = 0; ii < j.today[ Ds[i] ].length; ii += 1) {
           draw_addr(Ds[i] + j.today[Ds[i] ][ii] );
+          map_i += 1;
         }
       }
+      map.fillStyle = 'red';
+      console.log(map_i);
       if (dotNotDraw) {
-        map.fillStyle = 'red';
-        map.fillText('未显示的地址' + dotNotDraw + '个', 0, 15)
+        map.fillText('上海市' + map_i + '个地址 未显示其中' + dotNotDraw + '个', 100, 0);
         dotNotDraw = 0;
+      } else {
+        map.fillText('上海市 ' + map_i + '个地址', 100, 0);
       }
       app.scrollIntoView();
       return;
@@ -237,7 +249,6 @@
       document.getElementById(Ds[ii] + 'line').textContent = '';
     }
     let dl; let kk; let ks; let sb = 0;
-    let map_i = 0;
     let map_x = new Array();
     let map_y = new Array();
     let map_addr = new Array();
@@ -334,7 +345,7 @@
         draw_addr(map_addr[i]);
       }
       map.fillStyle = 'red';
-      map.fillText('关键词【' + k + '】定位了' + map_i + '个地址', 0, 15)
+      map.fillText('关键词【' + k + '】定位了' + map_i + '个地址', 0, 15);
     }
     if (sb === 0) {
       addr.focus();
