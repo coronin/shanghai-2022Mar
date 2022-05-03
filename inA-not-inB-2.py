@@ -4,11 +4,10 @@ As = ('0318','0319','0320',
       '0321','0322','0323','0324','0325','0326','0327','0328','0329','0330',
       '0331',
       '0401','0402','0403','0404','0405','0406','0407','0408','0409','0410',
-      '0411','0412','0413','0414','0415','0416','0417'
+      '0411','0412','0413','0414','0415','0416'
       )
-Bs = ('0418','0419','0420',
-      '0421','0422','0423','0424','0425','0426','0427','0428','0429','0430',
-      '0501'
+Bs = ('0417','0418','0419','0420',
+      '0421','0422','0423','0424','0425','0426','0427','0428','0429','0430'
       )
 
 districts = ('浦东新区', '黄浦区', '静安区', '徐汇区', '长宁区',
@@ -158,15 +157,6 @@ for longline in A:
 print('in A, not in B, estimated', count, '\n')
 
 
-to_check = ('海波路850弄', '龙吴路2588弄',
-            '国权北路1566弄', '国权北路1450弄', '东安路130号', '邯郸路220号' )
-for ch in to_check:
-    if by_address.get(ch):
-        print(ch, by_address[ch] )
-    else:
-        print(ch, 'zero' )
-
-
 latest_released = {}
 count = 0
 for line, dates in by_address.items():
@@ -205,18 +195,28 @@ for dd in districts:
                 latest_added[dd] = [line]
 
 
+to_check = ('海波路850弄', '龙吴路2588弄',
+            '国权北路1566弄', '国权北路1450弄', '东安路130号', '邯郸路220号' )
+for ch in to_check:
+    if by_address.get(ch):
+        print(ch, by_address[ch] )
+    else:
+        print(ch, 'zero' )
+
+
 from datetime import datetime
 datestr = '%s' % datetime.now()
-fz = open('negative.txt', 'w')
-fz.write('# %s' %  datestr)
-fz.write('\n# 被列入 %s 上海发布的感染者居住地' % ','.join(As) )
-fz.write('\n# 但没有出现在之后的上海发布')
-fz.write('\n# 因微信页面可被编辑，本列表基于分析时的页面')
-fz.write('\n# 疾控，满足7+7和第13天全员核酸阴性，小区解封')
-fz.write('\n# 供参考\n')
-fz.write('\n'.join(Z) )
-fz.write('\n####\n')
-fz.close()
+import json
+# fz = open('negative.txt', 'w')
+# fz.write('# %s' %  datestr)
+# fz.write('\n# 被列入 %s 上海发布的感染者居住地' % ','.join(As) )
+# fz.write('\n# 但没有出现在之后的上海发布')
+# fz.write('\n# 因微信页面可被编辑，本列表基于分析时的页面')
+# fz.write('\n# 疾控，满足7+7和第13天全员核酸阴性，小区解封')
+# fz.write('\n# 供参考\n')
+# fz.write('\n'.join(Z) )
+# fz.write('\n####\n')
+# fz.close()
 
 f = open('map-location.csv', 'r')
 csv = f.readlines()
@@ -241,23 +241,23 @@ for longline in BB:
         fz.write('\n%s' % longline)
 fz.close
 
-import json
 j = {'date':datestr,
+     'tag':Bs[-1],
      'locations':CC }
-fz = open('map-location.json', 'w')
+fz = open('map-location%s.json' % Bs[-1], 'w')
 fz.write("csv='%s'" % json.dumps(j, ensure_ascii=False) )
 fz.close()
 
-# j = {'date':datestr,
-#      'tag':Bs[:-1],
-#      'address':by_address,
-#      'today':districts_today,
-#      'inB':districts_inB,
-#      'districts':by_district,
-#      'released':districts_released,
-#      'released_today':latest_released,
-#      'latest_added':latest_added }
-# fz = open('full%s.json' % Bs[:-1], 'w')
-# fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
-# fz.close()
-# print('\n\nupdate drag-me.html and sh2.html with full.json?v=%s\n\n' % Bs[-1] )
+j = {'date':datestr,
+     'tag':Bs[-1],
+     'address':by_address,
+     'today':districts_today,
+     'inB':districts_inB,
+     'districts':by_district,
+     'released':districts_released,
+     'released_today':latest_released,
+     'latest_added':latest_added }
+fz = open('full%s.json' % Bs[-1], 'w')
+fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
+fz.close()
+print('\n\nupdate drag-me.html and sh2.html with full.json?v=%s\n\n' % Bs[-1] )
