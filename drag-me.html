@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>listed address, since 2022 March 18th</title>
-  <script src="full.json?v=0501"></script>
+  <script src="full0501.json"></script>
   <script>
   let i; let j; let As; let Ds;
   const today = new Date();
@@ -12,6 +12,8 @@
     j = JSON.parse(data);
     datestr.textContent = j.date;
     end_pre.textContent = j.date;
+    tag_m.textContent = parseInt(j.tag.substr(0,2) );
+    tag_d.textContent = parseInt(j.tag.substr(2,2) );
     let k;
     Ds = Object.keys(j.districts);
     As = Object.keys(j.address);
@@ -189,7 +191,7 @@
   <p>
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a><br/>
     更新时间 <span id="datestr" style="color:blue;">fetching... not ready</span><br/>
-    本页的<span style="background-color:yellow;">今日</span>为2022年5月1日 <!-- 0501 -->
+    本页的<span style="background-color:yellow;">今日</span>为2022年<span id="tag_m"></span>月<span id="tag_d"></span>日 <!-- data.tag -->
   </p>
   <p>
     <label for="addr">上榜地址</label>

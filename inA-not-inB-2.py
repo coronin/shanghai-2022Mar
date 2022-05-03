@@ -249,6 +249,7 @@ fz.write("csv='%s'" % json.dumps(j, ensure_ascii=False) )
 fz.close()
 
 # j = {'date':datestr,
+#      'tag':Bs[:-1],
 #      'address':by_address,
 #      'today':districts_today,
 #      'inB':districts_inB,
@@ -256,7 +257,7 @@ fz.close()
 #      'released':districts_released,
 #      'released_today':latest_released,
 #      'latest_added':latest_added }
-# fz = open('full.json', 'w')
+# fz = open('full%s.json' % Bs[:-1], 'w')
 # fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
 # fz.close()
 # print('\n\nupdate drag-me.html and sh2.html with full.json?v=%s\n\n' % Bs[-1] )
