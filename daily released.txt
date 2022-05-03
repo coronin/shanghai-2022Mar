@@ -76,10 +76,10 @@ released 0430, estimated 937
 
 
 ====================
-in A, estimated 25840
-in B, estimated 20789
-by district total, w/dupl 33895
-in A, not in B, estimated 13106
+in A, estimated 25839
+in B, estimated 20787
+by district total, w/dupl 33892
+in A, not in B, estimated 13105
 
 released 0429, estimated 947
 浦东新区	236
@@ -101,10 +101,10 @@ released 0429, estimated 947
 
 
 ====================
-in A, estimated 25122
-in B, estimated 21331
-by district total, w/dupl 33604
-in A, not in B, estimated 12273
+in A, estimated 25116
+in B, estimated 21314
+by district total, w/dupl 33586
+in A, not in B, estimated 12272
 
 released 0428, estimated 833
 浦东新区	197
@@ -126,10 +126,10 @@ released 0428, estimated 833
 
 
 ====================
-in A, estimated 24287
-in B, estimated 21659
-by district total, w/dupl 33247
-in A, not in B, estimated 11420
+in A, estimated 24437
+in B, estimated 21704
+by district total, w/dupl 33254
+in A, not in B, estimated 11550
 
 released 0427, estimated 915
 浦东新区	191
@@ -151,10 +151,10 @@ released 0427, estimated 915
 
 
 ====================
-in A, estimated 23429
-in B, estimated 22144
-by district total, w/dupl 32908
-in A, not in B, estimated 10598
+in A, estimated 23581
+in B, estimated 22191
+by district total, w/dupl 32916
+in A, not in B, estimated 10725
 
 released 0426, estimated 1037
 浦东新区	197
@@ -185,10 +185,10 @@ released 0426, estimated 1037
 
 
 ====================
-in A, estimated 22267
-in B, estimated 22710
-by district total, w/dupl 32535
-in A, not in B, estimated 9661
+in A, estimated 22408
+in B, estimated 22761
+by district total, w/dupl 32544
+in A, not in B, estimated 9783
 
 released 0425, estimated 963
 浦东新区	184
@@ -210,10 +210,10 @@ released 0425, estimated 963
 
 
 ====================
-in A, estimated 21098
-in B, estimated 22990
-by district total, w/dupl 31964
-in A, not in B, estimated 8814
+in A, estimated 21235
+in B, estimated 23045
+by district total, w/dupl 31976
+in A, not in B, estimated 8931
 
 released 0424, estimated 1120
 浦东新区	147
@@ -235,10 +235,10 @@ released 0424, estimated 1120
 
 
 ====================
-in A, estimated 19621
-in B, estimated 23336
-by district total, w/dupl 31308
-in A, not in B, estimated 7814
+in A, estimated 19745
+in B, estimated 23403
+by district total, w/dupl 31320
+in A, not in B, estimated 7917
 
 released 0423, estimated 890
 浦东新区	230
@@ -260,15 +260,15 @@ released 0423, estimated 890
 
 
 ====================
-in A, estimated 18471
-in B, estimated 23381
-by district total, w/dupl 30568
-in A, not in B, estimated 7029
+in A, estimated 18586
+in B, estimated 23461
+by district total, w/dupl 30580
+in A, not in B, estimated 7119
 
-released 0422, estimated 1075
+released 0422, estimated 1074
 浦东新区	134
 黄浦区	140
-静安区	43
+静安区	42
 徐汇区	64
 长宁区	50
 普陀区	37
@@ -285,10 +285,10 @@ released 0422, estimated 1075
 
 
 ====================
-in A, estimated 16853
-in B, estimated 23573
-by district total, w/dupl 29784
-in A, not in B, estimated 6054
+in A, estimated 16957
+in B, estimated 23659
+by district total, w/dupl 29796
+in A, not in B, estimated 6137
 
 released 0421, estimated 785
 浦东新区	199
