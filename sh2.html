@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width">
   <title>listed address, in map, since 2022 March 18th</title>
   <!-- script src="full.json"></script -->
-  <script src="map-location0501.json"></script>
+  <script src="map-location0502.json"></script>
   <script src="d3.min.v3.js"></script>
   <script src="topojson.min.180.js"></script><!-- http://geojson.io -->
   <script src="sh.json"></script><!-- http://datav.aliyun.com/portal/school/atlas/area_generator -->
@@ -35,7 +35,7 @@
       k.src = 'full' + hash + '.json';
       console.log('Load json from', hash);
     } else {
-      k.src = 'full0501.json';
+      k.src = 'full0502.json';
     }
     document.getElementsByTagName('head')[0].appendChild(k);
     k.onload = function() {
@@ -43,18 +43,38 @@
     };
   }
 
+  function exportCanvasAsPNG() {
+    // https://stackoverflow.com/questions/923885/
+    const canvasElement = document.getElementById('app');
+    const imgURL = canvasElement.toDataURL('image/png');
+    const dlLink = document.createElement('a');
+    dlLink.download = '2022' + j.tag + Math.floor(Math.random() * 10000) + '.png';
+    dlLink.href = imgURL;
+    dlLink.dataset.downloadurl = ['image/png', dlLink.download, dlLink.href].join(':');
+    document.body.appendChild(dlLink);
+    dlLink.click();
+    document.body.removeChild(dlLink);
+  }
+
   function load () {
     j = JSON.parse(data);
     Ml = JSON.parse(csv);
     Ms = Object.keys(Ml.locations);
     datestr.textContent = j.date;
-    end_pre.textContent = j.date;
+    end_pre.textContent = 'Page updated on ' + j.date;
     tag_m.textContent = parseInt(j.tag.substr(0,2) );
     tag_d.textContent = parseInt(j.tag.substr(2,2) );
     Ds = Object.keys(j.districts);
     As = Object.keys(j.address);
     console.log( j.address['shanghaifabu'] );
     let k;
+    // for (i = 1; i < j.address['shanghaifabu'].length - 1; i += 1) {
+    //   k = document.createElement('a');
+    //   k.href = (window.location + '').split('#')[0] + '#' + j.address['shanghaifabu'][i];
+    //   k.textContent = j.address['shanghaifabu'][i];
+    //   k.style = 'click';
+    //   shanghaifabu.appendChild(k);
+    // }
     for (i = 0; i < Ds.length; i += 1) {
       k = document.createElement('tr');
       // if (Ds[i] === '普陀区') {
@@ -225,10 +245,10 @@
       }
       map.fillStyle = 'red';
       if (dotNotDraw) {
-        map.fillText(k + j.today[k].length + '个地址 其中' + dotNotDraw + '个没法显示', 0, 15);
+        map.fillText(k + j.today[k].length + '个地址 其中' + dotNotDraw + '个无法显示 [2022' + j.tag + ']', 0, 15);
         dotNotDraw = 0;
       } else {
-        map.fillText(k + ' ' + j.today[k].length + '个地址', 0, 15);
+        map.fillText(k + ' ' + j.today[k].length + '个地址 [2022' + j.tag + ']', 0, 15);
       }
       app.scrollIntoView();
       return;
@@ -248,12 +268,11 @@
         }
       }
       map.fillStyle = 'red';
-      console.log(map_i);
       if (dotNotDraw) {
-        map.fillText('上海市' + map_i + '个地址 未显示其中' + dotNotDraw + '个', 100, 0);
+        map.fillText('上海市' + map_i + '个地址 未显示其中' + dotNotDraw + '个 [2022' + j.tag + ']', 100, 0);
         dotNotDraw = 0;
       } else {
-        map.fillText('上海市 ' + map_i + '个地址', 100, 0);
+        map.fillText('上海市 ' + map_i + '个地址 [2022' + j.tag + ']', 100, 0);
       }
       app.scrollIntoView();
       return;
@@ -300,7 +319,7 @@
         const s1 = ('' + dl).split(Ds[ii]);
         const s2 = s1[s1.length - 2];
         if (il === 1 || !s2) { // 地址同名, 团结村 国权北路555
-          if (('' + dl).indexOf('0501') > 0) {
+          if (('' + dl).indexOf('0502') > 0) {
             ks += '<span style="color:red">' + dl + '</span>';
           } else {
             ks += dl;
@@ -364,7 +383,7 @@
         draw_addr(map_addr[i]);
       }
       map.fillStyle = 'red';
-      map.fillText('关键词【' + k + '】定位了' + map_i + '个地址', 0, 15);
+      map.fillText('关键词【' + k + '】定位了' + map_i + '个地址 [2022' + j.tag + ']', 0, 15);
     }
     if (sb === 0) {
       addr.focus();
@@ -396,7 +415,7 @@
 </head>
 <body onload="load_js();">
   <p>
-    数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a><br/>
+    数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a> <span id="shanghaifabu"></span><br/>
     更新时间 <span id="datestr" style="color:blue;">fetching... not ready</span><br/>
     本页的<span style="background-color:yellow;">今日</span>为2022年<span id="tag_m"></span>月<span id="tag_d"></span>日 <!-- data.tag -->
     <br/>搜索<span onclick="search(this.textContent);" class="click">上海市</span> 可以在地图中展示今日上榜地址
@@ -415,6 +434,7 @@
   </table>
 
   <canvas id="app" style="display:none;"></canvas>
+  <button id="app_button" onclick="exportCanvasAsPNG();">save the image</button>
 
   <h2 onclick="show_full('latest_added');" style="color:red;" class="click">值得关注的地址</h2>
   <div style="color:red;list-style-type:none;font-size:75%;" id="latest_added"></div>

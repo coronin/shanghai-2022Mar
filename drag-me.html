@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>listed address, since 2022 March 18th</title>
-  <script src="full0501.json"></script>
+  <script src="full0502.json"></script>
   <script>
   let i; let j; let As; let Ds;
   const today = new Date();
@@ -11,7 +11,7 @@
   function load () {
     j = JSON.parse(data);
     datestr.textContent = j.date;
-    end_pre.textContent = j.date;
+    end_pre.textContent = 'Page updated on ' + j.date;
     tag_m.textContent = parseInt(j.tag.substr(0,2) );
     tag_d.textContent = parseInt(j.tag.substr(2,2) );
     let k;
@@ -109,7 +109,7 @@
         const s1 = ('' + dl).split(Ds[ii]);
         const s2 = s1[s1.length - 2];
         if (il === 1 || !s2) { // 地址同名, 团结村 国权北路555
-          if (('' + dl).indexOf('0501') > 0) {
+          if (('' + dl).indexOf('0502') > 0) {
             ks += '<span style="color:red">' + dl + '</span>';
           } else {
             ks += dl;
