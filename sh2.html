@@ -36,6 +36,9 @@
     '奉贤区':[121.529829,30.926042,82400],
     '崇明区':[121.548589, 31.62, 32000]}; // 崇明区 121.54858925095525 31.669887634215034
   const sh_district7 = ['黄浦区','徐汇区','长宁区','静安区','普陀区','虹口区','杨浦区'];
+  const check_choices = {'5':'released_today', '4':'released',
+    '3':'districts', '2':'inB', '1':'latest_added', '0':'today' }
+  let _check = check_choices['0'];
   let dotNotDraw = 0;
   const baseURL = window.location.toString().split('#')[0].split('?')[0];
   let scaleChange = true;
@@ -305,7 +308,7 @@
     app.width = svgWidth;
     app.height = svgHeight;
     app.style.display = 'block';
-    app.style.padding = '5px 0 15px 0';
+    app.style.padding = '5px 0 2px 0';
     const jj = JSON.parse(sh);
     const dt = topojson.feature(jj, jj.objects.collection);
     const dn = topojson.neighbors(jj.objects.collection.geometries);
@@ -407,15 +410,19 @@
   }
 
   function draw_addr (s) {
+    let _R = 'rgba(255,0,0,';
+    if (_check && _check.substr(0,8) === 'released') {
+      _R = 'rgba(17,131,1,';
+    }
     if (Ms.indexOf(s) > -1) {
       map.beginPath();
       map.arc(mapX( Ml.locations[s][0] ),
               mapY( Ml.locations[s][1] ),
               3, 0 * Math.PI, 2 * Math.PI);
       if (Ml.locations[s][2]) {
-        map.strokeStyle = 'rgba(255,0,0,1)';
+        map.strokeStyle = _R + '1)';
       } else {
-        map.strokeStyle = 'rgba(255,0,0,.75)';
+        map.strokeStyle = _R + '.75)';
       }
       map.stroke();
     } else {
@@ -429,6 +436,7 @@
       addr.value = '';
       addr.focus();
       app.style.display = 'none';
+      check_row.style.display = 'none';
       clear_button.style.visibility = 'hidden';
       window.location = baseURL + '#' + j.tag;
       return;
@@ -445,10 +453,11 @@
     let ii;
     let map_i = 0;
     if (Ds.indexOf(k) > -1) {
-      if (!j.today[k]) { // .latest_added
+      if (!j.today[k]) { // .latest_added [_check]
         addr.value = '';
         addr.focus();
         app.style.display = 'none';
+        check_row.style.display = 'none';
         return;
       }
       // if (k === '崇明区') {
@@ -464,15 +473,16 @@
       if (scaleChange) { d3scale = centers[k][2]; }
       d3center = [centers[k][0], centers[k][1] ];
       draw_sh();
-      for (ii = 0; ii < j.today[k].length; ii += 1) { // .latest_added
-        draw_addr(k + j.today[k][ii]);
+      for (ii = 0; ii < j[_check][k].length; ii += 1) { // .today
+        draw_addr(k + j[_check][k][ii]);
       }
-      map.fillStyle = 'red';
+      check_row.style.display = 'block';
+      map.fillStyle = 'black';
       if (dotNotDraw) {
-        map.fillText(k + j.today[k].length + '个地址 其中' + dotNotDraw + '个无法显示 2022/' + _today, 100,2);
+        map.fillText(k + j[_check][k].length + '个地址 其中' + dotNotDraw + '个无法显示 2022/' + _today, 86,2);
         dotNotDraw = 0;
       } else {
-        map.fillText(k + ' ' + j.today[k].length + '个地址 2022/' + _today, 100,2);
+        map.fillText(k + ' ' + j[_check][k].length + '个地址 2022/' + _today, 86,2);
       }
       save_button.scrollIntoView();
       clear_button.style.visibility = 'visible';
@@ -488,23 +498,25 @@
         if (!j.today[Ds[i] ]) {
           continue;
         }
-        for (ii = 0; ii < j.today[ Ds[i] ].length; ii += 1) {
-          draw_addr(Ds[i] + j.today[ Ds[i] ][ii]);
+        for (ii = 0; ii < j[_check][ Ds[i] ].length; ii += 1) {
+          draw_addr(Ds[i] + j[_check][ Ds[i] ][ii]);
           map_i += 1;
         }
       }
+      check_row.style.display = 'block';
       map.fillStyle = 'red';
       if (dotNotDraw) {
-        map.fillText('上海市' + map_i + '个地址 未显示其中' + dotNotDraw + '个 2022/' + _today, 100,2);
+        map.fillText('上海市' + map_i + '个地址 未显示其中' + dotNotDraw + '个 2022/' + _today, 86,2);
         dotNotDraw = 0;
       } else {
-        map.fillText('上海市 ' + map_i + '个地址 2022/' + _today, 100,2);
+        map.fillText('上海市 ' + map_i + '个地址 2022/' + _today, 86,2);
       }
       save_button.scrollIntoView();
       clear_button.style.visibility = 'visible';
       return;
     }
     console.log(k);
+    check_row.style.display = 'none';
     onList.textContent = '';
     for (ii = 0; ii < Ds.length; ii += 1) {
       document.getElementById(Ds[ii]).style.background = 'white';
@@ -614,6 +626,7 @@
     }
     if (map_i === 0) {
       app.style.display = 'none';
+      check_row.style.display = 'none';
     } else {
       addr.scrollIntoView();
       th_k.textContent = k;
@@ -688,10 +701,10 @@
       map.fillStyle = 'red';
       if (dotNotDraw) {
         map.fillText('【' + k + '】' + (map_i + dotNotDraw) +
-                     '个地址 显示了其中' + map_i + '个 2022/' + _today, 100,2);
+                     '个地址 显示了其中' + map_i + '个 2022/' + _today, 86,2);
         dotNotDraw = 0;
       } else {
-        map.fillText('【' + k + '】' + map_i + '个地址 2022/' + _today, 100,2);
+        map.fillText('【' + k + '】' + map_i + '个地址 2022/' + _today, 86,2);
       }
     }
     if (sb === 0) {
@@ -716,14 +729,44 @@
       document.getElementById(item).setAttribute('data-value', "1");
     }
   }
+
+  // https://stackoverflow.com/questions/9709209/
+  function onlyOne(I) {
+    const checkboxes = document.getElementsByName('check');
+    checkboxes.forEach((item) => {
+        if (item !== I) item.checked = false;
+    });
+    _check = check_choices[I.getAttribute('data-value')];
+    //console.log('data-value >', _check, j[_check]);
+    search(addr.value);
+  }
   </script>
   <style type="text/css">
-    body {background-color:white;}
-    p {line-height:1.5em;}
-    .click, button {cursor:pointer;}
-    button {margin-top:.2em;}
-    ._L {padding:0 .2em;box-shadow:inset 0 -.5em #d0d0d0;border:0;}
-    #th_k {text-align:left;box-shadow:inset 0 .5em yellow;}
+    body {background-color: white;}
+    p {line-height: 1.5em;}
+    .click, button {cursor: pointer;}
+    button {margin-top: .2em;}
+    ._L {
+      padding: 0 .2em;
+      box-shadow: inset 0 -.5em #d0d0d0;
+      border: 0;}
+    #th_k {
+      text-align: left;
+      box-shadow: inset 0 .5em yellow;
+    }
+    #check_row {font-size: 75%}
+    #check_row label {
+      display: inline-block;
+      padding-right: 10px;
+      padding-left: 22px;
+      text-indent: -22px;
+    }
+    #check_row input {
+      vertical-align: middle;
+    }
+    #check_row label span {
+      vertical-align: middle;
+    }
   </style>
 </head>
 <body onload="load_js();">
@@ -750,6 +793,15 @@
   <button onclick="tomorrowMap(addr.value,1);">&gt;&gt;</button> &nbsp;
   <button id="clear_button" style="visibility:hidden;" onclick="search();">隐藏</button><br/>
   <canvas id="app" style="display:none;"></canvas>
+  <!-- 3.district 2.inB 0.today 4.released 5.released_today 1.latest_added -->
+  <div id="check_row" style="display:none;">
+    <label><input type="checkbox" name="check" onclick="onlyOne(this)" data-value="1" /><span style="color:red">新增阳</span></label>
+    <label><input type="checkbox" checked name="check" onclick="onlyOne(this)" data-value="0" /><span style="color:red">今日阳</span></label>
+    <label><input type="checkbox" name="check" onclick="onlyOne(this)" data-value="2" /><span>两周阳</span></label>
+    <label><input type="checkbox" name="check" onclick="onlyOne(this)" data-value="3" /><span>累计阳</span></label>
+    <label><input type="checkbox" name="check" onclick="onlyOne(this)" data-value="4" /><span style="color:green">累计下榜</span></label>
+    <label><input type="checkbox" name="check" onclick="onlyOne(this)" data-value="5" /><span style="color:green">今日下榜</span></label>
+  </div>
 
   <div style="width:100%;color:blue;" id="onList"></div>
 
