@@ -11,7 +11,7 @@
   function load () {
     j = JSON.parse(data);
     datestr.textContent = j.date;
-    end_pre.textContent = '更新时间 ' + j.date;
+    end_pre.textContent = '更新时间 ' + j.date + '\n源代码 github.com/coronin/shanghai-2022Mar';
     tag_m.textContent = parseInt(j.tag.substr(0,2) );
     tag_d.textContent = parseInt(j.tag.substr(2,2) );
     let k;
