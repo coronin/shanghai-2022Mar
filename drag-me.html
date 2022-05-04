@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>listed address, since 2022 March 18th</title>
-  <script src="shanghaifabu/full0502.json"></script>
+  <script src="shanghaifabu/full0503.json"></script>
   <script>
   let i; let j; let As; let Ds;
   const today = new Date();
@@ -112,13 +112,13 @@
           if (('' + dl).indexOf(j.tag) > 0) {
             ks += '<span style="color:red">' + ('' + dl
               ).replace(/030/g, '3/').replace(/040/g, '4/'
-              ).replace(/03/g, '3/').replace(/04/g, '4/'
-              ).replace(/050/g, '5/').replace(/05/g, '5/') + '</span>';
+              ).replace(/050/g, '5/').replace(/04/g, '4/'
+              ).replace(/03/g, '3/').replace(/05/g, '5/') + '</span>';
           } else {
             ks += ('' + dl
               ).replace(/030/g, '3/').replace(/040/g, '4/'
-              ).replace(/03/g, '3/').replace(/04/g, '4/'
-              ).replace(/050/g, '5/').replace(/05/g, '5/');
+              ).replace(/050/g, '5/').replace(/04/g, '4/'
+              ).replace(/030/g, '3/').replace(/05/g, '5/');
           }
           release = parseInt(dl[dl.length - 1]);
         } else {

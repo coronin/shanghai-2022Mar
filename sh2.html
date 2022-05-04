@@ -23,6 +23,7 @@
   let dotNotDraw = 0;
   const baseURL = window.location.toString().split('#')[0].split('?')[0];
   let scaleChange = true;
+  const j_data_int = 503; // 0503
 
   function mapX (z) {
     return Math.round((z - d3center[0]) * d3scale/57 + svgWidth/2);
@@ -87,8 +88,10 @@
       window.alert('没有后一日的数据');
       return;
     }
-    if (hash_ > 430) {
+    if (hash_ > 430 && hash_ < 501) {
       hash_ += 70; // -30 +100
+    } else if (hash_ > 331 && hash_ < 401) {
+      hash_ += 69; // -31 +100
     }
     const url = baseURL + '#0' + hash_;
     if (q) {
@@ -145,11 +148,12 @@
     let k = document.createElement('script');
     let hash = window.location.hash.slice(1).split('?')[0];
     const hash_ = parseInt(hash);
-    if (hash.length !== 4 || hash_ < 318 || hash_ > 501) {
-      hash = '0502';
+    if (hash.length !== 4 || hash_ < 319 || hash_ >= j_data_int) {
+      hash = '0' + j_data_int;
+      window.location = baseURL + '#' + hash;
     } else {
       next_button.style.visibility = 'visible';
-      if (hash_ < 402) {
+      if (hash_ === 319) {
         pre_button.style.visibility = 'hidden'; }
     }
     k.src = 'shanghaifabu/full' + hash + '.json';
@@ -467,13 +471,13 @@
           if (('' + dl).indexOf(j.tag) > 0) {
             ks += '<span style="color:red">' + ('' + dl
               ).replace(/030/g, '3/').replace(/040/g, '4/'
-              ).replace(/03/g, '3/').replace(/04/g, '4/'
-              ).replace(/050/g, '5/').replace(/05/g, '5/') + '</span>';
+              ).replace(/050/g, '5/').replace(/04/g, '4/'
+              ).replace(/030/g, '3/').replace(/05/g, '5/') + '</span>';
           } else {
             ks += ('' + dl
               ).replace(/030/g, '3/').replace(/040/g, '4/'
-              ).replace(/03/g, '3/').replace(/04/g, '4/'
-              ).replace(/050/g, '5/').replace(/05/g, '5/');
+              ).replace(/050/g, '5/').replace(/04/g, '4/'
+              ).replace(/03/g, '3/').replace(/05/g, '5/');
           }
           release = parseInt(dl[dl.length - 1]);
         } else {
