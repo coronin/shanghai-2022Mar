@@ -206,9 +206,14 @@
     let k = document.createElement('script');
     let hash = window.location.hash.slice(1).split('?')[0];
     const hash_ = parseInt(hash);
-    if (hash.length !== 4 || hash_ < 319 || hash_ >= j_data_int) {
+    if (hash.length !== 4 || hash_ < 319 || hash_ > j_data_int) {
       hash = '0' + j_data_int;
-      window.location = baseURL + '#' + hash;
+      if (window.location.hash.slice(1).indexOf('?') > -1) {
+        window.location = baseURL + '#' + hash + '?' +
+          window.location.hash.slice(1).split('?')[1];
+      } else {
+        window.location = baseURL + '#' + hash;
+      }
     } else {
       next_button.style.visibility = 'visible';
       if (hash_ === 319) {
@@ -548,7 +553,7 @@
         } else {
           ks = '<span style="color:grey;">' + sb + '.</span> <span>';
         }
-        ks += Ds[ii] +
+        ks += '<span class="click" onclick="search(this.textContent);">' + Ds[ii] + '</span>' +
               '<a href="https://maps.baidu.com/search/?querytype=s&wd=' +
               As[i] + '" target="_blank">' + As[i] + '</a> ';
         if (Ms.indexOf(Ds[ii] + As[i]) > -1) {
