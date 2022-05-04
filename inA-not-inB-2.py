@@ -4,11 +4,11 @@ As = ('0318','0319','0320',
       '0321','0322','0323','0324','0325','0326','0327','0328','0329','0330',
       '0331',
       '0401','0402','0403','0404','0405','0406','0407','0408','0409','0410',
-      '0411','0412','0413','0414','0415','0416','0417','0418'
+      '0411','0412','0413','0414','0415','0416','0417','0418','0419'
       )
-Bs = ('0419','0420',
+Bs = ('0420',
       '0421','0422','0423','0424','0425','0426','0427','0428','0429','0430',
-      '0501','0502'
+      '0501','0502','0503'
       )
 #### 以上不能有末尾逗号 没有空字符检查
 
@@ -86,7 +86,7 @@ def bd09_to_wgs84(bd_lon, bd_lat):
 def read_a_list(s, tag=''):
     if not s:
         return []
-    f = open('%s.txt' % s, 'r')
+    f = open('shanghaifabu/%s.txt' % s, 'r')
     pre = f.readlines()
     f.close()
     post = []
@@ -175,9 +175,12 @@ def read_a_list(s, tag=''):
 print('====================')
 
 A = []
-for s in As:
-    A += read_a_list(s)
-    #print('>>>>', s)
+if As == '0318':
+    A = read_a_list(As)
+elif As:
+    for s in As:
+        A += read_a_list(s)
+        #print('>>>>', s)
 print('in A, estimated', len(list(set(A))) )
 #print('A', list(set(by_district['杨浦区'])))
 
@@ -199,6 +202,7 @@ from datetime import datetime
 datestr = '%s' % datetime.now()
 import json
 ####
+# 以下注释，以更新 map-location.json
 
 Z = []
 count = 0
@@ -228,7 +232,7 @@ print('in A, not in B, estimated', count, '\n')
 latest_released = {}
 count = 0
 for line, dates in by_address.items():
-    if dates[-1] == As[-1]:
+    if As and dates[-1] in ('0318', As[-1]):
         count += 1
         #print('>>>>', line)
         for dd in districts:
@@ -241,11 +245,12 @@ for line, dates in by_address.items():
             pass
 
 print('released %s, estimated' % Bs[-1], count)
-for dd in districts:
-    if latest_released.get(dd):
-        print('%s\t%s' % (dd, len(latest_released[dd]) ))
-    else:
-        print(dd, 0)
+if A:
+    for dd in districts:
+        if latest_released.get(dd):
+            print('%s\t%s' % (dd, len(latest_released[dd]) ))
+        else:
+            print(dd, 0)
 
 
 latest_added = {}
@@ -293,11 +298,18 @@ j = {'date':datestr,
      'released':districts_released,
      'released_today':latest_released,
      'latest_added':latest_added }
-fz = open('full%s.json' % Bs[-1], 'w')
+fz = open('shanghaifabu/full%s.json' % Bs[-1], 'w')
 fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
 fz.close()
 print('\nupdate drag-me.html and sh2.html with full.json?v=%s' % Bs[-1] )
+if not A:
+    print('no A, today', len(districts_today) )
+    print('no A, inB', len(districts_inB) )
+    print('no A, released', len(districts_released) )
+    print('no A, latest released', len(latest_released) )
+    print('no A, latest added', len(latest_added) )
 
+# 以上注释，以更新 map-location.json
 ####
 f = open('map-location.csv', 'r')
 csv = f.readlines()
@@ -335,7 +347,7 @@ fz.close
 j = {'date':datestr,
      'tag':Bs[-1],
      'locations':CC }
-fz = open('map-location%s.json' % Bs[-1], 'w')
+fz = open('shanghaifabu/map-location%s.json' % Bs[-1], 'w')
 fz.write("csv='%s'" % json.dumps(j, ensure_ascii=False) )
 fz.close()
-print('\ncheck inB-not-map.txt, update map-location.csv and redo\n')
+print('\ncheck inB-not-map.txt, update map-location.csv and do ####\n')

@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>listed address, since 2022 March 18th</title>
-  <script src="full0502.json"></script>
+  <script src="shanghaifabu/full0502.json"></script>
   <script>
   let i; let j; let As; let Ds;
   const today = new Date();
@@ -110,18 +110,21 @@
         const s2 = s1[s1.length - 2];
         if (il === 1 || !s2) { // 地址同名, 团结村 国权北路555
           if (('' + dl).indexOf(j.tag) > 0) {
-            ks += '<span style="color:red">' + dl + '</span>';
+            ks += '<span style="color:red">' + ('' + dl
+              ).replace(/030/g, '3/').replace(/040/g, '4/'
+              ).replace(/03/g, '3/').replace(/04/g, '4/'
+              ).replace(/050/g, '5/').replace(/05/g, '5/') + '</span>';
           } else {
-            ks += dl;
+            ks += ('' + dl
+              ).replace(/030/g, '3/').replace(/040/g, '4/'
+              ).replace(/03/g, '3/').replace(/04/g, '4/'
+              ).replace(/050/g, '5/').replace(/05/g, '5/');
           }
           release = parseInt(dl[dl.length - 1]);
         } else {
           ks += s2.substr(s2.lastIndexOf(',') + 1);
           release = parseInt( s2.substr(s2.lastIndexOf(',') + 1) );
         }
-        ks = ks.replace(/030/g, '3/').replace(/040/g, '4/'
-              ).replace(/03/g, '3/').replace(/04/g, '4/'
-              ).replace(/050/g, '5/').replace(/05/g, '5/');
         release += (14 - 300);
         if (release > 100) {
           release -= 100;
