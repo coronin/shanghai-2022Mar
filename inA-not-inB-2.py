@@ -204,110 +204,110 @@ import json
 ####
 # 以下注释，以更新 map-location.json
 
-# Z = []
-# count = 0
-# #print('sorted by listed dates')
-# for longline in A:
-#     #if line.find('国权北路1566') > -1 or line.find('淞沪路2005') > -1 or line.find('邯郸路220') > -1 :
-#     #    print('in A', line)
-#     if longline not in Z and longline not in BB: # and line not in notThese:
-#         count += 1
-#         Z.append(longline)
-#         if longline.startswith('浦东新区'):
-#             line = longline[4:]
-#         else:
-#             line = longline[3:]
-#         #print('>>>>', line)
-#         for dd in districts:
-#             if line in by_district[dd]:
-#                 if (districts_released.get(dd)):
-#                     districts_released[dd] += [line]
-#                 else:
-#                     districts_released[dd] = [line]
-#                 break
-#             pass
-# print('in A, not in B, estimated', count, '\n')
+Z = []
+count = 0
+#print('sorted by listed dates')
+for longline in A:
+    #if line.find('国权北路1566') > -1 or line.find('淞沪路2005') > -1 or line.find('邯郸路220') > -1 :
+    #    print('in A', line)
+    if longline not in Z and longline not in BB: # and line not in notThese:
+        count += 1
+        Z.append(longline)
+        if longline.startswith('浦东新区'):
+            line = longline[4:]
+        else:
+            line = longline[3:]
+        #print('>>>>', line)
+        for dd in districts:
+            if line in by_district[dd]:
+                if (districts_released.get(dd)):
+                    districts_released[dd] += [line]
+                else:
+                    districts_released[dd] = [line]
+                break
+            pass
+print('in A, not in B, estimated', count, '\n')
 
 
-# latest_released = {}
-# count = 0
-# for line, dates in by_address.items():
-#     if As and dates[-1] in ('0318', As[-1]):
-#         count += 1
-#         #print('>>>>', line)
-#         for dd in districts:
-#             if line in by_district[dd]:
-#                 if (latest_released.get(dd)):
-#                     latest_released[dd] += [line]
-#                 else:
-#                     latest_released[dd] = [line]
-#                 break # 地址同名, 团结村 国权北路555
-#             pass
+latest_released = {}
+count = 0
+for line, dates in by_address.items():
+    if As and dates[-1] in ('0318', As[-1]):
+        count += 1
+        #print('>>>>', line)
+        for dd in districts:
+            if line in by_district[dd]:
+                if (latest_released.get(dd)):
+                    latest_released[dd] += [line]
+                else:
+                    latest_released[dd] = [line]
+                break # 地址同名, 团结村 国权北路555
+            pass
 
-# print('released %s, estimated' % Bs[-1], count)
-# if A:
-#     for dd in districts:
-#         if latest_released.get(dd):
-#             print('%s\t%s' % (dd, len(latest_released[dd]) ))
-#         else:
-#             print(dd, 0)
-
-
-# latest_added = {}
-# Bs2 = read_a_list(Bs[-2], tag='list')
-# for dd in districts:
-#     if not districts_today.get(dd):
-#         continue
-#     #print('>>>>', dd, len(districts_today[dd]) )
-#     for line in districts_today[dd]:
-#         if ('%s%s' % (dd, line)) not in Bs2:
-#             #print('>>>>', dd, line)
-#             if (latest_added.get(dd)):
-#                 latest_added[dd] += [line]
-#             else:
-#                 latest_added[dd] = [line]
+print('released %s, estimated' % Bs[-1], count)
+if A:
+    for dd in districts:
+        if latest_released.get(dd):
+            print('%s\t%s' % (dd, len(latest_released[dd]) ))
+        else:
+            print(dd, 0)
 
 
-# print('\n\n')
-# to_check = ('海波路850弄', '龙吴路2588弄',
-#             '国权北路1566弄', '国权北路1450弄', '东安路130号', '邯郸路220号' )
-# for ch in to_check:
-#     if by_address.get(ch):
-#         print(ch, by_address[ch] )
-#     else:
-#         print(ch, 'zero' )
+latest_added = {}
+Bs2 = read_a_list(Bs[-2], tag='list')
+for dd in districts:
+    if not districts_today.get(dd):
+        continue
+    #print('>>>>', dd, len(districts_today[dd]) )
+    for line in districts_today[dd]:
+        if ('%s%s' % (dd, line)) not in Bs2:
+            #print('>>>>', dd, line)
+            if (latest_added.get(dd)):
+                latest_added[dd] += [line]
+            else:
+                latest_added[dd] = [line]
 
 
-# fz = open('negative.txt', 'w')
-# fz.write('# %s %s' % (Bs[-1], datestr))
-# fz.write('\n# 被列入 %s 上海发布的感染者居住地' % ','.join(As) )
-# fz.write('\n# 但没有出现在之后的上海发布')
-# fz.write('\n# 因微信页面可被编辑，本列表基于分析时的页面')
-# fz.write('\n# 疾控，满足7+7和第13天全员核酸阴性，小区解封')
-# fz.write('\n# 供参考\n')
-# fz.write('\n'.join(Z) )
-# fz.write('\n####')
-# fz.close()
+print('\n\n')
+to_check = ('海波路850弄', '龙吴路2588弄',
+            '国权北路1566弄', '国权北路1450弄', '东安路130号', '邯郸路220号' )
+for ch in to_check:
+    if by_address.get(ch):
+        print(ch, by_address[ch] )
+    else:
+        print(ch, 'zero' )
 
-# j = {'date':datestr,
-#      'tag':Bs[-1],
-#      'address':by_address,
-#      'today':districts_today,
-#      'inB':districts_inB,
-#      'districts':by_district,
-#      'released':districts_released,
-#      'released_today':latest_released,
-#      'latest_added':latest_added }
-# fz = open('shanghaifabu/full%s.json' % Bs[-1], 'w')
-# fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
-# fz.close()
-# print('\nupdate drag-me.html and sh2.html with full.json?v=%s' % Bs[-1] )
-# if not A:
-#     print('no A, today', len(districts_today) )
-#     print('no A, inB', len(districts_inB) )
-#     print('no A, released', len(districts_released) )
-#     print('no A, latest released', len(latest_released) )
-#     print('no A, latest added', len(latest_added) )
+
+fz = open('negative.txt', 'w')
+fz.write('# %s %s' % (Bs[-1], datestr))
+fz.write('\n# 被列入 %s 上海发布的感染者居住地' % ','.join(As) )
+fz.write('\n# 但没有出现在之后的上海发布')
+fz.write('\n# 因微信页面可被编辑，本列表基于分析时的页面')
+fz.write('\n# 疾控，满足7+7和第13天全员核酸阴性，小区解封')
+fz.write('\n# 供参考\n')
+fz.write('\n'.join(Z) )
+fz.write('\n####')
+fz.close()
+
+j = {'date':datestr,
+     'tag':Bs[-1],
+     'address':by_address,
+     'today':districts_today,
+     'inB':districts_inB,
+     'districts':by_district,
+     'released':districts_released,
+     'released_today':latest_released,
+     'latest_added':latest_added }
+fz = open('shanghaifabu/full%s.json' % Bs[-1], 'w')
+fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
+fz.close()
+print('\nupdate drag-me.html and sh2.html with full.json?v=%s' % Bs[-1] )
+if not A:
+    print('no A, today', len(districts_today) )
+    print('no A, inB', len(districts_inB) )
+    print('no A, released', len(districts_released) )
+    print('no A, latest released', len(latest_released) )
+    print('no A, latest added', len(latest_added) )
 
 # 以上注释，以更新 map-location.json
 ####
