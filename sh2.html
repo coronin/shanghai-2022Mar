@@ -85,13 +85,14 @@
   }
 
   function yesterdayMap (q, oldest) {
-    if (j.address['shanghaifabu'].length > 2) {
-      let url = baseURL + '#';
-      if (oldest) {
-        url += '0319';
-      } else {
-        url += j.address['shanghaifabu'].slice(-3)[0];
-      }
+    let url;
+    if (j && j.address['shanghaifabu'].length > 2) {
+      url = baseURL + '#';
+      url += j.address['shanghaifabu'].slice(-3)[0];
+    } else if (oldest) {
+      url = baseURL + '#0319';
+    }
+    if (url) {
       if (q) {
         url += '?' + q;
       }
@@ -104,7 +105,7 @@
       window.location = url;
       window.location.reload();
     } else {
-      window.alert('没有前一日的数据');
+      window.alert('没有前一日的数据\n可刷新本页再试');
     }
   }
 
