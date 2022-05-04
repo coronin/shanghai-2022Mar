@@ -93,11 +93,15 @@
         url += j.address['shanghaifabu'].slice(-3)[0];
       }
       if (q) {
-        window.location = url + '?' + q + '$' + d3scale +
-                          '_' + d3center[0] + '_' + d3center[1];
-      } else {
-        window.location = url;
+        url += '?' + q;
       }
+      if (d3scale) {
+        url += '$' + d3scale;
+        if (d3center && d3center.length === 2) {
+          url += '_' + d3center[0] + '_' + d3center[1];
+        }
+      }
+      window.location = url;
       window.location.reload();
     } else {
       window.alert('没有前一日的数据');
@@ -127,11 +131,15 @@
     }
     const url = baseURL + '#0' + hash_;
     if (q) {
-      window.location = url + '?' + q + '$' + d3scale +
-                        '_' + d3center[0] + '_' + d3center[1];
-    } else {
-      window.location = url;
+      url += '?' + q;
     }
+    if (d3scale) {
+      url += '$' + d3scale;
+      if (d3center && d3center.length === 2) {
+        url += '_' + d3center[0] + '_' + d3center[1];
+      }
+    }
+    window.location = url;
     window.location.reload();
   }
 
@@ -145,11 +153,15 @@
     if (hash_ < 10) { url += '0'; }
     url += hash_;
     if (q) {
-      window.location = url + '?' + q + '$' + d3scale +
-                        '_' + d3center[0] + '_' + d3center[1];
-    } else {
-      window.location = url;
+      url += '?' + q;
     }
+    if (d3scale) {
+      url += '$' + d3scale;
+      if (d3center && d3center.length === 2) {
+        url += '_' + d3center[0] + '_' + d3center[1];
+      }
+    }
+    window.location = url;
     window.location.reload();
   }
 
