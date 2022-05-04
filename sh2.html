@@ -180,6 +180,16 @@
     }
   }
 
+  const loading = ['.', '..', '...', '']; // ['\\', '/', '-']
+  let loading_i = -1;
+  (function f () {
+    loading_i = (loading_i + 1) % loading.length;
+    if (document.getElementById('loading_span')) {
+      loading_span.textContent = loading[ loading_i ];
+    }
+    setTimeout(f, 500);
+  })();
+
   function load_jsjs (js) {
     let k = document.createElement('script');
     k.src = "shanghaifabu/map-location" + js + '.json';
@@ -718,7 +728,7 @@
 <body onload="load_js();">
   <p>
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a> <span id="shanghaifabu"></span><br/>
-    更新时间 <span id="datestr" style="color:blue;">fetching... not ready</span><br/>
+    更新时间 <span id="datestr" style="color:blue;">fetching<span id="loading_span"></span> not ready</span><br/>
     本页为<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
     | <span class="click" id="april_button" onclick="jumpApr(addr.value);">跳至 4/</span>
     <input class="_L" type="text" id="april" name="april" size=2 onkeydown="aprilEnter();" />
