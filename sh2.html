@@ -42,7 +42,7 @@
   let dotNotDraw = 0;
   const baseURL = window.location.toString().split('#')[0].split('?')[0];
   let scaleChange = true;
-  const j_data_int = 503; // 0503
+  const j_data_init = 503; // 0503
 
   function mapX (z) {
     return zz = Math.round((z - d3center[0]) * d3scale/57 + svgWidth/2);
@@ -132,7 +132,7 @@
       hash_ += 69; // -31 +100
     }
     if (lastest) {
-      hash_ = j_data_int;
+      hash_ = j_data_init;
     }
     let url = baseURL + '#0' + hash_;
     if (q) {
@@ -199,8 +199,8 @@
     let k = document.createElement('script');
     let hash = window.location.hash.slice(1).split('?')[0];
     const hash_ = parseInt(hash);
-    if (hash.length !== 4 || hash_ < 319 || hash_ > j_data_int) {
-      hash = '0' + j_data_int;
+    if (hash.length !== 4 || hash_ < 319 || hash_ > j_data_init) {
+      hash = '0' + j_data_init;
       if (window.location.hash.slice(1).indexOf('?') > -1) {
         window.location = baseURL + '#' + hash + '?' +
           window.location.hash.slice(1).split('?')[1];
@@ -208,7 +208,8 @@
         window.location = baseURL + '#' + hash;
       }
     } else {
-      next_button.style.visibility = 'visible';
+      if (hash_ < j_data_init) {
+        next_button.style.visibility = 'visible'; }
       if (hash_ === 319) {
         pre_button.style.visibility = 'hidden'; }
     }
@@ -282,13 +283,15 @@
       latest_added.appendChild(k);
       k = document.createElement('p');
       if (j.released_today && j.released_today[ Ds[i] ] ) {
-        k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> ' + j.released_today[ Ds[i] ];
+        k.innerHTML = '<span style="color:black;" onclick="_check=\'released_today\';search(this.textContent);"' +
+                      ' class="click _L">' + Ds[i] + '</span>: ' + j.released_today[ Ds[i] ];
       } else {
         k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> 无';
       }
       latest_released.appendChild(k);
       k = document.createElement('p');
-      k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> ' + j.released[ Ds[i] ];
+      k.innerHTML = '<span style="color:black;" onclick="_check=\'released\';search(this.textContent);"' +
+                    ' class="click _L">' + Ds[i] + '</span>: ' + j.released[ Ds[i] ];
       released.appendChild(k);
     }
     map = document.getElementById('app').getContext('2d');
@@ -318,6 +321,7 @@
                 ).translate([svgWidth/2, svgHeight/2]);
     const pg = d3.geo.path().projection(pj).context(map);
     map.strokeStyle = 'grey';
+    map.font = '10px Microsoft YaHei';
     dt.features.forEach(d => {
       // let xx = new Array(), yy = new Array();
       // let xx_raw = new Array(), yy_raw = new Array();
@@ -481,10 +485,10 @@
       updateCheckStatus();
       map.fillStyle = 'black';
       if (dotNotDraw) {
-        map.fillText(k + j[_check][k].length + '个地址 其中' + dotNotDraw + '个无法显示 2022/' + _today, 86,2);
+        map.fillText(k + j[_check][k].length + '个地址 其中' + dotNotDraw + '个无法显示 2022/' + _today, 0,svgHeight-11);
         dotNotDraw = 0;
       } else {
-        map.fillText(k + ' ' + j[_check][k].length + '个地址 2022/' + _today, 86,2);
+        map.fillText(k + ' ' + j[_check][k].length + '个地址 2022/' + _today, 0,svgHeight-11);
       }
       save_button.scrollIntoView();
       clear_button.style.visibility = 'visible';
@@ -509,10 +513,10 @@
       updateCheckStatus();
       map.fillStyle = 'black';
       if (dotNotDraw) {
-        map.fillText('上海市' + map_i + '个地址 未显示其中' + dotNotDraw + '个 2022/' + _today, 86,2);
+        map.fillText('上海市' + map_i + '个地址 未显示其中' + dotNotDraw + '个 2022/' + _today, 0,svgHeight-11);
         dotNotDraw = 0;
       } else {
-        map.fillText('上海市 ' + map_i + '个地址 2022/' + _today, 86,2);
+        map.fillText('上海市 ' + map_i + '个地址 2022/' + _today, 0,svgHeight-11);
       }
       save_button.scrollIntoView();
       clear_button.style.visibility = 'visible';
@@ -677,7 +681,7 @@
           labelNotDraw = false;
           _Y = mapY(map_y[i]);
           for (ii = 0; ii < gray_Y.length; ii += 1) {
-            if (Math.abs(_Y - gray_Y[ii]) < 15) {
+            if (Math.abs(_Y - gray_Y[ii]) < 12) { // 10px Microsoft YaHei
               labelNotDraw = true;
               break;
             }
@@ -704,10 +708,10 @@
       map.fillStyle = 'red';
       if (dotNotDraw) {
         map.fillText('【' + k + '】' + (map_i + dotNotDraw) +
-                     '个地址 显示了其中' + map_i + '个 2022/' + _today, 86,2);
+                     '个地址 显示了其中' + map_i + '个 2022/' + _today, 0,svgHeight-11);
         dotNotDraw = 0;
       } else {
-        map.fillText('【' + k + '】' + map_i + '个地址 2022/' + _today, 86,2);
+        map.fillText('【' + k + '】' + map_i + '个地址 2022/' + _today, 0,svgHeight-11);
       }
     }
     if (sb === 0) {
