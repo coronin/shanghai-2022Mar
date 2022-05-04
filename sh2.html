@@ -92,7 +92,8 @@
     if (j && j.address['shanghaifabu'].length > 2) {
       url = baseURL + '#';
       url += j.address['shanghaifabu'].slice(-3)[0];
-    } else if (oldest) {
+    }
+    if (oldest) {
       url = baseURL + '#0319';
     }
     if (url) {
@@ -256,15 +257,18 @@
       //   console.log( j.inB[ Ds[i] ] );
       //   console.log( j.today[ Ds[i] ] );
       // }
-        k.innerHTML = '<td onclick="search(this.textContent);" class="click">' +
-                      Ds[i] + '</td><td>' +
+        k.innerHTML = '<td class="click" onclick="_check=\'today\';search(this.textContent);">' +
+                      Ds[i] + '</td><td class="click" onclick="_check=\'districts\';search(\''+Ds[i]+'\');">' +
                       j.districts[ Ds[i] ].length + '</td><td id="' +
-                      Ds[i] + 'line" style="text-align:left;"></td><td>' +
-                      (j.inB[ Ds[i] ] || []).length + '</td><td style="color:red;">' +
-                      (j.today[ Ds[i] ] || []).length + '</td><td style="color:green;">' +
+                      Ds[i] + 'line" style="text-align:left;"></td><td class="click" onclick="_check=\'inB\';search(\''+Ds[i]+'\');">' +
+                      (j.inB[ Ds[i] ] || []).length +
+                      '</td><td style="color:red;" class="click" onclick="_check=\'latest_added\';search(\''+Ds[i]+'\');">' +
+                      (j.today[ Ds[i] ] || []).length +
+                      '</td><td style="color:green;" class="click" onclick="_check=\'released\';search(\''+Ds[i]+'\');">' +
                       (j.released[ Ds[i] ] || []).length + '</td>';
       if (j.released_today[ Ds[i] ] ) {
-        k.innerHTML += '<td style="color:green;">' + (j.released_today[ Ds[i] ] || []).length + '</td>';
+        k.innerHTML += '<td style="color:green;" class="click" onclick="_check=\'released_today\';search(\''+Ds[i]+'\');">' +
+                       (j.released_today[ Ds[i] ] || []).length + '</td>';
       } else {
         k.innerHTML += '<td style="color:green;">&ndash;</td>';
       }
@@ -272,13 +276,13 @@
       districtTable.appendChild(k);
       k = document.createElement('p');
       if (j.latest_added && j.latest_added[ Ds[i] ] ) {
-        k.innerHTML = '<span style="color:black;"><strong onclick="search(this.textContent);"' +
+        k.innerHTML = '<span style="color:black;"><strong onclick="_check=\'latest_added\';search(this.textContent);"' +
                       ' class="click _L">' + Ds[i] + '</strong> ' + _today + '涉及' +
                       (j.today[ Ds[i] ] || []).length +
                       '个地址，下列' + j.latest_added[ Ds[i] ].length +
                       '个地址不同于之前一日</span><br/>' + j.latest_added[ Ds[i] ];
       } else {
-        k.innerHTML = '<span style="color:black;"><strong onclick="search(this.textContent);"' +
+        k.innerHTML = '<span style="color:black;"><strong onclick="_check=\'today\';search(this.textContent);"' +
                       ' class="click _L">' + Ds[i] + '</strong> ' + _today + '涉及' +
                       (j.today[ Ds[i] ] || []).length +
                       '个地址</span>';
@@ -482,6 +486,7 @@
         draw_addr(k + j[_check][k][ii]);
       }
       check_row.style.display = 'block';
+      updateCheckStatus();
       map.fillStyle = 'black';
       if (dotNotDraw) {
         map.fillText(k + j[_check][k].length + '个地址 其中' + dotNotDraw + '个无法显示 2022/' + _today, 86,2);
@@ -509,7 +514,8 @@
         }
       }
       check_row.style.display = 'block';
-      map.fillStyle = 'red';
+      updateCheckStatus();
+      map.fillStyle = 'black';
       if (dotNotDraw) {
         map.fillText('上海市' + map_i + '个地址 未显示其中' + dotNotDraw + '个 2022/' + _today, 86,2);
         dotNotDraw = 0;
@@ -735,8 +741,19 @@
     }
   }
 
+  function updateCheckStatus () {
+    const checkboxes = document.getElementsByName('check');
+    checkboxes.forEach((item) => {
+      if (_check === check_choices[item.getAttribute('data-value')] ) {
+        item.checked = true;
+      } else {
+        item.checked = false;
+      }
+    });
+  }
+
   // https://stackoverflow.com/questions/9709209/
-  function onlyOne(I) {
+  function onlyOne (I) {
     const checkboxes = document.getElementsByName('check');
     checkboxes.forEach((item) => {
         if (item !== I) item.checked = false;
@@ -800,8 +817,8 @@
   <canvas id="app" style="display:none;"></canvas>
   <!-- 3.district 2.inB 0.today 4.released 5.released_today 1.latest_added -->
   <div id="check_row" style="display:none;">
-    <label><input type="checkbox" name="check" onclick="onlyOne(this)" data-value="1" /><span style="color:red">新增阳</span></label>
-    <label><input type="checkbox" checked name="check" onclick="onlyOne(this)" data-value="0" /><span style="color:red">今日阳</span></label>
+    <label><input type="checkbox" name="check" onclick="onlyOne(this)" data-value="1" /><span style="color:red">比昨日多</span></label>
+    <label><input type="checkbox" name="check" onclick="onlyOne(this)" data-value="0" /><span style="color:red">今日阳</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)" data-value="2" /><span>两周阳</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)" data-value="3" /><span>累计阳</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)" data-value="4" /><span style="color:green">累计下榜</span></label>
