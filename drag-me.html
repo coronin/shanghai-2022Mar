@@ -110,15 +110,15 @@
         const s2 = s1[s1.length - 2];
         if (il === 1 || !s2) { // 地址同名, 团结村 国权北路555
           if (('' + dl).indexOf(j.tag) > 0) {
-            ks += '<span style="color:red">' + ('' + dl
+            ks += '<span style="color:red">' + (''+dl
               ).replace(/030/g, '3/').replace(/040/g, '4/'
               ).replace(/050/g, '5/').replace(/04/g, '4/'
               ).replace(/03/g, '3/').replace(/05/g, '5/') + '</span>';
           } else {
-            ks += ('' + dl
+            ks += (''+dl
               ).replace(/030/g, '3/').replace(/040/g, '4/'
               ).replace(/050/g, '5/').replace(/04/g, '4/'
-              ).replace(/030/g, '3/').replace(/05/g, '5/');
+              ).replace(/03/g, '3/').replace(/05/g, '5/');
           }
           release = parseInt(dl[dl.length - 1]);
         } else {

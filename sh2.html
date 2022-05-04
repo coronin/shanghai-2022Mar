@@ -345,7 +345,7 @@
                    mapY( d.geometry.coordinates[1] ),
                    3, 3 );
     });
-    map.fillText('已标记精致的咖啡馆', 0,2);
+    map.fillText('已标记精致咖啡馆', 0,2);
     let dots;
     map.strokeStyle = 'rgba(0,0,255,0.2)';
     map.lineWidth = 6;
@@ -481,6 +481,7 @@
       th_k.textContent = '';
     }
     let dl; let kk; let ks; let sb = 0;
+    let map_push;
     let map_x = new Array();
     let map_y = new Array();
     let map_addr = new Array();
@@ -504,27 +505,27 @@
         } else {
           ks = '<span style="color:grey;">' + sb + '.</span> <span>';
         }
-        if (Ms.indexOf(Ds[ii] + As[i]) > -1) {
-          map_i += 1;
-          map_x.push(parseFloat( Ml.locations[Ds[ii] + As[i]][0] ));
-          map_y.push(parseFloat( Ml.locations[Ds[ii] + As[i]][1] ));
-          map_addr.push( Ds[ii] + As[i] );
-        } else {
-          dotNotDraw += 1; // 地址
-        }
         ks += Ds[ii] +
               '<a href="https://maps.baidu.com/search/?querytype=s&wd=' +
               As[i] + '" target="_blank">' + As[i] + '</a> ';
+        if (Ms.indexOf(Ds[ii] + As[i]) > -1) {
+          map_push = 1;
+          map_i += 1;
+        }  else {
+          map_push = 0
+          dotNotDraw += 1; // 地址
+        }
         const s1 = ('' + dl).split(Ds[ii]);
         const s2 = s1[s1.length - 2];
         if (il === 1 || !s2) { // 地址同名, 团结村 国权北路555
           if (('' + dl).indexOf(j.tag) > 0) {
-            ks += '<span style="color:red">' + ('' + dl
+            if (map_push) { map_push = 2; }
+            ks += '<span style="color:red">' + (''+dl
               ).replace(/030/g, '3/').replace(/040/g, '4/'
               ).replace(/050/g, '5/').replace(/04/g, '4/'
-              ).replace(/030/g, '3/').replace(/05/g, '5/') + '</span>';
+              ).replace(/03/g, '3/').replace(/05/g, '5/') + '</span>';
           } else {
-            ks += ('' + dl
+            ks += (''+dl
               ).replace(/030/g, '3/').replace(/040/g, '4/'
               ).replace(/050/g, '5/').replace(/04/g, '4/'
               ).replace(/03/g, '3/').replace(/05/g, '5/');
@@ -534,9 +535,15 @@
           ks += s2.substr(s2.lastIndexOf(',') + 1);
           release = parseInt( s2.substr(s2.lastIndexOf(',') + 1) );
         }
-        ks = ks.replace(/030/g, '3/').replace(/040/g, '4/'
-              ).replace(/03/g, '3/').replace(/04/g, '4/'
-              ).replace(/050/g, '5/').replace(/05/g, '5/');
+        if (map_push === 1) {
+          map_x.push(parseFloat( Ml.locations[Ds[ii] + As[i]][0] ));
+          map_y.push(parseFloat( Ml.locations[Ds[ii] + As[i]][1] ));
+          map_addr.push( Ds[ii] + As[i] );
+        } else if (map_push === 2) {
+          map_x.unshift(parseFloat( Ml.locations[Ds[ii] + As[i]][0] ));
+          map_y.unshift(parseFloat( Ml.locations[Ds[ii] + As[i]][1] ));
+          map_addr.unshift( Ds[ii] + As[i] );
+        }
         release += (14 - 300);
         if (release > 100) {
           release -= 100;
