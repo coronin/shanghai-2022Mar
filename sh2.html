@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width">
   <title>listed address, in map, since 2022 March 18th</title>
   <!-- script src="full.json"></script -->
-  <!-- script src="map-location.json"></script -->
+  <script src="map-location.json?v=0503"></script>
   <script src="d3.min.v3.js"></script>
   <script src="topojson.min.180.js"></script><!-- http://geojson.io -->
   <script src="shanghaifabu/sh.json"></script><!-- http://datav.aliyun.com/portal/school/atlas/area_generator -->
@@ -195,14 +195,6 @@
     setTimeout(f, 500);
   })();
 
-  function load_jsjs (js) {
-    let k = document.createElement('script');
-    k.src = "shanghaifabu/map-location" + js + '.json';
-    document.head.append(k);
-    k.onload = function () { load(); };
-    k.onerror = function () { window.alert('无法下载 map-location.json\n' + baseURL); };
-  }
-
   function load_js () {
     let k = document.createElement('script');
     let hash = window.location.hash.slice(1).split('?')[0];
@@ -223,7 +215,7 @@
     k.src = "shanghaifabu/full" + hash + '.json';
     console.log('Load json files for', hash);
     document.head.append(k);
-    k.onload = function () { load_jsjs(hash); };
+    k.onload = function () { load(); };
     k.onerror = function () {
       window.alert('无法下载 full.json\n' + baseURL);
       pre_button.style.visibility = 'hidden';
