@@ -7,3 +7,7 @@
 4. edit, drag and test drag-me.html and sh2.html
 5. local: git push
 6. web server, cd root folder: git pull
+
+CDN is in process, the best way to run:
+* drag sh2.html into a desktop browser
+* drag drag-me.html into a desktop browser
