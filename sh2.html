@@ -84,9 +84,14 @@
     }
   }
 
-  function yesterdayMap (q) {
+  function yesterdayMap (q, oldest) {
     if (j.address['shanghaifabu'].length > 2) {
-      const url = baseURL + '#' + j.address['shanghaifabu'].slice(-3)[0];
+      let url = baseURL + '#';
+      if (oldest) {
+        url += '0319';
+      } else {
+        url += j.address['shanghaifabu'].slice(-3)[0];
+      }
       if (q) {
         window.location = url + '?' + q + '$' + d3scale +
                           '_' + d3center[0] + '_' + d3center[1];
@@ -99,7 +104,7 @@
     }
   }
 
-  function tomorrowMap (q) {
+  function tomorrowMap (q, lastest) {
     let hash_;
     const hash = window.location.hash.slice(1).split('?')[0];
     try {
@@ -116,6 +121,9 @@
       hash_ += 70; // -30 +100
     } else if (hash_ > 331 && hash_ < 401) {
       hash_ += 69; // -31 +100
+    }
+    if (lastest) {
+      hash_ = j_data_int;
     }
     const url = baseURL + '#0' + hash_;
     if (q) {
@@ -162,7 +170,7 @@
 
   function load_jsjs (js) {
     let k = document.createElement('script');
-    k.src = 'shanghaifabu/map-location' + js + '.json';
+    k.src = "shanghaifabu/map-location" + js + '.json';
     document.head.append(k);
     k.onload = function () { load(); };
     k.onerror = function () { window.alert('无法下载 map-location.json\n' + baseURL); };
@@ -180,7 +188,7 @@
       if (hash_ === 319) {
         pre_button.style.visibility = 'hidden'; }
     }
-    k.src = 'shanghaifabu/full' + hash + '.json';
+    k.src = "shanghaifabu/full" + hash + '.json';
     console.log('Load json files for', hash);
     document.head.append(k);
     k.onload = function () { load_jsjs(hash); };
@@ -700,7 +708,7 @@
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a> <span id="shanghaifabu"></span><br/>
     更新时间 <span id="datestr" style="color:blue;">fetching... not ready</span><br/>
     本页为<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
-    &mdash; <span class="click" id="april_button" onclick="jumpApr(addr.value);">跳至 4/</span>
+    | <span class="click" id="april_button" onclick="jumpApr(addr.value);">跳至 4/</span>
     <input class="_L" type="text" id="april" name="april" size=2 onkeydown="aprilEnter();" />
     <br/>搜索<span onclick="search(this.textContent);" class="click _L">上海市</span> 可以在地图中展示全市上榜地址
 
@@ -711,10 +719,13 @@
     <button id="search_button" onclick="scaleChange=true;search(addr.value);">搜索</button>
   </p>
 
-  <button id="save_button" onclick="exportCanvasAsPNG();">存图</button>
-  <button id="pre_button" onclick="yesterdayMap(addr.value);"><<</button>
-  <button id="next_button" style="visibility:hidden;" onclick="tomorrowMap(addr.value);">>></button>
-  <button id="clear_button" style="visibility:hidden;" onclick="search();">隐藏</button>
+  <button onclick="window.location.reload();">重置</button> &nbsp;
+  <button id="save_button" onclick="exportCanvasAsPNG();">存图</button> &nbsp;
+  <button onclick="yesterdayMap(addr.value,1);">&lt;&lt;</button>
+  <button id="pre_button" onclick="yesterdayMap(addr.value);">&lt;</button>
+  <button id="next_button" style="visibility:hidden;" onclick="tomorrowMap(addr.value);">&gt;</button>
+  <button onclick="tomorrowMap(addr.value,1);">&gt;&gt;</button> &nbsp;
+  <button id="clear_button" style="visibility:hidden;" onclick="search();">隐藏</button><br/>
   <canvas id="app" style="display:none;"></canvas>
 
   <div style="width:100%;color:blue;" id="onList"></div>
