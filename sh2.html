@@ -46,6 +46,7 @@
   const hash2 = decodeURIComponent(window.location.toString()).split('?')[1]; // undefined
   let scaleChange = true;
   let lastSearch;
+  let fontSize;
   const j_data_init = 503; // 0503
 
   function mapX (z) {
@@ -324,7 +325,7 @@
                 ).translate([svgWidth/2, svgHeight/2]);
     const pg = d3.geo.path().projection(pj).context(map);
     map.strokeStyle = 'grey';
-    map.font = '10px Microsoft YaHei';
+    map.font = fontSize + 'px Microsoft YaHei';
     dt.features.forEach(d => {
       // let xx = new Array(), yy = new Array();
       // let xx_raw = new Array(), yy_raw = new Array();
@@ -389,7 +390,7 @@
     });
     map.fillText('已标记精致咖啡馆', 0,2);
     map.fillStyle = 'silver';
-    map.fillText('制图 https://teach.bio @the_paper_link', svgWidth-186,2);
+    map.fillText('制图 https://teach.bio @the_paper_link', svgWidth-fontSize*18.6,2);
     let dots;
     map.strokeStyle = 'rgba(0,0,255,0.2)';
     map.lineWidth = 6;
@@ -458,6 +459,7 @@
     map.clearRect(0, 0, svgWidth, svgHeight);
     svgWidth = 640;
     svgHeight = 480;
+    fontSize = 10; // 10px Microsoft YaHei
     if (scaleChange) { d3scale = 72000; }
     let ii;
     let map_i = 0;
@@ -490,10 +492,12 @@
       updateCheckStatus();
       map.fillStyle = 'black';
       if (dotNotDraw) {
-        map.fillText(k + j[_check][k].length + '个地址 其中' + dotNotDraw + '个无法显示 2022/' + _today, 0,svgHeight-11);
+        map.fillText(k + j[_check][k].length + '个地址 其中' + dotNotDraw + '个无法显示 2022/' + _today,
+                     0,svgHeight-1-fontSize);
         dotNotDraw = 0;
       } else {
-        map.fillText(k + ' ' + j[_check][k].length + '个地址 2022/' + _today, 0,svgHeight-11);
+        map.fillText(k + ' ' + j[_check][k].length + '个地址 2022/' + _today,
+                     0,svgHeight-1-fontSize);
       }
       save_button.scrollIntoView();
       clear_button.style.visibility = 'visible';
@@ -501,6 +505,7 @@
     } else if (k === '上海市') {
       svgWidth = 1250;
       svgHeight = 1000;
+      fontSize = 14;
       d3center = [centers['黄浦区'][0], centers['黄浦区'][1] ];
       if (d3scale < 48000) {
         d3scale = 48000; }
@@ -529,10 +534,12 @@
       updateCheckStatus();
       map.fillStyle = 'black';
       if (dotNotDraw) {
-        map.fillText('上海市' + map_i + '个地址 未显示其中' + dotNotDraw + '个 2022/' + _today, 0,svgHeight-11);
+        map.fillText('上海市' + map_i + '个地址 未显示其中' + dotNotDraw + '个 2022/' + _today,
+                     0,svgHeight-1-fontSize);
         dotNotDraw = 0;
       } else {
-        map.fillText('上海市 ' + map_i + '个地址 2022/' + _today, 0,svgHeight-11);
+        map.fillText('上海市 ' + map_i + '个地址 2022/' + _today,
+                     0,svgHeight-1-fontSize);
       }
       save_button.scrollIntoView();
       clear_button.style.visibility = 'visible';
@@ -720,7 +727,7 @@
           labelNotDraw = false;
           _Y = mapY(map_y[i]);
           for (ii = 0; ii < gray_Y.length; ii += 1) {
-            if (Math.abs(_Y - gray_Y[ii]) < 12) { // 10px Microsoft YaHei
+            if (Math.abs(_Y - gray_Y[ii]) < fontSize+2) {
               labelNotDraw = true;
               break;
             }
@@ -747,10 +754,12 @@
       map.fillStyle = 'red';
       if (dotNotDraw) {
         map.fillText('【' + k + '】' + (map_i + dotNotDraw) +
-                     '个地址 显示了其中' + map_i + '个 2022/' + _today, 0,svgHeight-11);
+                     '个地址 显示了其中' + map_i + '个 2022/' + _today,
+                     0,svgHeight-1-fontSize);
         dotNotDraw = 0;
       } else {
-        map.fillText('【' + k + '】' + map_i + '个地址 2022/' + _today, 0,svgHeight-11);
+        map.fillText('【' + k + '】' + map_i + '个地址 2022/' + _today,
+                     0,svgHeight-1-fontSize);
       }
     }
     if (sb === 0) {
