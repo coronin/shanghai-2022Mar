@@ -47,6 +47,10 @@
   let scaleChange = true;
   let lastSearch;
   let fontSize;
+  let autoSavePNG = (window.location.toString().indexOf('=') > -1);
+  if (autoSavePNG) {
+    _check = window.location.toString().split('=')[1];
+  }
   const j_data_init = 504; // 0504 @@
 
   function mapX (z) {
@@ -111,6 +115,9 @@
           url += '_' + d3center[0] + '_' + d3center[1];
         }
       }
+      if (autoSavePNG) {
+        url += '=' + _check;
+      }
       window.location = url;
       window.location.reload();
     } else {
@@ -148,6 +155,9 @@
         url += '_' + d3center[0] + '_' + d3center[1];
       }
     }
+    if (autoSavePNG) {
+      url += '=' + _check;
+    }
     window.location = url;
     window.location.reload();
   }
@@ -169,6 +179,9 @@
       if (d3center && d3center.length === 2) {
         url += '_' + d3center[0] + '_' + d3center[1];
       }
+    }
+    if (autoSavePNG) {
+      url += '=' + _check;
     }
     window.location = url;
     window.location.reload();
@@ -245,6 +258,24 @@
     for (k = 0; k < tags.length; k += 1) {
       tags[k].textContent = _today;
     }
+    auto_save_status.onclick = function () {
+      if (autoSavePNG) {
+        autoSavePNG = false;
+        auto_save_status.style.boxShadow = '';
+        pre_button.style.border = '';
+        next_button.style.border = '';
+      } else {
+        autoSavePNG = true;
+        auto_save_status.style.boxShadow = 'inset 0 -.5em cyan';
+        pre_button.style.border = '.25em solid cyan';
+        next_button.style.border = '.25em solid cyan';
+      }
+    }
+    if (autoSavePNG) {
+      auto_save_status.style.boxShadow = 'inset 0 -.5em cyan';
+      pre_button.style.border = '.25em solid cyan';
+      next_button.style.border = '.25em solid cyan';
+    }
     Ds = Object.keys(j.districts);
     As = Object.keys(j.address);
     console.log( j.address['shanghaifabu'] );
@@ -300,13 +331,14 @@
     }
     map = document.getElementById('app').getContext('2d');
     if (window.location.toString().indexOf('?') > -1) {
-      k = hash2;
-      if (k.indexOf('$') > -1) {
+      if (hash2.indexOf('$') > -1) {
         scaleChange = false;
-        const scc = k.split('$')[1].split('_');
+        const scc = hash2.split('$')[1].split('=')[0].split('_');
         d3scale = parseInt(scc[0]);
         d3center = [parseFloat(scc[1]), parseFloat(scc[2])];
-        k = k.split('$')[0];
+        k = hash2.split('$')[0];
+      } else {
+        k = hash2;
       }
       search(k);
     }
@@ -485,8 +517,10 @@
         d3scale = centers[k][2]; }
       d3center = [centers[k][0], centers[k][1] ];
       draw_sh();
-      for (ii = 0; ii < j[_check][k].length; ii += 1) { // .today
-        draw_addr(k + j[_check][k][ii]);
+      if (j[_check][k]) {
+        for (ii = 0; ii < j[_check][k].length; ii += 1) { // .today
+          draw_addr(k + j[_check][k][ii]);
+        }
       }
       check_row.style.display = 'block';
       updateCheckStatus();
@@ -495,12 +529,15 @@
         map.fillText(k + j[_check][k].length + '个地址 其中' + dotNotDraw + '个无法显示 2022/' + _today,
                      0,svgHeight-1-fontSize);
         dotNotDraw = 0;
-      } else {
+      } else if (j[_check][k]) {
         map.fillText(k + ' ' + j[_check][k].length + '个地址 2022/' + _today,
                      0,svgHeight-1-fontSize);
       }
       save_button.scrollIntoView();
       clear_button.style.visibility = 'visible';
+      if (autoSavePNG) {
+        exportCanvasAsPNG();
+      }
       return;
     } else if (k === '上海市') {
       svgWidth = 1250;
@@ -543,6 +580,9 @@
       }
       save_button.scrollIntoView();
       clear_button.style.visibility = 'visible';
+      if (autoSavePNG) {
+        exportCanvasAsPNG();
+      }
       return;
     }
     console.log('输入', k);
@@ -822,7 +862,12 @@
   <style>
     body {background-color: white;}
     p {line-height: 1.5em;}
-    .click, button, label>input {cursor: pointer;}
+    .click,
+    button,
+    label>input,
+    #auto_save_status {
+      cursor: pointer;
+    }
     button {padding-top: .2em;}
     ._L {
       padding: 0 .2em;
@@ -839,10 +884,8 @@
       padding-left: 22px;
       text-indent: -22px;
     }
-    #check_row input {
-      vertical-align: middle;
-    }
-    #check_row label span {
+    #check_row input,
+    #check_row label>span {
       vertical-align: middle;
     }
   </style>
@@ -867,7 +910,7 @@
   <button id="save_button" onclick="exportCanvasAsPNG();">存图</button>
   <button onclick="yesterdayMap(addr.value,1);">&lt;&lt;</button>
   <button id="pre_button" onclick="yesterdayMap(addr.value);">&lt;</button>
-  <span class="_tag">3/18</span>
+  <span id="auto_save_status" class="_tag">3/18</span>
   <button id="next_button" style="visibility:hidden;" onclick="tomorrowMap(addr.value);">&gt;</button>
   <button onclick="tomorrowMap(addr.value,1);">&gt;&gt;</button>
   <button id="clear_button" style="visibility:hidden;" onclick="search();">隐藏</button>
@@ -875,13 +918,13 @@
   <canvas id="app" style="display:none;"></canvas>
   <!-- 3.district 2.inB 0.today 4.released 5.released_today 1.latest_added -->
   <div id="check_row" style="display:none;">
-    <label><span>2022年3月18日至
-             <span style="font-weight:bold;" id="tag_m2"></span>月<span style="font-weight:bold;" id="tag_d2"></span>日
+    <label><span>2022年 3月18日 至
+             <span id="tag_m2"></span>月<span id="tag_d2"></span>日
            </span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
       data-value="1" /><span style="color:red">比昨日多</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
-      data-value="0" /><span style="color:red">今日阳</span></label>
+      data-value="0" /><span style="color:red">当日阳</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
       data-value="2" /><span style="color:red">两周阳</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
@@ -889,7 +932,7 @@
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
       data-value="4" /><span style="color:green">累计下榜</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
-      data-value="5" /><span style="color:green">今日下榜</span></label>
+      data-value="5" /><span style="color:green">当日下榜</span></label>
   </div>
 
   <div style="width:100%;color:blue;" id="onList"></div>
