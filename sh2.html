@@ -590,7 +590,13 @@
       }
       return;
     }
-    console.log('输入', k);
+    console.log('Input', k);
+    auto_save_off();
+    if (k.indexOf('=') > -1) {
+      k = k.split('=')[0];
+      addr.value = k;
+      _check = check_choices['0'];
+    }
     check_row.style.display = 'none';
     onList.textContent = '';
     for (ii = 0; ii < Ds.length; ii += 1) {
@@ -738,8 +744,10 @@
       }
       // .arc(3) 0.0004325 ~ 589318
       d3scale_ = Math.max.apply(null, [72000, d3scale_, Math.floor(d3scale_ * 3/map_XYtest )]);
-      //console.log('scale min', Math.floor(d3scale_ * 3/map_XYtest ), ', used', d3scale_);
-      console.log('搜到', k, scaleChange, '更新前', d3scale, '计算值', d3scale_);
+      //console.log('scale min',
+      //            Math.floor(d3scale_ * 3/map_XYtest ), ', used', d3scale_);
+      console.log('Found',
+                  k, scaleChange, '更新前', d3scale, '计算值', d3scale_);
       if (scaleChange && map_i < 100 && map_i > 1) {
         d3scale = d3scale_;
       }
@@ -922,7 +930,7 @@
   <button id="save_button" onclick="exportCanvasAsPNG();">存图</button>
   <button onclick="yesterdayMap(addr.value,1);">&lt;&lt;</button>
   <button id="pre_button" onclick="yesterdayMap(addr.value);">&lt;</button>
-  <span id="auto_save_status" class="_tag">3/18</span>
+  <span id="auto_save_status" class="_tag">/</span>
   <button id="next_button" style="visibility:hidden;" onclick="tomorrowMap(addr.value);">&gt;</button>
   <button onclick="tomorrowMap(addr.value,1);">&gt;&gt;</button>
   <button id="clear_button" style="visibility:hidden;" onclick="search();">隐藏</button>
