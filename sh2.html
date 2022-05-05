@@ -571,8 +571,12 @@
         } else {
           ks = '<span style="color:grey;">' + sb + '.</span> <span>';
         }
-        ks += '<span class="click" onclick="search(this.textContent);">' + Ds[ii] + '</span>' +
-              '<span class="click _L" onclick="lastSearch=\''+k+'\';search(\'';
+        ks += '<span class="click" onclick="search(this.textContent);">' + Ds[ii] + '</span>';
+        if (map_i > 1 || lastSearch) {
+          ks += '<span class="click _L" onclick="lastSearch=\''+k+'\';search(\'';
+        } else {
+          ks += '<span onclick="lastSearch=\''+k+'\';search(\'';
+        }
         if (lastSearch && lastSearch !== As[i] && As[i].indexOf(lastSearch) > -1) {
           ks += lastSearch;
         } else {
