@@ -41,6 +41,8 @@
   let _check = check_choices['0'];
   let dotNotDraw = 0;
   const baseURL = window.location.toString().split('#')[0].split('?')[0];
+  let hash = window.location.hash.slice(1).split('?')[0];
+  const hash2 = decodeURIComponent(window.location.toString()).split('?')[1]; // undefined
   let scaleChange = true;
   const j_data_init = 503; // 0503
 
@@ -115,7 +117,6 @@
 
   function tomorrowMap (q, lastest) {
     let hash_;
-    const hash = window.location.hash.slice(1).split('?')[0];
     try {
       if (hash) {
         hash_ = parseInt(hash) + 1;
@@ -180,7 +181,7 @@
   function addrEnter () {
     const keyCode = ('which' in event) ? event.which : event.keyCode;
     if (keyCode === 13) {
-      scaleChange = true;
+      //scaleChange = true;
       search(addr.value);
     }
   }
@@ -192,18 +193,16 @@
     if (document.getElementById('loading_span')) {
       loading_span.textContent = loading[ loading_i ];
     }
-    setTimeout(f, 500);
+    setTimeout(f, 250);
   })();
 
   function load_js () {
     let k = document.createElement('script');
-    let hash = window.location.hash.slice(1).split('?')[0];
     const hash_ = parseInt(hash);
     if (hash.length !== 4 || hash_ < 319 || hash_ > j_data_init) {
       hash = '0' + j_data_init;
       if (window.location.hash.slice(1).indexOf('?') > -1) {
-        window.location = baseURL + '#' + hash + '?' +
-          window.location.hash.slice(1).split('?')[1];
+        window.location = baseURL + '#' + hash + '?' + hash2;
       } else {
         window.location = baseURL + '#' + hash;
       }
@@ -234,7 +233,9 @@
     datestr.textContent = j.date;
     end_pre.textContent = '更新时间 ' + j.date + '\n源代码 github.com/coronin/shanghai-2022Mar';
     tag_m.textContent = parseInt(j.tag.substr(0,2) );
+    tag_m2.textContent = tag_m.textContent;
     tag_d.textContent = parseInt(j.tag.substr(2,2) );
+    tag_d2.textContent = tag_d.textContent;
     _today = tag_m.textContent + '/' + tag_d.textContent;
     const tags = document.getElementsByClassName('_tag');
     let k;
@@ -296,7 +297,7 @@
     }
     map = document.getElementById('app').getContext('2d');
     if (window.location.toString().indexOf('?') > -1) {
-      k = decodeURIComponent(window.location.toString().split('?')[1] );
+      k = hash2;
       if (k.indexOf('$') > -1) {
         scaleChange = false;
         const scc = k.split('$')[1].split('_');
@@ -436,7 +437,6 @@
   }
 
   function search (k) {
-    search_button.textContent = '搜索';
     if (!k) {
       addr.value = '';
       addr.focus();
@@ -475,7 +475,8 @@
       //   if (scaleChange && d3scale < 128000) {
       //     d3scale = 128000; }
       // }
-      if (scaleChange) { d3scale = centers[k][2]; }
+      if (scaleChange || (hash2 && hash2.indexOf(k) !== 0) ) {
+        d3scale = centers[k][2]; }
       d3center = [centers[k][0], centers[k][1] ];
       draw_sh();
       for (ii = 0; ii < j[_check][k].length; ii += 1) { // .today
@@ -497,8 +498,19 @@
       svgWidth = 1250;
       svgHeight = 1000;
       d3center = [centers['黄浦区'][0], centers['黄浦区'][1] ];
-      if (scaleChange && d3scale < 48000) {
+      if (d3scale < 48000) {
         d3scale = 48000; }
+      if (!scaleChange && (hash2 && hash2.indexOf(k) !== 0) ) {
+        reload_button.textContent = '重置可以查看全市';
+        reload_button.style.fontWeight = 'bold';
+        setTimeout(
+          function () {
+            reload_button.textContent='重置';
+            reload_button.style.fontWeight = 'normal';
+          },
+          1000*5
+        );
+      }
       draw_sh();
       for (i = 0; i < Ds.length; i += 1) {
         if (!j.today[Ds[i] ]) {
@@ -522,7 +534,7 @@
       clear_button.style.visibility = 'visible';
       return;
     }
-    console.log(k);
+    console.log('输入', k);
     check_row.style.display = 'none';
     onList.textContent = '';
     for (ii = 0; ii < Ds.length; ii += 1) {
@@ -640,28 +652,42 @@
       if (!d3center || scaleChange) {
         d3center = [average(map_x), average(map_y) ];
       }
-      if (scaleChange && map_i < 100 && map_i > 1) {
-        const map_XYlarge = Math.max.apply(null, [
-          Math.max.apply(null, map_x) - Math.min.apply(null, map_x),
-          Math.max.apply(null, map_y) - Math.min.apply(null, map_y) ]);
-        // 黄浦区 0.0531 ~ 192000
-        d3scale = parseInt(0.0531/map_XYlarge * 200000);
-        //console.log('scale max', d3scale);
-        let map_XYtest = svgWidth;
-        let map_XYzero;
-        for (ii = 1; ii < map_i; ii += 1) {
-          for (i = ii; i < map_i; i += 1) {
-            map_XYzero = Math.sqrt(
-              Math.pow((mapX(map_x[i])-mapX(map_x[i-ii])), 2) +
-              Math.pow((mapY(map_y[i])-mapY(map_y[i-ii])), 2) );
-            if (map_XYzero) {
-              map_XYtest = Math.min.apply(null, [map_XYtest, map_XYzero]);
-            }
+      let d3scale_;
+      const map_XYlarge = Math.max.apply(null, [
+        Math.max.apply(null, map_x) - Math.min.apply(null, map_x),
+        Math.max.apply(null, map_y) - Math.min.apply(null, map_y) ]);
+      // 黄浦区 0.0531 ~ 192000
+      d3scale_ = parseInt(0.0531/map_XYlarge * 200000);
+      //console.log('scale max', d3scale_);
+      let map_XYtest = svgWidth;
+      let map_XYzero;
+      for (ii = 1; ii < map_i; ii += 1) {
+        for (i = ii; i < map_i; i += 1) {
+          map_XYzero = Math.sqrt(
+            Math.pow((mapX(map_x[i])-mapX(map_x[i-ii])), 2) +
+            Math.pow((mapY(map_y[i])-mapY(map_y[i-ii])), 2) );
+          if (map_XYzero) {
+            map_XYtest = Math.min.apply(null, [map_XYtest, map_XYzero]);
           }
         }
-        // .arc(3) 0.0004325 ~ 589318
-        d3scale = Math.max.apply(null, [72000, d3scale, Math.floor(d3scale * 3/map_XYtest )]);
-        //console.log('scale min', Math.floor(d3scale * 3/map_XYtest ), ', used', d3scale);
+      }
+      // .arc(3) 0.0004325 ~ 589318
+      d3scale_ = Math.max.apply(null, [72000, d3scale_, Math.floor(d3scale_ * 3/map_XYtest )]);
+      //console.log('scale min', Math.floor(d3scale_ * 3/map_XYtest ), ', used', d3scale_);
+      console.log('搜到', k, scaleChange, '更新前', d3scale, '计算值', d3scale_);
+      if (scaleChange && map_i < 100 && map_i > 1) {
+        d3scale = d3scale_;
+      }
+      if (!scaleChange && d3scale > d3scale_) {
+        reload_button.textContent = '重置可以展示所有地点';
+        reload_button.style.fontWeight = 'bold';
+        setTimeout(
+          function () {
+            reload_button.textContent='重置';
+            reload_button.style.fontWeight = 'normal';
+          },
+          1000*10
+        );
       }
       draw_sh();
       for (i = 0; i < map_i; i += 1) {
@@ -717,8 +743,20 @@
     if (sb === 0) {
       addr.focus();
       search_button.textContent = '无结果，可输入再搜';
+      setTimeout(
+        function () {
+          search_button.textContent='搜索';
+        },
+        1000*5
+      );
     } else {
       search_button.textContent = '查到' + sb + '个地址，可输入再搜';
+      setTimeout(
+        function () {
+          search_button.textContent='搜索';
+        },
+        1000*5
+      );
       clear_button.style.visibility = 'visible';
     }
   }
@@ -762,8 +800,8 @@
   <style type="text/css">
     body {background-color: white;}
     p {line-height: 1.5em;}
-    .click, button {cursor: pointer;}
-    button {margin-top: .2em;}
+    .click, button, label>input {cursor: pointer;}
+    button {padding-top: .2em;}
     ._L {
       padding: 0 .2em;
       box-shadow: inset 0 -.5em #d0d0d0;
@@ -789,10 +827,10 @@
 </head>
 <body onload="load_js();">
   <p>
-    数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a> <span id="shanghaifabu"></span><br/>
     更新时间 <span id="datestr" style="color:blue;">fetching<span id="loading_span"></span> not ready</span><br/>
+    数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a> <span id="shanghaifabu"></span><br/>
     本页为<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
-    | <span class="click" id="april_button" onclick="jumpApr(addr.value);">跳至 4/</span>
+    （<span class="click" id="april_button" onclick="jumpApr(addr.value);">跳至 4/</span>
     <input class="_L" type="text" id="april" name="april" size=2 onkeydown="aprilEnter();" />
     <br/>搜索<span onclick="search(this.textContent);" class="click _L">上海市</span> 可以在地图中展示全市上榜地址
 
@@ -803,16 +841,20 @@
     <button id="search_button" onclick="scaleChange=true;search(addr.value);">搜索</button>
   </p>
 
-  <button onclick="window.location.reload();">重置</button> &nbsp;
   <button id="save_button" onclick="exportCanvasAsPNG();">存图</button> &nbsp;
   <button onclick="yesterdayMap(addr.value,1);">&lt;&lt;</button>
   <button id="pre_button" onclick="yesterdayMap(addr.value);">&lt;</button>
+  <span class="_tag">3/18</span>
   <button id="next_button" style="visibility:hidden;" onclick="tomorrowMap(addr.value);">&gt;</button>
   <button onclick="tomorrowMap(addr.value,1);">&gt;&gt;</button> &nbsp;
-  <button id="clear_button" style="visibility:hidden;" onclick="search();">隐藏</button><br/>
+  <button id="clear_button" style="visibility:hidden;" onclick="search();">隐藏</button> &nbsp;
+  <button id="reload_button" onclick="window.location.reload();">重置</button><br/>
   <canvas id="app" style="display:none;"></canvas>
   <!-- 3.district 2.inB 0.today 4.released 5.released_today 1.latest_added -->
   <div id="check_row" style="display:none;">
+    <label><span>2022年3月18日至
+             <span style="font-weight:bold;" id="tag_m2"></span>月<span style="font-weight:bold;" id="tag_d2"></span>日
+           </span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)" data-value="1" /><span style="color:red">比昨日多</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)" data-value="0" /><span style="color:red">今日阳</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)" data-value="2" /><span>两周阳</span></label>
@@ -823,7 +865,7 @@
 
   <div style="width:100%;color:blue;" id="onList"></div>
 
-  <h2>各区统计（地址数）</h2>
+  <h2><span onclick="search(this.textContent);" class="click">上海市</span>各区统计（地址数）</h2>
   <table id="districtTable" style="border:1px solid blue;color:blue;font-size:75%;text-align:center;">
     <tr style="color:black;"><th>行政单位</th><th>累计上榜</th><th id="th_k"></th><th>两周内</th><th><span class="_tag"></span>涉及</th>
       <th>累计下榜</th><th><span class="_tag"></span>下榜</th></tr>
