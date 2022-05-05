@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>listed address, in map, since 2022 March 18th</title>
+  <title>sh listed address, since 2022 March 18th</title>
   <!-- script src="full.json"></script -->
   <script src="shanghaifabu/map-location.json?v=0504"></script><!-- @@ -->
   <script src="d3.min.v3.js"></script>
@@ -14,7 +14,8 @@
   <script src="shanghaifabu/sh-lines.json"></script>
   <script src="html2canvas.min.141.js"></script>
   <script>
-  let i; let j; let As; let Ds;
+  let i; let j; let _J = {};
+  let As; let Ds;
   const today = new Date();
   const j_data_init = 504; // @@ 0504
   let _today; // j.tag
@@ -46,13 +47,7 @@
   let _check = check_choices['0'];
   let dotNotDraw = 0;
   const baseURL = window.location.toString().split('#')[0].split('?')[0];
-  let hash = window.location.hash.slice(1).split('?')[0];
-  const hash2 = decodeURIComponent(window.location.toString()).split('?')[1]; // undefined
-  let autoSavePNG = (window.location.toString().indexOf('=') > -1);
-  if (autoSavePNG) {
-    hash = hash.split('=')[0];
-    _check = window.location.toString().split('=')[1];
-  }
+  let hash; let hash2; let autoSavePNG;
   let scaleChange = true;
   let lastSearch;
   let fontSize;
@@ -123,8 +118,9 @@
       if (autoSavePNG) {
         url += '=' + _check;
       }
-      window.location = url;
-      window.location.reload();
+      window.location.replace(url);
+      //window.location.reload();
+      load_js();
     } else {
       window.alert('没有前一日的数据\n可刷新本页再试');
     }
@@ -163,8 +159,9 @@
     if (autoSavePNG) {
       url += '=' + _check;
     }
-    window.location = url;
-    window.location.reload();
+    window.location.replace(url);
+    //window.location.reload();
+    load_js();
   }
 
   function jumpApr (q) {
@@ -189,8 +186,9 @@
     if (autoSavePNG) {
       url += '=' + _check;
     }
-    window.location = url;
-    window.location.reload();
+    window.location.replace(url);
+    //window.location.reload();
+    load_js();
   }
 
   function aprilEnter () {
@@ -219,14 +217,20 @@
   })();
 
   function load_js () {
-    let k = document.createElement('script');
+    hash = window.location.hash.slice(1).split('?')[0];
+    hash2 = decodeURIComponent(window.location.toString()).split('?')[1]; // undefined
+    autoSavePNG = (window.location.toString().indexOf('=') > -1);
+    if (autoSavePNG) {
+      hash = hash.split('=')[0];
+      _check = window.location.toString().split('=')[1];
+    }
     const hash_ = parseInt(hash);
     if (hash.length !== 4 || hash_ < 319 || hash_ > j_data_init) {
       hash = '0' + j_data_init;
       if (window.location.hash.slice(1).indexOf('?') > -1) {
-        window.location = baseURL + '#' + hash + '?' + hash2;
+        window.location.replace(baseURL + '#' + hash + '?' + hash2);
       } else {
-        window.location = baseURL + '#' + hash;
+        window.location.replace(baseURL + '#' + hash);
       }
     } else {
       if (hash_ < j_data_init) {
@@ -234,18 +238,31 @@
       if (hash_ === 319) {
         pre_button.style.visibility = 'hidden'; }
     }
-    k.src = "shanghaifabu/full" + hash + '.json';
-    console.log('Load json files for', hash);
-    document.head.append(k);
-    k.onload = function () { load(); };
-    k.onerror = function () {
-      window.alert('无法下载 full.json\n' + baseURL);
-      pre_button.style.visibility = 'hidden';
-      save_button.style.visibility = 'hidden';
-      addr.style.visibility = 'hidden';
-      search_button.style.visibility = 'hidden';
-      districtTable.style.visibility = 'hidden';
-    };
+    const k_src = "shanghaifabu/full" + hash + '.json';
+    if (_J && _J[hash] && _J[hash].tag === hash) {
+      j = _J[hash];
+      load();
+    } else {
+      let k = document.createElement('script');
+      k.src = k_src;
+      datestr.textContent = '';
+      fetching.style.visibility = 'visible';
+      console.log('Load json files for', hash);
+      document.head.append(k);
+      k.onload = function () {
+        j = JSON.parse(data);
+        _J[hash] = j;
+        load();
+      };
+      k.onerror = function () {
+        window.alert('无法下载 full.json\n' + window.location.toString() );
+        pre_button.style.visibility = 'hidden';
+        save_button.style.visibility = 'hidden';
+        addr.style.visibility = 'hidden';
+        search_button.style.visibility = 'hidden';
+        districtTable.style.visibility = 'hidden';
+      };
+    }
   }
 
   function hash2date (_s) {
@@ -261,8 +278,8 @@
   function tagsHTML (dl) {
     let di, ds = '';
     for (di = 0; di < dl.length; di += 1) {
-      ds += '<span class="click" onclick="window.location=\'#' + dl[di] +
-            '\';window.location.reload();">' + hash2date(dl[di]) + '</span>';
+      ds += '<span class="click" onclick="window.location.replace(\'#' + dl[di] +
+            '\');load_js();">' + hash2date(dl[di]) + '</span>';
       if (di < dl.length-1) {
         ds += ', ';
       }
@@ -271,10 +288,11 @@
   }
 
   function load () {
-    j = JSON.parse(data);
+    data = '';
     Ml = JSON.parse(csv);
     Ms = Object.keys(Ml.locations);
     datestr.textContent = j.date;
+    fetching.style.visibility = 'hidden';
     end_pre.textContent = '更新时间 ' + j.date + '\n源代码 github.com/coronin/shanghai-2022Mar';
     tag_m.textContent = parseInt(j.tag.substr(0,2) );
     tag_m2.textContent = tag_m.textContent;
@@ -354,8 +372,12 @@
       }
       latest_released.appendChild(k);
       k = document.createElement('p');
-      k.innerHTML = '<span style="color:black;" onclick="_check=\'released\';search(this.textContent);"' +
-                    ' class="click _L">' + Ds[i] + '</span>: ' + j.released[ Ds[i] ];
+      if (j.released && j.released[ Ds[i] ] ) {
+        k.innerHTML = '<span style="color:black;" onclick="_check=\'released\';search(this.textContent);"' +
+                      ' class="click _L">' + Ds[i] + '</span>: ' + j.released[ Ds[i] ];
+      } else {
+        k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> 无';
+      }
       released.appendChild(k);
     }
     map = document.getElementById('app').getContext('2d');
@@ -511,14 +533,14 @@
       app.style.display = 'none';
       check_row.style.display = 'none';
       clear_button.style.visibility = 'hidden';
-      window.location = baseURL + '#' + j.tag; // #hash
+      window.location.replace(baseURL + '#' + j.tag); // #hash
       return;
     }
     if (addr.value !== k) {
       addr.value = k;
     }
-    window.location = baseURL + '#' + j.tag + '?' + k;
-    document.title = 'sh.teach.bio/2 ? ' + k + '  2022/' + _today;
+    window.location.replace(baseURL + '#' + j.tag + '?' + k);
+    //document.title = 'sh.teach.bio/2 ? ' + k + '  2022/' + _today;
     map.clearRect(0, 0, svgWidth, svgHeight);
     svgWidth = 640;
     svgHeight = 480;
@@ -939,7 +961,8 @@
 </head>
 <body onload="load_js();">
   <p>
-    更新时间 <span id="datestr" style="color:blue;">fetching<span id="loading_span"></span> not ready</span><br/>
+    更新时间 <span id="datestr" style="color:blue;"></span>
+      <span id="fetching" style="color:blue;">fetching<span id="loading_span"></span> not ready</span><br/>
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a> <span id="shanghaifabu"></span><br/>
     本页为<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
     &nbsp; <span class="click" id="april_button" onclick="jumpApr(addr.value);">跳至4/</span>
@@ -960,7 +983,7 @@
   <button id="next_button" style="visibility:hidden;" onclick="nextReload(addr.value);">&gt;</button>
   <button onclick="nextReload(addr.value,1);">&gt;&gt;</button>
   <button id="clear_button" style="visibility:hidden;" onclick="search();">隐藏</button>
-  <button id="reload_button" onclick="window.location.reload();">重置</button><br/>
+  <button id="reload_button" onclick="load_js();">重置</button><br/>
   <canvas id="app" style="display:none;"></canvas>
   <!-- 3.district 2.inB 0.today 4.released 5.released_today 1.latest_added -->
   <div id="check_row" style="display:none;">
