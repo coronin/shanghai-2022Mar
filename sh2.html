@@ -522,7 +522,7 @@
       }
       draw_sh();
       for (i = 0; i < Ds.length; i += 1) {
-        if (!j.today[Ds[i] ]) {
+        if (!j[_check][Ds[i] ]) {
           continue;
         }
         for (ii = 0; ii < j[_check][ Ds[i] ].length; ii += 1) {
@@ -877,12 +877,18 @@
     <label><span>2022年3月18日至
              <span style="font-weight:bold;" id="tag_m2"></span>月<span style="font-weight:bold;" id="tag_d2"></span>日
            </span></label>
-    <label><input type="checkbox" name="check" onclick="onlyOne(this)" data-value="1" /><span style="color:red">比昨日多</span></label>
-    <label><input type="checkbox" name="check" onclick="onlyOne(this)" data-value="0" /><span style="color:red">今日阳</span></label>
-    <label><input type="checkbox" name="check" onclick="onlyOne(this)" data-value="2" /><span>两周阳</span></label>
-    <label><input type="checkbox" name="check" onclick="onlyOne(this)" data-value="3" /><span>累计阳</span></label>
-    <label><input type="checkbox" name="check" onclick="onlyOne(this)" data-value="4" /><span style="color:green">累计下榜</span></label>
-    <label><input type="checkbox" name="check" onclick="onlyOne(this)" data-value="5" /><span style="color:green">今日下榜</span></label>
+    <label><input type="checkbox" name="check" onclick="onlyOne(this)"
+      data-value="1" /><span style="color:red">比昨日多</span></label>
+    <label><input type="checkbox" name="check" onclick="onlyOne(this)"
+      data-value="0" /><span style="color:red">今日阳</span></label>
+    <label><input type="checkbox" name="check" onclick="onlyOne(this)"
+      data-value="2" /><span style="color:red">两周阳</span></label>
+    <label><input type="checkbox" name="check" onclick="onlyOne(this)"
+      data-value="3" /><span style="color:red">累计阳</span></label>
+    <label><input type="checkbox" name="check" onclick="onlyOne(this)"
+      data-value="4" /><span style="color:green">累计下榜</span></label>
+    <label><input type="checkbox" name="check" onclick="onlyOne(this)"
+      data-value="5" /><span style="color:green">今日下榜</span></label>
   </div>
 
   <div style="width:100%;color:blue;" id="onList"></div>
