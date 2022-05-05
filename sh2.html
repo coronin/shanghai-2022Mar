@@ -47,13 +47,14 @@
   const baseURL = window.location.toString().split('#')[0].split('?')[0];
   let hash = window.location.hash.slice(1).split('?')[0];
   const hash2 = decodeURIComponent(window.location.toString()).split('?')[1]; // undefined
+  let autoSavePNG = (window.location.toString().indexOf('=') > -1);
+  if (autoSavePNG) {
+    hash = hash.split('=')[0];
+    _check = window.location.toString().split('=')[1];
+  }
   let scaleChange = true;
   let lastSearch;
   let fontSize;
-  let autoSavePNG = (window.location.toString().indexOf('=') > -1);
-  if (autoSavePNG) {
-    _check = window.location.toString().split('=')[1];
-  }
   const j_data_init = 504; // 0504 @@
 
   function mapX (z) {
@@ -100,7 +101,7 @@
     }
   }
 
-  function yesterdayMap (q, oldest) {
+  function preReload (q, oldest) {
     let url;
     if (j && j.address['shanghaifabu'].length > 2) {
       url = baseURL + '#';
@@ -129,7 +130,7 @@
     }
   }
 
-  function tomorrowMap (q, lastest) {
+  function nextReload (q, lastest) {
     let hash_;
     try {
       if (hash) {
@@ -273,13 +274,13 @@
         exportCanvasAsPNG();
       }
     }
+    check_row.onclick = function () {
+      auto_save_off();
+    }
     if (autoSavePNG) {
       auto_save_status.style.boxShadow = 'inset 0 -.5em cyan';
       pre_button.style.border = '.25em solid cyan';
       next_button.style.border = '.25em solid cyan';
-    }
-    check_row.onclick = function () {
-      auto_save_off();
     }
     Ds = Object.keys(j.districts);
     As = Object.keys(j.address);
@@ -346,6 +347,8 @@
         k = hash2;
       }
       search(k);
+    } else if (autoSavePNG) {
+      exportCanvasAsPNG();
     }
   }
 
@@ -485,7 +488,7 @@
       app.style.display = 'none';
       check_row.style.display = 'none';
       clear_button.style.visibility = 'hidden';
-      window.location = baseURL + '#' + j.tag;
+      window.location = baseURL + '#' + j.tag; // #hash
       return;
     }
     if (addr.value !== k) {
@@ -928,11 +931,11 @@
   </p>
 
   <button id="save_button" onclick="exportCanvasAsPNG();">存图</button>
-  <button onclick="yesterdayMap(addr.value,1);">&lt;&lt;</button>
-  <button id="pre_button" onclick="yesterdayMap(addr.value);">&lt;</button>
+  <button onclick="preReload(addr.value,1);">&lt;&lt;</button>
+  <button id="pre_button" onclick="preReload(addr.value);">&lt;</button>
   <span id="auto_save_status" class="_tag">/</span>
-  <button id="next_button" style="visibility:hidden;" onclick="tomorrowMap(addr.value);">&gt;</button>
-  <button onclick="tomorrowMap(addr.value,1);">&gt;&gt;</button>
+  <button id="next_button" style="visibility:hidden;" onclick="nextReload(addr.value);">&gt;</button>
+  <button onclick="nextReload(addr.value,1);">&gt;&gt;</button>
   <button id="clear_button" style="visibility:hidden;" onclick="search();">隐藏</button>
   <button id="reload_button" onclick="window.location.reload();">重置</button><br/>
   <canvas id="app" style="display:none;"></canvas>
