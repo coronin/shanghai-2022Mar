@@ -207,11 +207,12 @@
   }
 
   const loading = ['.', '..', '...', '']; // ['\\', '/', '-']
-  let loading_i = -1;
+  let loading_i = -1, ld;
   (function f () {
     loading_i = (loading_i + 1) % loading.length;
-    if (document.getElementById('loading_span')) {
-      loading_span.textContent = loading[ loading_i ];
+    ld = document.getElementsByClassName('loading_span');
+    for (i = 0; i < ld.length; i += 1) {
+      ld[i].textContent = loading[ loading_i ];
     }
     setTimeout(f, 250);
   })();
@@ -247,10 +248,12 @@
       k.src = k_src;
       datestr.textContent = '';
       fetching.style.visibility = 'visible';
+      fetching2.style.visibility = 'visible';
       console.log('Load json files for', hash);
       document.head.append(k);
       k.onload = function () {
         j = JSON.parse(data);
+        data = '';
         _J[hash] = j;
         load();
       };
@@ -288,12 +291,12 @@
   }
 
   function load () {
-    data = '';
     Ml = JSON.parse(csv);
     Ms = Object.keys(Ml.locations);
     datestr.textContent = j.date;
     fetching.style.visibility = 'hidden';
-    end_pre.textContent = '更新时间 ' + j.date + '\n源代码 github.com/coronin/shanghai-2022Mar';
+    fetching2.style.visibility = 'hidden';
+    end_pre.textContent = '数据更新时间 ' + j.date + '\n源代码 github.com/coronin/shanghai-2022Mar';
     tag_m.textContent = parseInt(j.tag.substr(0,2) );
     tag_m2.textContent = tag_m.textContent;
     tag_d.textContent = parseInt(j.tag.substr(2,2) );
@@ -962,10 +965,10 @@
 <body onload="load_js();">
   <p>
     更新时间 <span id="datestr" style="color:blue;"></span>
-      <span id="fetching" style="color:blue;">fetching<span id="loading_span"></span> not ready</span><br/>
+      <span id="fetching" style="color:blue;">fetching<span class="loading_span"></span> not ready</span><br/>
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a> <span id="shanghaifabu"></span><br/>
     本页为<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
-    &nbsp; <span class="click" id="april_button" onclick="jumpApr(addr.value);">跳至4/</span>
+    <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="click" id="april_button" onclick="jumpApr(addr.value);">跳至4/</span>
     <input type="text" id="april" name="april" size=2 onkeydown="aprilEnter();" />
     <br/>搜索<span onclick="search(this.textContent);" class="click _L">上海市</span> 可以在地图中展示全市上榜地址
 
@@ -983,7 +986,8 @@
   <button id="next_button" style="visibility:hidden;" onclick="nextReload(addr.value);">&gt;</button>
   <button onclick="nextReload(addr.value,1);">&gt;&gt;</button>
   <button id="clear_button" style="visibility:hidden;" onclick="search();">隐藏</button>
-  <button id="reload_button" onclick="load_js();">重置</button><br/>
+  <button id="reload_button" onclick="load_js();">重置</button>
+  <span id="fetching2" style="color:blue;">Loading<span class="loading_span"></span></span><br/>
   <canvas id="app" style="display:none;"></canvas>
   <!-- 3.district 2.inB 0.today 4.released 5.released_today 1.latest_added -->
   <div id="check_row" style="display:none;">
