@@ -45,6 +45,7 @@
   let hash = window.location.hash.slice(1).split('?')[0];
   const hash2 = decodeURIComponent(window.location.toString()).split('?')[1]; // undefined
   let scaleChange = true;
+  let lastSearch;
   const j_data_init = 503; // 0503
 
   function mapX (z) {
@@ -387,6 +388,8 @@
                    3, 3 );
     });
     map.fillText('已标记精致咖啡馆', 0,2);
+    map.fillStyle = 'silver';
+    map.fillText('制图 https://teach.bio @the_paper_link', svgWidth-186,2);
     let dots;
     map.strokeStyle = 'rgba(0,0,255,0.2)';
     map.lineWidth = 6;
@@ -569,8 +572,13 @@
           ks = '<span style="color:grey;">' + sb + '.</span> <span>';
         }
         ks += '<span class="click" onclick="search(this.textContent);">' + Ds[ii] + '</span>' +
-              '<a href="https://maps.baidu.com/search/?querytype=s&wd=' +
-              As[i] + '" target="_blank">' + As[i] + '</a> ';
+              '<span class="click _L" onclick="lastSearch=\''+k+'\';search(\'';
+        if (lastSearch && lastSearch !== As[i] && As[i].indexOf(lastSearch) > -1) {
+          ks += lastSearch;
+        } else {
+          ks += As[i];
+        }
+        ks += '\');">' + As[i] + '</span> ';
         if (Ms.indexOf(Ds[ii] + As[i]) > -1) {
           map_push = 1;
           map_i += 1;
@@ -838,8 +846,8 @@
   </p>
   <p>
     <label for="addr">上榜地址</label>
-    <input type="text" id="addr" name="addr" onkeydown="addrEnter();" />
-    <button id="search_button" onclick="scaleChange=true;search(addr.value);">搜索</button>
+    <input type="text" id="addr" name="addr" onkeydown="last_search=false;addrEnter();" />
+    <button id="search_button" onclick="scaleChange=true;last_search=false;search(addr.value);">搜索</button>
   </p>
 
   <button id="save_button" onclick="exportCanvasAsPNG();">存图</button>
