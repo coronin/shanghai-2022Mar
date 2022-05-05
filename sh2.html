@@ -170,6 +170,7 @@
     const hash_ = parseInt(april.value);
     if (!april.value || !hash_ || hash_ > 30 || hash_ < 1) {
       april.value = '';
+      april.focus();
       return;
     }
     let url = baseURL + '#04';
@@ -916,6 +917,13 @@
       text-align: left;
       box-shadow: inset 0 .5em yellow;
     }
+    #april,
+    #april_button {
+      box-shadow: inset 0 -.5em cyan;
+    }
+    #april {
+      border: 0;
+    }
     #check_row {font-size: 75%}
     #check_row label {
       display: inline-block;
@@ -934,9 +942,8 @@
     更新时间 <span id="datestr" style="color:blue;">fetching<span id="loading_span"></span> not ready</span><br/>
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a> <span id="shanghaifabu"></span><br/>
     本页为<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
-    &nbsp;(<span class="click" id="april_button" onclick="jumpApr(addr.value);">跳至 4/</span>
-    <input class="_L" type="text" id="april" name="april" size=2 onkeydown="aprilEnter();" />
-    )
+    &nbsp; <span class="click" id="april_button" onclick="jumpApr(addr.value);">跳至4/</span>
+    <input type="text" id="april" name="april" size=2 onkeydown="aprilEnter();" />
     <br/>搜索<span onclick="search(this.textContent);" class="click _L">上海市</span> 可以在地图中展示全市上榜地址
 
   </p>
