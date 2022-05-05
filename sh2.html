@@ -1,4 +1,5 @@
-<!DOCTYPE html lang="zh">
+<!DOCTYPE html>
+<html lang="zh">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
@@ -797,7 +798,7 @@
     search(addr.value);
   }
   </script>
-  <style type="text/css">
+  <style>
     body {background-color: white;}
     p {line-height: 1.5em;}
     .click, button, label>input {cursor: pointer;}
@@ -841,13 +842,13 @@
     <button id="search_button" onclick="scaleChange=true;search(addr.value);">搜索</button>
   </p>
 
-  <button id="save_button" onclick="exportCanvasAsPNG();">存图</button> &nbsp;
+  <button id="save_button" onclick="exportCanvasAsPNG();">存图</button>
   <button onclick="yesterdayMap(addr.value,1);">&lt;&lt;</button>
   <button id="pre_button" onclick="yesterdayMap(addr.value);">&lt;</button>
   <span class="_tag">3/18</span>
   <button id="next_button" style="visibility:hidden;" onclick="tomorrowMap(addr.value);">&gt;</button>
-  <button onclick="tomorrowMap(addr.value,1);">&gt;&gt;</button> &nbsp;
-  <button id="clear_button" style="visibility:hidden;" onclick="search();">隐藏</button> &nbsp;
+  <button onclick="tomorrowMap(addr.value,1);">&gt;&gt;</button>
+  <button id="clear_button" style="visibility:hidden;" onclick="search();">隐藏</button>
   <button id="reload_button" onclick="window.location.reload();">重置</button><br/>
   <canvas id="app" style="display:none;"></canvas>
   <!-- 3.district 2.inB 0.today 4.released 5.released_today 1.latest_added -->
