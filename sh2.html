@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width">
   <title>listed address, in map, since 2022 March 18th</title>
   <!-- script src="full.json"></script -->
-  <script src="shanghaifabu/map-location.json?v=0504"></script><!-- @@ -->
+  <script src="shanghaifabu/map-location.json?v=0504"></script><!-- @ -->
   <script src="d3.min.v3.js"></script>
   <script src="topojson.min.180.js"></script><!-- http://geojson.io -->
   <script src="shanghaifabu/sh.json"></script><!-- http://datav.aliyun.com/portal/school/atlas/area_generator -->
@@ -14,7 +14,7 @@
   <script src="shanghaifabu/sh-lines.json"></script>
   <script src="html2canvas.min.141.js"></script>
   <script>
-  let i; let j; let As; let Ds;
+  let i; let j; let j_data_init; let As; let Ds;
   const today = new Date();
   let _today; // j.tag
   let Ml; let Ms; let map;
@@ -55,7 +55,6 @@
   let scaleChange = true;
   let lastSearch;
   let fontSize;
-  const j_data_init = 504; // 0504 @@
 
   function mapX (z) {
     return zz = Math.round((z - d3center[0]) * d3scale/57 + svgWidth/2);
@@ -247,8 +246,31 @@
     };
   }
 
+  function hash2date (_s) {
+    const _m = parseInt(_s.substr(0,2) );
+    const _d = parseInt(_s.substr(2,2) );
+    if (_s.length === 4 && [3,4,5].indexOf(_m) > -1 && _d > 0 && _d < 32) {
+      return _m + '/' + _d;
+    } else {
+      return tag_m.textContent + '/' + tag_d.textContent;
+    }
+  }
+
+  function tagsHTML (dl) {
+    let di, ds = '';
+    for (di = 0; di < dl.length; di += 1) {
+      ds += '<span class="click" onclick="window.location=\'#' + dl[di] +
+            '\';window.location.reload();">' + hash2date(dl[di]) + '</span>';
+      if (di < dl.length-1) {
+        ds += ', ';
+      }
+    }
+    return ds;
+  }
+
   function load () {
     j = JSON.parse(data);
+    j_data_init = parseInt(j.tag);
     Ml = JSON.parse(csv);
     Ms = Object.keys(Ml.locations);
     datestr.textContent = j.date;
@@ -257,7 +279,7 @@
     tag_m2.textContent = tag_m.textContent;
     tag_d.textContent = parseInt(j.tag.substr(2,2) );
     tag_d2.textContent = tag_d.textContent;
-    _today = tag_m.textContent + '/' + tag_d.textContent;
+    _today = hash2date(j.tag);
     const tags = document.getElementsByClassName('_tag');
     let k;
     for (k = 0; k < tags.length; k += 1) {
@@ -656,15 +678,9 @@
         if (il === 1 || !s2) { // 地址同名, 团结村 国权北路555
           if (('' + dl).indexOf(j.tag) > 0) {
             if (map_push) { map_push = 2; }
-            ks += '<span style="color:red">' + (''+dl
-              ).replace(/030/g, '3/').replace(/040/g, '4/'
-              ).replace(/050/g, '5/').replace(/04/g, '4/'
-              ).replace(/03/g, '3/').replace(/05/g, '5/') + '</span>';
+            ks += '<span style="color:red">' + tagsHTML(dl) + '</span>';
           } else {
-            ks += (''+dl
-              ).replace(/030/g, '3/').replace(/040/g, '4/'
-              ).replace(/050/g, '5/').replace(/04/g, '4/'
-              ).replace(/03/g, '3/').replace(/05/g, '5/');
+            ks += tagsHTML(dl);
           }
           release = parseInt(dl[dl.length - 1]);
         } else {
