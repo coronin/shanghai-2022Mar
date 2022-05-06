@@ -39,11 +39,14 @@
     '奉贤区':[121.529829,30.926042,82400],
     '崇明区':[121.548589, 31.62, 32000]}; // 崇明区 121.54858925095525 31.669887634215034
   const sh_district7 = ['黄浦区','徐汇区','长宁区','静安区','普陀区','虹口区','杨浦区'];
+  const ms = {3:'march', 4:'april', 5:'may'};
   const check_choices = {
     '5':'released_today', '4':'released',
     '3':'districts', '2':'inB', '1':'latest_added', '0':'today',
     'released_today':'当日下榜', 'released':'累计下榜',
-    'districts':'累计阳', 'inB':'两周阳', 'latest_added':'比昨日多', 'today':'当日阳' }
+    'districts':'累计阳', 'inB':'两周阳', 'latest_added':'比昨日多', 'today':'当日阳',
+    'latest_added2':'三阴阳', '6':'latest_added2',
+    'latest_added7':'七阴阳', '7':'latest_added7' }
   let _check = check_choices['0'];
   let dotNotDraw = 0;
   const baseURL = window.location.toString().split('#')[0].split('?')[0];
@@ -100,7 +103,11 @@
     let url;
     if (j && j.address['shanghaifabu'].length > 2) {
       url = baseURL + '#';
-      url += j.address['shanghaifabu'].slice(-3)[0];
+      if (parseInt(hash) > 500) {
+        url += j.address['shanghaifabu'].slice(-2)[0];
+      } else {
+        url += j.address['shanghaifabu'].slice(-3)[0];
+      }
     }
     if (oldest) {
       url = baseURL + '#0319';
@@ -168,7 +175,6 @@
     if (!month) {
       month = 4;
     }
-    const ms = {3:'march', 4:'april', 5:'may'};
     const inputS = document.getElementById(ms[month]).value;
     const i_ = parseInt(inputS);
     if (!inputS || !i_ || i_ > 31 || i_ < 1) {
@@ -322,6 +328,9 @@
     tag_m2.textContent = tag_m.textContent;
     tag_d.textContent = parseInt(j.tag.substr(2,2) );
     tag_d2.textContent = tag_d.textContent;
+    for (i = 3; i < 6; i += 1) {
+      document.getElementById(ms[i]).value = '';
+    }
     _today = hash2date(j.tag);
     const tags = document.getElementsByClassName('_tag');
     let k;
@@ -423,6 +432,13 @@
     }
     if (window.location.toString().indexOf('=') === -1) {
       auto_save_.style.visibility = 'hidden';
+    }
+    if (parseInt(j.tag) > 500) {
+      check6.style.display = 'inline-block';
+      check7.style.display = 'inline-block';
+    } else {
+      check6.style.display = 'none';
+      check7.style.display = 'none';
     }
   }
 
@@ -570,6 +586,8 @@
     }
     window.location.replace(baseURL + '#' + j.tag + '?' + k);
     //document.title = 'sh.teach.bio/2 ? ' + k + '  2022/' + _today;
+    onList.textContent = '';
+    let kk; let ks;
     map.clearRect(0, 0, svgWidth, svgHeight);
     svgWidth = 640;
     svgHeight = 480;
@@ -599,9 +617,21 @@
         d3scale = centers[k][2]; }
       d3center = [centers[k][0], centers[k][1] ];
       draw_sh();
-      if (j[_check][k]) {
+      if (j[_check] && j[_check][k]) {
         for (ii = 0; ii < j[_check][k].length; ii += 1) { // .today
           draw_addr(k + j[_check][k][ii]);
+          if (['latest_added2',
+               'latest_added7'].indexOf(_check) > -1) {
+            ks = '<span style="color:grey;">' + (ii+1) + '.</span> <span>' +
+                 '<span class="click" onclick="search(this.textContent);">' + k + '</span>' +
+                 '<span class="click _L" onclick="search(\'' + j[_check][k][ii] +
+                 '\');">' + j[_check][k][ii] + '</span> ';
+            kk = document.createElement('p');
+            kk.style.padding = '0';
+            kk.style.margin = '0';
+            kk.innerHTML = ks;
+            onList.appendChild(kk);
+          }
         }
       }
       check_row.style.display = 'block';
@@ -611,7 +641,7 @@
         map.fillText(k + j[_check][k].length + '个地址 其中' + dotNotDraw + '个无法显示 2022/' + _today,
                      0,svgHeight-1-fontSize);
         dotNotDraw = 0;
-      } else if (j[_check][k]) {
+      } else if (j[_check] && j[_check][k]) {
         map.fillText(k + ' ' + j[_check][k].length + '个地址 2022/' + _today,
                      0,svgHeight-1-fontSize);
       }
@@ -675,13 +705,12 @@
       _check = check_choices['0'];
     }
     check_row.style.display = 'none';
-    onList.textContent = '';
     for (ii = 0; ii < Ds.length; ii += 1) {
       document.getElementById(Ds[ii]).style.background = 'white';
       document.getElementById(Ds[ii] + 'line').textContent = '';
       th_k.textContent = '';
     }
-    let dl; let kk; let ks; let sb = 0;
+    let dl; let sb = 0;
     let map_push;
     let map_x = new Array();
     let map_y = new Array();
@@ -699,13 +728,12 @@
               //console.log(Ds[ii]);
               il += 1;
               sb += 1;
-
         //onList.textContent += Ds[ii] + ',' + As[i] + ': ' + dl;
-        if (sb < 10) {
-          ks = '<span style="color:grey;"><span style="color:white;">0</span>' + sb + '.</span> <span>';
-        } else {
+        // if (sb < 10) {
+        //   ks = '<span style="color:grey;"><span style="color:white;">0</span>' + sb + '.</span> <span>';
+        // } else {
           ks = '<span style="color:grey;">' + sb + '.</span> <span>';
-        }
+        //}
         ks += '<span class="click" onclick="search(this.textContent);">' + Ds[ii] + '</span>';
         if (map_i > 1 || lastSearch) {
           ks += '<span class="click _L" onclick="lastSearch=\''+k+'\';search(\'';
@@ -773,13 +801,13 @@
             ks += '</span>';
           }
         }
-        let kk = document.createElement('p');
+        kk = document.createElement('p');
         //kk.id = As[i];
         kk.style.padding = '0';
         kk.style.margin = '0';
         kk.innerHTML = ks;
         onList.appendChild(kk);
-
+        //
             }
           }
         }
@@ -1029,6 +1057,10 @@
     <label><span>2022年 3月18日 至
              <span id="tag_m2"></span>月<span id="tag_d2"></span>日
            </span></label>
+    <label id="check7" style="display:none;"><input type="checkbox" name="check" onclick="onlyOne(this)"
+      data-value="7" /><span style="color:red">七阴阳</span></label>
+    <label id="check6" style="display:none;"><input type="checkbox" name="check" onclick="onlyOne(this)"
+      data-value="6" /><span style="color:red">三阴阳</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
       data-value="1" /><span style="color:red">比昨日多</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"

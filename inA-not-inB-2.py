@@ -11,6 +11,9 @@ Bs = ('0422','0423','0424','0425','0426','0427','0428','0429','0430',
       '0501','0502','0503','0504','0505'
       )
 #### 以上不能有末尾逗号 没有空字符检查
+if len(Bs) > 14:
+    print('not in B 最多14天')
+    raise
 
 districts = ('浦东新区', '黄浦区', '静安区', '徐汇区', '长宁区',
              '普陀区', '虹口区', '杨浦区', '宝山区', '闵行区',
@@ -255,6 +258,7 @@ if A:
 
 latest_added = {}
 Bs2 = read_a_list(Bs[-2], tag='list')
+by_address['shanghaifabu'].pop()
 for dd in districts:
     if not districts_today.get(dd):
         continue
@@ -268,18 +272,48 @@ for dd in districts:
                 latest_added[dd] = [line]
 
 latest_added2 = {}
-Bs2 = read_a_list(Bs[-2], tag='list') + read_a_list(Bs[-3], tag='list') # >0505
+Bs4 = [[], [], [], [], [], [] ] # >= 0501
+Bs4[0] = read_a_list(Bs[-3], tag='list')
+Bs4[1] = read_a_list(Bs[-4], tag='list')
+Bs4[2] = read_a_list(Bs[-5], tag='list')
+Bs4[3] = read_a_list(Bs[-6], tag='list')
+Bs4[4] = read_a_list(Bs[-7], tag='list')
+Bs4[5] = read_a_list(Bs[-8], tag='list')
+by_address['shanghaifabu'] = by_address['shanghaifabu'][:-6]
 for dd in districts:
     if not districts_today.get(dd):
         continue
     #print('>>>>', dd, len(districts_today[dd]) )
     for line in districts_today[dd]:
-        if ('%s%s' % (dd, line)) not in Bs2:
+        if ('%s%s' % (dd, line)) not in Bs2 and (
+            '%s%s' % (dd, line)) not in Bs4[0] and (
+            '%s%s' % (dd, line)) not in Bs4[1]:
             #print('>>>>', dd, line)
             if (latest_added2.get(dd)):
                 latest_added2[dd] += [line]
             else:
                 latest_added2[dd] = [line]
+
+latest_added7 = {}
+for dd in districts:
+    if not districts_today.get(dd):
+        continue
+    #print('>>>>', dd, len(districts_today[dd]) )
+    for line in districts_today[dd]:
+        last38 = False
+        for Bs4_ in Bs4:
+            if ('%s%s' % (dd, line)) in Bs4_:
+                last38 = True;
+                break;
+        if last38:
+            continue
+        if ('%s%s' % (dd, line)) not in Bs2:
+            #print('>>>>', dd, line)
+            if (latest_added7.get(dd)):
+                latest_added7[dd] += [line]
+            else:
+                latest_added7[dd] = [line]
+
 
 print('\n\n')
 to_check = ('海波路850弄', '龙吴路2588弄',
@@ -312,7 +346,8 @@ j = {'date':datestr,
      'districts':by_district,
      'released':districts_released,
      'released_today':latest_released,
-     'latest_added2':latest_added,
+     'latest_added2':latest_added2,
+     'latest_added7':latest_added7,
      'latest_added':latest_added }
 fz = open('shanghaifabu/full%s.json' % Bs[-1], 'w')
 fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
