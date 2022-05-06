@@ -55,12 +55,12 @@
   let lastSearch;
   let fontSize;
 
-  function mapX (z) {
-    return zz = Math.round((z - d3center[0]) * d3scale/57 + svgWidth/2);
+  function mapX (z) { // 57变大==>区域变窄  .004修正区域平移
+    return zz = Math.round((z - d3center[0] + 0.004) * d3scale/57 + svgWidth/2);
   }
 
-  function mapY (z) {
-    return zz = Math.round((d3center[1] - z) * d3scale/49 + svgHeight/2);
+  function mapY (z) { // 49变大==>区域压扁  .003修正区域平移
+    return zz = Math.round((d3center[1] - z + 0.003) * d3scale/49 + svgHeight/2);
   }
 
   function inChina(lng, lat) {
@@ -621,16 +621,25 @@
         for (ii = 0; ii < j[_check][k].length; ii += 1) { // .today
           draw_addr(k + j[_check][k][ii]);
           if (['latest_added2',
-               'latest_added7'].indexOf(_check) > -1) {
+               'latest_added7',
+               'latest_added'].indexOf(_check) > -1) {
             ks = '<span style="color:grey;">' + (ii+1) + '.</span> <span>' +
                  '<span class="click" onclick="search(this.textContent);">' + k + '</span>' +
                  '<span class="click _L" onclick="search(\'' + j[_check][k][ii] +
                  '\');">' + j[_check][k][ii] + '</span> ';
+            if (_check === 'latest_added' && j.latest_added2[k] &&
+                j.latest_added2[k].indexOf( j[_check][k][ii] ) === -1) {
+                ks += ' <em style="color:grey">不在“三阴阳”，在“一阴阳”</em>';
+            } else if (_check === 'latest_added2' && j.latest_added7[k] &&
+                       j.latest_added7[k].indexOf( j[_check][k][ii] ) === -1) {
+                ks += ' <em style="color:grey">不在“七阴阳”，在“三阴阳”</em>';
+            }
             kk = document.createElement('p');
             kk.style.padding = '0';
             kk.style.margin = '0';
             kk.innerHTML = ks;
             onList.appendChild(kk);
+            ////
           }
         }
       }
