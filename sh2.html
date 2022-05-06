@@ -58,9 +58,15 @@
   function mapX (z) { // 57变大==>区域变窄  .004修正区域平移
     return zz = Math.round((z - d3center[0] + 0.004) * d3scale/57 + svgWidth/2);
   }
+  function mapX0 (z) {
+    return zz = Math.round((z - d3center[0]) * d3scale/57 + svgWidth/2);
+  }
 
   function mapY (z) { // 49变大==>区域压扁  .003修正区域平移
     return zz = Math.round((d3center[1] - z + 0.003) * d3scale/49 + svgHeight/2);
+  }
+  function mapY0 (z) {
+    return zz = Math.round((d3center[1] - z) * d3scale/49 + svgHeight/2);
   }
 
   function inChina(lng, lat) {
@@ -177,7 +183,8 @@
     }
     const inputS = document.getElementById(ms[month]).value;
     const i_ = parseInt(inputS);
-    if (!inputS || !i_ || i_ > 31 || i_ < 1) {
+    if (!inputS || !i_ || i_ > 31 || i_ < 1 ||
+        (month === 3 && i_ < 19) ) {
       document.getElementById(ms[month]).value = '';
       document.getElementById(ms[month]).focus();
       return;
@@ -509,16 +516,16 @@
       map.textAlign = 'start';
       map.fillStyle = 'grey';
       map.fillText(d.properties.name,
-                   mapX(d.properties.center[0]),
-                   mapY(d.properties.center[1]));
+                   mapX0(d.properties.center[0]),
+                   mapY0(d.properties.center[1]));
     });
     map.fillStyle = 'blue';
     const cafe0 = JSON.parse(cafe);
     const cafe1 = topojson.feature(cafe0, cafe0.objects.collection);
     cafe1.features.forEach(d => {
       map.beginPath();
-      map.fillRect(mapX( d.geometry.coordinates[0] ),
-                   mapY( d.geometry.coordinates[1] ),
+      map.fillRect(mapX0( d.geometry.coordinates[0] ),
+                   mapY0( d.geometry.coordinates[1] ),
                    3, 3 );
     });
     map.fillText('已标记精致咖啡馆', 0,2);
@@ -532,9 +539,9 @@
     river1.features.forEach(d => {
       dots = d.geometry.coordinates;
       map.beginPath();
-      map.moveTo(mapX(dots[0][0]), mapY(dots[0][1]));
+      map.moveTo(mapX0(dots[0][0]), mapY0(dots[0][1]));
       for (i = 1; i < dots.length; i += 1) {
-        map.lineTo(mapX(dots[i][0]), mapY(dots[i][1]));
+        map.lineTo(mapX0(dots[i][0]), mapY0(dots[i][1]));
       }
       map.stroke();
     });
@@ -545,9 +552,9 @@
     line1.features.forEach(d => {
       dots = d.geometry.coordinates;
       map.beginPath();
-      map.moveTo(mapX(dots[0][0]), mapY(dots[0][1]));
+      map.moveTo(mapX0(dots[0][0]), mapY0(dots[0][1]));
       for (i = 1; i < dots.length; i += 1) {
-        map.lineTo(mapX(dots[i][0]), mapY(dots[i][1]));
+        map.lineTo(mapX0(dots[i][0]), mapY0(dots[i][1]));
       }
       map.stroke();
     });
