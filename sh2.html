@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width">
   <title>sh listed address, since 2022 March 18th</title>
   <!-- script src="full.json"></script -->
-  <script src="shanghaifabu/map-location.json?v=0504"></script><!-- @@ -->
+  <script src="shanghaifabu/map-location.json?v=0505"></script><!-- @@ -->
   <script src="d3.min.v3.js"></script>
   <script src="topojson.min.180.js"></script><!-- http://geojson.io -->
   <script src="shanghaifabu/sh.json"></script><!-- http://datav.aliyun.com/portal/school/atlas/area_generator -->
@@ -17,7 +17,7 @@
   let i; let j; let _J = {};
   let As; let Ds;
   const today = new Date();
-  const j_data_init = 504; // @@ 0504
+  const j_data_init = 505; // @@ 0505
   let _today; // j.tag
   let Ml; let Ms; let map;
   let d3scale; let d3center; let svgWidth; let svgHeight;
@@ -164,16 +164,26 @@
     load_js();
   }
 
-  function jumpApr (q) {
-    const hash_ = parseInt(april.value);
-    if (!april.value || !hash_ || hash_ > 30 || hash_ < 1) {
-      april.value = '';
-      april.focus();
-      return;
+  function jumpApr (q, month) {
+    if (!month) {
+      month = 4;
     }
-    let url = baseURL + '#04';
-    if (hash_ < 10) { url += '0'; }
-    url += hash_;
+    const ms = {3:'march', 4:'april', 5:'may'};
+    const inputS = document.getElementById(ms[month]).value;
+    const i_ = parseInt(inputS);
+    if (!inputS || !i_ || i_ > 31 || i_ < 1) {
+      document.getElementById(ms[month]).value = '';
+      document.getElementById(ms[month]).focus();
+      return;
+    } else {
+      for (i = 3; i < 6; i += 1) {
+        if (i !== month) {
+          document.getElementById(ms[i]).value = ''; }
+      }
+    }
+    let url = baseURL + '#0' + month;
+    if (i_ < 10) { url += '0'; }
+    url += i_;
     if (q) {
       url += '?' + q;
     }
@@ -191,10 +201,10 @@
     load_js();
   }
 
-  function aprilEnter () {
+  function aprilEnter (ky) {
     const keyCode = ('which' in event) ? event.which : event.keyCode;
     if (keyCode === 13) {
-      jumpApr(addr.value);
+      jumpApr(addr.value, ky);
     }
   }
 
@@ -235,9 +245,15 @@
       }
     } else {
       if (hash_ < j_data_init) {
-        next_button.style.visibility = 'visible'; }
-      if (hash_ === 319) {
-        pre_button.style.visibility = 'hidden'; }
+        next_button.style.visibility = 'visible';
+      } else {
+        next_button.style.visibility = 'hidden';
+      }
+      if (hash_ < 320) {
+        pre_button.style.visibility = 'hidden';
+      } else {
+        pre_button.style.visibility = 'visible';
+      }
     }
     const k_src = "shanghaifabu/full" + hash + '.json';
     if (_J && _J[hash] && _J[hash].tag === hash) {
@@ -255,15 +271,20 @@
         j = JSON.parse(data);
         data = '';
         _J[hash] = j;
+        save_button.style.visibility = 'visible';
+        addr.style.visibility = 'visible';
+        search_button.style.visibility = 'visible';
+        districtTable.style.visibility = 'visible';
         load();
       };
       k.onerror = function () {
-        window.alert('无法下载 full.json\n' + window.location.toString() );
-        pre_button.style.visibility = 'hidden';
+        window.alert('数据无法下载 请刷新页面\n' + window.location.toString() );
         save_button.style.visibility = 'hidden';
         addr.style.visibility = 'hidden';
         search_button.style.visibility = 'hidden';
         districtTable.style.visibility = 'hidden';
+        next_button.style.visibility = 'hidden';
+        pre_button.style.visibility = 'hidden';
       };
     }
   }
@@ -315,6 +336,7 @@
         auto_save_status.style.boxShadow = 'inset 0 -.5em cyan';
         pre_button.style.border = '.25em solid cyan';
         next_button.style.border = '.25em solid cyan';
+        auto_save_.style.visibility = 'visible';
         exportCanvasAsPNG();
       }
     }
@@ -325,10 +347,11 @@
       auto_save_status.style.boxShadow = 'inset 0 -.5em cyan';
       pre_button.style.border = '.25em solid cyan';
       next_button.style.border = '.25em solid cyan';
+      auto_save_.style.visibility = 'visible';
     }
     Ds = Object.keys(j.districts);
     As = Object.keys(j.address);
-    console.log( j.address['shanghaifabu'] );
+    console.log('Last four shanghaifabu in data', j.tag, j.address['shanghaifabu'].slice(-4) );
     for (i = 0; i < Ds.length; i += 1) {
       k = document.createElement('tr');
       // if (Ds[i] === '普陀区') {
@@ -397,6 +420,9 @@
       search(k);
     } else if (autoSavePNG) {
       exportCanvasAsPNG();
+    }
+    if (window.location.toString().indexOf('=') === -1) {
+      auto_save_.style.visibility = 'hidden';
     }
   }
 
@@ -599,7 +625,7 @@
       svgWidth = 1250;
       svgHeight = 1000;
       fontSize = 14;
-      d3center = [centers['黄浦区'][0], centers['黄浦区'][1] ];
+      d3center = [centers['徐汇区'][0], centers['徐汇区'][1] ]; // 黄浦
       if (d3scale < 48000) {
         d3scale = 48000; }
       if (!scaleChange && (hash2 && hash2.indexOf(k) !== 0) ) {
@@ -900,6 +926,9 @@
     auto_save_status.style.boxShadow = '';
     pre_button.style.border = '';
     next_button.style.border = '';
+    auto_save_.style.visibility = 'hidden';
+    const url = window.location.toString().split('=')[0];
+    window.location = url;
   }
 
   function updateCheckStatus () {
@@ -942,12 +971,14 @@
       text-align: left;
       box-shadow: inset 0 .5em yellow;
     }
-    #april,
-    #april_button {
-      box-shadow: inset 0 -.5em cyan;
-    }
-    #april {
+    #april, #may, #march {
       border: 0;
+    }
+    #april, #may, #march {
+      box-shadow: inset 0 -7px #d0d0d0;
+    }
+    .april_button {
+      box-shadow: inset 0 -8px #d0d0d0;
     }
     #check_row {font-size: 75%}
     #check_row label {
@@ -968,8 +999,10 @@
       <span id="fetching" style="color:blue;">fetching<span class="loading_span"></span> not ready</span><br/>
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a> <span id="shanghaifabu"></span><br/>
     本页为<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
-    <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="click" id="april_button" onclick="jumpApr(addr.value);">跳至4/</span>
-    <input type="text" id="april" name="april" size=2 onkeydown="aprilEnter();" />
+    <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <span class="click" class="april_button" onclick="jumpApr(addr.value,3);"><span style="color:grey">跳至</span>3/</span><input type="text" id="march" name="march" size=2 onkeydown="aprilEnter(3);" />
+      &nbsp; <span class="click" class="april_button" onclick="jumpApr(addr.value);"><span style="color:grey">跳至</span>4/</span><input type="text" id="april" name="april" size=2 onkeydown="aprilEnter();" />
+      &nbsp; <span class="click" class="april_button" onclick="jumpApr(addr.value,5);"><span style="color:grey">跳至</span>5/</span><input type="text" id="may" name="may" size=2 onkeydown="aprilEnter(5);" />
     <br/>搜索<span onclick="search(this.textContent);" class="click _L">上海市</span> 可以在地图中展示全市上榜地址
 
   </p>
@@ -986,8 +1019,10 @@
   <button id="next_button" style="visibility:hidden;" onclick="nextReload(addr.value);">&gt;</button>
   <button onclick="nextReload(addr.value,1);">&gt;&gt;</button>
   <button id="clear_button" style="visibility:hidden;" onclick="search();">隐藏</button>
-  <button id="reload_button" onclick="load_js();">重置</button>
-  <span id="fetching2" style="color:blue;">Loading<span class="loading_span"></span></span><br/>
+  <button id="reload_button" onclick="window.location.reload();">重置</button>
+  <span id="fetching2" style="color:blue;">Loading<span class="loading_span"></span></span>
+  <span id="auto_save_" style="color:cyan;">自动存图</span>
+  <br/>
   <canvas id="app" style="display:none;"></canvas>
   <!-- 3.district 2.inB 0.today 4.released 5.released_today 1.latest_added -->
   <div id="check_row" style="display:none;">
