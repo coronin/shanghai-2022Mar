@@ -361,6 +361,9 @@
     Ds = Object.keys(j.districts);
     As = Object.keys(j.address);
     console.log('Last four shanghaifabu in data', j.tag, j.address['shanghaifabu'].slice(-4) );
+    districtTable.innerHTML = '<tr style="color:black;"><th>行政单位</th><th>累计上榜</th>' +
+      '<th id="th_k"></th><th>两周内</th><th><span class="_tag"></span>涉及</th>' +
+      '<th>累计下榜</th><th><span class="_tag"></span>下榜</th></tr>';
     for (i = 0; i < Ds.length; i += 1) {
       k = document.createElement('tr');
       // if (Ds[i] === '普陀区') {
@@ -1088,8 +1091,6 @@
 
   <h2><span onclick="search(this.textContent);" class="click">上海市</span>各区统计（地址数）</h2>
   <table id="districtTable" style="border:1px solid blue;color:blue;font-size:75%;text-align:center;">
-    <tr style="color:black;"><th>行政单位</th><th>累计上榜</th><th id="th_k"></th><th>两周内</th><th><span class="_tag"></span>涉及</th>
-      <th>累计下榜</th><th><span class="_tag"></span>下榜</th></tr>
   </table>
 
   <h2 onclick="show_full('latest_added');" style="color:red;" class="click _L">值得关注的地址</h2>
