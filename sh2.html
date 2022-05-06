@@ -182,12 +182,14 @@
       month = 4;
     }
     const inputS = document.getElementById(ms[month]).value;
-    const i_ = parseInt(inputS);
-    if (!inputS || !i_ || i_ > 31 || i_ < 1 ||
-        (month === 3 && i_ < 19) ) {
+    let i_ = parseInt(inputS);
+    if (!inputS || !i_ || i_ > 31 || i_ < 1) {
       document.getElementById(ms[month]).value = '';
       document.getElementById(ms[month]).focus();
       return;
+    } else if (month === 3 && i_ < 19) {
+      march.value = '';
+      i_ = 19;
     } else {
       for (i = 3; i < 6; i += 1) {
         if (i !== month) {
@@ -251,22 +253,21 @@
     const hash_ = parseInt(hash);
     if (hash.length !== 4 || hash_ < 319 || hash_ > j_data_init) {
       hash = '0' + j_data_init;
-      if (window.location.hash.slice(1).indexOf('?') > -1) {
-        window.location.replace(baseURL + '#' + hash + '?' + hash2);
-      } else {
-        window.location.replace(baseURL + '#' + hash);
-      }
+    }
+    if (hash2) {
+      window.location.replace(baseURL + '#' + hash + '?' + hash2);
     } else {
-      if (hash_ < j_data_init) {
-        next_button.style.visibility = 'visible';
-      } else {
-        next_button.style.visibility = 'hidden';
-      }
-      if (hash_ < 320) {
-        pre_button.style.visibility = 'hidden';
-      } else {
-        pre_button.style.visibility = 'visible';
-      }
+      window.location.replace(baseURL + '#' + hash);
+    }
+    if (hash_ < j_data_init) {
+      next_button.style.visibility = 'visible';
+    } else {
+      next_button.style.visibility = 'hidden';
+    }
+    if (hash_ < 320) {
+      pre_button.style.visibility = 'hidden';
+    } else {
+      pre_button.style.visibility = 'visible';
     }
     const k_src = "shanghaifabu/full" + hash + '.json';
     if (_J && _J[hash] && _J[hash].tag === hash) {
@@ -284,6 +285,10 @@
         j = JSON.parse(data);
         data = '';
         _J[hash] = j;
+        if (parseInt(j.tag) > j_data_init) {
+          window.alert('数据有错 请刷新页面\n' + window.location.toString() );
+          return;
+        }
         save_button.style.visibility = 'visible';
         addr.style.visibility = 'visible';
         search_button.style.visibility = 'visible';
@@ -426,6 +431,16 @@
       released.appendChild(k);
     }
     map = document.getElementById('app').getContext('2d');
+    if (window.location.toString().indexOf('=') === -1) {
+      auto_save_.style.visibility = 'hidden';
+    }
+    if (parseInt(j.tag) > 500) {
+      check6.style.display = 'inline-block';
+      check7.style.display = 'inline-block';
+    } else {
+      check6.style.display = 'none';
+      check7.style.display = 'none';
+    }
     if (window.location.toString().indexOf('?') > -1) {
       if (hash2.indexOf('$') > -1) {
         scaleChange = false;
@@ -439,16 +454,6 @@
       search(k);
     } else if (autoSavePNG) {
       exportCanvasAsPNG();
-    }
-    if (window.location.toString().indexOf('=') === -1) {
-      auto_save_.style.visibility = 'hidden';
-    }
-    if (parseInt(j.tag) > 500) {
-      check6.style.display = 'inline-block';
-      check7.style.display = 'inline-block';
-    } else {
-      check6.style.display = 'none';
-      check7.style.display = 'none';
     }
   }
 
@@ -605,14 +610,14 @@
     if (scaleChange) { d3scale = 72000; }
     let ii;
     let map_i = 0;
-    if (Ds.indexOf(k) > -1) {
-      if (!j.today[k]) { // .latest_added [_check]
-        addr.value = '';
-        addr.focus();
-        app.style.display = 'none';
-        check_row.style.display = 'none';
-        return;
-      }
+    if (Ds.indexOf(k) > -1) { //各区
+      // if (!j.today[k]) { // .latest_added [_check]
+      //   addr.value = '';
+      //   addr.focus();
+      //   app.style.display = 'none';
+      //   check_row.style.display = 'none';
+      //   return;
+      // }
       // if (k === '崇明区') {
       //   if (scaleChange && d3scale < 32000) {
       //     d3scale = 32000; }
@@ -716,7 +721,7 @@
       }
       return;
     }
-    console.log('Input', k);
+    console.log('Input', k); //搜地址
     auto_save_off();
     if (k.indexOf('=') > -1) {
       k = k.split('=')[0];
@@ -834,7 +839,6 @@
     }
     if (map_i === 0) {
       app.style.display = 'none';
-      check_row.style.display = 'none';
     } else {
       addr.scrollIntoView();
       th_k.textContent = k;
