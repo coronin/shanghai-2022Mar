@@ -646,12 +646,14 @@
                  '<span class="click" onclick="search(this.textContent);">' + k + '</span>' +
                  '<span class="click _L" onclick="search(\'' + j[_check][k][ii] +
                  '\');">' + j[_check][k][ii] + '</span> ';
-            if (_check === 'latest_added' && j.latest_added2[k] &&
-                j.latest_added2[k].indexOf( j[_check][k][ii] ) === -1) {
-                ks += ' <em style="color:grey">不在“三阴阳”，在“一阴阳”</em>';
-            } else if (_check === 'latest_added2' && j.latest_added7[k] &&
+            if (_check === 'latest_added' && j.latest_added2 &&
+                       j.latest_added2[k] &&
+                       j.latest_added2[k].indexOf( j[_check][k][ii] ) === -1) {
+              ks += ' <em style="color:grey">在“一阴阳”，不在“三阴阳”</em>';
+            } else if (_check === 'latest_added2' && j.latest_added7 &&
+                       j.latest_added7[k] &&
                        j.latest_added7[k].indexOf( j[_check][k][ii] ) === -1) {
-                ks += ' <em style="color:grey">不在“七阴阳”，在“三阴阳”</em>';
+              ks += ' <em style="color:grey">在“三阴阳”，不在“七阴阳”</em>';
             }
             kk = document.createElement('p');
             kk.style.padding = '0';
