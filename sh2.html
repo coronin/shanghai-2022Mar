@@ -103,7 +103,7 @@
     let url;
     if (j && j.address['shanghaifabu'].length > 2) {
       url = baseURL + '#';
-      if (parseInt(hash) > 500 && hash === j.address['shanghaifabu'].slice(-1)) {
+      if (parseInt(hash) > 500 && hash === j.address['shanghaifabu'].slice(-1)[0]) {
         url += j.address['shanghaifabu'].slice(-2)[0];
       } else {
         url += j.address['shanghaifabu'].slice(-3)[0];
