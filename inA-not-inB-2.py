@@ -267,6 +267,19 @@ for dd in districts:
             else:
                 latest_added[dd] = [line]
 
+latest_added2 = {}
+Bs2 = read_a_list(Bs[-2], tag='list') + read_a_list(Bs[-3], tag='list') # >0505
+for dd in districts:
+    if not districts_today.get(dd):
+        continue
+    #print('>>>>', dd, len(districts_today[dd]) )
+    for line in districts_today[dd]:
+        if ('%s%s' % (dd, line)) not in Bs2:
+            #print('>>>>', dd, line)
+            if (latest_added2.get(dd)):
+                latest_added2[dd] += [line]
+            else:
+                latest_added2[dd] = [line]
 
 print('\n\n')
 to_check = ('海波路850弄', '龙吴路2588弄',
@@ -299,6 +312,7 @@ j = {'date':datestr,
      'districts':by_district,
      'released':districts_released,
      'released_today':latest_released,
+     'latest_added2':latest_added,
      'latest_added':latest_added }
 fz = open('shanghaifabu/full%s.json' % Bs[-1], 'w')
 fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
