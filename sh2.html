@@ -9,7 +9,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
   <!-- script src="full.json"></script -->
-  <script src="shanghaifabu/map-location.json?v=0505"></script><!-- @@ -->
+  <script src="shanghaifabu/map-location.json?v=0506"></script><!-- @@ -->
   <script src="d3.min.v3.js"></script>
   <script src="topojson.min.180.js"></script><!-- http://geojson.io -->
   <script src="shanghaifabu/sh.json"></script><!-- http://datav.aliyun.com/portal/school/atlas/area_generator -->
@@ -21,7 +21,7 @@
   let i; let j; let _J = {};
   let As; let Ds;
   const today = new Date();
-  const j_data_init = 505; // @@ 0505
+  const j_data_init = 506; // @@ 0506
   let _today; // j.tag
   let Ml; let Ms; let map;
   let d3scale; let d3center; let svgWidth; let svgHeight;
@@ -339,7 +339,9 @@
     datestr.textContent = j.date;
     fetching.style.visibility = 'hidden';
     fetching2.style.visibility = 'hidden';
-    end_pre.textContent = '数据更新时间 ' + j.date + '\n源代码 github.com/coronin/shanghai-2022Mar';
+    end_pre.textContent = '数据更新时间 ' + j.date +
+                          '\n源代码 github.com/coronin/shanghai-2022Mar' +
+                          '\n作者 @the_paper_link';
     tag_m.textContent = parseInt(j.tag.substr(0,2) );
     tag_m2.textContent = tag_m.textContent;
     tag_d.textContent = parseInt(j.tag.substr(2,2) );
