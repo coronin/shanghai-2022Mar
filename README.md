@@ -8,6 +8,13 @@
 5. local: git push
 6. web server, cd root folder: git pull
 
-CDN is in process, the best way to run:
+腾讯CDN已经启用，更新COS文件后需要URL刷新，比如
+* https://cdn.teach.bio/map-location.json
+* https://cdn.teach.bio/full0505.json
+
+Best practice
+* git clone https://github.com/coronin/shanghai-2022Mar
 * drag sh2.html into a desktop browser
 * drag drag-me.html into a desktop browser
+
+作者 @the_paper_link

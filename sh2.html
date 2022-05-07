@@ -408,13 +408,13 @@
       k = document.createElement('p');
       if (j.latest_added && j.latest_added[ Ds[i] ] ) {
         k.innerHTML = '<span style="color:black;"><strong onclick="_check=\'latest_added\';search(this.textContent);"' +
-                      ' class="click _L">' + Ds[i] + '</strong> ' + _today + '涉及' +
+                      ' class="click _L">' + Ds[i] + '</strong> 2022/' + _today + '涉及' +
                       (j.today[ Ds[i] ] || []).length +
                       '个地址，下列' + j.latest_added[ Ds[i] ].length +
                       '个地址不同于之前一日</span><br/>' + j.latest_added[ Ds[i] ];
       } else {
         k.innerHTML = '<span style="color:black;"><strong onclick="_check=\'today\';search(this.textContent);"' +
-                      ' class="click _L">' + Ds[i] + '</strong> ' + _today + '涉及' +
+                      ' class="click _L">' + Ds[i] + '</strong> 2022/' + _today + '涉及' +
                       (j.today[ Ds[i] ] || []).length +
                       '个地址</span>';
       }
