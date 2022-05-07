@@ -6,8 +6,8 @@ from urllib import request
 z = [
 #'','']
 #'','']
-#'','']
-'','']
+'0507','']
+#'0506','https://mp.weixin.qq.com/s/bqZp2AqqE-FPzJpx6FlhPA']
 #'0505','https://mp.weixin.qq.com/s/IqIqMik_fGpPgfNgIZ8ieg']
 #'0504','https://mp.weixin.qq.com/s/J68hA0ncRR_q91ccVINP0g']
 #'0503','https://mp.weixin.qq.com/s/KyTRqsRBWbM5cEa2sk2wbg']
@@ -60,29 +60,47 @@ z = [
 # no place info before 3/18
 # 从3月18日起三天内，我市对非重点区域内人员分时分批次开展一次免费核酸检测
 # 从3月13日启动校园封闭管理
+day0506 = {
+'浦东新区': 'https://mp.weixin.qq.com/s/ITILcJZ4bDb4_knaukb6Uw', # 浦东发布
+'黄浦区': 'https://mp.weixin.qq.com/s/H4hfCQcYCwSvpfIL63a9aw',
+'静安区': 'https://mp.weixin.qq.com/s/FgINfp4st8V-rmFMahIy0g',
+'徐汇区': 'https://mp.weixin.qq.com/s/pGWBQY4kbvd2fqgNhTGGYg',
+'长宁区': 'https://mp.weixin.qq.com/s/DHblFAhkoq76iLGIi_r-1w',
+'普陀区': 'https://mp.weixin.qq.com/s/CVeRIZv88LZoFmLcV3HEzA',
+'虹口区': 'https://mp.weixin.qq.com/s/9AH4e7IxtAMxr9GCxJSnOQ',
+'杨浦区': 'https://mp.weixin.qq.com/s/fgxZ7ttJBlxI0c00js32gw',
+'宝山区': 'https://mp.weixin.qq.com/s/4z2hEoN8m6goBTsqtPc4BA',
+'闵行区': 'https://mp.weixin.qq.com/s/Y7JSTCiyTHfDm8k8vQwuKQ', # 今日闵行
+'嘉定区': 'https://mp.weixin.qq.com/s/gx4PxwNB-2Ry7YtqsjTsow',
+'金山区': '',
+'松江区': 'https://mp.weixin.qq.com/s/87zaEsN5q1NnYO1xfHhodg',
+'青浦区': 'https://mp.weixin.qq.com/s/bno49i-jXiSl2g9nW-bkkA', # 绿色青浦
+'奉贤区': 'https://mp.weixin.qq.com/s/9rGKkG6R4Q2iwt8LroHO9g',
+'崇明区': 'https://mp.weixin.qq.com/s/fr4fO4fQROhn0Up8j-Qutg' }
 
-# '黄浦区':[121.480694,31.219042,415000],
-# '徐汇区':[121.437778,31.160901,196000],
-# '长宁区':[121.378590,31.215582,300000],
-# '静安区': '',
-# '普陀区':[121.381162,31.264039,250000],
-# '虹口区':[121.486229,31.275661,280000],
-# '杨浦区': '',
-# '闵行区':[121.427945,31.107098,77000],
-# '宝山区': '',
-# '嘉定区':[121.248203,31.355204,87200],
-# '浦东新区':[121.612666, 31.12, 42000], // 浦东新区 121.61266647653576 31.08079112113293
-# '金山区':[121.24, 30.81, 70000], // 金山区 121.17171114485453 30.857028553162657
-# '松江区':[121.203370,31.013900,80000],
-# '青浦区':[121.096709,31.120809,66500],
-# '奉贤区':[121.529829,30.926042,82400],
-# '崇明区':[121.548589, 31.62, 32000]
 
-wx = BeautifulSoup(request.urlopen(z[1]).read(), features="lxml")
-wxx = wx.find('div', {'id' : 'img-content'})
-res = wxx.get_text().replace('，', ',').replace('。', ',').replace('、', ',').replace('；', ',').replace(';', ','
-                   ).replace(' ', ',').replace('\t', ','
-                   ).replace('分别居住于', ',').replace('：', ',')
+if not z[1]:
+    day = globals()['day%s' % z[0]]
+    zz0 = list(day.keys())
+    zz1 = list(day.values())
+    wxx = '\n\n\n\n'
+    for i,z1 in enumerate(zz1):
+        if not z1:
+            print('day%s 没有%s的链接' % (z[0],zz0[i]) )
+        else:
+            wx = BeautifulSoup(request.urlopen(z1).read(), features="lxml")
+            wx_ = wx.find('div', {'id' : 'img-content'}).get_text()
+            if wx_.find('%s月%s日' % (int(z[0][:2]), int(z[0][2:])) ) < 0:
+                print('day%s %s的链接没有有效日期' % (z[0],zz0[i]) )
+                raise
+            wxx += '\n\n\n\n%s' % wx_
+else:
+    wx = BeautifulSoup(request.urlopen(z[1]).read(), features="lxml")
+    wxx = wx.find('div', {'id' : 'img-content'}).get_text()
+res = wxx.replace('，', ',').replace('。', ',').replace('、', ',').replace('；', ',').replace(';', ','
+        ).replace(' ', ',').replace('\t', ','
+        ).replace('分别居住于', ',').replace('：', ','
+        ).replace('我区', ',,,,')
 
 Z = [ s.strip() for s in list(filter(None, res.split(',') )) ]
 print(len(Z))
@@ -92,7 +110,10 @@ for zz in Z:
     elif zz.find('成功') > -1 or zz.find('目前') > -1:
         print(zz)
 print(z[1])
-fz = open('%s.txt' % z[0], 'w')
+if not z[1]:
+    fz = open('%s%s.txt' % (z[0],z[0]), 'w')
+else:
+    fz = open('%s.txt' % z[0], 'w')
 fz.write( u'\n'.join(Z) )
 fz.close()
 
