@@ -189,9 +189,9 @@
       document.getElementById(ms[month]).value = '';
       document.getElementById(ms[month]).focus();
       return;
-    } else if (month === 3 && i_ < 19) {
+    } else if (month === 3 && i_ < 7) {
       march.value = '';
-      i_ = 19;
+      i_ = 7;
     } else {
       for (i = 3; i < 6; i += 1) {
         if (i !== month) {
@@ -376,7 +376,9 @@
     }
     Ds = Object.keys(j.districts);
     As = Object.keys(j.address);
-    console.log('Last four shanghaifabu in data', j.tag, j.address['shanghaifabu'].slice(-4) );
+    if (j.address['shanghaifabu']) {
+      console.log('Last four shanghaifabu in data', j.tag, j.address['shanghaifabu'].slice(-4) );
+    }
     districtTable.innerHTML = '<tr style="color:black;"><th>行政单位</th><th>累计上榜</th>' +
       '<th id="th_k"></th><th>两周内</th><th><span class="_tag"></span>涉及</th>' +
       '<th>累计下榜</th><th><span class="_tag"></span>下榜</th></tr>';
