@@ -9,7 +9,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
   <!-- script src="full.json"></script -->
-  <script src="shanghaifabu/map-location.json?v=0506"></script><!-- @@ -->
+  <script src="shanghaifabu/map-location.json?v=0507"></script><!-- @@ -->
   <script src="d3.min.v3.js"></script>
   <script src="topojson.min.180.js"></script><!-- http://geojson.io -->
   <script src="shanghaifabu/sh.json"></script><!-- http://datav.aliyun.com/portal/school/atlas/area_generator -->
@@ -21,8 +21,9 @@
   let i; let j; let _J = {};
   let As; let Ds;
   const today = new Date();
-  const j_data_init = 506; // @@ 0506
-  let _today; // j.tag
+               // @@ 0507
+  const j_data_init = 507;
+  let _today;  // j.tag
   let Ml; let Ms; let map;
   let d3scale; let d3center; let svgWidth; let svgHeight;
   const centers = {
@@ -120,7 +121,7 @@
       }
     }
     if (oldest) {
-      url = baseURL + '#0319';
+      url = baseURL + '#0307';
     }
     if (url) {
       if (q) {
@@ -255,7 +256,7 @@
       _check = window.location.toString().split('=')[1];
     }
     const hash_ = parseInt(hash);
-    if (hash.length !== 4 || hash_ < 319 || hash_ > j_data_init) {
+    if (hash.length !== 4 || hash_ < 307 || hash_ > j_data_init) {
       hash = '0' + j_data_init;
     }
     if (hash2) {
@@ -872,7 +873,7 @@
           }
         }
       }
-      // .arc(3) 0.0004325 ~ 589318
+      // .arc(3) 0.0004325 ~ 589319
       d3scale_ = Math.max.apply(null, [72000, d3scale_, Math.floor(d3scale_ * 3/map_XYtest )]);
       //console.log('scale min',
       //            Math.floor(d3scale_ * 3/map_XYtest ), ', used', d3scale_);

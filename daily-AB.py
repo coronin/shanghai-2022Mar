@@ -11,8 +11,8 @@ z = [
 #'0511','']
 #'0510','']
 #'0509','']
-#'0508','']
-#'0507','']
+'0508','']
+#'0507','https://mp.weixin.qq.com/s/Dt_Q7mwgzJIdn7NwqeGNeA']
 #'0317','https://wsjkw.sh.gov.cn/xwfb/20220318/dc6e1aca667a45a682f32ac514c6062e.html']
 #'0316','https://wsjkw.sh.gov.cn/xwfb/20220317/46f73d4d70b54982b04c925eea6cb031.html']
 #'0315','https://wsjkw.sh.gov.cn/xwfb/20220316/18a627b694eb471f9a415dfa20b6d0b4.html'] #区地址个数 200
