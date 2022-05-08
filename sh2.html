@@ -114,7 +114,7 @@
     let url;
     if (j && j.address['shanghaifabu'].length > 2) {
       url = baseURL + '#';
-      if (parseInt(hash) > 500 && hash === j.address['shanghaifabu'].slice(-1)[0]) {
+      if (hash === j.address['shanghaifabu'].slice(-1)[0]) {
         url += j.address['shanghaifabu'].slice(-2)[0];
       } else {
         url += j.address['shanghaifabu'].slice(-3)[0];
@@ -441,13 +441,13 @@
     if (window.location.toString().indexOf('=') === -1) {
       auto_save_.style.visibility = 'hidden';
     }
-    if (parseInt(j.tag) > 500) {
-      check6.style.display = 'inline-block';
-      check7.style.display = 'inline-block';
-    } else {
-      check6.style.display = 'none';
-      check7.style.display = 'none';
-    }
+    // if (parseInt(j.tag) > 500) {
+    //   check6.style.display = 'inline-block';
+    //   check7.style.display = 'inline-block';
+    // } else {
+    //   check6.style.display = 'none';
+    //   check7.style.display = 'none';
+    // }
     if (window.location.toString().indexOf('?') > -1) {
       if (hash2.indexOf('$') > -1) {
         scaleChange = false;

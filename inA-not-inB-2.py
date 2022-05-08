@@ -10,6 +10,7 @@ As = ('0318','0319','0320',
 Bs = ('0424','0425','0426','0427','0428','0429','0430',
       '0501','0502','0503','0504','0505','0506','0507'
       )
+
 #### 以上不能有末尾逗号 没有空字符检查
 if len(Bs) > 14:
     print('not in B 最多14天')
@@ -184,14 +185,13 @@ elif As:
     for s in As:
         A += read_a_list(s)
         #print('>>>>', s)
-print('in A, estimated', len(list(set(A))) )
 #print('A', list(set(by_district['杨浦区'])))
-
 B = []
 for s in Bs[:-1]:
     B += read_a_list(s, tag='inB')
 B += read_a_list(Bs[-1], tag='today')
 BB = list(set(B))
+print('in A, estimated', len(list(set(A))) )
 print('in B, estimated', len(BB) )
 # print('B', list(set(by_district['杨浦区'])))
 ddc = 0
@@ -272,47 +272,52 @@ for dd in districts:
                 latest_added[dd] = [line]
 
 latest_added2 = {}
-Bs4 = [[], [], [], [], [], [] ] # >= 0501
-Bs4[0] = read_a_list(Bs[-3], tag='list')
-Bs4[1] = read_a_list(Bs[-4], tag='list')
-Bs4[2] = read_a_list(Bs[-5], tag='list')
-Bs4[3] = read_a_list(Bs[-6], tag='list')
-Bs4[4] = read_a_list(Bs[-7], tag='list')
-Bs4[5] = read_a_list(Bs[-8], tag='list')
-by_address['shanghaifabu'] = by_address['shanghaifabu'][:-6]
-for dd in districts:
-    if not districts_today.get(dd):
-        continue
-    #print('>>>>', dd, len(districts_today[dd]) )
-    for line in districts_today[dd]:
-        if ('%s%s' % (dd, line)) not in Bs2 and (
-            '%s%s' % (dd, line)) not in Bs4[0] and (
-            '%s%s' % (dd, line)) not in Bs4[1]:
-            #print('>>>>', dd, line)
-            if (latest_added2.get(dd)):
-                latest_added2[dd] += [line]
-            else:
-                latest_added2[dd] = [line]
-
 latest_added7 = {}
-for dd in districts:
-    if not districts_today.get(dd):
-        continue
-    #print('>>>>', dd, len(districts_today[dd]) )
-    for line in districts_today[dd]:
-        last38 = False
-        for Bs4_ in Bs4:
-            if ('%s%s' % (dd, line)) in Bs4_:
-                last38 = True;
-                break;
-        if last38:
+Bs4 = [[], [], [], [], [], [] ] # >= 0501
+try:
+    Bs4[0] = read_a_list(Bs[-3], tag='list')
+    Bs4[1] = read_a_list(Bs[-4], tag='list')
+    by_address['shanghaifabu'] = by_address['shanghaifabu'][:-6]
+    for dd in districts:
+        if not districts_today.get(dd):
             continue
-        if ('%s%s' % (dd, line)) not in Bs2:
-            #print('>>>>', dd, line)
-            if (latest_added7.get(dd)):
-                latest_added7[dd] += [line]
-            else:
-                latest_added7[dd] = [line]
+        #print('>>>>', dd, len(districts_today[dd]) )
+        for line in districts_today[dd]:
+            if ('%s%s' % (dd, line)) not in Bs2 and (
+                '%s%s' % (dd, line)) not in Bs4[0] and (
+                '%s%s' % (dd, line)) not in Bs4[1]:
+                #print('>>>>', dd, line)
+                if (latest_added2.get(dd)):
+                    latest_added2[dd] += [line]
+                else:
+                    latest_added2[dd] = [line]
+    try:
+        Bs4[2] = read_a_list(Bs[-5], tag='list')
+        Bs4[3] = read_a_list(Bs[-6], tag='list')
+        Bs4[4] = read_a_list(Bs[-7], tag='list')
+        Bs4[5] = read_a_list(Bs[-8], tag='list')
+        for dd in districts:
+            if not districts_today.get(dd):
+                continue
+            #print('>>>>', dd, len(districts_today[dd]) )
+            for line in districts_today[dd]:
+                last38 = False
+                for Bs4_ in Bs4:
+                    if ('%s%s' % (dd, line)) in Bs4_:
+                        last38 = True;
+                        break;
+                if last38:
+                    continue
+                if ('%s%s' % (dd, line)) not in Bs2:
+                    #print('>>>>', dd, line)
+                    if (latest_added7.get(dd)):
+                        latest_added7[dd] += [line]
+                    else:
+                        latest_added7[dd] = [line]
+    except:
+        print('>> empty .latest_added7')
+except:
+    print('>> empty .latest_added2')
 
 
 print('\n\n')
@@ -321,10 +326,10 @@ to_check = ('海波路850弄', '龙吴路2588弄',
 for ch in to_check:
     if by_address.get(ch):
         print(ch, by_address[ch] )
+        if by_address[ch][-1] == Bs[-1]:
+            print('    ^^\n')
     else:
         print(ch, 'zero' )
-    if by_address[ch][-1] == Bs[-1]:
-        print('\n    ^^')
 
 
 fz = open('negative.txt', 'w')
