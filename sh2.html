@@ -316,10 +316,10 @@
     }
     // SukkaW/DisqusJS
     var dsqjs = new DisqusJS({
-        shortname: 'igem01',
+        shortname: 'sh-teach-cn',
         siteName: 'Feedback 反馈',
-        identifier: 'sh.teach.bio',
-        url: 'document.location.origin + document.location.pathname + document.location.search',
+        identifier: baseURL,
+        url: baseURL,
         api: 'https://disqus.skk.moe/disqus/',
         apikey: 'ucxDfSYIhlMQoMDauN5hqII0o8CFtk2JSGoX7zBLP1L2UK1jsUplM3dTsI0nW5Li',
         nocomment: '对本工具的建议或意见，可评论反馈',
@@ -1099,10 +1099,19 @@
     #check_row label>span {
       vertical-align: middle;
     }
+    #addr {border: .25em solid red}
   </style>
 </head>
 <body onload="load_js();">
   <div id="disqus_thread"></div>
+  <!-- script>
+  (function() { // 官网 通用代码
+    var d = document, s = d.createElement('script');
+    s.src = 'https://sh-teach-cn.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+  </script -->
   <p>
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a> <span id="shanghaifabu"></span>
       <span id="datestr" style="color:blue;"></span>
