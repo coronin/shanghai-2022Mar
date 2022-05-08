@@ -1,9 +1,9 @@
 
 ====================
-in A, estimated 31320
+in A, estimated 31525
 in B, estimated 14324
-by district total, w/dupl 35116
-in A, not in B, estimated 20792
+by district total, w/dupl 35314
+in A, not in B, estimated 20990
 
 released 0507, estimated 1238
 浦东新区	301
@@ -21,14 +21,14 @@ released 0507, estimated 1238
 松江区	63
 青浦区	38
 奉贤区	10
-崇明区 0
+崇明区	0
 
 
 ====================
-in A, estimated 30580
+in A, estimated 30788
 in B, estimated 15291
-by district total, w/dupl 34998
-in A, not in B, estimated 19707
+by district total, w/dupl 35197
+in A, not in B, estimated 19906
 
 released 0506, estimated 1283
 浦东新区	346
@@ -46,15 +46,14 @@ released 0506, estimated 1283
 松江区	49
 青浦区	36
 奉贤区	6
-崇明区 0
+崇明区	0
 
 
 ====================
-in A, estimated 29796
->> 0505 四川北路1953弄 1101
+in A, estimated 30006
 in B, estimated 16297
-by district total, w/dupl 34877
-in A, not in B, estimated 18580
+by district total, w/dupl 35076
+in A, not in B, estimated 18779
 
 released 0505, estimated 1158
 浦东新区	310
@@ -72,14 +71,14 @@ released 0505, estimated 1158
 松江区	60
 青浦区	41
 奉贤区	6
-崇明区 0
+崇明区	0
 
 
 ====================
-in A, estimated 29268
+in A, estimated 29479
 in B, estimated 17185
-by district total, w/dupl 34749
-in A, not in B, estimated 17564
+by district total, w/dupl 34948
+in A, not in B, estimated 17763
 
 released 0504, estimated 1075
 浦东新区	204
@@ -97,14 +96,14 @@ released 0504, estimated 1075
 松江区	71
 青浦区	24
 奉贤区	6
-崇明区 0
+崇明区	0
 
 
 ====================
-in A, estimated 28651
+in A, estimated 28864
 in B, estimated 17989
-by district total, w/dupl 34604
-in A, not in B, estimated 16615
+by district total, w/dupl 34803
+in A, not in B, estimated 16814
 
 released 0503, estimated 1072
 浦东新区	256
@@ -122,473 +121,464 @@ released 0503, estimated 1072
 松江区	31
 青浦区	34
 奉贤区	7
-崇明区 0
-
-
-====================
-in A, estimated 27972
-in B, estimated 18799
-by district total, w/dupl 34472
-in A, not in B, estimated 15673
-
-released 0502, estimated 874
-浦东新区	267
-黄浦区	119
-静安区	55
-徐汇区	19
-长宁区	33
-普陀区	22
-虹口区	95
-杨浦区	16
-宝山区	54
-闵行区	64
-嘉定区	54
-金山区 0
-松江区	64
-青浦区	11
-奉贤区	1
-崇明区 0
-
-
-====================
-in A, estimated 27291
-in B, estimated 19459
-by district total, w/dupl 34314
-in A, not in B, estimated 14855
-
-released 0501, estimated 985
-浦东新区	260
-黄浦区	85
-静安区	66
-徐汇区	61
-长宁区	43
-普陀区	55
-虹口区	72
-杨浦区	46
-宝山区	53
-闵行区	104
-嘉定区	55
-金山区 0
-松江区	50
-青浦区	29
-奉贤区	5
-崇明区	1
-
-
-====================
-in A, estimated 26576
-in B, estimated 20139
-by district total, w/dupl 34087
-in A, not in B, estimated 13948
-
-released 0430, estimated 937
-浦东新区	260
-黄浦区	58
-静安区	88
-徐汇区	65
-长宁区	28
-普陀区	72
-虹口区	99
-杨浦区	46
-宝山区	23
-闵行区	110
-嘉定区	56
-金山区 0
-松江区	12
-青浦区	14
-奉贤区	4
-崇明区	2
-
-
-====================
-in A, estimated 25839
-in B, estimated 20787
-by district total, w/dupl 33892
-in A, not in B, estimated 13105
-
-released 0429, estimated 947
-浦东新区	236
-黄浦区	78
-静安区	23
-徐汇区	67
-长宁区	73
-普陀区	7
-虹口区	110
-杨浦区	80
-宝山区	25
-闵行区	73
-嘉定区	58
-金山区	2
-松江区	76
-青浦区	29
-奉贤区	8
-崇明区	2
-
-
-====================
-in A, estimated 25116
-in B, estimated 21314
-by district total, w/dupl 33586
-in A, not in B, estimated 12272
-
-released 0428, estimated 833
-浦东新区	197
-黄浦区	118
-静安区	20
-徐汇区	60
-长宁区	44
-普陀区	14
-虹口区	78
-杨浦区	42
-宝山区	33
-闵行区	88
-嘉定区	52
-金山区	0
-松江区	64
-青浦区	20
-奉贤区	2
-崇明区	1
-
-
-====================
-in A, estimated 24437
-in B, estimated 21704
-by district total, w/dupl 33254
-in A, not in B, estimated 11550
-
-released 0427, estimated 915
-浦东新区	191
-黄浦区	51
-静安区	18
-徐汇区	47
-长宁区	48
-普陀区	31
-虹口区	148
-杨浦区	62
-宝山区	51
-闵行区	108
-嘉定区	51
-金山区	0
-松江区	70
-青浦区	31
-奉贤区	6
-崇明区	2
-
-
-====================
-in A, estimated 23581
-in B, estimated 22191
-by district total, w/dupl 32916
-in A, not in B, estimated 10725
-
-released 0426, estimated 1037
-浦东新区	197
-黄浦区	77
-静安区	86
-徐汇区	52
-长宁区	49
-普陀区	56
-虹口区	85
-杨浦区	62
-宝山区	32
-闵行区	145
-嘉定区	68
-金山区	7
-松江区	59
-青浦区	53
-奉贤区	7
-崇明区	2
-
-
-
-
-
-
-
-
-
-
-
-====================
-in A, estimated 22408
-in B, estimated 22761
-by district total, w/dupl 32544
-in A, not in B, estimated 9783
-
-released 0425, estimated 963
-浦东新区	184
-黄浦区	95
-静安区	43
-徐汇区	34
-长宁区	16
-普陀区	66
-虹口区	114
-杨浦区	79
-宝山区	102
-闵行区	115
-嘉定区	9
-金山区	6
-松江区	52
-青浦区	27
-奉贤区	16
-崇明区	5
-
-
-====================
-in A, estimated 21235
-in B, estimated 23045
-by district total, w/dupl 31976
-in A, not in B, estimated 8931
-
-released 0424, estimated 1120
-浦东新区	147
-黄浦区	92
-静安区	46
-徐汇区	110
-长宁区	12
-普陀区	42
-虹口区	78
-杨浦区	113
-宝山区	123
-闵行区	59
-嘉定区	70
-金山区	16
-松江区	122
-青浦区	77
-奉贤区	11
-崇明区	2
-
-
-====================
-in A, estimated 19745
-in B, estimated 23403
-by district total, w/dupl 31320
-in A, not in B, estimated 7917
-
-released 0423, estimated 890
-浦东新区	230
-黄浦区	29
-静安区	51
-徐汇区	35
-长宁区	48
-普陀区	35
-虹口区	0
-杨浦区	74
-宝山区	213
-闵行区	29
-嘉定区	24
-金山区	8
-松江区	47
-青浦区	53
-奉贤区	14
 崇明区	0
 
 
 ====================
-in A, estimated 18586
-in B, estimated 23461
-by district total, w/dupl 30580
-in A, not in B, estimated 7119
+in A, estimated 28185
+in B, estimated 18799
+by district total, w/dupl 34671
+in A, not in B, estimated 15872
 
-released 0422, estimated 1074
-浦东新区	134
+released 0502, estimated 923
+浦东新区	277
+黄浦区	119
+静安区	55
+徐汇区	23
+长宁区	33
+普陀区	22
+虹口区	97
+杨浦区	18
+宝山区	59
+闵行区	67
+嘉定区	59
+金山区	6
+松江区	65
+青浦区	16
+奉贤区	7
+崇明区	0
+
+
+====================
+in A, estimated 27508
+in B, estimated 19459
+by district total, w/dupl 34513
+in A, not in B, estimated 15054
+
+released 0501, estimated 1035
+浦东新区	270
+黄浦区	85
+静安区	66
+徐汇区	65
+长宁区	43
+普陀区	55
+虹口区	74
+杨浦区	48
+宝山区	58
+闵行区	107
+嘉定区	61
+金山区	6
+松江区	51
+青浦区	34
+奉贤区	11
+崇明区	1
+
+
+====================
+in A, estimated 26796
+in B, estimated 20139
+by district total, w/dupl 34286
+in A, not in B, estimated 14147
+
+released 0430, estimated 987
+浦东新区	270
+黄浦区	58
+静安区	88
+徐汇区	69
+长宁区	28
+普陀区	72
+虹口区	101
+杨浦区	48
+宝山区	28
+闵行区	113
+嘉定区	62
+金山区	6
+松江区	13
+青浦区	19
+奉贤区	10
+崇明区	2
+
+
+====================
+in A, estimated 26063
+in B, estimated 20787
+by district total, w/dupl 34092
+in A, not in B, estimated 13305
+
+released 0429, estimated 997
+浦东新区	246
+黄浦区	78
+静安区	23
+徐汇区	71
+长宁区	73
+普陀区	7
+虹口区	112
+杨浦区	82
+宝山区	30
+闵行区	76
+嘉定区	64
+金山区	8
+松江区	77
+青浦区	34
+奉贤区	14
+崇明区	2
+
+
+====================
+in A, estimated 25340
+in B, estimated 21314
+by district total, w/dupl 33786
+in A, not in B, estimated 12472
+
+released 0428, estimated 883
+浦东新区	207
+黄浦区	118
+静安区	20
+徐汇区	64
+长宁区	44
+普陀区	14
+虹口区	80
+杨浦区	44
+宝山区	38
+闵行区	91
+嘉定区	58
+金山区	6
+松江区	65
+青浦区	25
+奉贤区	8
+崇明区	1
+
+
+====================
+in A, estimated 24667
+in B, estimated 21704
+by district total, w/dupl 33454
+in A, not in B, estimated 11750
+
+released 0427, estimated 965
+浦东新区	201
+黄浦区	51
+静安区	18
+徐汇区	51
+长宁区	48
+普陀区	31
+虹口区	150
+杨浦区	64
+宝山区	56
+闵行区	111
+嘉定区	57
+金山区	6
+松江区	71
+青浦区	36
+奉贤区	12
+崇明区	2
+
+
+====================
+in A, estimated 23815
+in B, estimated 22191
+by district total, w/dupl 33117
+in A, not in B, estimated 10926
+
+released 0426, estimated 1086
+浦东新区	207
+黄浦区	77
+静安区	85
+徐汇区	56
+长宁区	49
+普陀区	56
+虹口区	87
+杨浦区	64
+宝山区	37
+闵行区	148
+嘉定区	74
+金山区	13
+松江区	60
+青浦区	58
+奉贤区	13
+崇明区	2
+
+
+====================
+in A, estimated 22652
+in B, estimated 22761
+by district total, w/dupl 32745
+in A, not in B, estimated 9984
+
+released 0425, estimated 1013
+浦东新区	194
+黄浦区	95
+静安区	43
+徐汇区	38
+长宁区	16
+普陀区	66
+虹口区	116
+杨浦区	81
+宝山区	107
+闵行区	118
+嘉定区	15
+金山区	12
+松江区	53
+青浦区	32
+奉贤区	22
+崇明区	5
+
+
+====================
+in A, estimated 21485
+in B, estimated 23045
+by district total, w/dupl 32179
+in A, not in B, estimated 9134
+
+released 0424, estimated 1170
+浦东新区	157
+黄浦区	92
+静安区	46
+徐汇区	114
+长宁区	12
+普陀区	42
+虹口区	80
+杨浦区	115
+宝山区	128
+闵行区	62
+嘉定区	76
+金山区	22
+松江区	123
+青浦区	82
+奉贤区	17
+崇明区	2
+
+
+====================
+in A, estimated 20010
+in B, estimated 23403
+by district total, w/dupl 31525
+in A, not in B, estimated 8122
+
+released 0423, estimated 940
+浦东新区	240
+黄浦区	29
+静安区	51
+徐汇区	39
+长宁区	48
+普陀区	35
+虹口区	2
+杨浦区	76
+宝山区	218
+闵行区	32
+嘉定区	30
+金山区	14
+松江区	48
+青浦区	58
+奉贤区	20
+崇明区	0
+
+
+====================
+in A, estimated 18857
+in B, estimated 23461
+by district total, w/dupl 30788
+in A, not in B, estimated 7327
+
+released 0422, estimated 1124
+浦东新区	144
 黄浦区	140
 静安区	42
-徐汇区	64
+徐汇区	68
 长宁区	50
 普陀区	37
-虹口区	44
-杨浦区	44
-宝山区	269
-闵行区	11
-嘉定区	111
-金山区	9
-松江区	65
-青浦区	31
-奉贤区	17
+虹口区	46
+杨浦区	46
+宝山区	274
+闵行区	14
+嘉定区	117
+金山区	15
+松江区	66
+青浦区	36
+奉贤区	23
 崇明区	6
 
 
 ====================
-in A, estimated 16957
+in A, estimated 17243
 in B, estimated 23659
-by district total, w/dupl 29796
-in A, not in B, estimated 6137
+by district total, w/dupl 30006
+in A, not in B, estimated 6347
 
-released 0421, estimated 785
-浦东新区	199
+released 0421, estimated 835
+浦东新区	209
 黄浦区	82
 静安区	35
-徐汇区	44
+徐汇区	48
 长宁区	72
 普陀区	39
-虹口区	22
-杨浦区	28
-宝山区	29
-闵行区	10
-嘉定区	77
-金山区	15
-松江区	63
-青浦区	42
-奉贤区	20
+虹口区	24
+杨浦区	30
+宝山区	34
+闵行区	13
+嘉定区	83
+金山区	21
+松江区	64
+青浦区	47
+奉贤区	26
 崇明区	8
 
 
 ====================
-in A, estimated 15584
+in A, estimated 15889
 in B, estimated 23857
-by district total, w/dupl 29268
-in A, not in B, estimated 5411
+by district total, w/dupl 29479
+in A, not in B, estimated 5622
 
-released 0420, estimated 836
-浦东新区	132
+released 0420, estimated 886
+浦东新区	142
 黄浦区	71
 静安区	55
-徐汇区	47
+徐汇区	51
 长宁区	35
 普陀区	38
-虹口区	54
-杨浦区	40
-宝山区	47
-闵行区	22
-嘉定区	132
-金山区	17
-松江区	43
-青浦区	63
-奉贤区	33
+虹口区	56
+杨浦区	42
+宝山区	52
+闵行区	25
+嘉定区	138
+金山区	23
+松江区	44
+青浦区	68
+奉贤区	39
 崇明区	7
 
 
 ====================
-in A, estimated 13911
+in A, estimated 14233
 in B, estimated 24000
-by district total, w/dupl 28651
-in A, not in B, estimated 4651
+by district total, w/dupl 28864
+in A, not in B, estimated 4864
 
-released 0419, estimated 553
-浦东新区	71
+released 0419, estimated 604
+浦东新区	81
 黄浦区	43
 静安区	41
-徐汇区	46
+徐汇区	50
 长宁区	6
 普陀区	18
-虹口区	38
-杨浦区	43
-宝山区	45
-闵行区	14
-嘉定区	24
-金山区	15
-松江区	62
-青浦区	56
-奉贤区	26
+虹口区	40
+杨浦区	45
+宝山区	50
+闵行区	17
+嘉定区	31
+金山区	21
+松江区	63
+青浦区	61
+奉贤区	32
 崇明区	5
 
 
 ====================
-in A, estimated 12742
+in A, estimated 13083
 in B, estimated 23818
-by district total, w/dupl 27972
-in A, not in B, estimated 4154
+by district total, w/dupl 28185
+in A, not in B, estimated 4367
 
-released 0418, estimated 479
-浦东新区	78
+released 0418, estimated 530
+浦东新区	88
 黄浦区	62
 静安区	6
-徐汇区	69
+徐汇区	73
 长宁区	4
 普陀区	9
-虹口区	59
-杨浦区	22
-宝山区	25
-闵行区	8
-嘉定区	20
-金山区	14
-松江区	45
-青浦区	37
-奉贤区	16
+虹口区	61
+杨浦区	24
+宝山区	30
+闵行区	11
+嘉定区	27
+金山区	20
+松江区	46
+青浦区	42
+奉贤区	22
 崇明区	5
 
 
 ====================
-in A, estimated 11499
+in A, estimated 11863
 in B, estimated 23545
-by district total, w/dupl 27291
-in A, not in B, estimated 3746
+by district total, w/dupl 27508
+in A, not in B, estimated 3963
 
-released 0417, estimated 476
-浦东新区	74
+released 0417, estimated 528
+浦东新区	84
 黄浦区	52
 静安区	42
-徐汇区	15
+徐汇区	19
 长宁区	14
 普陀区	12
-虹口区	23
-杨浦区	31
-宝山区	30
-闵行区	16
-嘉定区	46
-金山区	27
-松江区	28
-青浦区	28
-奉贤区	28
+虹口区	25
+杨浦区	33
+宝山区	35
+闵行区	19
+嘉定区	53
+金山区	33
+松江区	30
+青浦区	33
+奉贤区	34
 崇明区	10
 
 
 ====================
-in A, estimated 10304
+in A, estimated 10684
 in B, estimated 23241
-by district total, w/dupl 26576
-in A, not in B, estimated 3335
+by district total, w/dupl 26796
+in A, not in B, estimated 3555
 
-released 0416, estimated 509
-浦东新区	46
+released 0416, estimated 561
+浦东新区	56
 黄浦区	46
 静安区	50
-徐汇区	47
+徐汇区	51
 长宁区	8
 普陀区	24
-虹口区	49
-杨浦区	17
-宝山区	29
-闵行区	7
-嘉定区	72
-金山区	7
-松江区	43
-青浦区	26
-奉贤区	32
+虹口区	51
+杨浦区	19
+宝山区	34
+闵行区	10
+嘉定区	79
+金山区	13
+松江区	45
+青浦区	31
+奉贤区	38
 崇明区	6
 
 
 ====================
-in A, estimated 9029
+in A, estimated 9431
 in B, estimated 22971
-by district total, w/dupl 25839
-in A, not in B, estimated 2868
+by district total, w/dupl 26063
+in A, not in B, estimated 3092
 
-released 0415, estimated 406
-浦东新区	119
+released 0415, estimated 458
+浦东新区	129
 黄浦区	29
 静安区	32
-徐汇区	35
+徐汇区	39
 长宁区	3
 普陀区	22
-虹口区	6
-杨浦区	13
-宝山区	8
-闵行区	3
-嘉定区	25
-金山区	14
-松江区	48
-青浦区	16
-奉贤区	24
+虹口区	8
+杨浦区	15
+宝山区	13
+闵行区	6
+嘉定区	32
+金山区	20
+松江区	50
+青浦区	21
+奉贤区	30
 崇明区	9
 
 
 ====================
-in A, estimated 8539
+in A, estimated 8536
 in B, estimated 22622
-by district total, w/dupl 25343
-in A, not in B, estimated 2721
+by district total, w/dupl 25340
+in A, not in B, estimated 2718
 
 released 0414, estimated 322
 浦东新区	106
@@ -610,10 +600,10 @@ released 0414, estimated 322
 
 
 ====================
-in A, estimated 7787
+in A, estimated 7784
 in B, estimated 22165
-by district total, w/dupl 24670
-in A, not in B, estimated 2505
+by district total, w/dupl 24667
+in A, not in B, estimated 2502
 
 released 0413, estimated 454
 浦东新区	150
@@ -635,10 +625,10 @@ released 0413, estimated 454
 
 
 ====================
-in A, estimated 6728
+in A, estimated 6725
 in B, estimated 21680
-by district total, w/dupl 23818
-in A, not in B, estimated 2138
+by district total, w/dupl 23815
+in A, not in B, estimated 2135
 
 released 0412, estimated 396
 浦东新区	126
@@ -660,10 +650,10 @@ released 0412, estimated 396
 
 
 ====================
-in A, estimated 5659
+in A, estimated 5656
 in B, estimated 20816
-by district total, w/dupl 22655
-in A, not in B, estimated 1839
+by district total, w/dupl 22652
+in A, not in B, estimated 1836
 
 released 0411, estimated 459
 浦东新区	233
@@ -685,10 +675,10 @@ released 0411, estimated 459
 
 
 ====================
-in A, estimated 4446
+in A, estimated 4443
 in B, estimated 20011
-by district total, w/dupl 21488
-in A, not in B, estimated 1477
+by district total, w/dupl 21485
+in A, not in B, estimated 1474
 
 released 0410, estimated 318
 浦东新区	119
@@ -710,10 +700,10 @@ released 0410, estimated 318
 
 
 ====================
-in A, estimated 3710
+in A, estimated 3707
 in B, estimated 18749
-by district total, w/dupl 20013
-in A, not in B, estimated 1264
+by district total, w/dupl 20010
+in A, not in B, estimated 1261
 
 released 0409, estimated 265
 浦东新区	45
@@ -735,10 +725,10 @@ released 0409, estimated 265
 
 
 ====================
-in A, estimated 3244
+in A, estimated 3241
 in B, estimated 17766
-by district total, w/dupl 18860
-in A, not in B, estimated 1094
+by district total, w/dupl 18857
+in A, not in B, estimated 1091
 
 released 0408, estimated 263
 浦东新区	190
@@ -746,7 +736,7 @@ released 0408, estimated 263
 静安区	1
 徐汇区	5
 长宁区	2
-普陀区 0
+普陀区	0
 虹口区	3
 杨浦区	8
 宝山区	6
@@ -760,10 +750,10 @@ released 0408, estimated 263
 
 
 ====================
-in A, estimated 2679
+in A, estimated 2676
 in B, estimated 16296
-by district total, w/dupl 17246
-in A, not in B, estimated 950
+by district total, w/dupl 17243
+in A, not in B, estimated 947
 
 released 0407, estimated 195
 浦东新区	21
@@ -785,10 +775,10 @@ released 0407, estimated 195
 
 
 ====================
-in A, estimated 2349
+in A, estimated 2346
 in B, estimated 15024
-by district total, w/dupl 15892
-in A, not in B, estimated 868
+by district total, w/dupl 15889
+in A, not in B, estimated 865
 
 released 0406, estimated 175
 浦东新区	56
@@ -806,14 +796,14 @@ released 0406, estimated 175
 松江区	9
 青浦区	9
 奉贤区	10
-崇明区 0
+崇明区	0
 
 
 ====================
-in A, estimated 2069
+in A, estimated 2066
 in B, estimated 13425
-by district total, w/dupl 14236
-in A, not in B, estimated 811
+by district total, w/dupl 14233
+in A, not in B, estimated 808
 
 released 0405, estimated 179
 浦东新区	54
@@ -831,14 +821,14 @@ released 0405, estimated 179
 松江区	5
 青浦区	9
 奉贤区	10
-崇明区 0
+崇明区	0
 
 
 ====================
-in A, estimated 1791
+in A, estimated 1788
 in B, estimated 12343
-by district total, w/dupl 13086
-in A, not in B, estimated 743
+by district total, w/dupl 13083
+in A, not in B, estimated 740
 
 released 0404, estimated 213
 浦东新区	47
@@ -860,10 +850,10 @@ released 0404, estimated 213
 
 
 ====================
-in A, estimated 1517
+in A, estimated 1514
 in B, estimated 11215
-by district total, w/dupl 11866
-in A, not in B, estimated 651
+by district total, w/dupl 11863
+in A, not in B, estimated 648
 
 released 0403, estimated 203
 浦东新区	56
@@ -881,14 +871,14 @@ released 0403, estimated 203
 松江区	4
 青浦区	9
 奉贤区	7
-崇明区 0
+崇明区	0
 
 
 ====================
-in A, estimated 1217
+in A, estimated 1214
 in B, estimated 10132
-by district total, w/dupl 10687
-in A, not in B, estimated 555
+by district total, w/dupl 10684
+in A, not in B, estimated 552
 
 released 0402, estimated 171
 浦东新区	45
@@ -906,14 +896,14 @@ released 0402, estimated 171
 松江区	4
 青浦区	7
 奉贤区	9
-崇明区 0
+崇明区	0
 
 
 ====================
-in A, estimated 1008
+in A, estimated 1005
 in B, estimated 8934
-by district total, w/dupl 9434
-in A, not in B, estimated 500
+by district total, w/dupl 9431
+in A, not in B, estimated 497
 
 released 0401, estimated 95
 浦东新区	22
@@ -931,18 +921,18 @@ released 0401, estimated 95
 松江区	3
 青浦区	6
 奉贤区	6
-崇明区 0
+崇明区	0
 
 
 ====================
-in A, estimated 824
+in A, estimated 821
 in B, estimated 8118
-by district total, w/dupl 8539
-in A, not in B, estimated 421
+by district total, w/dupl 8536
+in A, not in B, estimated 418
 
-released 0331, estimated 158
+released 0331, estimated 159
 浦东新区	36
-黄浦区	7
+黄浦区	8
 静安区	3
 徐汇区	12
 长宁区	4
@@ -960,10 +950,10 @@ released 0331, estimated 158
 
 
 ====================
-in A, estimated 709
-in B, estimated 7412
-by district total, w/dupl 7787
-in A, not in B, estimated 375
+in A, estimated 705
+in B, estimated 7413
+by district total, w/dupl 7784
+in A, not in B, estimated 371
 
 released 0330, estimated 160
 浦东新区	43
@@ -981,14 +971,14 @@ released 0330, estimated 160
 松江区	6
 青浦区	7
 奉贤区	7
-崇明区 0
+崇明区	0
 
 
 ====================
-in A, estimated 613
-in B, estimated 6391
-by district total, w/dupl 6728
-in A, not in B, estimated 337
+in A, estimated 609
+in B, estimated 6392
+by district total, w/dupl 6725
+in A, not in B, estimated 333
 
 released 0329, estimated 181
 浦东新区	39
@@ -1006,13 +996,13 @@ released 0329, estimated 181
 松江区	11
 青浦区	9
 奉贤区	8
-崇明区 0
+崇明区	0
 
 
 ====================
 in A, estimated 498
-in B, estimated 5386
-by district total, w/dupl 5659
+in B, estimated 5383
+by district total, w/dupl 5656
 in A, not in B, estimated 273
 
 released 0328, estimated 153
@@ -1031,13 +1021,13 @@ released 0328, estimated 153
 松江区	8
 青浦区	7
 奉贤区	7
-崇明区 0
+崇明区	0
 
 
 ====================
 in A, estimated 433
-in B, estimated 4196
-by district total, w/dupl 4446
+in B, estimated 4193
+by district total, w/dupl 4443
 in A, not in B, estimated 250
 
 released 0327, estimated 196
@@ -1056,13 +1046,13 @@ released 0327, estimated 196
 松江区	9
 青浦区	11
 奉贤区	7
-崇明区 0
+崇明区	0
 
 
 ====================
 in A, estimated 306
-in B, estimated 3524
-by district total, w/dupl 3710
+in B, estimated 3521
+by district total, w/dupl 3707
 in A, not in B, estimated 186
 
 released 0326, estimated 154
@@ -1081,12 +1071,12 @@ released 0326, estimated 154
 松江区	4
 青浦区	8
 奉贤区	6
-崇明区 0
+崇明区	0
 
 
 ====================
 in A, estimated 270
-in B, estimated 3070
+in B, estimated 3067
 by district total, w/dupl 3244
 in A, not in B, estimated 174
 
@@ -1106,13 +1096,13 @@ released 0325, estimated 171
 松江区	7
 青浦区	9
 奉贤区	6
-崇明区 0
+崇明区	0
 
 
 ====================
 in A, estimated 212
-in B, estimated 2535
-by district total, w/dupl 2679
+in B, estimated 2532
+by district total, w/dupl 2676
 in A, not in B, estimated 144
 
 released 0324, estimated 178
@@ -1131,13 +1121,13 @@ released 0324, estimated 178
 松江区	8
 青浦区	11
 奉贤区	6
-崇明区 0
+崇明区	0
 
 
 ====================
 in A, estimated 162
-in B, estimated 2235
-by district total, w/dupl 2349
+in B, estimated 2232
+by district total, w/dupl 2346
 in A, not in B, estimated 114
 
 released 0323, estimated 183
@@ -1156,13 +1146,13 @@ released 0323, estimated 183
 松江区	8
 青浦区	8
 奉贤区	6
-崇明区 0
+崇明区	0
 
 
 ====================
 in A, estimated 110
-in B, estimated 1985
-by district total, w/dupl 2069
+in B, estimated 1982
+by district total, w/dupl 2066
 in A, not in B, estimated 84
 
 released 0322, estimated 187
@@ -1181,13 +1171,13 @@ released 0322, estimated 187
 松江区	12
 青浦区	11
 奉贤区	6
-崇明区 0
+崇明区	0
 
 
 ====================
 in A, estimated 75
-in B, estimated 1738
-by district total, w/dupl 1791
+in B, estimated 1735
+by district total, w/dupl 1788
 in A, not in B, estimated 53
 
 released 0321, estimated 196
@@ -1206,13 +1196,13 @@ released 0321, estimated 196
 松江区	6
 青浦区	9
 奉贤区	6
-崇明区 0
+崇明区	0
 
 
 ====================
 in A, estimated 36
-in B, estimated 1494
-by district total, w/dupl 1517
+in B, estimated 1491
+by district total, w/dupl 1514
 in A, not in B, estimated 23
 
 released 0320, estimated 214
@@ -1231,40 +1221,41 @@ released 0320, estimated 214
 松江区	7
 青浦区	9
 奉贤区	7
-崇明区 0
+崇明区	0
 
 
 ====================
-in B, estimated 1217
-by district total, w/dupl 1217
+in A, estimated 0
+in B, estimated 1214
+by district total, w/dupl 1214
 in A, not in B, estimated 0
 released 0319, estimated 0
 
 
 ====================
-in B, estimated 1008
-by district total, w/dupl 1008
+in B, estimated 1005
+by district total, w/dupl 1005
 in A, not in B, estimated 0
 released 0318, estimated 0
 
 
 ====================
-in B, estimated 824
-by district total, w/dupl 824
+in B, estimated 821
+by district total, w/dupl 821
 in A, not in B, estimated 0
 released 0317, estimated 0
 
 
 ====================
-in B, estimated 709
-by district total, w/dupl 709
+in B, estimated 705
+by district total, w/dupl 70
 in A, not in B, estimated 0
 released 0316, estimated 0
 
 
 ====================
-in B, estimated 613
-by district total, w/dupl 613
+in B, estimated 609
+by district total, w/dupl 609
 in A, not in B, estimated 0
 released 0315, estimated 0
 

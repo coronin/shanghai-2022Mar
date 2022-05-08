@@ -111,14 +111,11 @@
   }
 
   function preReload (q, oldest) {
-    let url;
+    let url = baseURL + '#';
     if (j && j.address['shanghaifabu'].length > 2) {
-      url = baseURL + '#';
-      if (hash === j.address['shanghaifabu'].slice(-1)[0]) {
-        url += j.address['shanghaifabu'].slice(-2)[0];
-      } else {
-        url += j.address['shanghaifabu'].slice(-3)[0];
-      }
+      url += j.address['shanghaifabu'].slice(-2)[0];
+    } else {
+      url += '0' + (parseInt(j.tag) - 1);
     }
     if (oldest) {
       url = baseURL + '#0307';
@@ -269,7 +266,7 @@
     } else {
       next_button.style.visibility = 'hidden';
     }
-    if (hash_ < 320) {
+    if (hash_ < 308) {
       pre_button.style.visibility = 'hidden';
     } else {
       pre_button.style.visibility = 'visible';
@@ -441,13 +438,16 @@
     if (window.location.toString().indexOf('=') === -1) {
       auto_save_.style.visibility = 'hidden';
     }
-    // if (parseInt(j.tag) > 500) {
-    //   check6.style.display = 'inline-block';
-    //   check7.style.display = 'inline-block';
-    // } else {
-    //   check6.style.display = 'none';
-    //   check7.style.display = 'none';
-    // }
+    if (parseInt(j.tag) > 308) { // 三阴阳
+      check6.style.display = 'inline-block';
+    } else {
+      check6.style.display = 'none';
+    }
+    if (parseInt(j.tag) > 312) { // 七阴阳
+      check7.style.display = 'inline-block';
+    } else {
+      check7.style.display = 'none';
+    }
     if (window.location.toString().indexOf('?') > -1) {
       if (hash2.indexOf('$') > -1) {
         scaleChange = false;
@@ -767,11 +767,12 @@
         // } else {
           ks = '<span style="color:grey;">' + sb + '.</span> <span>';
         //}
-        ks += '<span class="click" onclick="search(this.textContent);">' + Ds[ii] + '</span>';
-        if (map_i > 1 || lastSearch) {
+        if (map_i > 1) {
+          ks += '<span class="click" onclick="search(this.textContent);">' + Ds[ii] + '</span>';
           ks += '<span class="click _L" onclick="lastSearch=\''+k+'\';search(\'';
         } else {
-          ks += '<span onclick="lastSearch=\''+k+'\';search(\'';
+          ks += '<span class="click _L" onclick="search(this.textContent);">' + Ds[ii] + '</span>';
+          ks += '<span data-click="lastSearch=\''+k+'\';search(\'';
         }
         if (lastSearch && lastSearch !== As[i] && As[i].indexOf(lastSearch) > -1) {
           ks += lastSearch;

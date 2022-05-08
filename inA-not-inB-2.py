@@ -1,6 +1,7 @@
 ## EXCEL ##  =countif(B:B,A1)=0
 
-As = ('0318','0319','0320',
+As = ('0306','0307','0308','0309','0310',
+      '0311','0312','0313','0314','0315','0316','0317','0318','0319','0320',
       '0321','0322','0323','0324','0325','0326','0327','0328','0329','0330',
       '0331',
       '0401','0402','0403','0404','0405','0406','0407','0408','0409','0410',
@@ -26,6 +27,9 @@ districts_released = {}
 districts_today = {}
 districts_inB = {}
 by_address = {'shanghaifabu':['0313'] }
+transition_int = int(Bs[0])
+if (As):
+    transition_int = int(As[0])
 
 
 # https://github.com/wandergis/coordTransform_py
@@ -90,6 +94,16 @@ def bd09_to_wgs84(bd_lon, bd_lat):
 def read_a_list(s, tag=''):
     if not s:
         return []
+    global transition_int;
+    if tag != 'list' and int(s) != transition_int:
+        raise
+    transition_int += 1
+    if tag != 'list' and transition_int == 332:
+        transition_int = 401
+    elif tag != 'list' and transition_int == 431:
+        transition_int = 501
+    elif tag != 'list' and transition_int == 532:
+        transition_int = 601
     f = open('shanghaifabu/%s.txt' % s, 'r')
     pre = f.readlines()
     f.close()
@@ -98,7 +112,7 @@ def read_a_list(s, tag=''):
     for l in pre:
         line = l.strip().replace('（住宅）', ''
                        ).replace('（公寓）', '')
-        if line == 'shanghaifabu':
+        if line == 'shanghaifabu' and tag != 'list':
             #print('>>>>', s, line)
             by_address[line] += [s]
             continue
@@ -253,12 +267,11 @@ if A:
         if latest_released.get(dd):
             print('%s\t%s' % (dd, len(latest_released[dd]) ))
         else:
-            print(dd, 0)
+            print('%s\t0' % dd)
 
 
 latest_added = {}
 Bs2 = read_a_list(Bs[-2], tag='list')
-by_address['shanghaifabu'].pop()
 for dd in districts:
     if not districts_today.get(dd):
         continue
@@ -277,7 +290,6 @@ Bs4 = [[], [], [], [], [], [] ] # >= 0501
 try:
     Bs4[0] = read_a_list(Bs[-3], tag='list')
     Bs4[1] = read_a_list(Bs[-4], tag='list')
-    by_address['shanghaifabu'] = by_address['shanghaifabu'][:-6]
     for dd in districts:
         if not districts_today.get(dd):
             continue
