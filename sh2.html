@@ -238,9 +238,12 @@
   (function f () {
     loading_i = (loading_i + 1) % loading.length;
     ld = document.getElementsByClassName('loading_span');
-    for (i = 0; i < ld.length; i += 1) {
-      ld[i].textContent = loading[ loading_i ];
-    }
+    // for (i = 0; i < ld.length; i += 1) {
+    //   ld[i].textContent = loading[ loading_i ];
+    // }
+    Array.from(ld).forEach((i) => {
+      i.textContent = loading[ loading_i ];
+    });
     setTimeout(f, 250);
   })();
 
@@ -349,10 +352,12 @@
     }
     _today = hash2date(j.tag);
     const tags = document.getElementsByClassName('_tag');
-    let k;
-    for (k = 0; k < tags.length; k += 1) {
-      tags[k].textContent = _today;
-    }
+    // for (k = 0; k < tags.length; k += 1) {
+    //   tags[k].textContent = _today;
+    // }
+    Array.from(tags).forEach((i) => {
+      i.textContent = _today;
+    });
     auto_save_status.onclick = function () {
       if (autoSavePNG) {
         auto_save_off();
@@ -382,6 +387,7 @@
     districtTable.innerHTML = '<tr style="color:black;"><th>行政单位</th><th>累计上榜</th>' +
       '<th id="th_k"></th><th>两周内</th><th><span class="_tag"></span>涉及</th>' +
       '<th>累计下榜</th><th><span class="_tag"></span>下榜</th></tr>';
+    let k;
     for (i = 0; i < Ds.length; i += 1) {
       k = document.createElement('tr');
       // if (Ds[i] === '普陀区') {
@@ -480,7 +486,7 @@
     const pg = d3.geo.path().projection(pj).context(map);
     map.strokeStyle = 'grey';
     map.font = fontSize + 'px Microsoft YaHei';
-    dt.features.forEach(d => {
+    dt.features.forEach((d) => {
       // let xx = new Array(), yy = new Array();
       // let xx_raw = new Array(), yy_raw = new Array();
       // let xx_max, yy_max, xxx, yyy;
@@ -536,7 +542,7 @@
     map.fillStyle = 'blue';
     const cafe0 = JSON.parse(cafe);
     const cafe1 = topojson.feature(cafe0, cafe0.objects.collection);
-    cafe1.features.forEach(d => {
+    cafe1.features.forEach((d) => {
       map.beginPath();
       map.fillRect(mapX0( d.geometry.coordinates[0] ),
                    mapY0( d.geometry.coordinates[1] ),
@@ -550,7 +556,7 @@
     map.lineWidth = 6;
     const river0 = JSON.parse(river);
     const river1 = topojson.feature(river0, river0.objects.collection);
-    river1.features.forEach(d => {
+    river1.features.forEach((d) => {
       dots = d.geometry.coordinates;
       map.beginPath();
       map.moveTo(mapX0(dots[0][0]), mapY0(dots[0][1]));
@@ -563,7 +569,7 @@
     map.lineWidth = 1.0;
     const line0 = JSON.parse(lines);
     const line1 = topojson.feature(line0, line0.objects.collection);
-    line1.features.forEach(d => {
+    line1.features.forEach((d) => {
       dots = d.geometry.coordinates;
       map.beginPath();
       map.moveTo(mapX0(dots[0][0]), mapY0(dots[0][1]));
@@ -740,11 +746,16 @@
       _check = check_choices['0'];
     }
     check_row.style.display = 'none';
-    for (ii = 0; ii < Ds.length; ii += 1) {
-      document.getElementById(Ds[ii]).style.background = 'white';
-      document.getElementById(Ds[ii] + 'line').textContent = '';
-      th_k.textContent = '';
-    }
+    // for (ii = 0; ii < Ds.length; ii += 1) {
+    //   document.getElementById(Ds[ii]).style.background = 'white';
+    //   document.getElementById(Ds[ii] + 'line').textContent = '';
+    //   th_k.textContent = '';
+    // }
+    th_k.textContent = '';
+    Ds.forEach((i) => {
+      document.getElementById(i).style.background = 'white';
+      document.getElementById(i + 'line').textContent = '';
+    });
     let dl; let sb = 0;
     let map_push;
     let map_x = new Array();
@@ -897,9 +908,12 @@
         );
       }
       draw_sh();
-      for (i = 0; i < map_i; i += 1) {
-        draw_addr(map_addr[i]);
-      }
+      // for (i = 0; i < map_i; i += 1) {
+      //   draw_addr(map_addr[i]);
+      // }
+      map_addr.forEach((i) => {
+        draw_addr(i);
+      });
       map.fillStyle = 'rgba(255,0,0,0.4)';
       let gray_Y = [mapY(map_y[0]), 0,2];
       let gray_dis = new Array();
@@ -996,11 +1010,11 @@
 
   function updateCheckStatus () {
     const checkboxes = document.getElementsByName('check');
-    checkboxes.forEach((item) => {
-      if (_check === check_choices[item.getAttribute('data-value')] ) {
-        item.checked = true;
+    Array.from(checkboxes).forEach((i) => {
+      if (_check === check_choices[i.getAttribute('data-value')] ) {
+        i.checked = true;
       } else {
-        item.checked = false;
+        i.checked = false;
       }
     });
   }
@@ -1008,8 +1022,8 @@
   // https://stackoverflow.com/questions/9709209/
   function onlyOne (I) {
     const checkboxes = document.getElementsByName('check');
-    checkboxes.forEach((item) => {
-        if (item !== I) item.checked = false;
+    Array.from(checkboxes).forEach((i) => {
+      if (i !== I) i.checked = false;
     });
     _check = check_choices[I.getAttribute('data-value')];
     //console.log('data-value >', _check, j[_check]);

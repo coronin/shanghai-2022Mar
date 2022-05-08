@@ -11,6 +11,7 @@
 腾讯CDN已经启用，更新COS文件后需要URL刷新，比如
 * https://cdn.teach.bio/map-location.json
 * https://cdn.teach.bio/full0505.json
+如大量更改COS文件，可刷新CDN目录
 
 Best practice
 * git clone https://github.com/coronin/shanghai-2022Mar
