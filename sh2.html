@@ -248,8 +248,10 @@
   })();
 
   function load_js () {
-    hash = window.location.hash.slice(1).split('?')[0];
-    hash2 = decodeURIComponent(window.location.toString()).split('?')[1]; // undefined
+    const hash_orig = window.location.hash.slice(1).split('?')[0];
+    const hash2_orig = decodeURIComponent(window.location.toString()).split('?')[1]; // undefined
+    hash = hash_orig;
+    hash2 = hash2_orig;
     if (window.location.toString().indexOf('$') > -1) {
       hash = hash.split('$')[0];
     }
@@ -267,29 +269,41 @@
     } else {
       window.location.replace(baseURL + '#' + hash);
     }
-    if (hash_ < j_data_init) {
-      next_button.style.visibility = 'visible';
-    } else {
-      next_button.style.visibility = 'hidden';
-    }
-    if (hash_ < 308) {
-      pre_button.style.visibility = 'hidden';
-    } else {
-      pre_button.style.visibility = 'visible';
-    }
     const k_src = "shanghaifabu/full" + hash + '.json';
     if (_J && _J[hash] && _J[hash].tag === hash) {
       j = _J[hash];
       load();
     } else {
-      let k = document.createElement('script');
-      k.src = k_src;
       datestr.textContent = '';
       fetching.style.visibility = 'visible';
       fetching2.style.visibility = 'visible';
-      console.log('Load json files for', hash);
-      document.head.append(k);
-      k.onload = function () {
+      console.log('Start downloading', hash);
+      // let k = document.createElement('script');
+      // k.src = k_src;
+      // document.head.append(k);
+      // k.onload = function () {
+      // };
+      // k.onerror = function () {
+      // };
+      var req = new XMLHttpRequest();
+      req.addEventListener("progress", event => {
+        if (event.lengthComputable) {
+          const ld = document.getElementsByClassName('loading_pr');
+          Array.from(ld).forEach((i) => {
+            i.textContent = parseInt(100*event.loaded/event.total) + '%';
+          });
+        } else {
+          const ld = document.getElementsByClassName('loading_pr');
+          Array.from(ld).forEach((i) => {
+            i.textContent = parseInt(100*event.loaded/3600000) + '%';
+          });
+        }
+      }, false);
+      req.addEventListener("load", event => {
+        const e = event.target;
+        let k = document.createElement('script');
+        k.textContent = e.responseText;
+        document.body.appendChild(k);
         j = JSON.parse(data);
         data = '';
         _J[hash] = j;
@@ -297,13 +311,23 @@
           window.alert('数据有错 请刷新页面\n' + window.location.toString() );
           return;
         }
+        if (hash_ < j_data_init) {
+          next_button.style.visibility = 'visible';
+        } else {
+          next_button.style.visibility = 'hidden';
+        }
+        if (hash_ < 308) {
+          pre_button.style.visibility = 'hidden';
+        } else {
+          pre_button.style.visibility = 'visible';
+        }
         save_button.style.visibility = 'visible';
         addr.style.visibility = 'visible';
         search_button.style.visibility = 'visible';
         districtTable.style.visibility = 'visible';
         load();
-      };
-      k.onerror = function () {
+      }, false);
+      req.addEventListener("error", event => {
         save_button.style.visibility = 'hidden';
         addr.style.visibility = 'hidden';
         search_button.style.visibility = 'hidden';
@@ -312,7 +336,18 @@
         pre_button.style.visibility = 'hidden';
         window.alert('数据无法下载 请刷新页面\n' + window.location.toString() );
         return;
-      };
+      }, false);
+      req.addEventListener("abort", event => {
+        console.log(event);
+        if (hash2_orig) {
+          window.location.replace(baseURL + '#' + hash_orig + '?' + hash2_orig);
+        } else {
+          window.location.replace(baseURL + '#' + hash_orig);
+        }
+      }, false);
+      req.open('GET', k_src );
+      req.send();
+      // https://stackoverflow.com/questions/18126406/
     }
     // SukkaW/DisqusJS
     var dsqjs = new DisqusJS({
@@ -1115,7 +1150,8 @@
   <p>
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a> <span id="shanghaifabu"></span>
       <span id="datestr" style="color:blue;"></span>
-      <span id="fetching" style="color:blue;">fetching<span class="loading_span"></span> not ready</span>
+      <span id="fetching" style="color:blue;"> <span class="loading_pr">not ready,</span>
+        loaded<span class="loading_span"></span></span>
     <br/>本页为<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
     <br/> &nbsp;&nbsp;&nbsp;&nbsp;
       <span class="click" class="april_button" onclick="jumpApr(addr.value,3);"><span style="color:grey">跳至</span>3/</span><input type="text" id="march" name="march" size=2 onkeydown="aprilEnter(3);" />
@@ -1138,13 +1174,14 @@
   <button onclick="nextReload(addr.value,1);">&gt;&gt;</button>
   <button id="clear_button" style="visibility:hidden;" onclick="search();">隐藏</button>
   <button id="reload_button" onclick="window.location.reload();">重置</button>
-  <span id="fetching2" style="color:blue;">Loading<span class="loading_span"></span></span>
+  <span id="fetching2" style="color:blue;">Loading<span class="loading_span"></span>
+    <span class="loading_pr"></span></span>
   <span id="auto_save_" style="color:cyan;">自动存图</span>
   <br/>
   <canvas id="app" style="display:none;"></canvas>
   <!-- 3.district 2.inB 0.today 4.released 5.released_today 1.latest_added -->
   <div id="check_row" style="display:none;">
-    <label><span>2022年 3月18日 至
+    <label><span>2022年 3月6日 至
              <span id="tag_m2"></span>月<span id="tag_d2"></span>日
            </span></label>
     <label id="check7" style="display:none;"><input type="checkbox" name="check" onclick="onlyOne(this)"
