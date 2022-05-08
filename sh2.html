@@ -237,13 +237,9 @@
   let loading_i = -1, ld;
   (function f () {
     loading_i = (loading_i + 1) % loading.length;
-    ld = document.getElementsByClassName('loading_span');
-    // for (i = 0; i < ld.length; i += 1) {
-    //   ld[i].textContent = loading[ loading_i ];
-    // }
-    Array.from(ld).forEach((i) => {
-      i.textContent = loading[ loading_i ];
-    });
+    if (document.getElementById('loading_span')) {
+      loading_span.textContent = loading[ loading_i ];
+    }
     setTimeout(f, 250);
   })();
 
@@ -286,18 +282,21 @@
       // k.onerror = function () {
       // };
       var req = new XMLHttpRequest();
+      req.addEventListener("loadstart", event => {
+        const ld = document.getElementsByClassName('loading_pr');
+        Array.from(ld).forEach((i) => {
+          i.textContent = '0%';
+        });
+      }, false);
       req.addEventListener("progress", event => {
-        if (event.lengthComputable) {
-          const ld = document.getElementsByClassName('loading_pr');
-          Array.from(ld).forEach((i) => {
+        const ld = document.getElementsByClassName('loading_pr');
+        Array.from(ld).forEach((i) => {
+          if (event.lengthComputable) {
             i.textContent = parseInt(100*event.loaded/event.total) + '%';
-          });
-        } else {
-          const ld = document.getElementsByClassName('loading_pr');
-          Array.from(ld).forEach((i) => {
+          } else {
             i.textContent = parseInt(100*event.loaded/3600000) + '%';
-          });
-        }
+          }
+        });
       }, false);
       req.addEventListener("load", event => {
         const e = event.target;
@@ -308,7 +307,7 @@
         data = '';
         _J[hash] = j;
         if (parseInt(j.tag) > j_data_init) {
-          window.alert('数据有错 请刷新页面\n' + window.location.toString() );
+          window.alert('所得数据有错 请刷新页面\n' + window.location.toString() );
           return;
         }
         if (hash_ < j_data_init) {
@@ -1150,8 +1149,7 @@
   <p>
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a> <span id="shanghaifabu"></span>
       <span id="datestr" style="color:blue;"></span>
-      <span id="fetching" style="color:blue;"> <span class="loading_pr">not ready,</span>
-        loaded<span class="loading_span"></span></span>
+      <span id="fetching" style="color:blue;"> <span class="loading_pr">not ready,</span> loaded</span>
     <br/>本页为<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
     <br/> &nbsp;&nbsp;&nbsp;&nbsp;
       <span class="click" class="april_button" onclick="jumpApr(addr.value,3);"><span style="color:grey">跳至</span>3/</span><input type="text" id="march" name="march" size=2 onkeydown="aprilEnter(3);" />
@@ -1174,7 +1172,7 @@
   <button onclick="nextReload(addr.value,1);">&gt;&gt;</button>
   <button id="clear_button" style="visibility:hidden;" onclick="search();">隐藏</button>
   <button id="reload_button" onclick="window.location.reload();">重置</button>
-  <span id="fetching2" style="color:blue;">Loading<span class="loading_span"></span>
+  <span id="fetching2" style="color:blue;">Loading<span id="loading_span"></span>
     <span class="loading_pr"></span></span>
   <span id="auto_save_" style="color:cyan;">自动存图</span>
   <br/>

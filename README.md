@@ -16,6 +16,6 @@
 Best practice
 * git clone https://github.com/coronin/shanghai-2022Mar
 * drag drag-me.html into a desktop browser
-* in the folder  python3 -m http.server  then visit http://127.0.0.1/sh2.html
+* in the folder  python3 -m http.server  then visit http://127.0.0.1:8000/sh2.html
 
 作者 @the_paper_link
