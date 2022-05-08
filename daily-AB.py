@@ -4,9 +4,29 @@ from urllib import request
 # os.system('scrapy fetch --nolog https://www.cell.com/cell/newarticles > cell.txt')
 
 z = [
-#'','']
-#'','']
-'0507','']
+#'0515','']
+#'0514','']
+#'0513','']
+#'0512','']
+#'0511','']
+#'0510','']
+#'0509','']
+#'0508','']
+#'0507','']
+#'0317','https://wsjkw.sh.gov.cn/xwfb/20220318/dc6e1aca667a45a682f32ac514c6062e.html']
+#'0316','https://wsjkw.sh.gov.cn/xwfb/20220317/46f73d4d70b54982b04c925eea6cb031.html']
+#'0315','https://wsjkw.sh.gov.cn/xwfb/20220316/18a627b694eb471f9a415dfa20b6d0b4.html'] #区地址个数 200
+#'0314','https://wsjkw.sh.gov.cn/xwfb/20220315/e2b0122c52304fe0a41a8b726b3413d2.html'] #区地址个数 138
+#'0313','https://wsjkw.sh.gov.cn/xwfb/20220314/ea83d1b33a2e40fea7de115c16cbae8a.html']
+#'0312','https://wsjkw.sh.gov.cn/xwfb/20220313/ac598c0104ad49f8913df20d794d68d1.html'] #区地址个数 64
+#'0311','https://wsjkw.sh.gov.cn/xwfb/20220312/559cc1eb3e9646b6a08b28ce340a3463.html'] #区地址个数 81
+#'0310','https://wsjkw.sh.gov.cn/xwfb/20220311/a7bb01fac3664085a882d46dc4e194ba.html'] #区地址个数 74
+#'0309','https://wsjkw.sh.gov.cn/xwfb/20220310/c7a3763da0cd46cbb563df4064ee1a15.html'] #区地址个数 77
+#'0308','https://wsjkw.sh.gov.cn/xwfb/20220309/077a50ff4cf4422d836e857126008ff6.html']
+#'0307','https://wsjkw.sh.gov.cn/xwfb/20220308/a2f9fa49a4274509a1a42fa871bf77ee.html'] #区地址个数 55
+#'0306','https://wsjkw.sh.gov.cn/xwfb/20220307/6490dbd707674b278f40159595aa5cd9.html']
+#'0305','https://wsjkw.sh.gov.cn/xwfb/20220306/ce44bea5ad8e41bf85165cdf35c84bdb.html']
+#'0304','https://wsjkw.sh.gov.cn/xwfb/20220305/1fd23e48cc4f479ea8fc56c9e1052759.html']
 #'0506','https://mp.weixin.qq.com/s/bqZp2AqqE-FPzJpx6FlhPA']
 #'0505','https://mp.weixin.qq.com/s/IqIqMik_fGpPgfNgIZ8ieg']
 #'0504','https://mp.weixin.qq.com/s/J68hA0ncRR_q91ccVINP0g']
@@ -60,6 +80,43 @@ z = [
 # no place info before 3/18
 # 从3月18日起三天内，我市对非重点区域内人员分时分批次开展一次免费核酸检测
 # 从3月13日启动校园封闭管理
+
+day0x0x = {
+'浦东新区': '', # 浦东发布
+'黄浦区': '',
+'静安区': '',
+'徐汇区': '',
+'长宁区': '',
+'普陀区': '',
+'虹口区': '',
+'杨浦区': '',
+'宝山区': '',
+'闵行区': '', # 今日闵行
+'嘉定区': '',
+'金山区': '',
+'松江区': '',
+'青浦区': '', # 绿色青浦
+'奉贤区': '',
+'崇明区': '' }
+
+day0507 = {
+'浦东新区': 'https://mp.weixin.qq.com/s/XTQnkZwu4v5rkCXurVAJZg', # 浦东发布
+'黄浦区': 'https://mp.weixin.qq.com/s/UEncM5wqRWQprNuzIChSzw',
+'静安区': 'https://mp.weixin.qq.com/s/tLQ8TXlYjM4LExBCuHHuSg',
+'徐汇区': 'https://mp.weixin.qq.com/s/jT5sOaouLFhX-f6UgrguJQ',
+'长宁区': 'https://mp.weixin.qq.com/s/v-WL0fTIwC3tbjpkxfFp3Q',
+'普陀区': 'https://mp.weixin.qq.com/s/baKLjhEmtxbzOoWtGPldOw',
+'虹口区': 'https://mp.weixin.qq.com/s/UQNfeKWC951wRSieDIf-kg',
+'杨浦区': 'https://mp.weixin.qq.com/s/Fqixdx8jmLffzOgbWnIBLw',
+'宝山区': 'https://mp.weixin.qq.com/s/97qo9ApMpMDUJL2szWeqLA',
+'闵行区': 'https://mp.weixin.qq.com/s/LAIFzFcpQNq7RPvNL_PxLg', # 今日闵行
+'嘉定区': 'https://mp.weixin.qq.com/s/0j5N6ErSQbx46IUUveiHCQ',
+'金山区': '',
+'松江区': 'https://mp.weixin.qq.com/s/JAq9g1PvPdsivhL4JDxpvQ',
+'青浦区': 'https://mp.weixin.qq.com/s/FxVt2D_EO8G9SC00LhhNoQ', # 绿色青浦
+'奉贤区': 'https://mp.weixin.qq.com/s/o7MPXckAbicMdURmBoz49w',
+'崇明区': 'https://mp.weixin.qq.com/s/7wHGOFOqck6-3vMNVUFBlg' }
+
 day0506 = {
 '浦东新区': 'https://mp.weixin.qq.com/s/ITILcJZ4bDb4_knaukb6Uw', # 浦东发布
 '黄浦区': 'https://mp.weixin.qq.com/s/H4hfCQcYCwSvpfIL63a9aw',
@@ -72,7 +129,7 @@ day0506 = {
 '宝山区': 'https://mp.weixin.qq.com/s/4z2hEoN8m6goBTsqtPc4BA',
 '闵行区': 'https://mp.weixin.qq.com/s/Y7JSTCiyTHfDm8k8vQwuKQ', # 今日闵行
 '嘉定区': 'https://mp.weixin.qq.com/s/gx4PxwNB-2Ry7YtqsjTsow',
-'金山区': '',
+'金山区': 'https://mp.weixin.qq.com/s/FXQq3TzL0g4fuyTkGBm3ow',
 '松江区': 'https://mp.weixin.qq.com/s/87zaEsN5q1NnYO1xfHhodg',
 '青浦区': 'https://mp.weixin.qq.com/s/bno49i-jXiSl2g9nW-bkkA', # 绿色青浦
 '奉贤区': 'https://mp.weixin.qq.com/s/9rGKkG6R4Q2iwt8LroHO9g',
@@ -94,6 +151,22 @@ if not z[1]:
                 print('day%s %s的链接没有有效日期' % (z[0],zz0[i]) )
                 raise
             wxx += '\n\n\n\n%s' % wx_
+elif z[1].endswith('.html'):
+    import os
+    if not os.path.isfile('shanghaifabu/%s%s.txt' % (z[0],z[0])):
+        os.system('scrapy fetch --nolog %s > %s%s.txt' % (z[1], z[0],z[0]) )
+    f = open('shanghaifabu/%s%s.txt' % (z[0],z[0]), 'r')
+    page = f.read()
+    f.close()
+    pp = BeautifulSoup(page, features="lxml").find('div', {'id' : 'ivs_content'}).get_text()
+    import re
+    ppp = re.findall(r'，居住于(\S{2,3}区[^，。]+)', pp) + re.findall(r'，居住地为(\S{2,3}区[^，。]+)', pp)
+    print('就读于', re.findall(r'，就读于(\S{2,3}区[^，。]+)', pp) )
+    print('外省市', re.findall(r'，外省市([^，。]+)', pp) )
+    print('搜到区地址个数', len(ppp))
+    #print('\n'.join(ppp) )
+    print('搜到新增本土数', '+'.join( re.findall('24时，新增本土[^0-9]+(\d{1,3})', pp)[1:]) )
+    wxx = re.sub(r'(\S{2,3})区', r'\1区,', '\n'.join(ppp) )
 else:
     wx = BeautifulSoup(request.urlopen(z[1]).read(), features="lxml")
     wxx = wx.find('div', {'id' : 'img-content'}).get_text()
@@ -103,7 +176,7 @@ res = wxx.replace('，', ',').replace('。', ',').replace('、', ',').replace('�
         ).replace('我区', ',,,,')
 
 Z = [ s.strip() for s in list(filter(None, res.split(',') )) ]
-print(len(Z))
+#print(len(Z))
 for zz in Z:
     if len(zz) > 50:
         print('\n', zz, '\n')
@@ -116,5 +189,4 @@ else:
     fz = open('%s.txt' % z[0], 'w')
 fz.write( u'\n'.join(Z) )
 fz.close()
-
 print('CAUTION: please check %s.txt for missing line break' % z[0] )
