@@ -304,15 +304,28 @@
         load();
       };
       k.onerror = function () {
-        window.alert('数据无法下载 请刷新页面\n' + window.location.toString() );
         save_button.style.visibility = 'hidden';
         addr.style.visibility = 'hidden';
         search_button.style.visibility = 'hidden';
         districtTable.style.visibility = 'hidden';
         next_button.style.visibility = 'hidden';
         pre_button.style.visibility = 'hidden';
+        window.alert('数据无法下载 请刷新页面\n' + window.location.toString() );
+        return;
       };
     }
+    // SukkaW/DisqusJS
+    var dsqjs = new DisqusJS({
+        shortname: 'igem01',
+        siteName: 'Feedback 反馈',
+        identifier: 'sh.teach.bio',
+        url: 'document.location.origin + document.location.pathname + document.location.search',
+        api: 'https://disqus.skk.moe/disqus/',
+        apikey: 'ucxDfSYIhlMQoMDauN5hqII0o8CFtk2JSGoX7zBLP1L2UK1jsUplM3dTsI0nW5Li',
+        nocomment: '对本工具的建议或意见，可评论反馈',
+        admin: 'thepaperlink',
+        adminLabel: 'Mod'
+    });
   }
 
   function hash2date (_s) {
@@ -1045,6 +1058,9 @@
     search(addr.value, true);
   }
   </script>
+  <!-- SukkaW/DisqusJS -->
+  <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.3/dist/disqusjs.css" />
+  <script src="https://unpkg.com/disqusjs@1.3/dist/disqus.js"></script>
   <style>
     body {background-color: white;}
     p {line-height: 1.5em;}
@@ -1086,11 +1102,12 @@
   </style>
 </head>
 <body onload="load_js();">
+  <div id="disqus_thread"></div>
   <p>
-    更新时间 <span id="datestr" style="color:blue;"></span>
-      <span id="fetching" style="color:blue;">fetching<span class="loading_span"></span> not ready</span><br/>
-    数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a> <span id="shanghaifabu"></span><br/>
-    本页为<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
+    数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a> <span id="shanghaifabu"></span>
+      <span id="datestr" style="color:blue;"></span>
+      <span id="fetching" style="color:blue;">fetching<span class="loading_span"></span> not ready</span>
+    <br/>本页为<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
     <br/> &nbsp;&nbsp;&nbsp;&nbsp;
       <span class="click" class="april_button" onclick="jumpApr(addr.value,3);"><span style="color:grey">跳至</span>3/</span><input type="text" id="march" name="march" size=2 onkeydown="aprilEnter(3);" />
       &nbsp; <span class="click" class="april_button" onclick="jumpApr(addr.value);"><span style="color:grey">跳至</span>4/</span><input type="text" id="april" name="april" size=2 onkeydown="aprilEnter();" />
