@@ -277,6 +277,9 @@
     } else {
       pre_button.style.visibility = 'visible';
     }
+    if (document.getElementsByClassName('disqus-footer__list') ) {
+      document.getElementsByClassName('disqus-footer__list')[0].display = 'none';
+    }
     const k_src = "shanghaifabu/full" + hash + '.json';
     if (_J && _J[hash] && _J[hash].tag === hash) {
       j = _J[hash];
@@ -318,8 +321,8 @@
     var dsqjs = new DisqusJS({
         shortname: 'sh-teach-cn',
         siteName: 'Feedback 反馈',
-        identifier: baseURL,
-        url: baseURL,
+        identifier: 'https://sh.teach.bio/',
+        url: 'https://sh.teach.bio/',
         api: 'https://disqus.skk.moe/disqus/',
         apikey: 'ucxDfSYIhlMQoMDauN5hqII0o8CFtk2JSGoX7zBLP1L2UK1jsUplM3dTsI0nW5Li',
         nocomment: '对本工具的建议或意见，可评论反馈',
