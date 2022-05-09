@@ -100,7 +100,7 @@
       img1 += (i+1) + '. ' + imgL[i] + '\r\n';
     }
     zip.file('list.txt', '' + img1);
-    zip.generateAsync({type: "base64"}).then(function (blob) {
+    zip.generateAsync({type:"blob"}).then(function (blob) {
       saveAs(blob, 'download.zip');
       pngBase64 = {};
       pngGif.innerHTML = '<p class="click" onclick="auto_save_status.click()">停</p>';
@@ -536,7 +536,7 @@
       released.appendChild(k);
     }
     map = document.getElementById('app').getContext('2d');
-    if (window.location.toString().indexOf('=') === -1) {
+    if (window.location.toString().indexOf('=') === -1 && !autoSavePNG) {
       auto_save_.style.visibility = 'hidden';
       pngGif.style.visibility = 'hidden';
     }
@@ -781,7 +781,7 @@
         map.fillText(k + ' ' + j[_check][k].length + '个地址 2022/' + _today,
                      0,svgHeight-1-fontSize);
       }
-      save_button.scrollIntoView();
+      addr.scrollIntoView(); //save_button
       clear_button.style.visibility = 'visible';
       if (autoSavePNG && !pngNot) {
         exportCanvasAsPNG();
@@ -826,7 +826,7 @@
         map.fillText('上海市 ' + map_i + '个地址 2022/' + _today,
                      0,svgHeight-1-fontSize);
       }
-      save_button.scrollIntoView();
+      addr.scrollIntoView(); //save_button
       clear_button.style.visibility = 'visible';
       if (autoSavePNG && !pngNot) {
         exportCanvasAsPNG();
@@ -1131,8 +1131,8 @@
   <script src="shanghaifabu/disqus130.js"></script>
   <!-- script src="https://unpkg.com/disqusjs@1.3/dist/disqus.js"></script -->
   <script src="shanghaifabu/html2canvas.min.141.js"></script>
-  <script src="shanghaifabu/FileSaver.min.js"></script>
-  <script src="https://unpkg.com/jszip@3.9.1/dist/jszip.min.js"></script>
+  <script src="shanghaifabu/FileSaver.min.205.js"></script><!-- https://cdnjs.com/ -->
+  <script src="shanghaifabu/jszip.min.391.js"></script>
   <style>
     body {background-color: white;}
     p {line-height: 1.5em;}
