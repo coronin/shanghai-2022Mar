@@ -22,7 +22,7 @@
     let k;
     Ds = Object.keys(j.districts);
     As = Object.keys(j.address);
-    console.log( j.address['shanghaifabu'] );
+    console.log( j.address.shanghaifabu );
     for (i = 0; i < Ds.length; i += 1) {
       k = document.createElement('tr');
       // if (Ds[i] === '普陀区') {
@@ -74,7 +74,7 @@
   }
 
   function search () {
-    let k = addr.value;
+    const k = addr.value;
     search_button.textContent = '搜索';
     if (k === '') {
       addr.focus();
@@ -87,7 +87,7 @@
       document.getElementById(Ds[ii]).style.background = 'white';
       document.getElementById(Ds[ii] + 'dot').textContent = '';
     }
-    let dl; let kk; let ks; let sb = 0;
+    let dl; let ks; let sb = 0;
     for (i = 0; i < As.length; i += 1) {
       if (As[i].indexOf(k) > -1) {
         dl = j.address[ As[i] ];
@@ -155,7 +155,7 @@
             ks += '</span>';
           }
         }
-        let kk = document.createElement('p');
+        const kk = document.createElement('p');
         //kk.id = As[i];
         kk.style.padding = '0';
         kk.style.margin = '0';

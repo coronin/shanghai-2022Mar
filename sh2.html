@@ -17,7 +17,7 @@
   <script src="shanghaifabu/sh-river.json"></script>
   <script src="shanghaifabu/sh-lines.json"></script>
   <script>
-  let i; let j; let _J = {};
+  let i; let j; const _J = {};
   let As; let Ds;
   const today = new Date();
                // @@ 0508
@@ -26,22 +26,22 @@
   let Ml; let Ms; let map;
   let d3scale; let d3center; let svgWidth; let svgHeight;
   const centers = {
-    '黄浦区':[121.480694,31.219042,415000],
-    '徐汇区':[121.437778,31.160901,196000],
-    '长宁区':[121.378590,31.215582,300000],
-    '静安区':[121.448927,31.268736,219500],
-    '普陀区':[121.381162,31.264039,250000],
-    '虹口区':[121.486229,31.275661,280000],
-    '杨浦区':[121.523566,31.294815,220000],
-    '闵行区':[121.427945,31.107098,77000],
-    '宝山区':[121.381889,31.372927,90000],
-    '嘉定区':[121.248203,31.355204,87200],
-    '浦东新区':[121.612666, 31.12, 42000], // 浦东新区 121.61266647653576 31.08079112113293
-    '金山区':[121.24, 30.81, 70000], // 金山区 121.17171114485453 30.857028553162657
-    '松江区':[121.203370,31.013900,80000],
-    '青浦区':[121.096709,31.120809,66500],
-    '奉贤区':[121.529829,30.926042,82400],
-    '崇明区':[121.548589, 31.62, 32000]}; // 崇明区 121.54858925095525 31.669887634215034
+    '黄浦区': [121.480694,31.219042,415000],
+    '徐汇区': [121.437778,31.160901,196000],
+    '长宁区': [121.378590,31.215582,300000],
+    '静安区': [121.448927,31.268736,219500],
+    '普陀区': [121.381162,31.264039,250000],
+    '虹口区': [121.486229,31.275661,280000],
+    '杨浦区': [121.523566,31.294815,220000],
+    '闵行区': [121.427945,31.107098,77000],
+    '宝山区': [121.381889,31.372927,90000],
+    '嘉定区': [121.248203,31.355204,87200],
+    '浦东新区': [121.612666, 31.12, 42000], // 浦东新区 121.61266647653576 31.08079112113293
+    '金山区': [121.24, 30.81, 70000], // 金山区 121.17171114485453 30.857028553162657
+    '松江区': [121.203370,31.013900,80000],
+    '青浦区': [121.096709,31.120809,66500],
+    '奉贤区': [121.529829,30.926042,82400],
+    '崇明区': [121.548589, 31.62, 32000]}; // 崇明区 121.54858925095525 31.669887634215034
   const sh_district7 = ['黄浦区','徐汇区','长宁区','静安区','普陀区','虹口区','杨浦区'];
   const ms = {3:'march', 4:'april', 5:'may'};
   const check_choices = {
@@ -61,17 +61,21 @@
   let pngBase64 = {};
 
   function mapX (z) { // 57变大==>区域变窄  .004修正区域平移
-    return zz = Math.round((z - d3center[0] + 0.004) * d3scale/57 + svgWidth/2);
+    const zz = Math.round((z - d3center[0] + 0.004) * d3scale/57 + svgWidth/2);
+    return zz;
   }
   function mapX0 (z) {
-    return zz = Math.round((z - d3center[0]) * d3scale/57 + svgWidth/2);
+    const zz = Math.round((z - d3center[0]) * d3scale/57 + svgWidth/2);
+    return zz;
   }
 
   function mapY (z) { // 49变大==>区域压扁  .003修正区域平移
-    return zz = Math.round((d3center[1] - z + 0.003) * d3scale/49 + svgHeight/2);
+    const zz = Math.round((d3center[1] - z + 0.003) * d3scale/49 + svgHeight/2);
+    return zz;
   }
   function mapY0 (z) {
-    return zz = Math.round((d3center[1] - z) * d3scale/49 + svgHeight/2);
+    const zz = Math.round((d3center[1] - z) * d3scale/49 + svgHeight/2);
+    return zz;
   }
 
   function inChina(lng, lat) {
@@ -129,7 +133,7 @@
       const canvasElement = document.getElementById('app');
       pngDown(fileH, canvasElement, fo);
     } else {
-      html2canvas(document.querySelector("#districtTable")).then(canvasElement => {
+      html2canvas(document.querySelector('#districtTable')).then(canvasElement => {
         pngDown(fileH, canvasElement, fo);
       });
     }
@@ -156,8 +160,8 @@
 
   function preReload (q, oldest) {
     let hash_;
-    if (j && j.address['shanghaifabu'].length > 2) {
-      hash_ = parseInt(j.address['shanghaifabu'].slice(-2)[0] );
+    if (j && j.address.shanghaifabu.length > 2) {
+      hash_ = parseInt(j.address.shanghaifabu.slice(-2)[0] );
     } else {
       hash_ = parseInt(j.tag) - 1;
     }
@@ -385,7 +389,7 @@
   }
 
   function tagsHTML (dl) {
-    let di, ds = '';
+    let di; let ds = '';
     for (di = 0; di < dl.length; di += 1) {
       ds += '<span class="click" onclick="resetDay(\'' +
             dl[di] + '\');">' + hash2date(dl[di]) + '</span>';
@@ -445,8 +449,8 @@
     }
     Ds = Object.keys(j.districts);
     As = Object.keys(j.address);
-    if (j.address['shanghaifabu']) {
-      console.log('Last four shanghaifabu in data', j.tag, j.address['shanghaifabu'].slice(-4) );
+    if (j.address.shanghaifabu) {
+      console.log('Last four shanghaifabu in data', j.tag, j.address.shanghaifabu.slice(-4) );
     }
     districtTable.innerHTML = '<tr style="color:black;"><th>行政单位</th><th>累计上榜</th>' +
       '<th id="th_k"></th><th>两周内</th><th><span class="_tag"></span>涉及</th>' +
@@ -717,9 +721,8 @@
       if (j[_check] && j[_check][k]) {
         for (ii = 0; ii < j[_check][k].length; ii += 1) { // .today
           draw_addr(k + j[_check][k][ii]);
-          if (['latest_added2',
-               'latest_added7',
-               'latest_added'].indexOf(_check) > -1) {
+          if (['latest_added2', 'latest_added7', 'latest_added'
+              ].indexOf(_check) > -1) {
             ks = '<span style="color:grey;">' + (ii+1) + '.</span> <span>' +
                  '<span class="click" onclick="search(this.textContent);">' + k + '</span>' +
                  '<span class="click _L" onclick="search(\'' + j[_check][k][ii] +
@@ -864,7 +867,7 @@
         if (Ms.indexOf(Ds[ii] + As[i]) > -1) {
           map_push = 1;
           map_i += 1;
-        }  else {
+        } else {
           map_push = 0
           dotNotDraw += 1; // 地址
         }
@@ -983,7 +986,7 @@
         draw_addr(i);
       });
       map.fillStyle = 'rgba(255,0,0,0.4)';
-      let gray_Y = [mapY(map_y[0]), 0,2];
+      const gray_Y = [mapY(map_y[0]), 0,2];
       let gray_dis = new Array();
       map.fillText(map_addr[0],
                    mapX(map_x[0]) + 3, gray_Y[0]);
