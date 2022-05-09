@@ -13,9 +13,9 @@
 * https://cdn.teach.bio/full0505.json
 如大量更改COS文件，可刷新CDN目录
 
-Best practice
+### 本地运行
 * git clone https://github.com/coronin/shanghai-2022Mar
-* drag drag-me.html into a desktop browser
-* in the folder  python3 -m http.server  then visit http://127.0.0.1:8000/sh2.html
+* 把文件 drag-me.html 拖入支持ES6的浏览器，比如 firefox chrome edge
+* 或者在代码所在目录运行 python3 -m http.server 然后网址访问 http://127.0.0.1:8000/sh2.html
 
 作者 @the_paper_link

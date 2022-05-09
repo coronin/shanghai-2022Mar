@@ -59,6 +59,7 @@
   let scaleChange = true;
   let lastSearch;
   let fontSize;
+  let pngBase64 = {};
 
   function mapX (z) { // 57变大==>区域变窄  .004修正区域平移
     return zz = Math.round((z - d3center[0] + 0.004) * d3scale/57 + svgWidth/2);
@@ -86,6 +87,10 @@
   var average = arr => arr.reduce((prev, curr) => prev + curr) / arr.length;
 
   function pngDown (fileH, imgURL) {
+    pngBase64[fileH + j.tag] = imgURL;
+    console.log(pngBase64);
+    pngGif.textContent += fileH + j.tag + ',';
+
     const dlLink = document.createElement('a');
     dlLink.download = fileH + '2022' + j.tag + (Math.random() + '').substr(1,5) + '.png';
     dlLink.href = imgURL;
@@ -1134,6 +1139,14 @@
       vertical-align: middle;
     }
     #addr {border: .25em solid red}
+    #pngGif {
+      border: .25em solid cyan;
+      width: 100px;
+      height: 100px;
+      position: fixed;
+      top: 14px;
+      right: 0px;
+    }
   </style>
 </head>
 <body onload="load_js();">
@@ -1164,6 +1177,7 @@
     <button id="search_button" onclick="scaleChange=true;last_search=false;search(addr.value);">搜索</button>
   </p>
 
+  <canvas id="pngGif"></canvas>
   <button id="save_button" onclick="exportCanvasAsPNG();">存图</button>
   <button onclick="preReload(addr.value,1);">&lt;&lt;</button>
   <button id="pre_button" onclick="preReload(addr.value);">&lt;</button>
@@ -1174,8 +1188,8 @@
   <button id="reload_button" onclick="window.location.reload();">重置</button>
   <span id="fetching2" style="color:blue;">Loading<span id="loading_span"></span>
     <span class="loading_pr"></span></span>
-  <span id="auto_save_" style="color:cyan;">自动存图</span>
-  <br/>
+  <span id="auto_save_" style="color:cyan;">自动存图</span><br/>
+
   <canvas id="app" style="display:none;"></canvas>
   <!-- 3.district 2.inB 0.today 4.released 5.released_today 1.latest_added -->
   <div id="check_row" style="display:none;">
