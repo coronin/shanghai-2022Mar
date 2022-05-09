@@ -92,12 +92,12 @@
     const imgL = Object.keys(pngBase64);
     var zip = new JSZip();
     let img0;
-    let img1 = '';
+    let img1 = today.toLocaleString('zh-CN') + '\r\n\r\n';
     for (i = 0; i < imgL.length; i += 1) {
       img0 = pngBase64[ imgL[i] ].indexOf(',');
       zip.file(imgL[i] + '.png',
                pngBase64[ imgL[i] ].slice(img0 + 1), {base64: true} );
-      img1 += (i+1) + '. ' + imgL[i] + '\r\n';
+      img1 += (i+1) + '. ' + imgL[i] + '.png\r\n';
     }
     zip.file('list.txt', '' + img1);
     zip.generateAsync({type:"blob"}).then(function (blob) {
@@ -113,7 +113,7 @@
     if (autoSavePNG && !fo) {
       pngGif.innerHTML = '<p class="click" onclick="pngMulti()">点击下载 ' +
                          Object.keys(pngBase64).length + ' 张图片</p>';
-      return
+      return;
     }
     canvasElement.toBlob(function (blob) {
       saveAs(blob, fileH + '2022' + j.tag + (Math.random() + '').substr(1,5) + '.png');
@@ -135,16 +135,8 @@
     }
   }
 
-  function preReload (q, oldest) {
-    let url = baseURL + '#';
-    if (j && j.address['shanghaifabu'].length > 2) {
-      url += j.address['shanghaifabu'].slice(-2)[0];
-    } else {
-      url += '0' + (parseInt(j.tag) - 1);
-    }
-    if (oldest) {
-      url = baseURL + '#0307';
-    }
+  function updateLocation (hash_, q) {
+    let url = baseURL + '#0' + hash_;
     if (q) {
       url += '?' + q;
     }
@@ -162,6 +154,19 @@
     load_js();
   }
 
+  function preReload (q, oldest) {
+    let hash_;
+    if (j && j.address['shanghaifabu'].length > 2) {
+      hash_ = parseInt(j.address['shanghaifabu'].slice(-2)[0] );
+    } else {
+      hash_ = parseInt(j.tag) - 1;
+    }
+    if (oldest) {
+      hash_ = 307;
+    }
+    updateLocation(hash_, q);
+  }
+
   function nextReload (q, lastest) {
     let hash_;
     try {
@@ -172,7 +177,7 @@
       }
     } catch (err) {
       window.alert('没有后一日的数据');
-      return;
+      return false;
     }
     if (hash_ > 430 && hash_ < 501) {
       hash_ += 70; // -30 +100
@@ -182,22 +187,7 @@
     if (lastest) {
       hash_ = j_data_init;
     }
-    let url = baseURL + '#0' + hash_;
-    if (q) {
-      url += '?' + q;
-    }
-    if (d3scale) {
-      url += '$' + d3scale;
-      if (d3center && d3center.length === 2) {
-        url += '_' + d3center[0] + '_' + d3center[1];
-      }
-    }
-    if (autoSavePNG) {
-      url += '=' + _check;
-    }
-    window.location.replace(url);
-    //window.location.reload();
-    load_js();
+    updateLocation(hash_, q);
   }
 
   function jumpApr (q, month) {
@@ -219,24 +209,8 @@
           document.getElementById(ms[i]).value = ''; }
       }
     }
-    let url = baseURL + '#0' + month;
-    if (i_ < 10) { url += '0'; }
-    url += i_;
-    if (q) {
-      url += '?' + q;
-    }
-    if (d3scale) {
-      url += '$' + d3scale;
-      if (d3center && d3center.length === 2) {
-        url += '_' + d3center[0] + '_' + d3center[1];
-      }
-    }
-    if (autoSavePNG) {
-      url += '=' + _check;
-    }
-    window.location.replace(url);
-    //window.location.reload();
-    load_js();
+    const hash_ = i_ + 100 * month;
+    updateLocation(hash_, q);
   }
 
   function aprilEnter (ky) {
@@ -351,7 +325,7 @@
         _J[hash] = j;
         if (parseInt(j.tag) > j_data_init) {
           window.alert('所得数据有错 请刷新页面\n' + window.location.toString() );
-          return;
+          return false;
         }
         next_pre_vis(hash_);
         load();
@@ -364,7 +338,7 @@
         next_button.style.visibility = 'hidden';
         pre_button.style.visibility = 'hidden';
         window.alert('数据无法下载 请刷新页面\n' + window.location.toString() );
-        return;
+        return false;
       }, false);
       req.addEventListener("abort", event => {
         console.log(event);
@@ -562,8 +536,6 @@
         k = hash2;
       }
       search(k);
-    } else if (autoSavePNG) {
-      exportCanvasAsPNG();
     }
   }
 
@@ -833,8 +805,9 @@
       }
       return;
     }
-    console.log('Input', k); //搜地址
-    auto_save_off();
+    //搜地址
+    //auto_save_off();
+    console.log('Input', k);
     if (k.indexOf('=') > -1) {
       k = k.split('=')[0];
       addr.value = k;
@@ -999,7 +972,7 @@
             reload_button.textContent='重置';
             reload_button.style.fontWeight = 'normal';
           },
-          1000*10
+          1000*5
         );
       }
       draw_sh();
@@ -1077,6 +1050,9 @@
       );
       clear_button.style.visibility = 'visible';
     }
+    if (autoSavePNG && !pngNot) {
+      exportCanvasAsPNG();
+    }
   }
 
   function show_full (item) {
@@ -1115,6 +1091,23 @@
     });
   }
 
+  function scale2x () {
+    if (['市', '区'].indexOf(
+          addr.value.slice(-1)[0]) > -1 ) {
+      window.alert('请勿刷新页面。搜索其他地址时，可放大一倍')
+      return false;
+    }
+    d3scale = d3scale * 2;
+    scale2x_button.style.visibility = 'hidden';
+    setTimeout(
+      function () {
+        scale2x_button.style.visibility = 'visible';
+      },
+      1000*5
+    );
+    updateLocation(parseInt(j.tag), addr.value);
+  }
+
   // https://stackoverflow.com/questions/9709209/
   function onlyOne (I) {
     const checkboxes = document.getElementsByName('check');
@@ -1143,6 +1136,18 @@
       cursor: pointer;
     }
     button {padding-top: .2em;}
+    #districtTable {
+      border: 1px solid blue;
+      color: blue;
+      font-size: 75%;
+      text-align: center;
+    }
+    #latest_added,
+    #latest_released,
+    #released {
+      list-style-type: none;
+      font-size: 75%;
+    }
     ._L {
       padding: 0 .2em;
       box-shadow: inset 0 -.5em #d0d0d0;
@@ -1185,6 +1190,12 @@
       top: 14px;
       right: 0px;
     }
+    #auto_save_status {
+      width: 36px;
+      display: inline-block;
+      text-align: center;
+    }
+
   </style>
 </head>
 <body onload="load_js();">
@@ -1224,6 +1235,7 @@
   <button onclick="nextReload(addr.value,1);">&gt;&gt;</button>
   <button id="clear_button" style="visibility:hidden;" onclick="search();">隐藏</button>
   <button id="reload_button" onclick="window.location.reload();">重置</button>
+  <button id="scale2x_button" onclick="scale2x();">放大</button>
   <span id="fetching2" style="color:blue;">Loading<span id="loading_span"></span>
     <span class="loading_pr"></span></span>
   <span id="auto_save_" style="color:cyan;">自动缓存&rarr;</span><br/>
@@ -1255,17 +1267,17 @@
   <div style="width:100%;color:blue;" id="onList"></div>
 
   <h2><span onclick="search(this.textContent);" class="click">上海市</span>各区统计（地址数）</h2>
-  <table id="districtTable" style="border:1px solid blue;color:blue;font-size:75%;text-align:center;">
+  <table id="districtTable">
   </table>
 
   <h2 onclick="show_full('latest_added');" style="color:red;" class="click _L">值得关注的地址</h2>
-  <div style="color:red;list-style-type:none;font-size:75%;" id="latest_added"></div>
+  <div style="color:red;" id="latest_added"></div>
 
   <h2 onclick="show_full('latest_released');" class="click _L"><span class="_tag"></span>下榜的地址<i id="latest_released_once" style="color:grey;">点击显示</i></h2>
-  <div style="color:green;list-style-type:none;font-size:75%;display:none;" id="latest_released" data-value="1"></div>
+  <div style="color:green;display:none;" id="latest_released" data-value="1"></div>
 
   <h2 onclick="show_full('released');" class="click _L">累计下榜的地址<i id="released_once" style="color:grey;">点击显示</i></h2>
-  <div style="color:green;list-style-type:none;font-size:75%;display:none;" id="released" data-value="1"></div>
+  <div style="color:green;display:none;" id="released" data-value="1"></div>
 
   <pre id="end_pre" style="color:grey">EOF</pre>
 </body>
