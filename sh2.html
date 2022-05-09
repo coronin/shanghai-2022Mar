@@ -90,39 +90,25 @@
       window.alert('启动图片缓存，请点击左右箭头间的日期');
     }
     const imgL = Object.keys(pngBase64);
-console.log(imgL);
-
-// const zip = new fflate.Zip((err, dat, final) => {
-//   if (!err) {
-//     console.log(dat, final);
-//   }
-// });
-// let nonStreamingFile;
-// let img0;
-// for (i = 0; i < imgL.length; i += 1) {
-//   img0 = pngBase64[ imgL[i] ].indexOf(',');
-//   //nonStreamingFile = new fflate.ZipPassThrough(imgL[i] + '.png');
-//   zip.add(Buffer.from(pngBase64[ imgL[i] ].slice(img0 + 1),
-//                      'base64') );
-// }
-// zip.end();
-
     var zip = new JSZip();
     let img0;
+    let img1 = '';
     for (i = 0; i < imgL.length; i += 1) {
       img0 = pngBase64[ imgL[i] ].indexOf(',');
       zip.file(imgL[i] + '.png',
                pngBase64[ imgL[i] ].slice(img0 + 1), {base64: true} );
+      img1 += (i+1) + '. ' + imgL[i] + '\r\n';
     }
+    zip.file('list.txt', '' + img1);
     zip.generateAsync({type: "base64"}).then(function (file) {
-      window.location.href = 'data:application/zip;base64,' + file;
+      saveAs(file, 'download.zip');
       pngBase64 = {};
     })
-    // https://stackoverflow.com/questions/38135522/
+    // https://stuk.github.io/jszip/
   }
 
-  function pngDown (fileH, imgURL) {
-    pngBase64[fileH + j.tag] = imgURL;
+  function pngDown (fileH, imgData) {
+    pngBase64[fileH + j.tag] = imgData;
     if (autoSavePNG) {
       pngGif.innerHTML = '<p class="click" onclick="pngMulti()">点击下载 ' +
                          Object.keys(pngBase64).length + ' 张图片</p>';
@@ -130,7 +116,7 @@ console.log(imgL);
     }
     const dlLink = document.createElement('a');
     dlLink.download = fileH + '2022' + j.tag + (Math.random() + '').substr(1,5) + '.png';
-    dlLink.href = imgURL;
+    dlLink.href = imgData;
     dlLink.dataset.downloadurl = ['image/png', dlLink.download, dlLink.href].join(':');
     document.body.appendChild(dlLink);
     dlLink.click();
@@ -1148,7 +1134,6 @@ console.log(imgL);
   <script src="shanghaifabu/disqus130.js"></script>
   <!-- script src="https://unpkg.com/disqusjs@1.3/dist/disqus.js"></script -->
   <script src="shanghaifabu/html2canvas.min.141.js"></script>
-  <script src="https://unpkg.com/fflate@0.7.3/umd/index.js"></script>
   <script src="https://unpkg.com/jszip@3.9.1/dist/jszip.min.js"></script>
   <style>
     body {background-color: white;}
