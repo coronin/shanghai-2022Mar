@@ -101,7 +101,7 @@ day0x0x = {
 
 day0508 = {
 '浦东新区': 'https://mp.weixin.qq.com/s/LdeyRZqanZ676LutgnMbfw', # 浦东发布
-'黄浦区': '',
+'黄浦区': 'https://mp.weixin.qq.com/s/xyzkwszLGGQLy_-0UJn0HA',
 '静安区': 'https://mp.weixin.qq.com/s/Aqx4ACAmPWbv84wTMfxnFA',
 '徐汇区': 'https://mp.weixin.qq.com/s/vdHTHPNO2FWa3a_vgeYZQQ',
 '长宁区': 'https://mp.weixin.qq.com/s/DcCX9Yv3y-Ejm97y0m2sFA',
