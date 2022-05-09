@@ -1176,13 +1176,20 @@
       text-indent: -22px;
     }
     #check_row input,
-    #check_row label>span {
+    #check_row label>span,
+    p> #addr,
+    p> button,
+    p> label> span {
       vertical-align: middle;
     }
     #addr {
       border: .25em solid red;
       border-left-width: .5em;
       border-right-width: .5em;
+    }
+    #search_button {
+      font-weight: bold;
+      background-color: rgba(255,0,0, 0.1);
     }
     #pngGif {
       border: .25em solid cyan;
@@ -1198,7 +1205,6 @@
       display: inline-block;
       text-align: center;
     }
-
   </style>
 </head>
 <body onload="load_js();">
@@ -1224,7 +1230,7 @@
 
   </p>
   <p>
-    <label for="addr" style="color:red;font-weight:bold;">上榜地址</label>
+    <label for="addr" style="color:red;font-weight:bold;"><span>上榜地址</span></label>
     <input type="text" id="addr" name="addr" onkeydown="last_search=false;addrEnter();" />
     <button id="search_button" onclick="scaleChange=true;last_search=false;search(addr.value);">搜索</button>
   </p>
