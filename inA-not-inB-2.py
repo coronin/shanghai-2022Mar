@@ -6,11 +6,11 @@ As = ('0306','0307','0308','0309','0310',
       '0331',
       '0401','0402','0403','0404','0405','0406','0407','0408','0409','0410',
       '0411','0412','0413','0414','0415','0416','0417','0418','0419','0420',
-      '0421','0422','0423','0424'
+      '0421','0422','0423','0424','0425'
       )
-Bs = ('0425','0426','0427','0428','0429','0430',
+Bs = ('0426','0427','0428','0429','0430',
       '0501','0502','0503','0504','0505','0506','0507',
-      '0508'
+      '0508','0509'
       )
 
 #### 以上不能有末尾逗号 没有空字符检查
@@ -105,7 +105,10 @@ def read_a_list(s, tag=''):
         transition_int = 501
     elif tag != 'list' and transition_int == 532:
         transition_int = 601
-    f = open('shanghaifabu/%s.txt' % s, 'r')
+    if len(s) != 4:
+        f = open('%s.txt' % s, 'r')
+    else:
+        f = open('shanghaifabu/%s.txt' % s, 'r')
     pre = f.readlines()
     f.close()
     post = []
@@ -157,8 +160,25 @@ def read_a_list(s, tag=''):
              ) > -1 or line.find('中发现'
              ) > -1 or line.find('落实管控'
              ) > -1 or line.find('采取封控'
+             ) > -1 or line.find('落实消毒'
              ) > -1 or line.find('落实终末消毒'
-             ) > -1 or line.find('滑动查看' ) > -1:
+             ) > -1 or line.find('滑动查看'
+             ) > -1 or line.find('关注我们'
+             ) > -1 or line.find('转载请注明'
+             ) > -1 or line.find('互动你我'
+             ) > -1 or line.find('官方资讯'
+             ) > -1 or line.find('一起成长'
+             ) > -1 or line.find('守护安全'
+             ) > -1 or line.find('公众号'
+             ) > -1 or line.find('陪伴我们'
+             ) > -1 or line.find('关注和参与'
+             ) > -1 or line.find('政府微信'
+             ) > -1 or line.find('官方微信'
+             ) > -1 or line.find('第一时间'
+             ) > -1 or line.find('及时发布'
+             ) > -1 or line.find('欢迎关注'
+             ) > -1 or line.find('信息发布'
+             ) > -1 or line.find('大小事' ) > -1:
             continue
         elif running_district and tag == 'list':
             post.append( '%s%s' % (running_district, line) )
@@ -191,6 +211,9 @@ def read_a_list(s, tag=''):
     return post
 
 
+# transition_int = 5090509
+# print('\n'.join(read_a_list('05090509') ))
+# raise
 print('====================')
 
 A = []

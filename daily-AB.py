@@ -9,8 +9,8 @@ z = [
 #'0513','']
 #'0512','']
 #'0511','']
-#'0510','']
-'0509','']
+'0510','']
+#'0509','https://mp.weixin.qq.com/s/iUhgNb9-2Ofhsg9zxi2hiw']
 #'0508','https://mp.weixin.qq.com/s/SU8bV1IqoaH2NeUs_HJBzg']
 #'0507','https://mp.weixin.qq.com/s/Dt_Q7mwgzJIdn7NwqeGNeA']
 #'0317','https://wsjkw.sh.gov.cn/xwfb/20220318/dc6e1aca667a45a682f32ac514c6062e.html']
@@ -99,6 +99,24 @@ day0x0x = {
 '奉贤区': '',
 '崇明区': '' }
 
+day0509 = {
+'浦东新区': 'https://mp.weixin.qq.com/s/S4yC-h1VVR-0ED0vlHCtsQ', # 浦东发布
+'黄浦区': 'https://mp.weixin.qq.com/s/RXsvHMUhcTgQC8OjK4pgsg',
+'静安区': 'https://mp.weixin.qq.com/s/weL60QYWebORHo8U_QfZTA',
+'徐汇区': 'https://mp.weixin.qq.com/s/Jxk-oJavNfkJijnYNDRyEA',
+'长宁区': 'https://mp.weixin.qq.com/s/SN1m-kjoeGuhnNp5fKtDoQ',
+'普陀区': 'https://mp.weixin.qq.com/s/bobQCBxMhl2rENLUuBnr3Q',
+'虹口区': 'https://mp.weixin.qq.com/s/747u0xbA-9XVvK3QgBgqyA',
+'杨浦区': 'https://mp.weixin.qq.com/s/tDu5kerQhruyVoVAOC8IHQ',
+'宝山区': 'https://mp.weixin.qq.com/s/gB6O8dKR1CJxJ3Z2IpoOIg',
+'闵行区': 'https://mp.weixin.qq.com/s/VEHu6X2b8f_Lq5_-WZqInQ', # 今日闵行
+'嘉定区': 'https://mp.weixin.qq.com/s/ENfosZJPkQxcd2cMIlanFQ',
+'金山区': '',
+'松江区': 'https://mp.weixin.qq.com/s/F73rHoyDdDztsKIsZQ5zxw',
+'青浦区': 'https://mp.weixin.qq.com/s/QjGyiI0hmoD_gNeFcUEGQw', # 绿色青浦
+'奉贤区': 'https://mp.weixin.qq.com/s/JmxeH9jEIhArsWwfqVx4pA',
+'崇明区': 'https://mp.weixin.qq.com/s/04lTr76cq5ICe2uYks9bhA' }
+
 day0508 = {
 '浦东新区': 'https://mp.weixin.qq.com/s/LdeyRZqanZ676LutgnMbfw', # 浦东发布
 '黄浦区': 'https://mp.weixin.qq.com/s/xyzkwszLGGQLy_-0UJn0HA',
@@ -111,7 +129,7 @@ day0508 = {
 '宝山区': 'https://mp.weixin.qq.com/s/tc9p5zf9QQp5H77ktMTz7A',
 '闵行区': 'https://mp.weixin.qq.com/s/H3va1UF4qnQX2YLKWhUsgg', # 今日闵行
 '嘉定区': 'https://mp.weixin.qq.com/s/G4GI_mIBHXBCOXXia2oXCg',
-'金山区': '',
+'金山区': 'https://mp.weixin.qq.com/s/P9hc1lD5zssWnOHSvR2Org',
 '松江区': 'https://mp.weixin.qq.com/s/qra7ygWTdaGwXnAtVxPoaw',
 '青浦区': 'https://mp.weixin.qq.com/s/qpZZqrOhVLV-RtLWJIMfSA', # 绿色青浦
 '奉贤区': 'https://mp.weixin.qq.com/s/WZ2IDzejXoztxUzhIU5Z5Q',
@@ -129,7 +147,7 @@ day0507 = {
 '宝山区': 'https://mp.weixin.qq.com/s/97qo9ApMpMDUJL2szWeqLA',
 '闵行区': 'https://mp.weixin.qq.com/s/LAIFzFcpQNq7RPvNL_PxLg', # 今日闵行
 '嘉定区': 'https://mp.weixin.qq.com/s/0j5N6ErSQbx46IUUveiHCQ',
-'金山区': '',
+'金山区': 'https://mp.weixin.qq.com/s/-yY0SMP0pMqgcoE-bBagRA',
 '松江区': 'https://mp.weixin.qq.com/s/JAq9g1PvPdsivhL4JDxpvQ',
 '青浦区': 'https://mp.weixin.qq.com/s/FxVt2D_EO8G9SC00LhhNoQ', # 绿色青浦
 '奉贤区': 'https://mp.weixin.qq.com/s/o7MPXckAbicMdURmBoz49w',
