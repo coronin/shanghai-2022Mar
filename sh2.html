@@ -341,7 +341,11 @@
         districtTable.style.visibility = 'hidden';
         next_button.style.visibility = 'hidden';
         pre_button.style.visibility = 'hidden';
-        window.alert('数据无法下载 请刷新页面\n' + window.location.toString() );
+        if (baseURL.substr(0,4) !== 'http') {
+          window.alert('数据无法下载 请访问 https://sh.teach.bio/');
+        } else {
+          window.alert('数据无法下载 请刷新页面\n' + window.location.toString() );
+        }
         return false;
       }, false);
       req.addEventListener("abort", event => {
@@ -808,7 +812,7 @@
       }
       return;
     }
-    //搜地址
+    // 搜索 地址
     //auto_save_off();
     console.log('Input', k);
     if (k.indexOf('=') > -1) {
@@ -962,6 +966,9 @@
       d3scale_ = Math.max.apply(null, [72000, d3scale_, Math.floor(d3scale_ * 3/map_XYtest )]);
       //console.log('scale min',
       //            Math.floor(d3scale_ * 3/map_XYtest ), ', used', d3scale_);
+      while (d3scale_ > 72000 * 16) {
+        d3scale_ = Math.floor(d3scale_/2);
+      }
       console.log('Found',
                   k, scaleChange, '更新前', d3scale, '计算值', d3scale_);
       if (scaleChange && map_i < 100 && map_i > 1) {
