@@ -60,6 +60,59 @@
   let fontSize;
   let pngBase64 = {};
 
+  function onlyNewAddr () {
+    return new Promise(resolve => {
+      let adds = new Array();
+      for (const p in j.address) {
+        if (j.address[p].length === 1 && j.address[p][0] === j.tag) {
+          if (addr.value === '上海市') {
+            let ij; let ik; let ids = '';
+            for (ii = 0; ii < Ds.length; ii += 1) {
+              ij = j.districts[ Ds[ii] ];
+              for (ik = 0; ik < ij.length; ik += 1) {
+                if (ij[ik] === p) {
+                  ids = Ds[ii];
+                  break;
+              } }
+              if (ids) { break; }
+            }
+            adds.push([ids, p]);
+          } else { //各区
+            let ij = j.districts[ addr.value ];
+            let ik;
+            for (ik = 0; ik < ij.length; ik += 1) {
+              if (ij[ik] === p) {
+                adds.push([addr.value, p]);
+                break;
+              }
+          } }
+      } }
+      resolve(adds);
+    });
+  }
+
+  async function asyncNewAddr () {
+    const v = await onlyNewAddr().catch(e => {
+      return console.log(e);
+    });
+    if (v) {
+      let ks; let kk; let ki = 0;
+      Array.from(v).forEach((i) => {
+        ks = '<span style="color:grey;">' + (ki+1) + '.</span> <span>' +
+             '<span class="click" onclick="search(this.textContent);">' + i[0] + '</span>' +
+             '<span class="click _L" onclick="search(\'' + i[1] +
+             '\');">' + i[1] + '</span> ' +
+             ' <em style="color:grey">3月6日以来，首次上榜</em>';
+        kk = document.createElement('p');
+        kk.style.padding = '0';
+        kk.style.margin = '0';
+        kk.innerHTML = ks;
+        onList.appendChild(kk);
+        ki += 1;
+      });
+    }
+  }
+
   function mapX (z) { // 57变大==>区域变窄  .004修正区域平移
     const zz = Math.round((z - d3center[0] + 0.004) * d3scale/57 + svgWidth/2);
     return zz;
@@ -749,6 +802,9 @@
           }
         }
       }
+      if (_check === 'today') {
+        asyncNewAddr();
+      }
       check_row.style.display = 'block';
       updateCheckStatus();
       map.fillStyle = 'black';
@@ -793,6 +849,9 @@
           draw_addr(Ds[i] + j[_check][ Ds[i] ][ii]);
           map_i += 1;
         }
+      }
+      if (_check === 'today') {
+        asyncNewAddr();
       }
       check_row.style.display = 'block';
       updateCheckStatus();
