@@ -414,7 +414,7 @@ for l in csv[1:]:
     if not l:
         continue
     ls = l.split(',')
-    if len(ls) > 3 and ls[0] not in C:
+    if len(ls) > 3 and ls[0] not in C and ls[1] and ls[2]:
         C.append( ls[0].strip() )
         # 1经度 2纬度
         # 3 是否精确

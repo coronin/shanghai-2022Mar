@@ -10,6 +10,7 @@
   <link rel="manifest" href="/site.webmanifest">
   <!-- script src="full.json"></script -->
   <script src="shanghaifabu/map-location.json?v=0510"></script><!-- @@ -->
+  <script src="shanghaifabu/inAB-close.json"></script>
   <script src="shanghaifabu/d3.min.v3.js"></script>
   <script src="shanghaifabu/topojson.min.180.js"></script><!-- http://geojson.io -->
   <script src="shanghaifabu/sh.json"></script><!-- http://datav.aliyun.com/portal/school/atlas/area_generator -->
@@ -458,6 +459,7 @@
   }
 
   function load () {
+    W = JSON.parse(pairs);
     Ml = JSON.parse(csv);
     Ms = Object.keys(Ml.locations);
     datestr.textContent = j.date;
