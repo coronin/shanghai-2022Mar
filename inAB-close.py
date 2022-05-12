@@ -1,5 +1,5 @@
 # 2022-5-11
-within = 25
+within = 100
 
 # https://github.com/wandergis/coordTransform_py
 import math
@@ -73,15 +73,20 @@ f.close()
 C = []
 CC = {}
 cccc = 0
+nnnn = 0
 for l in csv[1:]:
     if not l:
         continue
     ls = l.split(',')
-    if len(ls) > 3 and ls[0] not in C and ls[1] and ls[2]:
-        C.append( ls[0].strip() )
+    if len(ls) > 4 and ls[1] and ls[2] and ls[4]:
+        if int(ls[4]) <= 20:
+            nnnn += 1
+            continue
+        if ls[0] not in C:
+            C.append( ls[0].strip() )
         # 1经度 2纬度
         # 3 是否精确
-        # 4 可信度
+        # 4 可信度 大于20
         # 6 bd09_to_wgs84
         if len(ls) > 7 and ls[6] == 'bd09':
             CC[ ls[0].strip() ] = bd09_to_wgs84(float(ls[1]), float(ls[2])
@@ -91,6 +96,8 @@ for l in csv[1:]:
             CC[ ls[0].strip() ] = [ ls[1], ls[2], ls[3] ]
 if cccc:
     print('bd09_to_wgs84() str format', cccc)
+if nnnn:
+    print('not precise location', nnnn)
 print('total unique address: ', len(C) )
 
 print(ll_to_meter(float(CC['杨浦区国权北路1566弄'][0]) - float(CC['杨浦区国权北路1450弄'][0]),
@@ -123,13 +130,30 @@ while V:
     www += 1
     if www % 10000 == 0:
         print('>> V remain: ', '%s, www ' % len(V), www)
-print('W array size: ', len(W) )
+
+print('addresses into ww: ', len(W) )
 print('ww object size: ', len(ww) )
 #print(ww)
 
+to_check = []
+for key,val in ww.items():
+    if len(val) > 3:
+        print('>>', key, len(val) )
+        if not key in to_check:
+            to_check.append(key)
+        for vv in val:
+            if not vv in to_check:
+                to_check.append(vv)
 
 from datetime import datetime
 datestr = '%s' % datetime.now()
+fz = open('inAB-close-check.txt', 'w')
+fz.write('# AB %s 可信度20' % datestr)
+fz.write('\n# https://maplocation.sjfkai.com/')
+fz.write('\n%s' % '\n'.join(to_check) )
+fz.write('\n####')
+fz.close
+
 import json
 j = {'date':datestr,
      'within':within,
