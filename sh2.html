@@ -60,6 +60,7 @@
   let lastSearch;
   let fontSize;
   let pngBase64 = {};
+  let W; let _ww = [];
 
   function onlyNewAddr () {
     return new Promise(resolve => {
@@ -91,6 +92,16 @@
       resolve(adds);
     });
   }
+
+  async function fetchClose () {
+    let response = await fetch('shanghaifabu/inAB-close.json');
+    return await response.json();
+  }
+  fetchClose().then(jsondata => {
+    W = jsondata;
+    _ww = Object.keys(W.pairs);
+    console.log('async inAB-close pairs', _ww.length);
+  }).catch(err => console.log(err));
 
   async function asyncNewAddr () {
     const v = await onlyNewAddr().catch(e => {
@@ -447,6 +458,7 @@
   }
 
   function tagsHTML (dl) {
+    if (!dl) {return ''}
     let di; let ds = '';
     for (di = 0; di < dl.length; di += 1) {
       ds += '<span class="click" onclick="resetDay(\'' +
@@ -459,7 +471,6 @@
   }
 
   function load () {
-    W = JSON.parse(pairs);
     Ml = JSON.parse(csv);
     Ms = Object.keys(Ml.locations);
     datestr.textContent = j.date;
@@ -959,29 +970,61 @@
           map_y.unshift(parseFloat( Ml.locations[Ds[ii] + As[i]][1] ));
           map_addr.unshift( Ds[ii] + As[i] );
         }
-        release += (14 - 300);
-        if (release > 100) {
-          release -= 100;
-        } else if (release > 31) {
-          release -= 31; // 单次3月18日的地址
-        }
-        if (release < 31) {
-          //onList.textContent += ' --> 4/' + release + '\n';
-          ks += ' &rarr; 4/' + release;
-          ks += ' <span style="color:green">已满14天</span></span>';
-        } else {
-          if (release > 100) { // 最近一次在5月
+        if (release) {
+          release += (14 - 300);
+          if (release > 100) {
             release -= 100;
-          } else {
-            release -= 30;
+          } else if (release > 31) {
+            release -= 31; // 单次3月18日的地址
           }
-          ks += ' &rarr; 5/' + release;
-          if (release < today.getDate()-1 ) {
+          if (release < 31) {
+            //onList.textContent += ' --> 4/' + release + '\n';
+            ks += ' &rarr; 4/' + release;
             ks += ' <span style="color:green">已满14天</span></span>';
-          } else if (release === today.getDate()-1 ) {
-            ks += '<span style="color:green">是第14天</span></span>';
           } else {
-            ks += '</span>';
+            if (release > 100) { // 最近一次在5月
+              release -= 100;
+            } else {
+              release -= 30;
+            }
+            ks += ' &rarr; 5/' + release;
+            if (release < today.getDate()-1 ) {
+              ks += ' <span style="color:green">已满14天</span></span>';
+            } else if (release === today.getDate()-1 ) {
+              ks += '<span style="color:green">是第14天</span></span>';
+            } else {
+              ks += '</span>';
+            }
+          }
+        }
+        // async, re-define dl
+        if (_ww && _ww.indexOf(Ds[ii] + As[i]) > -1) {
+          dl = W.pairs[ Ds[ii] + As[i] ];
+          //console.log(_ww.length, Ds[ii] + As[i], dl);
+          let dli; let dl0; let dl1;
+          if (dl.length > 3) {
+            console.log('超过3个临近地址', Ds[ii] + As[i]);
+            console.log(dl.join('\n'));
+          }
+          for (dli = 0; dli < dl.length; dli += 1) {
+            if (dl[dli].substr(0,4) === '浦东新区') {
+              dl0 = dl[dli].substr(0, 4);
+              dl1 = dl[dli].substr(4);
+            } else {
+              dl0 = dl[dli].substr(0, 3);
+              dl1 = dl[dli].substr(3);
+            }
+            if (dl1 !== As[i]) {
+              ks += '<br/><span class="inAB_close">临近地址 ';
+              if (dl0 !== Ds[ii]) {
+                ks += '<span class="click" onclick="search(this.textContent);">' +
+                    dl0 + '</span> ';
+              }
+              ks += '<span class="click" onclick="search(this.textContent);">' +
+                    dl1 + '</span> 上榜于' +
+                    tagsHTML(j.address[ dl1 ]) +
+                    '</span>';
+            }
           }
         }
         kk = document.createElement('p');
@@ -1032,7 +1075,7 @@
       }
       console.log('Found',
                   k, scaleChange, '更新前', d3scale, '计算值', d3scale_);
-      if (scaleChange && map_i < 100 && map_i > 1) {
+      if (d3scale_ && scaleChange && map_i < 100 && map_i > 1) {
         d3scale = d3scale_;
       }
       if (!scaleChange && d3scale > d3scale_) {
@@ -1272,6 +1315,11 @@
       width: 36px;
       display: inline-block;
       text-align: center;
+    }
+    .inAB_close {
+      color: grey;
+      padding-left: 4em;
+      font-size: 75%;
     }
   </style>
 </head>

@@ -1,4 +1,5 @@
 # 2022-5-11
+within = 25
 
 # https://github.com/wandergis/coordTransform_py
 import math
@@ -63,8 +64,7 @@ def bd09_to_wgs84(bd_lon, bd_lat):
 def ll_to_meter(dlat, dlon):
     d0 = int(abs(dlat) * 110574)
     d1 = int(abs(dlon) * 111320 * math.cos(abs(dlat) / pi / 180) )
-    print(dlat, dlon, d0, d1)
-    return math.sqrt(math.pow(d0,2) + math.pow(d1,2) )
+    return int(math.sqrt(math.pow(d0,2) + math.pow(d1,2) ))
 
 
 f = open('map-location.csv', 'r')
@@ -93,8 +93,11 @@ if cccc:
     print('bd09_to_wgs84() str format', cccc)
 print('total unique address: ', len(C) )
 
+print(ll_to_meter(float(CC['杨浦区国权北路1566弄'][0]) - float(CC['杨浦区国权北路1450弄'][0]),
+                  float(CC['杨浦区国权北路1566弄'][1]) - float(CC['杨浦区国权北路1450弄'][1]) ))
+
 U = C[0]
-V = C[1:1000]
+V = C[1:]
 W = []
 ww = {}
 www = 0
@@ -102,7 +105,7 @@ while V:
     for v in V:
         Uv = ll_to_meter(float(CC[U][0]) - float(CC[v][0]),
                          float(CC[U][1]) - float(CC[v][1]) )
-        if Uv < 100:
+        if Uv < within: ####
             if U not in W:
                 W.append(U)
             W.append(v)
@@ -114,22 +117,25 @@ while V:
                 ww[v] += [U]
             else:
                 ww[v] = [U]
-            V.remove(v)
+            #V.remove(v)
     U = V[0]
     V.pop(0)
     www += 1
-    if www % 1000 == 0:
+    if www % 10000 == 0:
         print('>> V remain: ', '%s, www ' % len(V), www)
 print('W array size: ', len(W) )
 print('ww object size: ', len(ww) )
 #print(ww)
 
+
 from datetime import datetime
 datestr = '%s' % datetime.now()
 import json
 j = {'date':datestr,
+     'within':within,
+     'ww size':len(ww),
      'tag':'AB',
      'pairs':ww }
 fz = open('shanghaifabu/inAB-close.json', 'w')
-fz.write("pairs='%s'" % json.dumps(j, ensure_ascii=False) )
+fz.write( json.dumps(j, ensure_ascii=False) )
 fz.close()
