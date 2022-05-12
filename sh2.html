@@ -9,7 +9,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
   <!-- script src="full.json"></script -->
-  <script src="shanghaifabu/map-location.json?v=0510"></script><!-- @@ -->
+  <script src="shanghaifabu/map-location.json?v=0511"></script><!-- @@ -->
   <script src="shanghaifabu/inAB-close.json"></script>
   <script src="shanghaifabu/d3.min.v3.js"></script>
   <script src="shanghaifabu/topojson.min.180.js"></script><!-- http://geojson.io -->
@@ -21,9 +21,8 @@
   let i; let j; const _J = {};
   let As; let Ds;
   const today = new Date();
-               // @@ 0510
-  const j_data_init = 510;
-  let _today;  // j.tag
+  const j_data_init = 511; // @@
+  let _today; // j.tag
   let Ml; let Ms; let map;
   let d3scale; let d3center; let svgWidth; let svgHeight;
   const centers = {
@@ -1015,7 +1014,11 @@
               dl1 = dl[dli].substr(3);
             }
             if (dl1 !== As[i]) {
-              ks += '<br/><span class="inAB_close">临近地址 ';
+              if (dli === 0) {
+                ks += '<br/><span class="inAB_close" style="padding-left:1.6em">临近地址 '; // W.within
+              } else {
+                ks += '<br/><span class="inAB_close">'; // W.within
+              }
               if (dl0 !== Ds[ii]) {
                 ks += '<span class="click" onclick="search(this.textContent);">' +
                     dl0 + '</span> ';
@@ -1318,7 +1321,7 @@
     }
     .inAB_close {
       color: grey;
-      padding-left: 4em;
+      padding-left: 6em;
       font-size: 75%;
     }
   </style>
