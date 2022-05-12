@@ -439,12 +439,16 @@
   }
 
   function hash2date (_s) {
-    const _m = parseInt(_s.substr(0,2) );
-    const _d = parseInt(_s.substr(2,2) );
-    if (_s.length === 4 && [3,4,5].indexOf(_m) > -1 && _d > 0 && _d < 32) {
-      return _m + '/' + _d;
-    } else {
-      return tag_m.textContent + '/' + tag_d.textContent;
+    try {
+      const _m = parseInt(_s.substr(0,2) );
+      const _d = parseInt(_s.substr(2,2) );
+      if (_s.length === 4 && [3,4,5].indexOf(_m) > -1 && _d > 0 && _d < 32) {
+        return _m + '/' + _d;
+      } else {
+        return tag_m.textContent + '/' + tag_d.textContent;
+      }
+    } catch (err) {
+        return 'm/d';
     }
   }
 
@@ -456,14 +460,41 @@
     load_js();
   }
 
-  function tagsHTML (dl) {
+  function tagsHTML (dl, noClick) {
     if (!dl) {return ''}
-    let di; let ds = '';
-    for (di = 0; di < dl.length; di += 1) {
-      ds += '<span class="click" onclick="resetDay(\'' +
+    let di = 0; let ds; let inwhile;
+    if (noClick) {
+      ds = '<span>' + hash2date(dl[di]) + '</span>';
+    } else {
+      ds = '<span class="click" onclick="resetDay(\'' +
             dl[di] + '\');">' + hash2date(dl[di]) + '</span>';
-      if (di < dl.length-1) {
-        ds += ', ';
+    }
+    for (di = 1; di < dl.length; di += 1) {
+      inwhile = false;
+      while (dl[di] &&
+             (parseInt(dl[di]) - parseInt(dl[di-1])) === 1 ) {
+        ds += '.';
+        di += 1;
+        inwhile = true;
+      }
+      if (inwhile) {
+        di -= 1;
+        if (noClick) {
+          ds += '<span>' + parseInt(dl[di].substr(2,2)) + '</span>';
+        } else {
+          ds += '<span class="click" onclick="resetDay(\'' +
+                dl[di] + '\');">' + parseInt(dl[di].substr(2,2)) + '</span>';
+        }
+      } else {
+        if (di < dl.length) { //  && ds.slice(-1)[0] !== '.'
+          ds += ', ';
+        }
+        if (noClick) {
+          ds += '<span>' + hash2date(dl[di]) + '</span>';
+        } else {
+          ds += '<span class="click" onclick="resetDay(\'' +
+                dl[di] + '\');">' + hash2date(dl[di]) + '</span>';
+        }
       }
     }
     return ds;
@@ -1010,7 +1041,7 @@
           dl = W.pairs[ Ds[ii] + As[i] ];
           //console.log(_ww.length, Ds[ii] + As[i], dl);
           let dli; let dl0; let dl1;
-          if (dl.length > 4) {
+          if (dl.length > 4) { // W.nearby
             console.log('超过4个临近地址', Ds[ii] + As[i]);
             console.log(dl.join('\n'));
           }
@@ -1034,7 +1065,7 @@
               }
               ks += '<span class="click" onclick="search(this.textContent);">' +
                     dl1 + '</span> 上榜于' +
-                    tagsHTML(j.address[ dl1 ]) +
+                    tagsHTML(j.address[ dl1 ], 1) +
                     '</span>';
             }
           }
