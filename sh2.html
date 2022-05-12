@@ -108,11 +108,11 @@
     });
     if (v) {
       let ks; let kk; let ki = 0;
-      Array.from(v).forEach((i) => {
+      Array.from(v).forEach((d) => {
         ks = '<span style="color:grey;">' + (ki+1) + '.</span> <span>' +
-             '<span class="click" onclick="search(this.textContent);">' + i[0] + '</span>' +
-             '<span class="click _L" onclick="search(\'' + i[1] +
-             '\');">' + i[1] + '</span> ' +
+             '<span class="click" onclick="search(this.textContent);">' + d[0] + '</span>' +
+             '<span class="click _L" onclick="search(\'' + d[1] +
+             '\');">' + d[1] + '</span> ' +
              ' <em style="color:grey">3月6日以来，首次上榜</em>';
         kk = document.createElement('p');
         kk.style.padding = '0';
@@ -197,7 +197,7 @@
       const canvasElement = document.getElementById('app');
       pngDown(fileH, canvasElement, fo);
     } else {
-      html2canvas(document.querySelector('#districtTable')).then(canvasElement => {
+      html2canvas(document.getElementById('districtTbody').parentNode).then(canvasElement => {
         pngDown(fileH, canvasElement, fo);
       });
     }
@@ -320,7 +320,7 @@
     save_button.style.visibility = 'visible';
     addr.style.visibility = 'visible';
     search_button.style.visibility = 'visible';
-    districtTable.style.visibility = 'visible';
+    districtTbody.style.visibility = 'visible';
   }
 
   function load_js () {
@@ -369,17 +369,17 @@
       var req = new XMLHttpRequest();
       req.addEventListener("loadstart", event => {
         const ld = document.getElementsByClassName('loading_pr');
-        Array.from(ld).forEach((i) => {
-          i.textContent = '0%';
+        Array.from(ld).forEach((d) => {
+          d.textContent = '0%';
         });
       }, false);
       req.addEventListener("progress", event => {
         const ld = document.getElementsByClassName('loading_pr');
-        Array.from(ld).forEach((i) => {
+        Array.from(ld).forEach((d) => {
           if (event.lengthComputable) {
-            i.textContent = parseInt(100*event.loaded/event.total) + '%';
+            d.textContent = parseInt(100*event.loaded/event.total) + '%';
           } else {
-            i.textContent = parseInt(100*event.loaded/3600000) + '%';
+            d.textContent = parseInt(100*event.loaded/3600000) + '%';
           }
         });
       }, false);
@@ -402,7 +402,7 @@
         save_button.style.visibility = 'hidden';
         addr.style.visibility = 'hidden';
         search_button.style.visibility = 'hidden';
-        districtTable.style.visibility = 'hidden';
+        districtTbody.style.visibility = 'hidden';
         next_button.style.visibility = 'hidden';
         pre_button.style.visibility = 'hidden';
         if (baseURL.substr(0,4) !== 'http') {
@@ -490,8 +490,8 @@
     // for (k = 0; k < tags.length; k += 1) {
     //   tags[k].textContent = _today;
     // }
-    Array.from(tags).forEach((i) => {
-      i.textContent = _today;
+    Array.from(tags).forEach((d) => {
+      d.textContent = _today;
     });
     auto_save_status.onclick = function () {
       if (autoSavePNG) {
@@ -521,9 +521,8 @@
     if (j.address.shanghaifabu) {
       console.log('Last four shanghaifabu in data', j.tag, j.address.shanghaifabu.slice(-4) );
     }
-    districtTable.innerHTML = '<tr style="color:black;"><th>行政单位</th><th>累计上榜</th>' +
-      '<th id="th_k"></th><th>两周内</th><th><span class="_tag"></span>涉及</th>' +
-      '<th>累计下榜</th><th><span class="_tag"></span>下榜</th></tr>';
+    th_k.textContent = '';
+    districtTbody.textContent = '';
     latest_added.textContent = '';
     latest_released.textContent = '';
     released.textContent = '';
@@ -550,7 +549,7 @@
         k.innerHTML += '<td style="color:green;">&ndash;</td>';
       }
       k.id = Ds[i];
-      districtTable.appendChild(k);
+      districtTbody.appendChild(k);
       k = document.createElement('p');
       if (j.latest_added && j.latest_added[ Ds[i] ] ) {
         k.innerHTML = '<span style="color:black;"><strong onclick="_check=\'latest_added\';search(this.textContent);"' +
@@ -898,9 +897,9 @@
     //   th_k.textContent = '';
     // }
     th_k.textContent = '';
-    Ds.forEach((i) => {
-      document.getElementById(i).style.background = 'white';
-      document.getElementById(i + 'line').textContent = '';
+    Ds.forEach((d) => {
+      document.getElementById(d).style.background = 'white';
+      document.getElementById(d + 'line').textContent = '';
     });
     let dl; let sb = 0;
     let map_push;
@@ -1096,8 +1095,8 @@
       // for (i = 0; i < map_i; i += 1) {
       //   draw_addr(map_addr[i]);
       // }
-      map_addr.forEach((i) => {
-        draw_addr(i);
+      map_addr.forEach((d) => {
+        draw_addr(d);
       });
       map.fillStyle = 'rgba(255,0,0,0.4)';
       const gray_Y = [mapY(map_y[0]), 0,2];
@@ -1199,11 +1198,11 @@
 
   function updateCheckStatus () {
     const checkboxes = document.getElementsByName('check');
-    Array.from(checkboxes).forEach((i) => {
-      if (_check === check_choices[i.getAttribute('data-value')] ) {
-        i.checked = true;
+    Array.from(checkboxes).forEach((d) => {
+      if (_check === check_choices[d.getAttribute('data-value')] ) {
+        d.checked = true;
       } else {
-        i.checked = false;
+        d.checked = false;
       }
     });
   }
@@ -1228,8 +1227,8 @@
   // https://stackoverflow.com/questions/9709209/
   function onlyOne (I) {
     const checkboxes = document.getElementsByName('check');
-    Array.from(checkboxes).forEach((i) => {
-      if (i !== I) i.checked = false;
+    Array.from(checkboxes).forEach((d) => {
+      if (d !== I) d.checked = false;
     });
     _check = check_choices[I.getAttribute('data-value')];
     //console.log('data-value >', _check, j[_check]);
@@ -1253,11 +1252,19 @@
       cursor: pointer;
     }
     button {padding-top: .2em;}
-    #districtTable {
-      border: 1px solid blue;
+    table> thead,
+    #districtTbody {
       color: blue;
       font-size: 75%;
       text-align: center;
+    }
+    table {
+      border-top: 1px solid blue;
+      border-bottom: 1px solid blue;
+      border-collapse: collapse;
+    }
+    tbody tr {
+      border-top: 1px solid blue;
     }
     #latest_added,
     #latest_released,
@@ -1395,7 +1402,11 @@
   <div style="width:100%;color:blue;" id="onList"></div>
 
   <h2><span onclick="search(this.textContent);" class="click">上海市</span>各区统计（地址数）</h2>
-  <table id="districtTable">
+  <table>
+    <thead><tr style="color:black;"><th>&nbsp;行政单位&nbsp;</th><th>&nbsp;累计上榜&nbsp;</th>
+      <th id="th_k"></th><th>&nbsp;两周内&nbsp;</th><th>&nbsp;<span class="_tag"></span>涉及&nbsp;</th>
+      <th>&nbsp;累计下榜&nbsp;</th><th>&nbsp;<span class="_tag"></span>下榜&nbsp;</th></tr></thead>
+    <tbody id="districtTbody"></tbody>
   </table>
 
   <h2 onclick="show_full('latest_added');" style="color:red;" class="click _L">值得关注的地址</h2>
