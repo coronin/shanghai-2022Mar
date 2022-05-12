@@ -115,7 +115,7 @@ def read_a_list(s, tag=''):
     running_district = ''
     for l in pre:
         line = l.strip().replace('（住宅）', ''
-                       ).replace('（公寓）', '') ## 店铺）
+                       ).replace('（公寓）', '') ## 店铺）宿舍）
         if line == 'shanghaifabu' and tag != 'list':
             #print('>>>>', s, line)
             by_address[line] += [s]

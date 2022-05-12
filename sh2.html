@@ -885,6 +885,16 @@
     // 搜索 地址
     //auto_save_off();
     console.log('Input', k);
+    if (k.substr(0,4) === '浦东新区') {
+      k = k.substr(4);
+      addr.value = k;
+    } else if (['上海市', '黄浦区', '静安区', '徐汇区', '长宁区',
+                '普陀区', '虹口区', '杨浦区', '宝山区', '闵行区',
+                '嘉定区', '金山区', '松江区', '青浦区', '奉贤区', '崇明区'].indexOf(
+               k.substr(0,3) ) > -1) {
+      k = k.substr(3);
+      addr.value = k;
+    }
     if (k.indexOf('=') > -1) {
       k = k.split('=')[0];
       addr.value = k;
@@ -1000,8 +1010,8 @@
           dl = W.pairs[ Ds[ii] + As[i] ];
           //console.log(_ww.length, Ds[ii] + As[i], dl);
           let dli; let dl0; let dl1;
-          if (dl.length > 3) {
-            console.log('超过3个临近地址', Ds[ii] + As[i]);
+          if (dl.length > 4) {
+            console.log('超过4个临近地址', Ds[ii] + As[i]);
             console.log(dl.join('\n'));
           }
           for (dli = 0; dli < dl.length; dli += 1) {

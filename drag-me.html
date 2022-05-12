@@ -74,13 +74,23 @@
   }
 
   function search () {
-    const k = addr.value;
+    let k = addr.value;
     search_button.textContent = '搜索';
+    console.log('Input', k);
+    if (k.substr(0,4) === '浦东新区') {
+      k = k.substr(4);
+      addr.value = k;
+    } else if (['上海市', '黄浦区', '静安区', '徐汇区', '长宁区',
+                '普陀区', '虹口区', '杨浦区', '宝山区', '闵行区',
+                '嘉定区', '金山区', '松江区', '青浦区', '奉贤区', '崇明区'].indexOf(
+               k.substr(0,3) ) > -1) {
+      k = k.substr(3);
+      addr.value = k;
+    }
     if (k === '') {
       addr.focus();
       return;
     }
-    console.log(k);
     onList.textContent = '';
     let ii;
     for (ii = 0; ii < Ds.length; ii += 1) {

@@ -1,5 +1,6 @@
 # 2022-5-11
 within = 100
+nearby = 5
 
 # https://github.com/wandergis/coordTransform_py
 import math
@@ -137,7 +138,7 @@ print('ww object size: ', len(ww) )
 
 to_check = []
 for key,val in ww.items():
-    if len(val) > 3:
+    if len(val) > nearby:
         print('>>', key, len(val) )
         if not key in to_check:
             to_check.append(key)
@@ -157,6 +158,7 @@ fz.close
 import json
 j = {'date':datestr,
      'within':within,
+     'nearby':nearby,
      'ww size':len(ww),
      'tag':'AB',
      'pairs':ww }
