@@ -82,6 +82,7 @@
         if (kj >= 7) {
           for (kii = 0; kii < Ds.length; kii += 1) {
             if (j.districts[ Ds[kii] ].indexOf(p) > -1) { // 地址同名, 仅赋值一区
+              j.cached_14days.push(Ds[kii] + p);
               break;
           } }
           if (j.cache14days[Ds[kii]]) {
@@ -98,6 +99,7 @@
   async function async14days (k) {
     if (!j.cache14days) {
       j.cache14days = {};
+      j.cached_14days = new Array();
       const v = await cache14days().catch(e => {
         return console.log(e);
       });
@@ -112,7 +114,7 @@
           onListAppend(ki, k, d[0],
                        '两周内' + d[1] + '次上榜');
       });
-    } else if (j.cache14days && !k) {
+    } else if (j.cached_14days.length && !k) {
       for (kii = 0; kii < Ds.length; kii += 1) {
         if (!j.cache14days[Ds[kii]]) {
           continue;
@@ -123,6 +125,13 @@
                      '两周内，' + kj + '处超7次上榜');
         ki += kj - 1;
       }
+      const kk = document.createElement('p');
+      const tt = '两周内超7次上榜';
+      kk.innerHTML = '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr(j.cached_14days,\'' +
+                     '上海市' + tt + '\');">展示' + tt + '地址</button> ' +
+                     '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr();' +
+                     '">两周阳（两周内曾上榜至少1次）</button> ';
+      onList.appendChild(kk);
     }
   }
 
@@ -187,7 +196,9 @@
 
   function onListAppend (ki, k, d, t) {
     let ks;
-    if (j.listed_30days && d && j.listed_30days.indexOf(d) > -1 &&
+    if (!ki) {
+      ks = '<br/>';
+    } else if (j.listed_30days && d && j.listed_30days.indexOf(d) > -1 &&
         (!t || t.indexOf('上榜') === -1) ) {
       ks = '<span style="color:red;">' + ki + '.<sup>上榜' +
            j.address[d].length + '次</sup></span> ';
@@ -228,9 +239,11 @@
     let kii;
     if (j.listed_30days && !j.list30days) {
       j.list30days = {};
+      j.listed_30days_new = new Array();
       Array.from(j.listed_30days).forEach((d) => {
         for (kii = 0; kii < Ds.length; kii += 1) {
           if (j.districts[ Ds[kii] ].indexOf(d) > -1) { // 地址同名, 仅赋值一区
+            j.listed_30days_new.push(Ds[kii] + d);
             break;
         } }
         if (j.list30days[Ds[kii]]) {
@@ -259,6 +272,13 @@
                      '3月6日以来，' + kj + '处超30次上榜');
         ki += kj - 1;
       }
+      const kk = document.createElement('p');
+      const tt = '超30次上榜';
+      kk.innerHTML = '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr(j.listed_30days_new,\'' +
+                     '上海市' + tt + '\');">展示' + tt + '地址</button> ' +
+                     '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr();' +
+                     '">累计阳（3月6日以来曾上榜至少1次）</button> ';
+      onList.appendChild(kk);
     }
   }
 
@@ -294,7 +314,7 @@
     return zz;
   }
 
-  function inChina(lng, lat) {
+  function inChina (lng, lat) {
     if (lng && lng > 73.66 && lng < 135.05) {
       if (lat && lat > 3.86 && lat < 53.55) {
         return true;
@@ -919,7 +939,41 @@
       }
       map.stroke();
     } else {
+      console.log('市 区 未显示', s);
       dotNotDraw += 1; // 市 区
+    }
+  }
+
+  function draw_sh_addr (jcDi, tt) {
+    let ii;
+    let map_i = 0;
+    draw_sh();
+    if (jcDi) {
+      for (ii = 0; ii < jcDi.length; ii += 1) {
+        draw_addr(jcDi[ii]);
+        map_i += 1;
+      }
+    } else {
+      for (i = 0; i < Ds.length; i += 1) {
+        if (!j[_check][Ds[i] ]) {
+          continue;
+        }
+        for (ii = 0; ii < j[_check][ Ds[i] ].length; ii += 1) {
+          draw_addr(Ds[i] + j[_check][ Ds[i] ][ii]);
+          map_i += 1;
+        }
+      }
+    }
+    map.fillStyle = 'black';
+    if (dotNotDraw) {
+      map.fillText((tt || '上海市' + check_choices[_check]) + map_i +
+                   '个地址 未显示其中' + dotNotDraw + '个 2022/' + _today,
+                   0,svgHeight-1-fontSize);
+      dotNotDraw = 0;
+    } else {
+      map.fillText((tt || '上海市' + check_choices[_check]) + ' ' + map_i +
+                   '个地址 2022/' + _today,
+                   0,svgHeight-1-fontSize);
     }
   }
 
@@ -940,6 +994,7 @@
     //document.title = 'sh.teach.bio/2 ? ' + k + '  2022/' + _today;
     onList.textContent = '';
     map.clearRect(0, 0, svgWidth, svgHeight);
+    scale2x_button.style.visibility = 'hidden';
     svgWidth = 640;
     svgHeight = 480;
     fontSize = 10; // 10px Microsoft YaHei
@@ -1031,16 +1086,7 @@
           1000*5
         );
       }
-      draw_sh();
-      for (i = 0; i < Ds.length; i += 1) {
-        if (!j[_check][Ds[i] ]) {
-          continue;
-        }
-        for (ii = 0; ii < j[_check][ Ds[i] ].length; ii += 1) {
-          draw_addr(Ds[i] + j[_check][ Ds[i] ][ii]);
-          map_i += 1;
-        }
-      }
+      draw_sh_addr();
       if (_check === 'today') {
         asyncNewAddr();
       } else if (_check === 'inB') {
@@ -1053,15 +1099,6 @@
       }
       check_row.style.display = 'block';
       updateCheckStatus();
-      map.fillStyle = 'black';
-      if (dotNotDraw) {
-        map.fillText('上海市' + map_i + '个地址 未显示其中' + dotNotDraw + '个 2022/' + _today,
-                     0,svgHeight-1-fontSize);
-        dotNotDraw = 0;
-      } else {
-        map.fillText('上海市 ' + map_i + '个地址 2022/' + _today,
-                     0,svgHeight-1-fontSize);
-      }
       addr.scrollIntoView(); //save_button
       clear_button.style.visibility = 'visible';
       if (autoSavePNG && !pngNot) {
@@ -1069,7 +1106,7 @@
       }
       return;
     }
-    // 搜索 地址
+    // 搜索地址
     //auto_save_off();
     console.log('Input', k);
     if (k.substr(0,4) === '浦东新区') {
@@ -1087,6 +1124,7 @@
       addr.value = k;
       _check = check_choices['0'];
     }
+    scale2x_button.style.visibility = 'visible';
     check_row.style.display = 'none';
     // for (ii = 0; ii < Ds.length; ii += 1) {
     //   document.getElementById(Ds[ii]).style.background = 'white';
@@ -1144,7 +1182,8 @@ if (Ms.indexOf(Ds[ii] + As[i]) > -1) {
   map_i += 1;
 } else {
   map_push = 0
-  dotNotDraw += 1; // 地址
+  console.log('搜索地址 未显示', Ds[ii] + As[i]);
+  dotNotDraw += 1; // 搜索地址
 }
 const s1 = ('' + dl).split(Ds[ii]);
 let s2;
@@ -1249,6 +1288,7 @@ if (map_push === 1) {
     }
     if (map_i === 0) {
       app.style.display = 'none';
+      onListAppend(0, k.substr(0, k.length - 1), null, '&larr;可尝试')
     } else {
       addr.scrollIntoView();
       th_k.textContent = k;
@@ -1415,7 +1455,7 @@ if (map_push === 1) {
 
   function scale2x () {
     if (['市', '区'].indexOf(
-          addr.value.slice(-1)[0]) > -1 ) {
+        addr.value.slice(-1)[0] ) > -1 ) {
       window.alert('请勿刷新页面。搜索地址时，可放大一倍')
       return false;
     }
@@ -1576,7 +1616,7 @@ if (map_push === 1) {
   <button onclick="nextReload(addr.value,1);">&gt;&gt;</button>
   <button id="clear_button" style="visibility:hidden;" onclick="search();">隐藏</button>
   <button id="reload_button" onclick="window.location.reload();">重置</button>
-  <button id="scale2x_button" onclick="scale2x();">放大</button>
+  <button id="scale2x_button" style="visibility:hidden;" onclick="scale2x();">放大</button>
   <span id="fetching2" style="color:blue;">Loading<span id="loading_span"></span>
     <span class="loading_pr"></span></span>
   <span id="auto_save_" style="color:cyan;">自动缓存&rarr;</span><br/>
