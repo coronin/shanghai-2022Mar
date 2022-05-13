@@ -79,36 +79,49 @@
             kj += 1;
           }
         }
-        if (kj >= 10) {
-          console.log(p, dl);
-
+        if (kj >= 7) {
           for (kii = 0; kii < Ds.length; kii += 1) {
-            if (j.districts[ Ds[kii] ].indexOf(p) > -1) { //@@@@ 地址同名, 团结村 国权北路555
+            if (j.districts[ Ds[kii] ].indexOf(p) > -1) { // 地址同名, 团结村 国权北路555
               break;
           } }
           if (j.cache14days[Ds[kii]]) {
-            j.cache14days[Ds[kii]].push(p);
+            j.cache14days[Ds[kii]].push( [p, kj] );
           } else {
-            j.cache14days[Ds[kii]] = [p];
+            j.cache14days[Ds[kii]] = [ [p, kj] ];
           }
-
         }
       }
       resolve(1);
     });
   }
 
-  async function async14days () {
-    const v = await cache14days().catch(e => {
-      return console.log(e);
-    });
-    if (v) {
-      _J[j.tag] = j;
-      // let ki = 0;
-      // Array.from(v).forEach((d) => {
-      //   ki += 1;
-      //   onListAppend(ki, d[0], d[1], '3月6日以来，首次上榜');
-      // });
+  async function async14days (k) {
+    if (!j.cache14days) {
+      j.cache14days = {};
+      const v = await cache14days().catch(e => {
+        return console.log(e);
+      });
+      if (v) {
+        _J[j.tag] = j;
+      }
+    }
+    let ki = 0;
+    if (j.cache14days && k && j.cache14days[k]) {
+      Array.from(j.cache14days[k]).forEach((d) => {
+          ki += 1;
+          onListAppend(ki, k, d[0], '两周内' + d[1] + '次上榜');
+      });
+    } else if (j.cache14days && !k) {
+      for (kii = 0; kii < Ds.length; kii += 1) {
+        if (!j.cache14days[Ds[kii]]) {
+          continue;
+        }
+        ki += 1;
+        kj = j.cache14days[Ds[kii]].length;
+        onListAppend(ki, Ds[kii], null, '两周内，' +
+                                      kj + '处超7次上榜');
+        ki += kj - 1;
+      }
     }
   }
 
@@ -171,21 +184,23 @@
 
 
   function onListAppend (ki, k, d, t) {
-    let ks; let dl = j.address[d];
-    if (j.listed_30days && j.listed_30days.indexOf(d) > -1 &&
+    let ks;
+    if (j.listed_30days && d && j.listed_30days.indexOf(d) > -1 &&
         (!t || t.indexOf('上榜') === -1) ) {
       ks = '<span style="color:red;">' + ki + '.<sup>上榜' +
-           dl.length + '次</sup></span> ';
+           j.address[d].length + '次</sup></span> ';
     } else {
       ks = '<span style="color:grey;">' + ki + '.</span> ';
     }
     ks += '<span class="click" onclick="search(this.textContent);">' +
-          k + '</span>' +
-          '<span class="click _L" onclick="search(\'' + d +
-          '\');">' + d + '</span> ' +
-          ' <em style="color:grey">' + (t || '') + '</em>';
-    if (!t || t.indexOf('首次') === -1) {
-      ks += ' ' + tagsHTML(dl);
+          k + '</span>';
+    if (d) {
+      ks += '<span class="click _L" onclick="search(\'' + d +
+          '\');">' + d + '</span> ';
+    }
+    ks += ' <em style="color:grey">' + (t || '') + '</em>';
+    if (d && !t || t.indexOf('首次') === -1) {
+      ks += ' ' + tagsHTML( j.address[d] );
     }
     const kk = document.createElement('p');
     kk.style.padding = '0';
@@ -213,7 +228,7 @@
       j.list30days = {};
       Array.from(j.listed_30days).forEach((d) => {
         for (kii = 0; kii < Ds.length; kii += 1) {
-          if (j.districts[ Ds[kii] ].indexOf(d) > -1) { //@@@@ 地址同名, 团结村 国权北路555
+          if (j.districts[ Ds[kii] ].indexOf(d) > -1) { // 地址同名, 团结村 国权北路555
             break;
         } }
         if (j.list30days[Ds[kii]]) {
@@ -224,7 +239,7 @@
       });
       _J[j.tag] = j;
     }
-    let ki = 0;
+    let ki = 0; let kj;
     if (j.list30days && k && j.list30days[k]) {
       Array.from(j.list30days[k]).forEach((d) => {
           ki += 1;
@@ -236,12 +251,26 @@
         if (!j.list30days[Ds[kii]]) {
           continue;
         }
-        Array.from(j.list30days[Ds[kii]]).forEach((d) => {
-          ki += 1;
-          onListAppend(ki, Ds[kii], d, '3月6日以来，上榜' +
-                                       j.address[d].length + '次');
-        });
+        ki += 1;
+        kj = j.list30days[Ds[kii]].length;
+        onListAppend(ki, Ds[kii], null, '3月6日以来，' +
+                                      kj + '处超30次上榜');
+        ki += kj - 1;
       }
+    }
+  }
+
+  function generalAppend () {
+    let kii; let kj; let ki = 0;
+    for (kii = 0; kii < Ds.length; kii += 1) {
+      if (!j[_check][Ds[kii]]) {
+        continue;
+      }
+      ki += 1;
+      kj = j[_check][Ds[kii]].length;
+      onListAppend(ki, Ds[kii], null, kj + '处 ' +
+                                    check_choices[_check]);
+      ki += kj - 1;
     }
   }
 
@@ -1014,6 +1043,9 @@
         async14days();
       } else if (_check === 'districts') {
         list30days();
+      } else if (['latest_added2', 'latest_added7', 'latest_added'
+                 ].indexOf(_check) > -1) {
+        generalAppend();
       }
       check_row.style.display = 'block';
       updateCheckStatus();
