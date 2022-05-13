@@ -111,16 +111,24 @@
     const kk = document.createElement('p');
     const tt = '两周内超7次上榜';
     if (j.cache14days && k && j.cache14days[k]) {
+      kk.innerHTML = '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr(j.cached_14days,\'' +
+                     k + tt + '\');">展示' + k + tt + '地址</button> ' +
+                     '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr(null,\''+k+'两周阳\');' +
+                     '">两周内曾上榜至少1次</button> ' +
+                     '<button onclick="h2dist.scrollIntoView();">各区统计</button>';
+      onList.appendChild(kk);
       Array.from(j.cache14days[k]).forEach((d) => {
           ki += 1;
           onListAppend(ki, k, d[0],
                        '两周内' + d[1] + '次上榜');
       });
-      kk.innerHTML = '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr(j.cached_14days,\'' +
-                     k + tt + '\');">展示' + k + tt + '地址</button> ' +
-                     '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr(null,\''+k+'两周阳\');' +
-                     '">两周阳（两周内曾上榜至少1次）</button> ';
     } else if (j.cached_14days.length && !k) {
+      kk.innerHTML = '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr(j.cached_14days,\'' +
+                     '上海市' + tt + '\');">展示' + tt + '地址</button> ' +
+                     '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr();' +
+                     '">两周内曾上榜至少1次</button> ' +
+                     '<button onclick="h2dist.scrollIntoView();">各区统计</button>';
+      onList.appendChild(kk);
       for (kii = 0; kii < Ds.length; kii += 1) {
         if (!j.cache14days[Ds[kii]]) {
           continue;
@@ -131,12 +139,7 @@
                      '两周内，' + kj + '处超7次上榜');
         ki += kj - 1;
       }
-      kk.innerHTML = '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr(j.cached_14days,\'' +
-                     '上海市' + tt + '\');">展示' + tt + '地址</button> ' +
-                     '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr();' +
-                     '">两周阳（两周内曾上榜至少1次）</button> ';
     }
-    onList.appendChild(kk);
   }
 
   function onlyNewAddr () {
@@ -264,16 +267,24 @@
     const kk = document.createElement('p');
     const tt = '超30次上榜';
     if (j.list30days && k && j.list30days[k]) {
+      kk.innerHTML = '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr(j.listed_30days_new,\'' +
+                     k + tt + '\');">展示' + k + tt + '地址</button> ' +
+                     '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr(null,\''+k+'累计阳\');' +
+                     '">3月6日以来曾上榜至少1次</button> ' +
+                     '<button onclick="h2dist.scrollIntoView();">各区统计</button>';
+      onList.appendChild(kk);
       Array.from(j.list30days[k]).forEach((d) => {
           ki += 1;
           onListAppend(ki, k, d,
                        '3月6日以来，上榜' + j.address[d].length + '次');
       });
-      kk.innerHTML = '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr(j.listed_30days_new,\'' +
-                     k + tt + '\');">展示' + k + tt + '地址</button> ' +
-                     '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr(null,\''+k+'累计阳\');' +
-                     '">累计阳（3月6日以来曾上榜至少1次）</button> ';
     } else if (j.list30days && !k) { // j.listed_30days_new.length
+      kk.innerHTML = '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr(j.listed_30days_new,\'' +
+                     '上海市' + tt + '\');">展示' + tt + '地址</button> ' +
+                     '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr();' +
+                     '">3月6日以来曾上榜至少1次</button> ' +
+                     '<button onclick="h2dist.scrollIntoView();">各区统计</button>';
+      onList.appendChild(kk);
       for (kii = 0; kii < Ds.length; kii += 1) {
         if (!j.list30days[Ds[kii]]) {
           continue;
@@ -284,12 +295,7 @@
                      '3月6日以来，' + kj + '处超30次上榜');
         ki += kj - 1;
       }
-      kk.innerHTML = '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr(j.listed_30days_new,\'' +
-                     '上海市' + tt + '\');">展示' + tt + '地址</button> ' +
-                     '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr();' +
-                     '">累计阳（3月6日以来曾上榜至少1次）</button> ';
     }
-    onList.appendChild(kk);
   }
 
   function generalAppend () {
@@ -407,8 +413,13 @@
   function preReload (q, oldest) {
     let hash_;
     if (j && j.address.shanghaifabu.length > 2) {
-      hash_ = parseInt(j.address.shanghaifabu.slice(-2)[0] );
+      if (j.tag === j.address.shanghaifabu.slice(-1)[0]) {
+        hash_ = parseInt(j.address.shanghaifabu.slice(-2)[0] );
+      } else {
+        hash_ = parseInt(j.address.shanghaifabu.slice(-1)[0] );
+      }
     } else {
+      alert(j.tag);
       hash_ = parseInt(j.tag) - 1;
     }
     if (oldest) {
@@ -1670,7 +1681,7 @@ if (map_push === 1) {
 
   <div style="width:100%;color:blue;" id="onList"></div>
 
-  <h2><span onclick="search(this.textContent);" class="click">上海市</span>各区统计（地址数）</h2>
+  <h2 id="h2dist"><span onclick="search(this.textContent);" class="click">上海市</span>各区统计（地址数）</h2>
   <table>
     <thead><tr style="color:black;"><th>&nbsp;行政单位&nbsp;</th><th>&nbsp;累计上榜&nbsp;</th>
       <th id="th_k"></th><th>&nbsp;两周内&nbsp;</th><th>&nbsp;<span class="_tag"></span>涉及&nbsp;</th>

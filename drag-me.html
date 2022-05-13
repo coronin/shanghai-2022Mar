@@ -137,7 +137,10 @@
           }
           release = parseInt(dl[dl.length - 1]);
         } else {
-          ks += s2.substr(s2.lastIndexOf(',') + 1);
+          ks += s2.substr(s2.lastIndexOf(',') + 1
+              ).replace(/030/g, '3/').replace(/040/g, '4/'
+              ).replace(/050/g, '5/').replace(/04/g, '4/'
+              ).replace(/03/g, '3/').replace(/05/g, '5/');
           release = parseInt( s2.substr(s2.lastIndexOf(',') + 1) );
         }
         release += (14 - 300);
