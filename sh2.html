@@ -205,8 +205,10 @@
     } else {
       ks = '<span style="color:grey;">' + ki + '.</span> ';
     }
-    ks += '<span class="click" onclick="search(this.textContent);">' +
+    if (k) {
+      ks += '<span class="click" onclick="search(this.textContent);">' +
           k + '</span>';
+    }
     if (d) {
       ks += '<span class="click _L" onclick="search(\'' + d +
           '\');">' + d + '</span> ';
@@ -1000,7 +1002,6 @@
     fontSize = 10; // 10px Microsoft YaHei
     if (scaleChange) { d3scale = 72000; }
     let ii;
-    let map_i = 0;
     if (Ds.indexOf(k) > -1) { //各区
       // if (!j.today[k]) { // .latest_added [_check]
       //   addr.value = '';
@@ -1043,6 +1044,19 @@
             }
           }
         }
+      } else {
+        onListAppend(0, null, null, '无');
+      }
+      map.fillStyle = 'black';
+      if (dotNotDraw) {
+        map.fillText(k + check_choices[_check] + j[_check][k].length +
+                     '个地址 其中' + dotNotDraw + '个无法显示 2022/' + _today,
+                     0,svgHeight-1-fontSize);
+        dotNotDraw = 0;
+      } else if (j[_check] && j[_check][k]) {
+        map.fillText(k + check_choices[_check] + ' ' + j[_check][k].length +
+                     '个地址 2022/' + _today,
+                     0,svgHeight-1-fontSize);
       }
       if (_check === 'today') {
         asyncNewAddr();
@@ -1053,15 +1067,6 @@
       }
       check_row.style.display = 'block';
       updateCheckStatus();
-      map.fillStyle = 'black';
-      if (dotNotDraw) {
-        map.fillText(k + j[_check][k].length + '个地址 其中' + dotNotDraw + '个无法显示 2022/' + _today,
-                     0,svgHeight-1-fontSize);
-        dotNotDraw = 0;
-      } else if (j[_check] && j[_check][k]) {
-        map.fillText(k + ' ' + j[_check][k].length + '个地址 2022/' + _today,
-                     0,svgHeight-1-fontSize);
-      }
       addr.scrollIntoView(); //save_button
       clear_button.style.visibility = 'visible';
       if (autoSavePNG && !pngNot) {
@@ -1137,6 +1142,7 @@
       document.getElementById(d + 'line').textContent = '';
     });
     let kk; let ks; let dl; let sb = 0;
+    let map_i = 0;
     let map_push;
     let map_x = new Array();
     let map_y = new Array();
