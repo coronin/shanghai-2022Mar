@@ -124,39 +124,62 @@
     }
   }
 
+  function onListAppend (ki, k, d, t) {
+    const ks = '<span style="color:grey;">' + ki + '.</span> ' +
+               '<span class="click" onclick="search(this.textContent);">' +
+               k + '</span>' +
+               '<span class="click _L" onclick="search(\'' + d +
+               '\');">' + d + '</span> ' +
+               ' <em style="color:grey">' + (t || '') + '</em>';
+    const kk = document.createElement('p');
+    kk.style.padding = '0';
+    kk.style.margin = '0';
+    kk.innerHTML = ks;
+    onList.appendChild(kk);
+    // map.fillStyle = 'grey';
+    // if (Ms.indexOf(Ds[kii] + d) > -1) {
+    //   map.fillText(ki,
+    //     mapX( Ml.locations[Ds[kii] + d][0] ),
+    //     mapY( Ml.locations[Ds[kii] + d][1] ) );
+    // }
+  }
+
   function list30days (k) {
-    if (j.listed_30days) {
-      map.fillStyle = 'grey';
-      let ks; let kk; let ki = 0; let kii;
+    let kii;
+    if (j.listed_30days && !j.list30days) {
+      j.list30days = {};
       Array.from(j.listed_30days).forEach((d) => {
-        ks = '';
         for (kii = 0; kii < Ds.length; kii += 1) {
           if (j.districts[ Ds[kii] ].indexOf(d) > -1) {
-            ks = '<span style="color:grey;">' + (ki+1) + '.</span> <span>' +
-             '<span class="click" onclick="search(this.textContent);">' +
-             Ds[kii] + '</span>' +
-             '<span class="click _L" onclick="search(\'' + d +
-             '\');">' + d + '</span> ' +
-             ' <em style="color:grey">3月6日以来，上榜超30次</em>';
             break;
         } }
-        if (k && k !== Ds[kii]) {
-          ks = '';
-        }
-        if (ks) {
-          kk = document.createElement('p');
-          kk.style.padding = '0';
-          kk.style.margin = '0';
-          kk.innerHTML = ks;
-          onList.appendChild(kk);
-          ki += 1;
-          // if (Ms.indexOf(Ds[kii] + d) > -1) {
-          //   map.fillText(ki,
-          //     mapX( Ml.locations[Ds[kii] + d][0] ),
-          //     mapY( Ml.locations[Ds[kii] + d][1] ) );
-          // }
+        if (j.list30days[Ds[kii]]) {
+          j.list30days[Ds[kii]].push(d);
+        } else {
+          j.list30days[Ds[kii]] = [d];
         }
       });
+      j.listed_30days = [];
+      _J[j.tag] = j;
+    }
+    let ki = 0;
+    if (j.list30days && k && j.list30days[k]) {
+      Array.from(j.list30days[k]).forEach((d) => {
+          ki += 1;
+          onListAppend(ki, k, d, '3月6日以来，上榜' +
+                                 j.address[d].length + '次');
+      });
+    } else if (j.list30days && !k) {
+      for (kii = 0; kii < Ds.length; kii += 1) {
+        if (!j.list30days[Ds[kii]]) {
+          continue;
+        }
+        Array.from(j.list30days[Ds[kii]]).forEach((d) => {
+          ki += 1;
+          onListAppend(ki, Ds[kii], d, '3月6日以来，上榜' +
+                                       j.address[d].length + '次');
+        });
+      }
     }
   }
 
