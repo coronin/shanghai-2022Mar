@@ -217,7 +217,7 @@ def read_a_list(s, tag=''):
 print('====================')
 
 A = []
-if As == '0318':
+if As == '0306':
     A = read_a_list(As)
 elif As:
     for s in As:
@@ -276,7 +276,7 @@ count = 0
 for line, dates in by_address.items():
     if len(dates) >= 30:
         listed30days.append(line)
-    if As and dates[-1] in ('0318', As[-1]):
+    if As and dates[-1] == As[-1]:
         count += 1
         #print('>>>>', line)
         for dd in districts:
