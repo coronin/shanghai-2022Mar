@@ -107,13 +107,19 @@
         _J[j.tag] = j;
       }
     }
-    let ki = 0;
+    let ki = 0; let kj;
+    const kk = document.createElement('p');
+    const tt = '两周内超7次上榜';
     if (j.cache14days && k && j.cache14days[k]) {
       Array.from(j.cache14days[k]).forEach((d) => {
           ki += 1;
           onListAppend(ki, k, d[0],
                        '两周内' + d[1] + '次上榜');
       });
+      kk.innerHTML = '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr(j.cached_14days,\'' +
+                     k + tt + '\');">展示' + k + tt + '地址</button> ' +
+                     '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr(null,\''+k+'两周阳\');' +
+                     '">两周阳（两周内曾上榜至少1次）</button> ';
     } else if (j.cached_14days.length && !k) {
       for (kii = 0; kii < Ds.length; kii += 1) {
         if (!j.cache14days[Ds[kii]]) {
@@ -125,14 +131,12 @@
                      '两周内，' + kj + '处超7次上榜');
         ki += kj - 1;
       }
-      const kk = document.createElement('p');
-      const tt = '两周内超7次上榜';
       kk.innerHTML = '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr(j.cached_14days,\'' +
                      '上海市' + tt + '\');">展示' + tt + '地址</button> ' +
                      '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr();' +
                      '">两周阳（两周内曾上榜至少1次）</button> ';
-      onList.appendChild(kk);
     }
+    onList.appendChild(kk);
   }
 
   function onlyNewAddr () {
@@ -257,13 +261,19 @@
       _J[j.tag] = j;
     }
     let ki = 0; let kj;
+    const kk = document.createElement('p');
+    const tt = '超30次上榜';
     if (j.list30days && k && j.list30days[k]) {
       Array.from(j.list30days[k]).forEach((d) => {
           ki += 1;
           onListAppend(ki, k, d,
                        '3月6日以来，上榜' + j.address[d].length + '次');
       });
-    } else if (j.list30days && !k) {
+      kk.innerHTML = '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr(j.listed_30days_new,\'' +
+                     k + tt + '\');">展示' + k + tt + '地址</button> ' +
+                     '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr(null,\''+k+'累计阳\');' +
+                     '">累计阳（3月6日以来曾上榜至少1次）</button> ';
+    } else if (j.list30days && !k) { // j.listed_30days_new.length
       for (kii = 0; kii < Ds.length; kii += 1) {
         if (!j.list30days[Ds[kii]]) {
           continue;
@@ -274,14 +284,12 @@
                      '3月6日以来，' + kj + '处超30次上榜');
         ki += kj - 1;
       }
-      const kk = document.createElement('p');
-      const tt = '超30次上榜';
       kk.innerHTML = '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr(j.listed_30days_new,\'' +
                      '上海市' + tt + '\');">展示' + tt + '地址</button> ' +
                      '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr();' +
                      '">累计阳（3月6日以来曾上榜至少1次）</button> ';
-      onList.appendChild(kk);
     }
+    onList.appendChild(kk);
   }
 
   function generalAppend () {
@@ -569,6 +577,9 @@
           window.alert('所得数据有错 请刷新页面\n' + window.location.toString() );
           return false;
         }
+        if (j.address.shanghaifabu) {
+          console.log('Last four shanghaifabu in data', j.tag, j.address.shanghaifabu.slice(-4) );
+        }
         next_pre_vis(hash_);
         load();
       }, false);
@@ -723,9 +734,6 @@
     }
     Ds = Object.keys(j.districts);
     As = Object.keys(j.address);
-    if (j.address.shanghaifabu) {
-      console.log('Last four shanghaifabu in data', j.tag, j.address.shanghaifabu.slice(-4) );
-    }
     th_k.textContent = '';
     districtTbody.textContent = '';
     latest_added.textContent = '';
@@ -950,15 +958,24 @@
     let ii;
     let map_i = 0;
     draw_sh();
+    let ttf;
+    if (tt && tt.substr(0,3) !== '上海市') {
+      ttf = tt.substr(0,3);
+    }
     if (jcDi) {
       for (ii = 0; ii < jcDi.length; ii += 1) {
-        draw_addr(jcDi[ii]);
-        map_i += 1;
+        if (!ttf || jcDi[ii].substr(0,3) === ttf) {
+          draw_addr(jcDi[ii]);
+          map_i += 1;
+        }
       }
     } else {
       for (i = 0; i < Ds.length; i += 1) {
         if (!j[_check][Ds[i] ]) {
           continue;
+        }
+        if (ttf && Ds[i].substr(0,3) !== ttf) {
+          continue
         }
         for (ii = 0; ii < j[_check][ Ds[i] ].length; ii += 1) {
           draw_addr(Ds[i] + j[_check][ Ds[i] ][ii]);
