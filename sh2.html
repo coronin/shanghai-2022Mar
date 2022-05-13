@@ -81,7 +81,7 @@
         }
         if (kj >= 7) {
           for (kii = 0; kii < Ds.length; kii += 1) {
-            if (j.districts[ Ds[kii] ].indexOf(p) > -1) { // 地址同名, 团结村 国权北路555
+            if (j.districts[ Ds[kii] ].indexOf(p) > -1) { // 地址同名, 仅赋值一区
               break;
           } }
           if (j.cache14days[Ds[kii]]) {
@@ -109,7 +109,8 @@
     if (j.cache14days && k && j.cache14days[k]) {
       Array.from(j.cache14days[k]).forEach((d) => {
           ki += 1;
-          onListAppend(ki, k, d[0], '两周内' + d[1] + '次上榜');
+          onListAppend(ki, k, d[0],
+                       '两周内' + d[1] + '次上榜');
       });
     } else if (j.cache14days && !k) {
       for (kii = 0; kii < Ds.length; kii += 1) {
@@ -118,8 +119,8 @@
         }
         ki += 1;
         kj = j.cache14days[Ds[kii]].length;
-        onListAppend(ki, Ds[kii], null, '两周内，' +
-                                      kj + '处超7次上榜');
+        onListAppend(ki, Ds[kii], null,
+                     '两周内，' + kj + '处超7次上榜');
         ki += kj - 1;
       }
     }
@@ -164,7 +165,8 @@
       let ki = 0;
       Array.from(v).forEach((d) => {
         ki += 1;
-        onListAppend(ki, d[0], d[1], '3月6日以来，首次上榜');
+        onListAppend(ki, d[0], d[1],
+                     '3月6日以来，首次上榜');
       });
     }
   }
@@ -228,7 +230,7 @@
       j.list30days = {};
       Array.from(j.listed_30days).forEach((d) => {
         for (kii = 0; kii < Ds.length; kii += 1) {
-          if (j.districts[ Ds[kii] ].indexOf(d) > -1) { // 地址同名, 团结村 国权北路555
+          if (j.districts[ Ds[kii] ].indexOf(d) > -1) { // 地址同名, 仅赋值一区
             break;
         } }
         if (j.list30days[Ds[kii]]) {
@@ -243,8 +245,8 @@
     if (j.list30days && k && j.list30days[k]) {
       Array.from(j.list30days[k]).forEach((d) => {
           ki += 1;
-          onListAppend(ki, k, d, '3月6日以来，上榜' +
-                                 j.address[d].length + '次');
+          onListAppend(ki, k, d,
+                       '3月6日以来，上榜' + j.address[d].length + '次');
       });
     } else if (j.list30days && !k) {
       for (kii = 0; kii < Ds.length; kii += 1) {
@@ -253,8 +255,8 @@
         }
         ki += 1;
         kj = j.list30days[Ds[kii]].length;
-        onListAppend(ki, Ds[kii], null, '3月6日以来，' +
-                                      kj + '处超30次上榜');
+        onListAppend(ki, Ds[kii], null,
+                     '3月6日以来，' + kj + '处超30次上榜');
         ki += kj - 1;
       }
     }
@@ -268,8 +270,8 @@
       }
       ki += 1;
       kj = j[_check][Ds[kii]].length;
-      onListAppend(ki, Ds[kii], null, kj + '处 ' +
-                                    check_choices[_check]);
+      onListAppend(ki, Ds[kii], null,
+                   kj + '处 ' + check_choices[_check]);
       ki += kj - 1;
     }
   }
@@ -974,11 +976,13 @@
             if (_check === 'latest_added' && j.latest_added2 &&
                        j.latest_added2[k] &&
                        j.latest_added2[k].indexOf( j[_check][k][ii] ) === -1) {
-              onListAppend(ii+1, k, j[_check][k][ii], '在“一阴阳”，不在“三阴阳”');
+              onListAppend(ii+1, k, j[_check][k][ii],
+                           '在“一阴阳”，不在“三阴阳”');
             } else if (_check === 'latest_added2' && j.latest_added7 &&
                        j.latest_added7[k] &&
                        j.latest_added7[k].indexOf( j[_check][k][ii] ) === -1) {
-              onListAppend(ii+1, k, j[_check][k][ii], '在“三阴阳”，不在“七阴阳”');
+              onListAppend(ii+1, k, j[_check][k][ii],
+                           '在“三阴阳”，不在“七阴阳”');
             } else {
               onListAppend(ii+1, k, j[_check][k][ii]);
             }
@@ -1105,129 +1109,139 @@
         dl = j.address[ As[i] ];
         il = 0;
         for (ii = 0; ii < Ds.length; ii += 1) {
+          release = 0;
           ij = j.districts[ Ds[ii] ];
           for (ik = 0; ik < ij.length; ik += 1) {
             if (ij[ik] === As[i]) {
+              //console.log(Ds[ii]);
               document.getElementById(Ds[ii]).style.background = 'yellow';
               document.getElementById(Ds[ii] + 'line').textContent += '|';
-              //console.log(Ds[ii]);
               il += 1;
               sb += 1;
-        //onList.textContent += Ds[ii] + ',' + As[i] + ': ' + dl;
-        if (j.listed_30days && j.listed_30days.indexOf(As[i]) > -1) {
-          ks = '<span style="color:red;">' + sb + '.<sup>上榜' +
-               dl.length + '次</sup></span> ';
-        } else {
-          ks = '<span style="color:grey;">' + sb + '.</span> ';
-        }
-        if (map_i > 1) {
-          ks += '<span class="click" onclick="search(this.textContent);">' + Ds[ii] + '</span>';
-          ks += '<span class="click _L" onclick="lastSearch=\''+k+'\';search(\'';
-        } else {
-          ks += '<span class="click _L" onclick="search(this.textContent);">' + Ds[ii] + '</span>';
-          ks += '<span data-click="lastSearch=\''+k+'\';search(\'';
-        }
-        if (lastSearch && lastSearch !== As[i] && As[i].indexOf(lastSearch) > -1) {
-          ks += lastSearch;
-        } else {
-          ks += As[i];
-        }
-        ks += '\');">' + As[i] + '</span> ';
-        if (Ms.indexOf(Ds[ii] + As[i]) > -1) {
-          map_push = 1;
-          map_i += 1;
-        } else {
-          map_push = 0
-          dotNotDraw += 1; // 地址
-        }
-        const s1 = ('' + dl).split(Ds[ii]);
-        const s2 = s1[s1.length - 2];
-        if (il === 1 || !s2) { // 地址同名, 团结村 国权北路555
-          if (('' + dl).indexOf(j.tag) > 0) {
-            if (map_push) { map_push = 2; }
-            ks += '<span style="color:red">' + tagsHTML(dl) + '</span>';
-          } else {
-            ks += tagsHTML(dl);
-          }
-          release = parseInt(dl[dl.length - 1]);
-        } else {
-          ks += s2.substr(s2.lastIndexOf(',') + 1);
-          release = parseInt( s2.substr(s2.lastIndexOf(',') + 1) );
-        }
-        if (release) {
-          release += (14 - 300);
-          if (release > 100) {
-            release -= 100;
-          } else if (release > 31) {
-            release -= 31; // 单次3月18日的地址
-          }
-          if (release < 31) {
-            //onList.textContent += ' --> 4/' + release + '\n';
-            ks += ' &rarr; 4/' + release;
-            ks += ' <span style="color:green">已满14天</span>';
-          } else {
-            if (release > 100) { // 最近一次在5月
-              release -= 100;
-            } else {
-              release -= 30;
-            }
-            ks += ' &rarr; 5/' + release;
-            if (release < today.getDate()-1 ) {
-              ks += ' <span style="color:green">已满14天</span>';
-            } else if (release === today.getDate()-1 ) {
-              ks += '<span style="color:green">是第14天</span>';
-            }
-          }
-        }
-        // async, re-define dl
-        if (_ww && _ww.indexOf(Ds[ii] + As[i]) > -1) {
-          dl = W.pairs[ Ds[ii] + As[i] ];
-          let dli; let dl0; let dl1;
-          //if (dl.length > 4) { // W.nearby
-          //  console.log(_ww.length, '超过4个临近地址', Ds[ii] + As[i]);
-          //  console.log(dl.join('\n'));
-          //}
-          for (dli = 0; dli < dl.length; dli += 1) {
-            if (dl[dli].substr(0,4) === '浦东新区') {
-              dl0 = dl[dli].substr(0, 4);
-              dl1 = dl[dli].substr(4);
-            } else {
-              dl0 = dl[dli].substr(0, 3);
-              dl1 = dl[dli].substr(3);
-            }
-            if (dl1 !== As[i]) {
-              if (dli === 0) {
-                ks += '<br/><span class="inAB_close" style="padding-left:1.6em">临近地址 '; // W.within
-              } else {
-                ks += '<br/><span class="inAB_close">'; // W.within
-              }
-              if (dl0 !== Ds[ii]) {
-                ks += '<span class="click" onclick="search(this.textContent);">' +
-                    dl0 + '</span> ';
-              }
-              ks += '<span class="click" onclick="search(this.textContent);">' +
-                    dl1 + '</span> 上榜于' +
-                    tagsHTML(j.address[ dl1 ], 1) +
-                    '</span>';
-            }
-          }
-        }
-        kk = document.createElement('p');
-        //kk.id = As[i];
-        kk.style.padding = '0';
-        kk.style.margin = '0';
-        kk.innerHTML = ks;
-        onList.appendChild(kk);
-        if (map_push === 1) {
-          map_x.push(parseFloat( Ml.locations[Ds[ii] + As[i]][0] ));
-          map_y.push(parseFloat( Ml.locations[Ds[ii] + As[i]][1] ));
-          map_addr.push( Ds[ii] + As[i] );
-        } else if (map_push === 2) {
-          map_x.unshift(parseFloat( Ml.locations[Ds[ii] + As[i]][0] ));
-          map_y.unshift(parseFloat( Ml.locations[Ds[ii] + As[i]][1] ));
-          map_addr.unshift( Ds[ii] + As[i] );
-        }
-        //
+
+//onList.textContent += Ds[ii] + ',' + As[i] + ': ' + dl;
+if (il === 1 && j.listed_30days && j.listed_30days.indexOf(As[i]) > -1) {
+  ks = '<span style="color:red;">' + sb + '.<sup>上榜' +
+       dl.length + '次</sup></span> ';
+} else {
+  ks = '<span style="color:grey;">' + sb + '.</span> ';
+}
+if (map_i > 1) {
+  ks += '<span class="click" onclick="search(this.textContent);">' + Ds[ii] + '</span>';
+  ks += '<span class="click _L" onclick="lastSearch=\''+k+'\';search(\'';
+} else {
+  ks += '<span class="click _L" onclick="search(this.textContent);">' + Ds[ii] + '</span>';
+  ks += '<span data-click="lastSearch=\''+k+'\';search(\'';
+}
+if (lastSearch && lastSearch !== As[i] && As[i].indexOf(lastSearch) > -1) {
+  ks += lastSearch;
+} else {
+  ks += As[i];
+}
+ks += '\');">' + As[i] + '</span> ';
+if (Ms.indexOf(Ds[ii] + As[i]) > -1) {
+  map_push = 1;
+  map_i += 1;
+} else {
+  map_push = 0
+  dotNotDraw += 1; // 地址
+}
+const s1 = ('' + dl).split(Ds[ii]);
+let s2;
+//console.log(As[i], Ds[ii], il, s1);
+if (il === 1) { // 地址同名, 团结村 国权北路555 邯郸路20
+  if (('' + dl).indexOf(j.tag) > 0) {
+    if (map_push) { map_push = 2; }
+    ks += '<span style="color:red">' + tagsHTML(dl) + '</span>';
+  } else {
+    ks += tagsHTML(dl);
+  }
+  release = parseInt(dl[dl.length - 1]);
+} else {
+  while (s1.length > 1) {
+    s2 = s1.shift();
+    ks += hash2date(   s2.substr(s2.lastIndexOf(',') + 1) );
+    if (s1.length > 1) { ks += ', '; }
+  }
+  if (s2) {
+    release = parseInt(s2.substr(s2.lastIndexOf(',') + 1) );
+  }
+}
+if (release) {
+  release += (14 - 300);
+  if (release > 100) {
+    release -= 100;
+  } else if (release > 31) {
+    release -= 31; // 单次3月18日的地址
+  }
+  if (release < 31) {
+    //onList.textContent += ' --> 4/' + release + '\n';
+    ks += ' &rarr; 4/' + release;
+    ks += ' <span style="color:green">已满14天</span>';
+  } else {
+    if (release > 100) { // 最近一次在5月
+      release -= 100;
+    } else {
+      release -= 30;
+    }
+    ks += ' &rarr; 5/' + release;
+    if (release < today.getDate()-1 ) {
+      ks += ' <span style="color:green">已满14天</span>';
+    } else if (release === today.getDate()-1 ) {
+      ks += '<span style="color:green">是第14天</span>';
+    }
+  }
+}
+if (il === 1 && _ww && _ww.indexOf(Ds[ii] + As[i]) > -1) {
+  const wdl = W.pairs[ Ds[ii] + As[i] ];
+  let dli; let dl0; let dl1; let dlt = true;
+  //if (dl.length > 4) { // W.nearby
+  //  console.log(_ww.length, '超过4个临近地址', Ds[ii] + As[i]);
+  //  console.log(dl.join('\n'));
+  //}
+  for (dli = 0; dli < wdl.length; dli += 1) {
+    if (wdl[dli].substr(0,4) === '浦东新区') {
+      dl0 = wdl[dli].substr(0, 4);
+      dl1 = wdl[dli].substr(4);
+    } else {
+      dl0 = wdl[dli].substr(0, 3);
+      dl1 = wdl[dli].substr(3);
+    }
+    if (dl1 !== As[i]) {
+      if (dlt) {
+        dlt = false;
+        ks += '<br/><span class="inAB_close" style="padding-left:1.6em">临近地址 '; // W.within
+      } else {
+        ks += '<br/><span class="inAB_close">'; // W.within
+      }
+      if (dl0 !== Ds[ii]) {
+        ks += '<span class="click" onclick="search(this.textContent);">' +
+            dl0 + '</span> ';
+      }
+      ks += '<span class="click" onclick="search(this.textContent);">' +
+            dl1 + '</span> 上榜于' +
+            tagsHTML(j.address[ dl1 ], 1) +
+            '</span>';
+    }
+  }
+}
+kk = document.createElement('p');
+//kk.id = As[i];
+kk.style.padding = '0';
+kk.style.margin = '0';
+kk.innerHTML = ks;
+onList.appendChild(kk);
+if (map_push === 1) {
+  map_x.push(parseFloat( Ml.locations[Ds[ii] + As[i]][0] ));
+  map_y.push(parseFloat( Ml.locations[Ds[ii] + As[i]][1] ));
+  map_addr.push( Ds[ii] + As[i] );
+} else if (map_push === 2) {
+  map_x.unshift(parseFloat( Ml.locations[Ds[ii] + As[i]][0] ));
+  map_y.unshift(parseFloat( Ml.locations[Ds[ii] + As[i]][1] ));
+  map_addr.unshift( Ds[ii] + As[i] );
+}
+
+            //if
             }
           }
         }
