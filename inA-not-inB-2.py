@@ -277,9 +277,8 @@ print('in A, not in B, estimated', count, '\n')
 latest_released = {}
 listed30days = []
 count = 0
-days = 30
 for line, dates in by_address.items():
-    if len(dates) >= days:
+    if len(dates) >= 30:
         listed30days.append(line)
     if As and dates[-1] == As[-1]:
         count += 1
@@ -301,7 +300,7 @@ if A:
         else:
             print('%s\t0' % dd)
 listed_30days = list(set(listed30days))
-print('\nlisted %s days' % days, len(listed_30days) )
+print('\nlisted 30 days', len(listed_30days) )
 if len(AsBs) < 39: # 0412
     print('should be zero, before 0412')
 
@@ -416,46 +415,46 @@ if not A:
 
 # 以上注释，以更新 map-location.json
 ####
-# f = open('map-location.csv', 'r')
-# csv = f.readlines()
-# f.close()
-# C = []
-# CC = {}
-# cccc = 0
-# for l in csv[1:]:
-#     if not l:
-#         continue
-#     ls = l.split(',')
-#     if len(ls) > 3 and ls[1] and ls[2]:
-#         if ls[0] not in C:
-#             C.append( ls[0].strip() )
-#         # 1经度 2纬度
-#         # 3 是否精确
-#         # 4 可信度
-#         # 6 bd09_to_wgs84
-#         if len(ls) > 7 and ls[6] == 'bd09':
-#             CC[ ls[0].strip() ] = bd09_to_wgs84(float(ls[1]), float(ls[2])
-#                                                ) + [ ls[3] ]
-#             cccc += 1
-#         else:
-#             CC[ ls[0].strip() ] = [ ls[1], ls[2], ls[3] ]
-# #if cccc:
-# #    print('bd09_to_wgs84() str format', cccc)
-# fz = open('inAB-not-map.txt', 'w')
-# fz.write('# AB %s' % datestr)
-# fz.write('\n# https://maplocation.sjfkai.com/')
-# AB = list(set(BB + A))
-# for longline in AB:
-#     if longline not in C:
-#         fz.write('\n%s' % longline)
-# fz.write('\n####')
-# fz.close
+f = open('map-location.csv', 'r')
+csv = f.readlines()
+f.close()
+C = []
+CC = {}
+cccc = 0
+for l in csv[1:]:
+    if not l:
+        continue
+    ls = l.split(',')
+    if len(ls) > 3 and ls[1] and ls[2]:
+        if ls[0] not in C:
+            C.append( ls[0].strip() )
+        # 1经度 2纬度
+        # 3 是否精确
+        # 4 可信度
+        # 6 bd09_to_wgs84
+        if len(ls) > 7 and ls[6] == 'bd09':
+            CC[ ls[0].strip() ] = bd09_to_wgs84(float(ls[1]), float(ls[2])
+                                               ) + [ ls[3] ]
+            cccc += 1
+        else:
+            CC[ ls[0].strip() ] = [ ls[1], ls[2], ls[3] ]
+#if cccc:
+#    print('bd09_to_wgs84() str format', cccc)
+fz = open('inAB-not-map.txt', 'w')
+fz.write('# AB %s' % datestr)
+fz.write('\n# https://maplocation.sjfkai.com/')
+AB = list(set(BB + A))
+for longline in AB:
+    if longline not in C:
+        fz.write('\n%s' % longline)
+fz.write('\n####')
+fz.close
 
-# j = {'date':datestr,
-#      'tag':'AB',
-#      'locations':CC }
-# fz = open('shanghaifabu/map-location.json', 'w')
-# fz.write("csv='%s'" % json.dumps(j, ensure_ascii=False) )
-# #  jsonp  '%s(%s)' % (callback, out)
-# fz.close()
-# print('\ncheck inAB-not-map.txt, update map-location.csv and do ####\n')
+j = {'date':datestr,
+     'tag':'AB',
+     'locations':CC }
+fz = open('shanghaifabu/map-location.json', 'w')
+fz.write("csv='%s'" % json.dumps(j, ensure_ascii=False) )
+#  jsonp  '%s(%s)' % (callback, out)
+fz.close()
+print('\ncheck inAB-not-map.txt, update map-location.csv and do ####\n')

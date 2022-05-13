@@ -4,10 +4,18 @@ from urllib import request
 # os.system('scrapy fetch --nolog https://www.cell.com/cell/newarticles > cell.txt')
 
 z = [
+#'0523','']
+#'0522','']
+#'0521','']
+#'0520','']
+#'0519','']
+#'0518','']
+#'0517','']
+#'0516','']
 #'0515','']
 #'0514','']
-#'0513','']
-'0512','']
+'0513','']
+#'0512','https://mp.weixin.qq.com/s/YyhqHoMgyetDu6kP9-Ybpw']
 #'0511','https://mp.weixin.qq.com/s/i4BwsY-a9zXjkJe-FTea4Q']
 #'0510','https://mp.weixin.qq.com/s/V9gNghk8vWinad_VT_YAtg']
 #'0509','https://mp.weixin.qq.com/s/iUhgNb9-2Ofhsg9zxi2hiw']

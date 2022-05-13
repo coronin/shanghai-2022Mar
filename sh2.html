@@ -124,6 +124,42 @@
     }
   }
 
+  function list30days (k) {
+    if (j.listed_30days) {
+      map.fillStyle = 'grey';
+      let ks; let kk; let ki = 0; let kii;
+      Array.from(j.listed_30days).forEach((d) => {
+        ks = '';
+        for (kii = 0; kii < Ds.length; kii += 1) {
+          if (j.districts[ Ds[kii] ].indexOf(d) > -1) {
+            ks = '<span style="color:grey;">' + (ki+1) + '.</span> <span>' +
+             '<span class="click" onclick="search(this.textContent);">' +
+             Ds[kii] + '</span>' +
+             '<span class="click _L" onclick="search(\'' + d +
+             '\');">' + d + '</span> ' +
+             ' <em style="color:grey">3月6日以来，上榜超30次</em>';
+            break;
+        } }
+        if (k && k !== Ds[kii]) {
+          ks = '';
+        }
+        if (ks) {
+          kk = document.createElement('p');
+          kk.style.padding = '0';
+          kk.style.margin = '0';
+          kk.innerHTML = ks;
+          onList.appendChild(kk);
+          ki += 1;
+          // if (Ms.indexOf(Ds[kii] + d) > -1) {
+          //   map.fillText(ki,
+          //     mapX( Ml.locations[Ds[kii] + d][0] ),
+          //     mapY( Ml.locations[Ds[kii] + d][1] ) );
+          // }
+        }
+      });
+    }
+  }
+
   function mapX (z) { // 57变大==>区域变窄  .004修正区域平移
     const zz = Math.round((z - d3center[0] + 0.004) * d3scale/57 + svgWidth/2);
     return zz;
@@ -846,6 +882,9 @@
       }
       if (_check === 'today') {
         asyncNewAddr();
+      } else if (['inB', 'districts'
+                 ].indexOf(_check) > -1) {
+        list30days(k);
       }
       check_row.style.display = 'block';
       updateCheckStatus();
@@ -894,6 +933,9 @@
       }
       if (_check === 'today') {
         asyncNewAddr();
+      } else if (['released', 'released_today'
+                 ].indexOf(_check) === -1) {
+        list30days();
       }
       check_row.style.display = 'block';
       updateCheckStatus();
@@ -962,7 +1004,7 @@
               sb += 1;
         //onList.textContent += Ds[ii] + ',' + As[i] + ': ' + dl;
         if (j.listed_30days && j.listed_30days.indexOf(As[i]) > -1) {
-          ks = '<span style="color:red;">' + sb + '.<sup>上榜超30天</sup></span> <span>';
+          ks = '<span style="color:red;">' + sb + '.<sup>上榜超30次</sup></span> <span>';
         } else {
           ks = '<span style="color:grey;">' + sb + '.</span> <span>';
         }
@@ -1251,7 +1293,7 @@
   function scale2x () {
     if (['市', '区'].indexOf(
           addr.value.slice(-1)[0]) > -1 ) {
-      window.alert('请勿刷新页面。搜索其他地址时，可放大一倍')
+      window.alert('请勿刷新页面。搜索地址时，可放大一倍')
       return false;
     }
     d3scale = d3scale * 2;
