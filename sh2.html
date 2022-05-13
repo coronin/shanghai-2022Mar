@@ -92,16 +92,6 @@
     });
   }
 
-  async function fetchClose () {
-    let response = await fetch('shanghaifabu/inAB-close.json');
-    return await response.json();
-  }
-  fetchClose().then(jsondata => {
-    W = jsondata;
-    _ww = Object.keys(W.pairs);
-    console.log('async inAB-close pairs', _ww.length);
-  }).catch(err => console.log(err));
-
   async function asyncNewAddr () {
     const v = await onlyNewAddr().catch(e => {
       return console.log(e);
@@ -115,23 +105,54 @@
     }
   }
 
+  async function fetchClose () {
+    let response = await fetch('shanghaifabu/inAB-close.json');
+    return await response.json();
+  }
+  fetchClose().then(jsondata => {
+    W = jsondata;
+    _ww = Object.keys(W.pairs);
+    console.log('async inAB-close pairs', _ww.length);
+  }).catch(err => console.log(err));
+
+
+  // 14 -> 10 @@@@
+
+
   function onListAppend (ki, k, d, t) {
-    const ks = '<span style="color:grey;">' + ki + '.</span> ' +
-               '<span class="click" onclick="search(this.textContent);">' +
-               k + '</span>' +
-               '<span class="click _L" onclick="search(\'' + d +
-               '\');">' + d + '</span> ' +
-               ' <em style="color:grey">' + (t || '') + '</em>';
+    let ks; let dl = j.address[d];
+    if (j.listed_30days && j.listed_30days.indexOf(d) > -1 &&
+        (!t || t.indexOf('上榜') === -1) ) {
+      ks = '<span style="color:red;">' + ki + '.<sup>上榜' +
+           dl.length + '次</sup></span> ';
+    } else {
+      ks = '<span style="color:grey;">' + ki + '.</span> ';
+    }
+    ks += '<span class="click" onclick="search(this.textContent);">' +
+          k + '</span>' +
+          '<span class="click _L" onclick="search(\'' + d +
+          '\');">' + d + '</span> ' +
+          ' <em style="color:grey">' + (t || '') + '</em>';
+    if (!t || t.indexOf('首次') === -1) {
+      ks += ' ' + tagsHTML(dl);
+    }
     const kk = document.createElement('p');
     kk.style.padding = '0';
     kk.style.margin = '0';
     kk.innerHTML = ks;
     onList.appendChild(kk);
-    // map.fillStyle = 'grey';
-    // if (Ms.indexOf(Ds[kii] + d) > -1) {
-    //   map.fillText(ki,
-    //     mapX( Ml.locations[Ds[kii] + d][0] ),
-    //     mapY( Ml.locations[Ds[kii] + d][1] ) );
+    // if (['inB', 'districts'
+    //     ].indexOf(_check) > -1 && Ms.indexOf(k + d) > -1) {
+    //   console.log(k,d);
+    //   map.fillStyle = 'rgb(0,0,0)';
+    //   map.beginPath();
+    //   map.arc(mapX( Ml.locations[k + d][0] ),
+    //           mapY( Ml.locations[k + d][1] ),
+    //           3, 0 * Math.PI, 2 * Math.PI);
+    //   map.stroke();
+    //   //map.fillText(ki,
+    //   //  mapX( Ml.locations[k + d][0] ),
+    //   //  mapY( Ml.locations[k + d][1] ) );
     // }
   }
 
@@ -870,28 +891,17 @@
           draw_addr(k + j[_check][k][ii]);
           if (['latest_added2', 'latest_added7', 'latest_added'
               ].indexOf(_check) > -1) {
-            // ks = '<span style="color:grey;">' + (ii+1) + '.</span> <span>' +
-            //      '<span class="click" onclick="search(this.textContent);">' + k + '</span>' +
-            //      '<span class="click _L" onclick="search(\'' + j[_check][k][ii] +
-            //      '\');">' + j[_check][k][ii] + '</span> ';
             if (_check === 'latest_added' && j.latest_added2 &&
                        j.latest_added2[k] &&
                        j.latest_added2[k].indexOf( j[_check][k][ii] ) === -1) {
-              // ks += ' <em style="color:grey">在“一阴阳”，不在“三阴阳”</em>';
               onListAppend(ii+1, k, j[_check][k][ii], '在“一阴阳”，不在“三阴阳”');
             } else if (_check === 'latest_added2' && j.latest_added7 &&
                        j.latest_added7[k] &&
                        j.latest_added7[k].indexOf( j[_check][k][ii] ) === -1) {
-              // ks += ' <em style="color:grey">在“三阴阳”，不在“七阴阳”</em>';
               onListAppend(ii+1, k, j[_check][k][ii], '在“三阴阳”，不在“七阴阳”');
             } else {
               onListAppend(ii+1, k, j[_check][k][ii]);
             }
-            // kk = document.createElement('p');
-            // kk.style.padding = '0';
-            // kk.style.margin = '0';
-            // kk.innerHTML = ks;
-            // onList.appendChild(kk);
           }
         }
       }
@@ -999,15 +1009,16 @@
       document.getElementById(d).style.background = 'white';
       document.getElementById(d + 'line').textContent = '';
     });
-    let dl; let sb = 0;
+    let kk; let ks; let dl; let sb = 0;
     let map_push;
     let map_x = new Array();
     let map_y = new Array();
     let map_addr = new Array();
+    let ij; let ik; let il; let release;
     for (i = 0; i < As.length; i += 1) {
       if (As[i].indexOf(k) > -1) {
         dl = j.address[ As[i] ];
-        let ij; let ik; let il = 0; let release;
+        il = 0;
         for (ii = 0; ii < Ds.length; ii += 1) {
           ij = j.districts[ Ds[ii] ];
           for (ik = 0; ik < ij.length; ik += 1) {
@@ -1019,9 +1030,10 @@
               sb += 1;
         //onList.textContent += Ds[ii] + ',' + As[i] + ': ' + dl;
         if (j.listed_30days && j.listed_30days.indexOf(As[i]) > -1) {
-          ks = '<span style="color:red;">' + sb + '.<sup>上榜超30次</sup></span> <span>';
+          ks = '<span style="color:red;">' + sb + '.<sup>上榜' +
+               dl.length + '次</sup></span> ';
         } else {
-          ks = '<span style="color:grey;">' + sb + '.</span> <span>';
+          ks = '<span style="color:grey;">' + sb + '.</span> ';
         }
         if (map_i > 1) {
           ks += '<span class="click" onclick="search(this.textContent);">' + Ds[ii] + '</span>';
@@ -1057,15 +1069,6 @@
           ks += s2.substr(s2.lastIndexOf(',') + 1);
           release = parseInt( s2.substr(s2.lastIndexOf(',') + 1) );
         }
-        if (map_push === 1) {
-          map_x.push(parseFloat( Ml.locations[Ds[ii] + As[i]][0] ));
-          map_y.push(parseFloat( Ml.locations[Ds[ii] + As[i]][1] ));
-          map_addr.push( Ds[ii] + As[i] );
-        } else if (map_push === 2) {
-          map_x.unshift(parseFloat( Ml.locations[Ds[ii] + As[i]][0] ));
-          map_y.unshift(parseFloat( Ml.locations[Ds[ii] + As[i]][1] ));
-          map_addr.unshift( Ds[ii] + As[i] );
-        }
         if (release) {
           release += (14 - 300);
           if (release > 100) {
@@ -1076,7 +1079,7 @@
           if (release < 31) {
             //onList.textContent += ' --> 4/' + release + '\n';
             ks += ' &rarr; 4/' + release;
-            ks += ' <span style="color:green">已满14天</span></span>';
+            ks += ' <span style="color:green">已满14天</span>';
           } else {
             if (release > 100) { // 最近一次在5月
               release -= 100;
@@ -1085,23 +1088,20 @@
             }
             ks += ' &rarr; 5/' + release;
             if (release < today.getDate()-1 ) {
-              ks += ' <span style="color:green">已满14天</span></span>';
+              ks += ' <span style="color:green">已满14天</span>';
             } else if (release === today.getDate()-1 ) {
-              ks += '<span style="color:green">是第14天</span></span>';
-            } else {
-              ks += '</span>';
+              ks += '<span style="color:green">是第14天</span>';
             }
           }
         }
         // async, re-define dl
         if (_ww && _ww.indexOf(Ds[ii] + As[i]) > -1) {
           dl = W.pairs[ Ds[ii] + As[i] ];
-          //console.log(_ww.length, Ds[ii] + As[i], dl);
           let dli; let dl0; let dl1;
-          if (dl.length > 4) { // W.nearby
-            console.log('超过4个临近地址', Ds[ii] + As[i]);
-            console.log(dl.join('\n'));
-          }
+          //if (dl.length > 4) { // W.nearby
+          //  console.log(_ww.length, '超过4个临近地址', Ds[ii] + As[i]);
+          //  console.log(dl.join('\n'));
+          //}
           for (dli = 0; dli < dl.length; dli += 1) {
             if (dl[dli].substr(0,4) === '浦东新区') {
               dl0 = dl[dli].substr(0, 4);
@@ -1133,6 +1133,15 @@
         kk.style.margin = '0';
         kk.innerHTML = ks;
         onList.appendChild(kk);
+        if (map_push === 1) {
+          map_x.push(parseFloat( Ml.locations[Ds[ii] + As[i]][0] ));
+          map_y.push(parseFloat( Ml.locations[Ds[ii] + As[i]][1] ));
+          map_addr.push( Ds[ii] + As[i] );
+        } else if (map_push === 2) {
+          map_x.unshift(parseFloat( Ml.locations[Ds[ii] + As[i]][0] ));
+          map_y.unshift(parseFloat( Ml.locations[Ds[ii] + As[i]][1] ));
+          map_addr.unshift( Ds[ii] + As[i] );
+        }
         //
             }
           }
