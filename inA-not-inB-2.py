@@ -1,19 +1,18 @@
 ## EXCEL ##  =countif(B:B,A1)=0
 
-As = ('0306','0307','0308','0309','0310',
+AsBs = ('0306','0307','0308','0309','0310',
       '0311','0312','0313','0314','0315','0316','0317','0318','0319','0320',
       '0321','0322','0323','0324','0325','0326','0327','0328','0329','0330',
       '0331',
       '0401','0402','0403','0404','0405','0406','0407','0408','0409','0410',
       '0411','0412','0413','0414','0415','0416','0417','0418','0419','0420',
-      '0421','0422','0423','0424','0425','0426','0427','0428'
+      '0421','0422','0423','0424','0425','0426','0427','0428','0429','0430',
+      '0501','0502','0503','0504','0505','0506','0507','0508','0509','0510',
+      '0511','0512'
       )
-Bs = ('0429','0430',
-      '0501','0502','0503','0504','0505','0506','0507',
-      '0508','0509','0510','0511','0512'
-      )
-
 #### 以上不能有末尾逗号 没有空字符检查
+As = AsBs[:-14]
+Bs = AsBs[-14:]
 if len(Bs) > 14:
     print('not in B 最多14天')
     raise
@@ -28,6 +27,11 @@ districts_released = {}
 districts_today = {}
 districts_inB = {}
 by_address = {'shanghaifabu':['0313'] }
+if len(As) < 2:
+    print('in A 数据量少，0306需为字符', As)
+    #As = '0320' #if 0320
+    #As = []     # < 0320
+    raise
 transition_int = int(Bs[0])
 if (As):
     transition_int = int(As[0])
@@ -273,8 +277,9 @@ print('in A, not in B, estimated', count, '\n')
 latest_released = {}
 listed30days = []
 count = 0
+days = 30
 for line, dates in by_address.items():
-    if len(dates) >= 30:
+    if len(dates) >= days:
         listed30days.append(line)
     if As and dates[-1] == As[-1]:
         count += 1
@@ -296,8 +301,9 @@ if A:
         else:
             print('%s\t0' % dd)
 listed_30days = list(set(listed30days))
-print('\nlisted 30 days', len(listed_30days) )
-
+print('\nlisted %s days' % days, len(listed_30days) )
+if len(AsBs) < 39: # 0412
+    print('should be zero, before 0412')
 
 latest_added = {}
 Bs2 = read_a_list(Bs[-2], tag='list')
@@ -410,46 +416,46 @@ if not A:
 
 # 以上注释，以更新 map-location.json
 ####
-f = open('map-location.csv', 'r')
-csv = f.readlines()
-f.close()
-C = []
-CC = {}
-cccc = 0
-for l in csv[1:]:
-    if not l:
-        continue
-    ls = l.split(',')
-    if len(ls) > 3 and ls[1] and ls[2]:
-        if ls[0] not in C:
-            C.append( ls[0].strip() )
-        # 1经度 2纬度
-        # 3 是否精确
-        # 4 可信度
-        # 6 bd09_to_wgs84
-        if len(ls) > 7 and ls[6] == 'bd09':
-            CC[ ls[0].strip() ] = bd09_to_wgs84(float(ls[1]), float(ls[2])
-                                               ) + [ ls[3] ]
-            cccc += 1
-        else:
-            CC[ ls[0].strip() ] = [ ls[1], ls[2], ls[3] ]
-#if cccc:
-#    print('bd09_to_wgs84() str format', cccc)
-fz = open('inAB-not-map.txt', 'w')
-fz.write('# AB %s' % datestr)
-fz.write('\n# https://maplocation.sjfkai.com/')
-AB = list(set(BB + A))
-for longline in AB:
-    if longline not in C:
-        fz.write('\n%s' % longline)
-fz.write('\n####')
-fz.close
+# f = open('map-location.csv', 'r')
+# csv = f.readlines()
+# f.close()
+# C = []
+# CC = {}
+# cccc = 0
+# for l in csv[1:]:
+#     if not l:
+#         continue
+#     ls = l.split(',')
+#     if len(ls) > 3 and ls[1] and ls[2]:
+#         if ls[0] not in C:
+#             C.append( ls[0].strip() )
+#         # 1经度 2纬度
+#         # 3 是否精确
+#         # 4 可信度
+#         # 6 bd09_to_wgs84
+#         if len(ls) > 7 and ls[6] == 'bd09':
+#             CC[ ls[0].strip() ] = bd09_to_wgs84(float(ls[1]), float(ls[2])
+#                                                ) + [ ls[3] ]
+#             cccc += 1
+#         else:
+#             CC[ ls[0].strip() ] = [ ls[1], ls[2], ls[3] ]
+# #if cccc:
+# #    print('bd09_to_wgs84() str format', cccc)
+# fz = open('inAB-not-map.txt', 'w')
+# fz.write('# AB %s' % datestr)
+# fz.write('\n# https://maplocation.sjfkai.com/')
+# AB = list(set(BB + A))
+# for longline in AB:
+#     if longline not in C:
+#         fz.write('\n%s' % longline)
+# fz.write('\n####')
+# fz.close
 
-j = {'date':datestr,
-     'tag':'AB',
-     'locations':CC }
-fz = open('shanghaifabu/map-location.json', 'w')
-fz.write("csv='%s'" % json.dumps(j, ensure_ascii=False) )
-#  jsonp  '%s(%s)' % (callback, out)
-fz.close()
-print('\ncheck inAB-not-map.txt, update map-location.csv and do ####\n')
+# j = {'date':datestr,
+#      'tag':'AB',
+#      'locations':CC }
+# fz = open('shanghaifabu/map-location.json', 'w')
+# fz.write("csv='%s'" % json.dumps(j, ensure_ascii=False) )
+# #  jsonp  '%s(%s)' % (callback, out)
+# fz.close()
+# print('\ncheck inAB-not-map.txt, update map-location.csv and do ####\n')
