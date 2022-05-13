@@ -107,19 +107,10 @@
       return console.log(e);
     });
     if (v) {
-      let ks; let kk; let ki = 0;
+      let ki = 0;
       Array.from(v).forEach((d) => {
-        ks = '<span style="color:grey;">' + (ki+1) + '.</span> <span>' +
-             '<span class="click" onclick="search(this.textContent);">' + d[0] + '</span>' +
-             '<span class="click _L" onclick="search(\'' + d[1] +
-             '\');">' + d[1] + '</span> ' +
-             ' <em style="color:grey">3月6日以来，首次上榜</em>';
-        kk = document.createElement('p');
-        kk.style.padding = '0';
-        kk.style.margin = '0';
-        kk.innerHTML = ks;
-        onList.appendChild(kk);
         ki += 1;
+        onListAppend(ki, d[0], d[1], '3月6日以来，首次上榜');
       });
     }
   }
@@ -159,7 +150,6 @@
           j.list30days[Ds[kii]] = [d];
         }
       });
-      j.listed_30days = [];
       _J[j.tag] = j;
     }
     let ki = 0;
@@ -846,7 +836,6 @@
     window.location.replace(baseURL + '#' + j.tag + '?' + k);
     //document.title = 'sh.teach.bio/2 ? ' + k + '  2022/' + _today;
     onList.textContent = '';
-    let kk; let ks;
     map.clearRect(0, 0, svgWidth, svgHeight);
     svgWidth = 640;
     svgHeight = 480;
@@ -881,25 +870,28 @@
           draw_addr(k + j[_check][k][ii]);
           if (['latest_added2', 'latest_added7', 'latest_added'
               ].indexOf(_check) > -1) {
-            ks = '<span style="color:grey;">' + (ii+1) + '.</span> <span>' +
-                 '<span class="click" onclick="search(this.textContent);">' + k + '</span>' +
-                 '<span class="click _L" onclick="search(\'' + j[_check][k][ii] +
-                 '\');">' + j[_check][k][ii] + '</span> ';
+            // ks = '<span style="color:grey;">' + (ii+1) + '.</span> <span>' +
+            //      '<span class="click" onclick="search(this.textContent);">' + k + '</span>' +
+            //      '<span class="click _L" onclick="search(\'' + j[_check][k][ii] +
+            //      '\');">' + j[_check][k][ii] + '</span> ';
             if (_check === 'latest_added' && j.latest_added2 &&
                        j.latest_added2[k] &&
                        j.latest_added2[k].indexOf( j[_check][k][ii] ) === -1) {
-              ks += ' <em style="color:grey">在“一阴阳”，不在“三阴阳”</em>';
+              // ks += ' <em style="color:grey">在“一阴阳”，不在“三阴阳”</em>';
+              onListAppend(ii+1, k, j[_check][k][ii], '在“一阴阳”，不在“三阴阳”');
             } else if (_check === 'latest_added2' && j.latest_added7 &&
                        j.latest_added7[k] &&
                        j.latest_added7[k].indexOf( j[_check][k][ii] ) === -1) {
-              ks += ' <em style="color:grey">在“三阴阳”，不在“七阴阳”</em>';
+              // ks += ' <em style="color:grey">在“三阴阳”，不在“七阴阳”</em>';
+              onListAppend(ii+1, k, j[_check][k][ii], '在“三阴阳”，不在“七阴阳”');
+            } else {
+              onListAppend(ii+1, k, j[_check][k][ii]);
             }
-            kk = document.createElement('p');
-            kk.style.padding = '0';
-            kk.style.margin = '0';
-            kk.innerHTML = ks;
-            onList.appendChild(kk);
-            ////
+            // kk = document.createElement('p');
+            // kk.style.padding = '0';
+            // kk.style.margin = '0';
+            // kk.innerHTML = ks;
+            // onList.appendChild(kk);
           }
         }
       }
