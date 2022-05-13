@@ -61,6 +61,57 @@
   let pngBase64 = {};
   let W; let _ww = [];
 
+
+  function cache14days () {
+    return new Promise(resolve => {
+      let afterD = parseInt(j.tag) - 14;
+      if (afterD > 331 && afterD < 400) {
+        afterD -= 69; // 401-14=387(318)
+      } else if (afterD > 430 && afterD < 500) {
+        afterD -= 70; // 512-14=498(428), 501-14=487(417)
+      }
+      let dl; let ki; let kj; let kii;
+      for (const p in j.address) {
+        dl = j.address[p];
+        kj = 0
+        for (ki = 0; ki < dl.length; ki += 1) {
+          if (parseInt(dl[ki]) > afterD) {
+            kj += 1;
+          }
+        }
+        if (kj >= 10) {
+          console.log(p, dl);
+
+          for (kii = 0; kii < Ds.length; kii += 1) {
+            if (j.districts[ Ds[kii] ].indexOf(p) > -1) { //@@@@ 地址同名, 团结村 国权北路555
+              break;
+          } }
+          if (j.cache14days[Ds[kii]]) {
+            j.cache14days[Ds[kii]].push(p);
+          } else {
+            j.cache14days[Ds[kii]] = [p];
+          }
+
+        }
+      }
+      resolve(1);
+    });
+  }
+
+  async function async14days () {
+    const v = await cache14days().catch(e => {
+      return console.log(e);
+    });
+    if (v) {
+      _J[j.tag] = j;
+      // let ki = 0;
+      // Array.from(v).forEach((d) => {
+      //   ki += 1;
+      //   onListAppend(ki, d[0], d[1], '3月6日以来，首次上榜');
+      // });
+    }
+  }
+
   function onlyNewAddr () {
     return new Promise(resolve => {
       let adds = new Array();
@@ -162,7 +213,7 @@
       j.list30days = {};
       Array.from(j.listed_30days).forEach((d) => {
         for (kii = 0; kii < Ds.length; kii += 1) {
-          if (j.districts[ Ds[kii] ].indexOf(d) > -1) {
+          if (j.districts[ Ds[kii] ].indexOf(d) > -1) { //@@@@ 地址同名, 团结村 国权北路555
             break;
         } }
         if (j.list30days[Ds[kii]]) {
@@ -907,8 +958,9 @@
       }
       if (_check === 'today') {
         asyncNewAddr();
-      } else if (['inB', 'districts'
-                 ].indexOf(_check) > -1) {
+      } else if (_check === 'inB') {
+        async14days(k);
+      } else if (_check === 'districts') {
         list30days(k);
       }
       check_row.style.display = 'block';
@@ -958,8 +1010,9 @@
       }
       if (_check === 'today') {
         asyncNewAddr();
-      } else if (['released', 'released_today'
-                 ].indexOf(_check) === -1) {
+      } else if (_check === 'inB') {
+        async14days();
+      } else if (_check === 'districts') {
         list30days();
       }
       check_row.style.display = 'block';
