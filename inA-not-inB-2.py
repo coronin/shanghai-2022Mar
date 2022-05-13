@@ -6,11 +6,11 @@ As = ('0306','0307','0308','0309','0310',
       '0331',
       '0401','0402','0403','0404','0405','0406','0407','0408','0409','0410',
       '0411','0412','0413','0414','0415','0416','0417','0418','0419','0420',
-      '0421','0422','0423','0424','0425','0426','0427'
+      '0421','0422','0423','0424','0425','0426','0427','0428'
       )
-Bs = ('0428','0429','0430',
+Bs = ('0429','0430',
       '0501','0502','0503','0504','0505','0506','0507',
-      '0508','0509','0510','0511'
+      '0508','0509','0510','0511','0512'
       )
 
 #### 以上不能有末尾逗号 没有空字符检查
@@ -271,8 +271,11 @@ print('in A, not in B, estimated', count, '\n')
 
 
 latest_released = {}
+listed30days = []
 count = 0
 for line, dates in by_address.items():
+    if len(dates) >= 30:
+        listed30days.append(line)
     if As and dates[-1] in ('0318', As[-1]):
         count += 1
         #print('>>>>', line)
@@ -292,6 +295,8 @@ if A:
             print('%s\t%s' % (dd, len(latest_released[dd]) ))
         else:
             print('%s\t0' % dd)
+listed_30days = list(set(listed30days))
+print('\nlisted 30 days', len(listed_30days) )
 
 
 latest_added = {}
@@ -356,8 +361,8 @@ except:
     print('>> empty .latest_added2')
 
 
-print('\n\n')
-to_check = ('东川路800号', '海波路850弄', '龙吴路2588弄', '凤城三村'
+print('\n')
+to_check = ('东川路800号', '海波路850弄', '龙吴路2588弄', '凤城三村',
             '国权北路1566弄', '国权北路1450弄', '东安路130号', '邯郸路220号' )
 for ch in to_check:
     if by_address.get(ch):
@@ -389,7 +394,8 @@ j = {'date':datestr,
      'released_today':latest_released,
      'latest_added2':latest_added2,
      'latest_added7':latest_added7,
-     'latest_added':latest_added }
+     'latest_added':latest_added,
+     'listed_30days':listed_30days }
 fz = open('shanghaifabu/full%s.json' % Bs[-1], 'w')
 fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
 #  jsonp  '%s(%s)' % (callback, out)
