@@ -238,10 +238,11 @@
     //           mapY( Ml.locations[k + d][1] ),
     //           3, 0 * Math.PI, 2 * Math.PI);
     //   map.stroke();
-    //   //map.fillText(ki,
-    //   //  mapX( Ml.locations[k + d][0] ),
-    //   //  mapY( Ml.locations[k + d][1] ) );
     // }
+    // map.fillText(ki,
+    //   mapX( Ml.locations[k + d][0] ),
+    //   mapY( Ml.locations[k + d][1] ) );
+    // console.log(ki, k+d);
   }
 
   function list30days (k) {
@@ -943,6 +944,7 @@
     });
   }
 
+  // let _addr_manual = 0;
   function draw_addr (s) {
     let _R = 'rgba(255,0,0,';
     if (_check && _check.substr(0,8) === 'released') {
@@ -963,6 +965,15 @@
       console.log('市 区 未显示', s);
       dotNotDraw += 1; // 市 区
     }
+    // save to _addr_manual.txt
+    // if (!(_addr_manual%3)) {
+    //   map.fillStyle = 'black';
+    //   map.fillText(_addr_manual,
+    //     mapX( Ml.locations[s][0] ),
+    //     mapY( Ml.locations[s][1] ) );
+    //   console.log(_addr_manual, s);
+    // }
+    // _addr_manual += 1;
   }
 
   function draw_sh_addr (jcDi, tt) {

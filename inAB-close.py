@@ -75,9 +75,16 @@ C = []
 CC = {}
 cccc = 0
 nnnn = 0
-for l in csv[1:]:
+a_ = 0
+aa = 1
+print('will process:', len(csv)-aa)
+for l in csv[aa:]: # [1:]
+    a_ += 1
     if not l:
         continue
+    # if len(l) > 60:
+    #     print('\n\n\n\n%s' % (aa+a_), l, )
+    #     raise
     ls = l.split(',')
     if len(ls) > 4 and ls[1] and ls[2] and ls[4]:
         if int(ls[4]) <= 20:
@@ -96,10 +103,10 @@ for l in csv[1:]:
         else:
             CC[ ls[0].strip() ] = [ ls[1], ls[2], ls[3] ]
 if cccc:
-    print('bd09_to_wgs84() str format', cccc)
+    print('bd09_to_wgs84() str format:', cccc)
 if nnnn:
-    print('not precise location', nnnn)
-print('total unique address: ', len(C) )
+    print('not precise location:', nnnn)
+print('total unique address:', len(C) )
 
 print(ll_to_meter(float(CC['杨浦区国权北路1566弄'][0]) - float(CC['杨浦区国权北路1450弄'][0]),
                   float(CC['杨浦区国权北路1566弄'][1]) - float(CC['杨浦区国权北路1450弄'][1]) ))
@@ -130,10 +137,10 @@ while V:
     V.pop(0)
     www += 1
     if www % 10000 == 0:
-        print('>> V remain: ', '%s, www ' % len(V), www)
+        print('>> V remain:', '%s, www ' % len(V), www)
 
-print('addresses into ww: ', len(W) )
-print('ww object size: ', len(ww) )
+print('addresses into ww:', len(W) )
+print('ww object size:', len(ww) )
 #print(ww)
 
 to_check = []
