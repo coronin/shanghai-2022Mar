@@ -429,7 +429,6 @@ csv = f.readlines()
 f.close()
 C = []
 CC = {}
-cccc = 0
 for l in csv[1:]:
     if not l:
         continue
@@ -440,15 +439,15 @@ for l in csv[1:]:
         # 1经度 2纬度
         # 3 是否精确
         # 4 可信度
-        # 6 bd09_to_wgs84
+        # 6 bd09_to_wgs84 gcj02_to_wgs84
         if len(ls) > 7 and ls[6] == 'bd09':
             CC[ ls[0].strip() ] = bd09_to_wgs84(float(ls[1]), float(ls[2])
                                                ) + [ ls[3] ]
-            cccc += 1
+        elif len(ls) > 7 and ls[6] == 'gcj02':
+            CC[ ls[0].strip() ] = gcj02_to_wgs84(float(ls[1]), float(ls[2])
+                                                ) + [ ls[3] ]
         else:
             CC[ ls[0].strip() ] = [ ls[1], ls[2], ls[3] ]
-#if cccc:
-#    print('bd09_to_wgs84() str format', cccc)
 fz = open('inAB-not-map.txt', 'w')
 fz.write('# AB %s' % datestr)
 fz.write('\n# https://maplocation.sjfkai.com/')

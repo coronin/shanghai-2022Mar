@@ -74,6 +74,7 @@ f.close()
 C = []
 CC = {}
 cccc = 0
+cccd = 0
 nnnn = 0
 a_ = 0
 aa = 1
@@ -95,15 +96,22 @@ for l in csv[aa:]: # [1:]
         # 1经度 2纬度
         # 3 是否精确
         # 4 可信度 大于20
-        # 6 bd09_to_wgs84
+        # 6 bd09_to_wgs84 gcj02_to_wgs84
         if len(ls) > 7 and ls[6] == 'bd09':
             CC[ ls[0].strip() ] = bd09_to_wgs84(float(ls[1]), float(ls[2])
                                                ) + [ ls[3] ]
             cccc += 1
+        elif len(ls) > 7 and ls[6] == 'gcj02':
+            #gcj02unique
+            CC[ ls[0].strip() ] = gcj02_to_wgs84(float(ls[1]), float(ls[2])
+                                                ) + [ ls[3] ]
+            cccd += 1
         else:
             CC[ ls[0].strip() ] = [ ls[1], ls[2], ls[3] ]
 if cccc:
     print('bd09_to_wgs84() str format:', cccc)
+if cccd:
+    print('gcj02_to_wgs84() str format:', cccd)
 if nnnn:
     print('not precise location:', nnnn)
 print('total unique address:', len(C) )
@@ -155,9 +163,9 @@ for key,val in ww.items():
 
 from datetime import datetime
 datestr = '%s' % datetime.now()
-fz = open('inAB-close-check.txt', 'w')
+fz = open('addr-close-check.txt', 'w')
 fz.write('# AB %s 可信度20' % datestr)
-fz.write('\n# https://maplocation.sjfkai.com/')
+fz.write('\n# https://console.amap.com/dev/')
 fz.write('\n%s' % '\n'.join(to_check) )
 fz.write('\n####')
 fz.close
