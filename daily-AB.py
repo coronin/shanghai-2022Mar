@@ -107,6 +107,24 @@ day0x0x = {
 '奉贤区': '',
 '崇明区': '' }
 
+day0513 = {
+'浦东新区': 'https://mp.weixin.qq.com/s/bsALQdI41d_RFiS9eiJAQg', # 浦东发布
+'黄浦区': 'https://mp.weixin.qq.com/s/2Q2CIEmvEEywaet9lbZ2qQ',
+'静安区': 'https://mp.weixin.qq.com/s/zsbCsxns0nLTYxGVKdv0_A',
+'徐汇区': 'https://mp.weixin.qq.com/s/2gfmMMcBj2WIVezDbQHZxg',
+'长宁区': 'https://mp.weixin.qq.com/s/gj7kSRq8U9p1zRWTFu4M7g',
+'普陀区': 'https://mp.weixin.qq.com/s/0wFVYaFiJ2UjAa-GTkha6A',
+'虹口区': 'https://mp.weixin.qq.com/s/NOcgGCwC9gYln2EskZd4BQ',
+'杨浦区': 'https://mp.weixin.qq.com/s/nxf5Bxfpu2NImlQT1eAarA',
+'宝山区': 'https://mp.weixin.qq.com/s/NBCcjC8JPgzN-sEYyWyH8w',
+'闵行区': 'https://mp.weixin.qq.com/s/e9RhbA_GRlj1hxkBIiGV2g', # 今日闵行
+'嘉定区': 'https://mp.weixin.qq.com/s/SUGnc5l8PscdDjK7wyS4IA',
+'金山区': '',
+'松江区': 'https://mp.weixin.qq.com/s/rjfp3yTTL2f3vuo0OvtFlw',
+'青浦区': 'https://mp.weixin.qq.com/s/nh9C04QcAB5EuJcn9-Kxzw', # 绿色青浦
+'奉贤区': 'https://mp.weixin.qq.com/s/_QLqFIfY18iaRnmSkXvKcA',
+'崇明区': 'https://mp.weixin.qq.com/s/Ot-4bFNfR-1_4u2BAOHzWA' }
+
 day0512 = {
 '浦东新区': 'https://mp.weixin.qq.com/s/k-cU1TRrg7uvqvucuIIzhg', # 浦东发布
 '黄浦区': 'https://mp.weixin.qq.com/s/HZ05OzoN3NaekXzjLZmOYA',
@@ -121,7 +139,7 @@ day0512 = {
 '嘉定区': 'https://mp.weixin.qq.com/s/654nzaUv92vdAf3C4cWTHw',
 '金山区': '',
 '松江区': 'https://mp.weixin.qq.com/s/lKykWzAY5VRKfC7EVkC46Q',
-'青浦区': '', # 绿色青浦
+'青浦区': 'https://mp.weixin.qq.com/s/F3jdgXji3DM5Iv2F7lIXPg', # 绿色青浦
 '奉贤区': 'https://mp.weixin.qq.com/s/HeCDLJId226fdiEQzd_9ig',
 '崇明区': 'https://mp.weixin.qq.com/s/CS6ykiSZ6F4H3m-T-YmzoQ' }
 
@@ -264,6 +282,7 @@ for zz in Z:
         print(zz)
 print(z[1])
 if not z[1]:
+    print('如采用此数据 请补一行shanghaifabu')
     fz = open('%s%s.txt' % (z[0],z[0]), 'w')
 else:
     fz = open('%s.txt' % z[0], 'w')
