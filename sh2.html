@@ -899,9 +899,9 @@
                    mapX0(d.properties.center[0]),
                    mapY0(d.properties.center[1]));
     });
-    map.fillStyle = 'blue';
     const cafe0 = JSON.parse(cafe);
     const cafe1 = topojson.feature(cafe0, cafe0.objects.collection);
+    map.fillStyle = 'blue';
     cafe1.features.forEach((d) => {
       map.beginPath();
       map.fillRect(mapX0( d.geometry.coordinates[0] ),
@@ -912,10 +912,10 @@
     map.fillStyle = 'silver';
     map.fillText('制图 https://teach.bio @the_paper_link', svgWidth-fontSize*18.6,2);
     let dots;
-    map.strokeStyle = 'rgba(0,0,255,0.2)';
-    map.lineWidth = 6;
     const river0 = JSON.parse(river);
     const river1 = topojson.feature(river0, river0.objects.collection);
+    map.strokeStyle = 'rgba(0,0,255,0.2)';
+    map.lineWidth = 6;
     river1.features.forEach((d) => {
       dots = d.geometry.coordinates;
       map.beginPath();
@@ -925,10 +925,10 @@
       }
       map.stroke();
     });
-    map.strokeStyle = 'rgba(0,0,255,0.3)';
-    map.lineWidth = 1.0;
     const line0 = JSON.parse(lines);
     const line1 = topojson.feature(line0, line0.objects.collection);
+    map.strokeStyle = 'rgba(0,0,255,0.3)';
+    map.lineWidth = 1.0;
     line1.features.forEach((d) => {
       dots = d.geometry.coordinates;
       map.beginPath();
@@ -941,9 +941,9 @@
   }
 
   // let _addr_manual = 0;
-  function draw_addr (s) {
+  function draw_addr (s, mustRed) {
     let _R = 'rgba(255,0,0,';
-    if (_check && _check.substr(0,8) === 'released') {
+    if (!mustRed && _check && _check.substr(0,8) === 'released') {
       _R = 'rgba(17,131,1,';
     }
     if (Ms.indexOf(s) > -1) {
@@ -1372,22 +1372,22 @@ if (map_push === 1) {
         d3scale = d3scale_;
       }
       if (!scaleChange && d3scale > d3scale_) {
-        reload_button.textContent = '重置可以展示所有地点';
-        reload_button.style.fontWeight = 'bold';
-        setTimeout(
-          function () {
-            reload_button.textContent='重置';
-            reload_button.style.fontWeight = 'normal';
-          },
-          1000*5
-        );
+        reload_button.textContent = '重置'; // 重置可以展示所有地点
+        // reload_button.style.fontWeight = 'bold';
+        // setTimeout(
+        //   function () {
+        //     reload_button.textContent='重置';
+        //     reload_button.style.fontWeight = 'normal';
+        //   },
+        //   1000*5
+        // );
       }
       draw_sh();
       // for (i = 0; i < map_i; i += 1) {
       //   draw_addr(map_addr[i]);
       // }
       map_addr.forEach((d) => {
-        draw_addr(d);
+        draw_addr(d, true);
       });
       map.fillStyle = 'rgba(255,0,0,0.4)';
       const gray_Y = [mapY(map_y[0]), 0,2];
@@ -1501,7 +1501,7 @@ if (map_push === 1) {
   function scale2x () {
     if (['市', '区'].indexOf(
         addr.value.slice(-1)[0] ) > -1 ) {
-      window.alert('请勿刷新页面。搜索地址时，可放大一倍')
+      window.alert('搜索地址时，可放大一倍。刷新页面，可重置。')
       return false;
     }
     d3scale = d3scale * 2;
