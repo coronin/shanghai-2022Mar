@@ -682,14 +682,22 @@
     load_js();
   }
 
-  function tagsHTML (dl, noClick) {
+  function tagsHTML (dl_, noClick) {
+    if (!dl_) {return ''}
+    let dl = new Array();
+    let di;
+    for (di = 0; di < dl_.length; di += 1) {
+      if (dl_[di].length === 4) {
+        dl.push( dl_[di] );
+      }
+    }
     if (!dl) {return ''}
-    let di = 0; let ds; let inwhile;
+    let ds; let inwhile;
     if (noClick) {
-      ds = '<span>' + hash2date(dl[di]) + '</span>';
+      ds = '<span>' + hash2date(dl[0]) + '</span>';
     } else {
       ds = '<span class="click" onclick="resetDay(\'' +
-            dl[di] + '\');">' + hash2date(dl[di]) + '</span>';
+            dl[0] + '\');">' + hash2date(dl[0]) + '</span>';
     }
     for (di = 1; di < dl.length; di += 1) {
       inwhile = false;
@@ -1262,23 +1270,23 @@ if (Ms.indexOf(Ds[ii] + As[i]) > -1) {
 const s1 = ('' + dl).split(Ds[ii]);
 let s2;
 //console.log(As[i], Ds[ii], il, s1);
-if (il === 1) { // 地址同名, 团结村 国权北路555 邯郸路20
+if (il !== 1) { // 地址同名, 团结村 国权北路555 邯郸路20 星火村
+  dl = new Array();
+  while (s1.length > 1) {
+    s2 = s1.shift();
+    if (s2) {
+      dl.push( s2.substr(s2.lastIndexOf(',') + 1) );
+    }
+  }
+}
+if (dl.length) {
   if (('' + dl).indexOf(j.tag) > 0) {
     if (map_push) { map_push = 2; }
     ks += '<span style="color:red">' + tagsHTML(dl) + '</span>';
   } else {
     ks += tagsHTML(dl);
   }
-  release = parseInt(dl[dl.length - 1]);
-} else {
-  while (s1.length > 1) {
-    s2 = s1.shift();
-    ks += hash2date(   s2.substr(s2.lastIndexOf(',') + 1) );
-    if (s1.length > 1) { ks += ', '; }
-  }
-  if (s2) {
-    release = parseInt(s2.substr(s2.lastIndexOf(',') + 1) );
-  }
+  release = parseInt( dl.slice(-1)[0] );
 }
 if (release) {
   release += (14 - 300);
