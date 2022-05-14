@@ -29,12 +29,12 @@ districts_inB = {}
 by_address = {'shanghaifabu':['0313'] }
 if len(As) < 2:
     print('in A 数据量少，0306需为字符', As)
-    #As = '0320' #if 0320
+    #As = '0306' # if ,'0320')
     #As = []     # < 0320
     raise
 transition_int = int(Bs[0])
 if (As):
-    transition_int = int(As[0])
+    transition_int = int(As[0]) # 306
 
 
 # https://github.com/wandergis/coordTransform_py
@@ -241,7 +241,15 @@ for dd in districts:
     #print('>>>>', dd, len(by_district[dd]) )
     ddc += len(by_district[dd])
 print('by district total, w/dupl', ddc )
-
+# import re
+# for zz in list(set(A + BB)):
+#     # if len(zz) > 13: # 浦东新区世纪大道1239号
+#     #     print(zz)
+#     if re.search(r'\d+\D\D+\d+', zz):
+#         print(zz)
+#     # if re.match(r'\d+\D\D+村', zz):
+#     #     print(zz)
+# raise
 
 from datetime import datetime
 datestr = '%s' % datetime.now()
@@ -399,8 +407,9 @@ j = {'date':datestr,
      'released_today':latest_released,
      'latest_added2':latest_added2,
      'latest_added7':latest_added7,
-     'latest_added':latest_added,
-     'listed_30days':listed_30days }
+     'latest_added':latest_added }
+if listed_30days:
+    j['listed_30days'] = listed_30days
 fz = open('shanghaifabu/full%s.json' % Bs[-1], 'w')
 fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
 #  jsonp  '%s(%s)' % (callback, out)
