@@ -1002,15 +1002,19 @@
       }
     }
     map.fillStyle = 'black';
-    if (dotNotDraw) {
+    if (map_i && dotNotDraw) {
       map.fillText((tt || '上海市' + check_choices[_check]) + map_i +
                    '个地址 未显示其中' + dotNotDraw + '个 2022/' + _today,
                    0,svgHeight-1-fontSize);
       dotNotDraw = 0;
-    } else {
+    } else if (map_i) {
       map.fillText((tt || '上海市' + check_choices[_check]) + ' ' + map_i +
                    '个地址 2022/' + _today,
                    0,svgHeight-1-fontSize);
+    } else if (tt) {
+      onListAppend(0, null, null, '无' + tt );
+    } else {
+      onListAppend(0, null, null, '上海市无' + check_choices[_check] );
     }
   }
 
@@ -1080,7 +1084,7 @@
           }
         }
       } else {
-        onListAppend(0, null, null, '无');
+        onListAppend(0, null, null, k + '无' + check_choices[_check] );
       }
       map.fillStyle = 'black';
       if (dotNotDraw) {
