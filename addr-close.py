@@ -1,6 +1,7 @@
-# 2022-5-11
 within = 100
 nearby = 5
+# 2022-5-11 init
+# 2022-5-14 amap gcj02
 
 # https://github.com/wandergis/coordTransform_py
 import math
@@ -113,7 +114,7 @@ if cccc:
 if cccd:
     print('gcj02_to_wgs84() str format:', cccd)
 if nnnn:
-    print('not precise location:', nnnn)
+    print('ignore: not precise location', nnnn)
 print('total unique address:', len(C) )
 
 print(ll_to_meter(float(CC['杨浦区国权北路1566弄'][0]) - float(CC['杨浦区国权北路1450弄'][0]),

@@ -107,6 +107,24 @@ day0x0x = {
 '奉贤区': '',
 '崇明区': '' }
 
+day0514 = {
+'浦东新区': 'https://mp.weixin.qq.com/s/rgGTNinnNGKFOmtCS5nGpQ', # 浦东发布
+'黄浦区': 'https://mp.weixin.qq.com/s/F4vLNus4DY1IYYLEMzNVgQ',
+'静安区': 'https://mp.weixin.qq.com/s/PCSn0NJ5eyVckeApVTaiNw',
+'徐汇区': 'https://mp.weixin.qq.com/s/Gw6WqR01uQNCNIAdMHUNHw',
+'长宁区': 'https://mp.weixin.qq.com/s/_opF_nkJ1wdbYk5ThBkpeA',
+'普陀区': 'https://mp.weixin.qq.com/s/eQdn_gV3KSB1XoX_oFgcwQ',
+'虹口区': 'https://mp.weixin.qq.com/s/Ptnd2bc0Dt0LPsf3timHYQ',
+'杨浦区': 'https://mp.weixin.qq.com/s/lXBH3hGs574TrzEFg9y-6Q',
+'宝山区': 'https://mp.weixin.qq.com/s/F07oGa4YJyq8mxMDyGFDgg',
+'闵行区': 'https://mp.weixin.qq.com/s/VRNAfCoAOgXA_BRCmDEDRg', # 今日闵行
+'嘉定区': 'https://mp.weixin.qq.com/s/4FdPLlfsCyqzIF-IWW-wLw',
+'金山区': '',
+'松江区': 'https://mp.weixin.qq.com/s/BEU1Wf1FFl4TCxBIGdwnng',
+'青浦区': 'https://mp.weixin.qq.com/s/67zTH05kuHKkPTkdC7NU5w', # 绿色青浦
+'奉贤区': 'https://mp.weixin.qq.com/s/5Ekh0lyIb6pXTK-_7XUL9g',
+'崇明区': 'https://mp.weixin.qq.com/s/V6an8Xa-lOLXIOZf1RwKhg' }
+
 day0513 = {
 '浦东新区': 'https://mp.weixin.qq.com/s/bsALQdI41d_RFiS9eiJAQg', # 浦东发布
 '黄浦区': 'https://mp.weixin.qq.com/s/2Q2CIEmvEEywaet9lbZ2qQ',
@@ -239,6 +257,7 @@ if not z[1]:
     zz0 = list(day.keys())
     zz1 = list(day.values())
     wxx = '\n\n\n\n'
+    import re
     for i,z1 in enumerate(zz1):
         if not z1:
             print('day%s 没有%s的链接' % (z[0],zz0[i]) )
@@ -248,7 +267,26 @@ if not z[1]:
             if wx_.find('%s月%s日' % (int(z[0][:2]), int(z[0][2:])) ) < 0:
                 print('day%s %s的链接没有有效日期' % (z[0],zz0[i]) )
                 raise
-            wxx += '\n\n\n\n%s' % wx_
+            try:
+                spl = re.findall(r'\d+例本土无症状感染者', wx_)
+                if len(spl) >= 1:
+                    spl0 = wx_.split(spl[0])
+                    if len(spl0) == 2:
+                        wxx += '\n\n\n\n%s' % spl0[0]
+                        wxx += '\n\n\n\n%s' % spl0[1].split( spl[0].replace('例本土','例') )[-1]
+                    else:
+                        wxx += '\n\n\n\n%s\n\n\n\n%s' % (spl0[0], spl0[-1])
+                else:
+                    spl = re.findall(r'\d+例无症状感染者', wx_)
+                    spl0 = wx_.split(spl[0])
+                    if len(spl0) < 3:
+                        wxx += '\n\n\n\n%s' % wx_
+                    else:
+                        wxx += '\n\n\n\n%s\n\n\n\n%s' % (spl0[0], spl0[-1])
+            except:
+                wxx += '\n\n\n\n%s' % wx_
+            # 32例本土无症状感染者
+            # 32例无症状感染者
 elif z[1].endswith('.html'):
     import os
     if not os.path.isfile('shanghaifabu/%s%s.txt' % (z[0],z[0])):
