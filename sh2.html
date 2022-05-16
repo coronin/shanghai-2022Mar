@@ -9,7 +9,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
   <!-- script src="full.json"></script -->
-  <script src="shanghaifabu/map-location.json?v=0514"></script><!-- @@ -->
+  <script src="shanghaifabu/map-location.json?v=0515"></script><!-- @@ -->
   <script src="shanghaifabu/inAB-close.json"></script>
   <script src="shanghaifabu/d3.min.v3.js"></script>
   <script src="shanghaifabu/topojson.min.180.js"></script><!-- http://geojson.io -->
@@ -21,7 +21,7 @@
   let i; let j; const _J = {};
   let As; let Ds;
   const today = new Date();
-  const j_data_init = 514; // @@
+  const j_data_init = 515; // @@
   let _today; // j.tag
   let Ml; let Ms; let map;
   let d3scale; let d3center; let svgWidth; let svgHeight;
@@ -374,14 +374,14 @@
     const imgL = Object.keys(pngBase64);
     var zip = new JSZip();
     let img0;
-    let img1 = today.toLocaleString('zh-CN') + '\r\n\r\n';
+    let img1 = '# ' + today.toLocaleString('zh-CN') + '\r\n\r\n';
     for (i = 0; i < imgL.length; i += 1) {
       img0 = pngBase64[ imgL[i] ].indexOf(',');
       zip.file(imgL[i] + '.png',
                pngBase64[ imgL[i] ].slice(img0 + 1), {base64: true} );
       img1 += (i+1) + '. ' + imgL[i] + '.png\r\n';
     }
-    zip.file('list.txt', '' + img1);
+    zip.file('list.txt', img1);
     zip.generateAsync({type:"blob"}).then(function (blob) {
       saveAs(blob, 'download.zip');
       pngBase64 = {};
@@ -1267,26 +1267,28 @@ if (Ms.indexOf(Ds[ii] + As[i]) > -1) {
   console.log('搜索地址 未显示', Ds[ii] + As[i]);
   dotNotDraw += 1; // 搜索地址
 }
-const s1 = ('' + dl).split(Ds[ii]);
-let s2;
+const s1 = dl.join(',').split(Ds[ii]);
+let s2; let dldl;
 //console.log(As[i], Ds[ii], il, s1);
 if (il !== 1) { // 地址同名, 团结村 国权北路555 邯郸路20 星火村
-  dl = new Array();
+  dldl = new Array();
   while (s1.length > 1) {
     s2 = s1.shift();
     if (s2) {
-      dl.push( s2.substr(s2.lastIndexOf(',') + 1) );
+      dldl.push( s2.substr(s2.lastIndexOf(',') + 1) );
     }
   }
+} else {
+  dldl = dl;
 }
-if (dl.length) {
-  if (('' + dl).indexOf(j.tag) > 0) {
+if (dldl.length) {
+  if (dldl.join(',').indexOf(j.tag) > -1) {
     if (map_push) { map_push = 2; }
-    ks += '<span style="color:red">' + tagsHTML(dl) + '</span>';
+    ks += '<span style="color:red">' + tagsHTML(dldl) + '</span>';
   } else {
-    ks += tagsHTML(dl);
+    ks += tagsHTML(dldl);
   }
-  release = parseInt( dl.slice(-1)[0] );
+  release = parseInt( dldl.slice(-1)[0] );
 }
 if (release) {
   release += (14 - 300);
@@ -1316,7 +1318,7 @@ if (release) {
 if (il === 1 && _ww && _ww.indexOf(Ds[ii] + As[i]) > -1) {
   const wdl = W.pairs[ Ds[ii] + As[i] ];
   let dli; let dl0; let dl1; let dlt = true;
-  //if (dl.length > 4) { // W.nearby
+  //if (dl.length > 4) {
   //  console.log(_ww.length, '超过4个临近地址', Ds[ii] + As[i]);
   //  console.log(dl.join('\n'));
   //}

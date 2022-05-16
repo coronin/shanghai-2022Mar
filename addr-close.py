@@ -1,5 +1,5 @@
 within = 100
-nearby = 5
+nearby = 7 # 仅用于输出check.txt
 # 2022-5-11 init
 # 2022-5-14 amap gcj02
 
@@ -174,7 +174,6 @@ fz.close
 import json
 j = {'date':datestr,
      'within':within,
-     'nearby':nearby,
      'ww size':len(ww),
      'tag':'AB',
      'pairs':ww }
