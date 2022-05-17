@@ -10,7 +10,6 @@
   <link rel="manifest" href="/site.webmanifest">
   <!-- script src="full.json"></script -->
   <script src="shanghaifabu/map-location.json?v=0516"></script><!-- @@ -->
-  <script src="shanghaifabu/inAB-close.json"></script>
   <script src="shanghaifabu/d3.min.v3.js"></script>
   <script src="shanghaifabu/topojson.min.180.js"></script><!-- http://geojson.io -->
   <script src="shanghaifabu/sh.json"></script><!-- http://datav.aliyun.com/portal/school/atlas/area_generator -->
@@ -26,31 +25,31 @@
   let Ml; let Ms; let map;
   let d3scale; let d3center; let svgWidth; let svgHeight;
   const centers = {
-    '黄浦区': [121.480694,31.219042,415000],
-    '徐汇区': [121.437778,31.160901,196000],
-    '长宁区': [121.378590,31.215582,300000],
-    '静安区': [121.448927,31.268736,219500],
-    '普陀区': [121.381162,31.264039,250000],
-    '虹口区': [121.486229,31.275661,280000],
-    '杨浦区': [121.523566,31.294815,220000],
-    '闵行区': [121.427945,31.107098,77000],
-    '宝山区': [121.381889,31.372927,90000],
-    '嘉定区': [121.248203,31.355204,87200],
-    '浦东新区': [121.612666, 31.12, 42000], // 浦东新区 121.61266647653576 31.08079112113293
-    '金山区': [121.24, 30.81, 70000], // 金山区 121.17171114485453 30.857028553162657
-    '松江区': [121.203370,31.013900,80000],
-    '青浦区': [121.096709,31.120809,66500],
-    '奉贤区': [121.529829,30.926042,82400],
-    '崇明区': [121.548589, 31.62, 32000]}; // 崇明区 121.54858925095525 31.669887634215034
-  const sh_district7 = ['黄浦区','徐汇区','长宁区','静安区','普陀区','虹口区','杨浦区'];
+    黄浦区: [121.480694,31.219042,415000],
+    徐汇区: [121.437778,31.160901,196000],
+    长宁区: [121.378590,31.215582,300000],
+    静安区: [121.448927,31.268736,219500],
+    普陀区: [121.381162,31.264039,250000],
+    虹口区: [121.486229,31.275661,280000],
+    杨浦区: [121.523566,31.294815,220000],
+    闵行区: [121.427945,31.107098,77000],
+    宝山区: [121.381889,31.372927,90000],
+    嘉定区: [121.248203,31.355204,87200],
+    浦东新区: [121.612666, 31.12, 42000], // 浦东新区 121.61266647653576 31.08079112113293
+    金山区: [121.24, 30.81, 70000], // 金山区 121.17171114485453 30.857028553162657
+    松江区: [121.203370,31.013900,80000],
+    青浦区: [121.096709,31.120809,66500],
+    奉贤区: [121.529829,30.926042,82400],
+    崇明区: [121.548589, 31.62, 32000] }; // 崇明区 121.54858925095525 31.669887634215034
+  const sh_district7 = ['黄浦区', '徐汇区', '长宁区', '静安区', '普陀区', '虹口区', '杨浦区'];
   const ms = {3:'march', 4:'april', 5:'may'};
   const check_choices = {
-    '5':'released_today', '4':'released',
-    '3':'districts', '2':'inB', '1':'latest_added', '0':'today',
-    'released_today':'当日下榜', 'released':'累计下榜',
-    'districts':'累计阳', 'inB':'两周阳', 'latest_added':'比昨日多', 'today':'当日阳',
-    'latest_added2':'三阴阳', '6':'latest_added2',
-    'latest_added7':'七阴阳', '7':'latest_added7' }
+    5:'released_today', 4:'released',
+    3:'districts', 2:'inB', 1:'latest_added', 0:'today',
+    released_today:'当日下榜', released:'累计下榜',
+    districts:'累计阳', inB:'两周阳', latest_added:'比昨日多', today:'当日阳',
+    latest_added2:'三阴阳', 6:'latest_added2',
+    latest_added7:'七阴阳', 7:'latest_added7' };
   let _check = check_choices['0'];
   let dotNotDraw = 0;
   const baseURL = window.location.toString().split('#')[0].split('?')[0];
@@ -59,8 +58,7 @@
   let lastSearch;
   let fontSize;
   let pngBase64 = {};
-  let W; let _ww = [];
-
+  let W; let _ww;
 
   function trim (s) { return (s || '').replace(/^\s+|\s+$/g, ''); }
 
@@ -116,7 +114,7 @@
         }
         if (kjd && (kjd.match(/,/g) || []).length >= 7) {
           for (kii = 0; kii < Ds.length; kii += 1) {
-            var re = new RegExp(Ds[kii], 'g');
+            const re = new RegExp(Ds[kii], 'g');
             kj = (kjd.match(re) || []).length;
             if (kj >= 7) {
               j.cached_14days.push(Ds[kii] + p);
@@ -141,7 +139,7 @@
   async function async14days (k) {
     if (!j.cache14days) {
       j.cache14days = {};
-      j.cached_14days = new Array();
+      j.cached_14days = [];
       const v = await cache14days().catch(e => {
         return console.log(e);
       });
@@ -149,7 +147,7 @@
         _J[j.tag] = j;
       }
     }
-    let ki = 0; let kj;
+    let ki = 0;
     const kk = document.createElement('p');
     const tt = '两周内超7次上榜';
     if (j.cache14days && k && j.cache14days[k]) {
@@ -173,6 +171,7 @@
                      '">两周内曾上榜至少1次</button> ' +
                      '<button onclick="h2dist.scrollIntoView();">各区统计</button>';
       onList.appendChild(kk);
+      let kj; let kii;
       for (kii = 0; kii < Ds.length; kii += 1) {
         if (!j.cache14days[Ds[kii]]) {
           continue;
@@ -188,7 +187,7 @@
 
   function onlyNewAddr () {
     return new Promise(resolve => {
-      let adds = new Array(); let kii;
+      const adds = []; let kii;
       for (const p in j.address) {
         if (j.address[p].length === 1 && j.address[p][0].substr(0,4) === j.tag) {
           if (addr.value === '上海市') {
@@ -229,7 +228,7 @@
   }
 
   async function fetchClose () {
-    let response = await fetch('shanghaifabu/inAB-close.json');
+    const response = await fetch("shanghaifabu/inAB-close.json");
     return await response.json();
   }
   fetchClose().then(jsondata => {
@@ -258,7 +257,7 @@
           '\');">' + d + '</span> ';
     }
     ks += ' <em>' + (t || '') + '</em>';
-    if (k && d && !t || t.indexOf('首次') === -1) {
+    if (k && d && (!t || t.indexOf('首次') === -1)) {
       ks += ' ' + tagsHTML(dldl(k, d));
     }
     const kk = document.createElement('p');
@@ -287,7 +286,7 @@
     let kjd;
     if (j.listed_30days && !j.list30days) {
       j.list30days = {};
-      j.listed_30days_long = new Array();
+      j.listed_30days_long = [];
       Array.from(j.listed_30days).forEach((d) => {
         for (kii = 0; kii < Ds.length; kii += 1) {
           if (j.districts[ Ds[kii] ].indexOf(d) > -1) {
@@ -310,15 +309,15 @@
           } else {
             j.list30days[Ds[kii]] = [ [d, kj] ];
           }
-        } else {
-          const ind = j.listed_30days.indexOf(d);
-          if (ind > -1) {
-            j.listed_30days.splice(ind, 1);
-          }
-        }
+        } //else { // 五四村 星火村
+        //   const ind = j.listed_30days.indexOf(d);
+        //   if (ind > -1) {
+        //     j.listed_30days.splice(ind, 1);
+        //   }
+        // }
         if (kjd && (kjd.match(/,/g) || []).length >= 30) {
           for (kii = 0; kii < Ds.length; kii += 1) {
-            var re = new RegExp(Ds[kii], 'g');
+            const re = new RegExp(Ds[kii], 'g');
             kj = (kjd.match(re) || []).length;
             if (kj >= 30) {
               j.listed_30days_long.push(Ds[kii] + d);
@@ -429,15 +428,15 @@
     for (i = 0; i < imgL.length; i += 1) {
       img0 = pngBase64[ imgL[i] ].indexOf(',');
       zip.file(imgL[i] + '.png',
-               pngBase64[ imgL[i] ].slice(img0 + 1), {base64: true} );
+               pngBase64[ imgL[i] ].slice(img0 + 1), {base64: true });
       img1 += (i+1) + '. ' + imgL[i] + '.png\r\n';
     }
     zip.file('list.txt', img1);
-    zip.generateAsync({type:"blob"}).then(function (blob) {
+    zip.generateAsync({type: "blob" }).then(function (blob) {
       saveAs(blob, 'download.zip');
       pngBase64 = {};
       pngGif.innerHTML = '<p class="click" onclick="auto_save_status.click()">停</p>';
-    })
+    });
     // https://stuk.github.io/jszip/
   }
 
@@ -496,7 +495,7 @@
         hash_ = parseInt(j.address.shanghaifabu.slice(-1)[0] );
       }
     } else {
-      alert(j.tag);
+      window.alert(j.tag);
       hash_ = parseInt(j.tag) - 1;
     }
     if (oldest) {
@@ -567,7 +566,7 @@
   }
 
   const loading = ['.', '..', '...', '']; // ['\\', '/', '-']
-  let loading_i = -1, ld;
+  let loading_i = -1;
   (function f () {
     loading_i = (loading_i + 1) % loading.length;
     if (document.getElementById('loading_span')) {
@@ -622,7 +621,7 @@
     const k_src = "shanghaifabu/full" + hash + '.json';
     if (_J && _J[hash] && _J[hash].tag === hash) {
       j = _J[hash];
-      next_pre_vis (hash_);
+      next_pre_vis(hash_);
       load();
     } else {
       datestr.textContent = '';
@@ -636,7 +635,7 @@
       // };
       // k.onerror = function () {
       // };
-      var req = new XMLHttpRequest();
+      const req = new XMLHttpRequest();
       req.addEventListener("loadstart", event => {
         const ld = document.getElementsByClassName('loading_pr');
         Array.from(ld).forEach((d) => {
@@ -647,9 +646,9 @@
         const ld = document.getElementsByClassName('loading_pr');
         Array.from(ld).forEach((d) => {
           if (event.lengthComputable) {
-            d.textContent = parseInt(100*event.loaded/event.total) + '%';
+            d.textContent = parseInt(100 * event.loaded/event.total) + '%';
           } else {
-            d.textContent = parseInt(100*event.loaded/3600000) + '%';
+            d.textContent = parseInt(100 * event.loaded/3600000) + '%';
           }
         });
       }, false);
@@ -698,7 +697,7 @@
       // https://stackoverflow.com/questions/18126406/
     }
     // SukkaW/DisqusJS
-    var dsqjs = new DisqusJS({
+    const dsqjs = new DisqusJS({
         shortname: 'sh-teach-cn',
         siteName: 'Feedback 反馈',
         identifier: 'https://sh.teach.bio/',
@@ -734,15 +733,15 @@
   }
 
   function tagsHTML (dl_, noClick) {
-    if (!dl_) {return ''}
-    let dl = new Array();
+    if (!dl_) { return ''; }
+    const dl = [];
     let di;
     for (di = 0; di < dl_.length; di += 1) {
       if (dl_[di].length === 4) {
         dl.push( dl_[di] );
       }
     }
-    if (!dl) {return ''}
+    if (!dl) { return ''; }
     let ds; let inwhile;
     if (noClick) {
       ds = '<span>' + hash2date(dl[0]) + '</span>';
@@ -817,10 +816,10 @@
         pngGif.style.visibility = 'visible';
         exportCanvasAsPNG();
       }
-    }
+    };
     check_row.onclick = function () {
       auto_save_off();
-    }
+    };
     if (autoSavePNG) {
       auto_save_status.style.boxShadow = 'inset 0 -.5em cyan';
       pre_button.style.border = '.25em solid cyan';
@@ -927,7 +926,7 @@
     app.style.padding = '5px 0 2px 0';
     const jj = JSON.parse(sh);
     const dt = topojson.feature(jj, jj.objects.collection);
-    const dn = topojson.neighbors(jj.objects.collection.geometries);
+    //const dn = topojson.neighbors(jj.objects.collection.geometries);
     const pj = d3.geo.mercator(
                 ).scale(d3scale).center(d3center
                 ).translate([svgWidth/2, svgHeight/2]);
@@ -998,7 +997,7 @@
     });
     map.fillText('已标记精致咖啡馆', 0,2);
     map.fillStyle = 'silver';
-    map.fillText('制图 https://teach.bio @the_paper_link', svgWidth-fontSize*18.6,2);
+    map.fillText('制图 https://teach.bio @the_paper_link', svgWidth - fontSize * 18.6,2);
     let dots;
     const river0 = JSON.parse(river);
     const river1 = topojson.feature(river0, river0.objects.collection);
@@ -1081,7 +1080,7 @@
           continue;
         }
         if (ttf && Ds[i].substr(0,3) !== ttf) {
-          continue
+          continue;
         }
         for (ii = 0; ii < j[_check][ Ds[i] ].length; ii += 1) {
           draw_addr(Ds[i] + j[_check][ Ds[i] ][ii]);
@@ -1116,7 +1115,7 @@
       }
       if (Ds[kii] === k_) { break; }
     }
-    let s2; let dldl = new Array();
+    let s2; const dldl = [];
     //console.log(k_, d_, il, s1);
     if (il !== 1) { // 地址同名, 团结村 国权北路555 邯郸路20 星火村 五四村
       while (s1.length > 1) {
@@ -1242,10 +1241,10 @@
         reload_button.style.fontWeight = 'bold';
         setTimeout(
           function () {
-            reload_button.textContent='重置';
+            reload_button.textContent = '重置';
             reload_button.style.fontWeight = 'normal';
           },
-          1000*5
+          1000 * 5
         );
       }
       draw_sh_addr();
@@ -1298,12 +1297,12 @@
       document.getElementById(d).style.background = 'white';
       document.getElementById(d + 'line').textContent = '';
     });
-    let kk; let ks; let dl; let sb = 0;
+    let kk; let ks; let sb = 0;
     let map_i = 0;
     let map_push;
-    let map_x = new Array();
-    let map_y = new Array();
-    let map_addr = new Array();
+    const map_x = [];
+    const map_y = [];
+    const map_addr = [];
     let release;
     for (i = 0; i < As.length; i += 1) {
       if (As[i].indexOf(k) > -1) {
@@ -1434,7 +1433,7 @@ if (map_push === 1) {
     }
     if (map_i === 0) {
       app.style.display = 'none';
-      onListAppend(0, k.substr(0, k.length - 1), null, '&larr;可尝试')
+      onListAppend(0, k.substr(0, k.length - 1), null, '&larr;可尝试');
     } else {
       addr.scrollIntoView();
       th_k.textContent = k;
@@ -1492,7 +1491,7 @@ if (map_push === 1) {
       });
       map.fillStyle = 'rgba(255,0,0,0.4)';
       const gray_Y = [mapY(map_y[0]), 0,2];
-      let gray_dis = new Array();
+      let gray_dis = [];
       map.fillText(map_addr[0],
                    mapX(map_x[0]) + 3, gray_Y[0]);
       if (map_i > 1) {
@@ -1544,17 +1543,17 @@ if (map_push === 1) {
       search_button.textContent = '无结果，可输入再搜';
       setTimeout(
         function () {
-          search_button.textContent='搜索';
+          search_button.textContent = '搜索';
         },
-        1000*5
+        1000 * 5
       );
     } else {
       search_button.textContent = '查到' + sb + '个地址，可输入再搜';
       setTimeout(
         function () {
-          search_button.textContent='搜索';
+          search_button.textContent = '搜索';
         },
-        1000*5
+        1000 * 5
       );
       clear_button.style.visibility = 'visible';
     }
@@ -1602,7 +1601,7 @@ if (map_push === 1) {
   function scale2x () {
     if (['市', '区'].indexOf(
         addr.value.slice(-1)[0] ) > -1 ) {
-      window.alert('搜索地址时，可放大一倍。刷新页面，可重置')
+      window.alert('搜索地址时，可放大一倍。刷新页面，可重置');
       return false;
     }
     d3scale = d3scale * 2;
@@ -1611,7 +1610,7 @@ if (map_push === 1) {
       function () {
         scale2x_button.style.visibility = 'visible';
       },
-      1000*5
+      1000 * 5
     );
     updateLocation(parseInt(j.tag), addr.value);
   }
