@@ -8,7 +8,7 @@ AsBs = ('0306','0307','0308','0309','0310',
       '0411','0412','0413','0414','0415','0416','0417','0418','0419','0420',
       '0421','0422','0423','0424','0425','0426','0427','0428','0429','0430',
       '0501','0502','0503','0504','0505','0506','0507','0508','0509','0510',
-      '0511','0512','0513','0514','0515'
+      '0511','0512','0513','0514','0515','0516'
       )
 #### 以上不能有末尾逗号 没有空字符检查
 As = AsBs[:-14]
@@ -42,9 +42,14 @@ def clean_dates(arr):
     ds = re.sub(r'\d', '', ','.join(arr) )
     dsi = 16
     for dd in ds.split(','):
+        if not dd:
+            continue
         ind = districts.index(dd)
         if ind < dsi:
             dsi = ind
+    if not dsi in range(0, 16): # 16 not in range
+        print(dsi, ds, arr)
+        raise
     arr_new = []
     for aa in arr:
         arr_new.append(aa.replace(districts[dsi], ''))
@@ -299,7 +304,7 @@ for line, dates in by_address.items():
     if len(dates) >= 30: # 地址同名 日期连着区
         listed30days.append(line)
     ddd = -1
-    while As and dates[ddd][:4] == As[-1]:
+    while As and len(dates) >= (0 - ddd) and dates[ddd][:4] == As[-1]:
         #print('>>>>', line)
         count += 1
         dd = dates[ddd][4:]
@@ -312,7 +317,8 @@ for line, dates in by_address.items():
             print('>>>>', line, dates)
             raise
         ddd -= 1
-    by_address[line] = clean_dates(dates)
+    if line != 'shanghaifabu':
+        by_address[line] = clean_dates(dates)
 
 print('released %s, estimated' % Bs[-1], count)
 if A:
