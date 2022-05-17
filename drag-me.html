@@ -13,6 +13,8 @@
   let i; let j; let As; let Ds;
   const today = new Date();
 
+  function trim (s) { return (s || '').replace(/^\s+|\s+$/g, ''); }
+
   function load () {
     j = JSON.parse(data);
     datestr.textContent = j.date;
@@ -74,7 +76,7 @@
   }
 
   function search () {
-    let k = addr.value;
+    let k = trim(addr.value);
     search_button.textContent = '搜索';
     console.log('Input', k);
     if (k.substr(0,4) === '浦东新区') {
@@ -160,9 +162,9 @@
             release -= 30;
           }
           ks += ' &rarr; <em>5/' + release + '</em>';
-          if (release < today.getDate()-1 ) {
+          if (release < today.getDate() ) {
             ks += ' <span style="color:green">已满14天</span></span>';
-          } else if (release === today.getDate()-1 ) {
+          } else if (release === today.getDate() ) {
             ks += '<span style="color:green">是第14天</span></span>';
           } else {
             ks += '</span>';
