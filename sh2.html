@@ -88,25 +88,44 @@
         afterD -= 70; // 512-14=498(428), 501-14=487(417)
       }
       let dl; let ki; let kj; let kii;
+      let kjd;
       for (const p in j.address) {
+        for (kii = 0; kii < Ds.length; kii += 1) {
+          if (j.districts[ Ds[kii] ].indexOf(p) > -1) {
+            break;
+        } }
         dl = j.address[p];
-        kj = 0
+        kj = 0;
+        kjd = '';
         for (ki = 0; ki < dl.length; ki += 1) {
-          if (parseInt(dl[ki]) > afterD) {
-            kj += 1;
+          if (parseInt(dl[ki].substr(0,4) ) > afterD) {
+            if (dl[ki].length > 4) { // 地址同名
+              kjd += ',' + dl[ki];
+            } else {
+              kj += 1;
+            }
           }
         }
         if (kj >= 7) {
-          for (kii = 0; kii < Ds.length; kii += 1) {
-            if (j.districts[ Ds[kii] ].indexOf(p) > -1) {
-              j.cached_14days.push(Ds[kii] + p);
-              //@@@@ 地址同名, 仅赋值一区
-              break;
-          } }
+          j.cached_14days.push(Ds[kii] + p);
           if (j.cache14days[Ds[kii]]) {
             j.cache14days[Ds[kii]].push( [p, kj] );
           } else {
             j.cache14days[Ds[kii]] = [ [p, kj] ];
+          }
+        }
+        if (kjd && (kjd.match(/,/g) || []).length >= 7) {
+          for (kii = 0; kii < Ds.length; kii += 1) {
+            var re = new RegExp(Ds[kii], 'g');
+            kj = (kjd.match(re) || []).length;
+            if (kj >= 7) {
+              j.cached_14days.push(Ds[kii] + p);
+              if (j.cache14days[Ds[kii]]) {
+                j.cache14days[Ds[kii]].push( [p, kj] );
+              } else {
+                j.cache14days[Ds[kii]] = [ [p, kj] ];
+              }
+            }
           }
         }
       }
@@ -267,21 +286,52 @@
   }
 
   function list30days (k) {
-    let kii;
+    let dl; let ki; let kj; let kii;
+    let kjd;
     if (j.listed_30days && !j.list30days) {
       j.list30days = {};
-      j.listed_30days_new = new Array();
+      j.listed_30days_long = new Array();
       Array.from(j.listed_30days).forEach((d) => {
         for (kii = 0; kii < Ds.length; kii += 1) {
           if (j.districts[ Ds[kii] ].indexOf(d) > -1) {
-            j.listed_30days_new.push(Ds[kii] + d);
-            //@@@@ 地址同名, 仅赋值一区
             break;
         } }
-        if (j.list30days[Ds[kii]]) {
-          j.list30days[Ds[kii]].push( [d, j.address[d].length] );
+        dl = j.address[d];
+        kj = 0;
+        kjd = '';
+        for (ki = 0; ki < dl.length; ki += 1) {
+          if (dl[ki].length > 4) { // 地址同名
+            kjd += ',' + dl[ki];
+          } else {
+            kj += 1;
+          }
+        }
+        if (kj >= 30) {
+          j.listed_30days_long.push(Ds[kii] + d);
+          if (j.list30days[Ds[kii]]) {
+            j.list30days[Ds[kii]].push( [d, kj] );
+          } else {
+            j.list30days[Ds[kii]] = [ [d, kj] ];
+          }
         } else {
-          j.list30days[Ds[kii]] = [ [d, j.address[d].length] ];
+          const ind = j.listed_30days.indexOf(d);
+          if (ind > -1) {
+            j.listed_30days.splice(ind, 1);
+          }
+        }
+        if (kjd && (kjd.match(/,/g) || []).length >= 30) {
+          for (kii = 0; kii < Ds.length; kii += 1) {
+            var re = new RegExp(Ds[kii], 'g');
+            kj = (kjd.match(re) || []).length;
+            if (kj >= 30) {
+              j.listed_30days_long.push(Ds[kii] + d);
+              if (j.list30days[Ds[kii]]) {
+                j.list30days[Ds[kii]].push( [d, kj] );
+              } else {
+                j.list30days[Ds[kii]] = [ [d, kj] ];
+              }
+            }
+          }
         }
       });
       for (kii = 0; kii < Ds.length; kii += 1) {
@@ -291,12 +341,12 @@
       }
       _J[j.tag] = j;
     }
-    let ki = 0; let kj;
+    ki = 0;
     const kk = document.createElement('p');
     const tt = '超30次上榜';
     if (j.list30days && k && j.list30days[k]) {
       kk.innerHTML = '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);' +
-                     'draw_sh_addr(j.listed_30days_new,\'' +
+                     'draw_sh_addr(j.listed_30days_long,\'' +
                      k + tt + '\');">展示' + k + tt + '地址</button> ' +
                      '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr(null,\''+k+'累计阳\');' +
                      '">3月6日以来曾上榜至少1次</button> ' +
@@ -307,9 +357,9 @@
           onListAppend(ki, k, d[0],
                        '3月6日以来 上榜' + d[1] + '次');
       });
-    } else if (j.list30days && !k) { // j.listed_30days_new.length
+    } else if (j.list30days && !k) { // j.listed_30days_long.length
       kk.innerHTML = '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);' +
-                     'draw_sh_addr(j.listed_30days_new,\'' +
+                     'draw_sh_addr(j.listed_30days_long,\'' +
                      '上海市' + tt + '\');">展示' + tt + '地址</button> ' +
                      '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);draw_sh_addr();' +
                      '">3月6日以来曾上榜至少1次</button> ' +
@@ -998,7 +1048,7 @@
         map.strokeStyle = _R + '.75)';
       }
       map.stroke();
-    } else {
+    } else if (s !== 'undefinedshanghaifabu') {
       console.log('市 区 未显示', s);
       dotNotDraw += 1; // 市 区
     }
@@ -1282,7 +1332,7 @@ if (Ms.indexOf(Ds[ii] + As[i]) > -1) {
   map_push = 1;
   map_i += 1;
 } else {
-  map_push = 0
+  map_push = 0;
   console.log('搜索地址 未显示', Ds[ii] + As[i]);
   dotNotDraw += 1; // 搜索地址
 }
