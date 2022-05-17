@@ -1107,7 +1107,7 @@
 
   function dldl (k_, d_) {
     const dl = j.address[d_];
-    const s1 = dl.join(',').split(k_);
+    const s1 = (dl || []).join(',').split(k_);
     let kii; let il = 0;
     for (kii = 0; kii < Ds.length; kii += 1) {
       if (j.districts[ Ds[kii] ].indexOf(d_) > -1) {
@@ -1745,7 +1745,7 @@ if (map_push === 1) {
     })();
   </script -->
   <p>
-    数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a> <span id="shanghaifabu"></span>
+    数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a>
       <span id="datestr" style="color:blue;"></span>
       <span id="fetching" style="color:blue;"> <span class="loading_pr">not ready,</span> loaded</span>
     <br/>本页为<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
