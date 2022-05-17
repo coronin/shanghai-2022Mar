@@ -37,6 +37,20 @@ if (As):
     transition_int = int(As[0]) # 306
 
 
+import re
+def clean_dates(arr):
+    ds = re.sub(r'\d', '', ','.join(arr) )
+    dsi = 16
+    for dd in ds.split(','):
+        ind = districts.index(dd)
+        if ind < dsi:
+            dsi = ind
+    arr_new = []
+    for aa in arr:
+        arr_new.append(aa.replace(districts[dsi], ''))
+    return arr_new
+
+
 # https://github.com/wandergis/coordTransform_py
 import math
 x_pi = 3.14159265358979324 * 3000.0 / 180.0
@@ -203,13 +217,9 @@ def read_a_list(s, tag=''):
                 else:
                     districts_inB[running_district] = [line]
             if by_address.get(line):
-                if s not in by_address[line]:
-                    by_address[line] += [s]
-                else:
-                    # 不同区 地址同名, 团结村 国权北路555
-                    by_address[line] += ['%s%s' % (s, running_district) ]
+                by_address[line] += ['%s%s' % (s, running_district) ]
             else:
-                by_address[line] = [s]
+                by_address[line] = [ '%s%s' % (s, running_district)]
         else:
             print('>>', s, line, len(post) )
     return post
@@ -286,19 +296,23 @@ latest_released = {}
 listed30days = []
 count = 0
 for line, dates in by_address.items():
-    if len(dates) >= 30:
+    if len(dates) >= 30: # 地址同名 日期连着区
         listed30days.append(line)
-    if As and dates[-1] == As[-1]:
-        count += 1
+    ddd = -1
+    while As and dates[ddd][:4] == As[-1]:
         #print('>>>>', line)
-        for dd in districts:
-            if line in by_district[dd]:
-                if (latest_released.get(dd)):
-                    latest_released[dd] += [line]
-                else:
-                    latest_released[dd] = [line]
-                break # 地址同名, 团结村 国权北路555
-            pass
+        count += 1
+        dd = dates[ddd][4:]
+        if line in by_district[dd]:
+            if (latest_released.get(dd)):
+                latest_released[dd] += [line]
+            else:
+                latest_released[dd] = [line]
+        else:
+            print('>>>>', line, dates)
+            raise
+        ddd -= 1
+    by_address[line] = clean_dates(dates)
 
 print('released %s, estimated' % Bs[-1], count)
 if A:
@@ -380,7 +394,7 @@ to_check = ('东川路800号', '海波路850弄', '龙吴路2588弄', '凤城三
 for ch in to_check:
     if by_address.get(ch):
         print(ch, by_address[ch] )
-        if by_address[ch][-1] == Bs[-1]:
+        if by_address[ch][-1][:4] == Bs[-1]:
             print('    ^^\n')
     else:
         print(ch, 'zero' )
