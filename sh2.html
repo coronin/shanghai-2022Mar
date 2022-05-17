@@ -188,30 +188,27 @@
 
   function onlyNewAddr () {
     return new Promise(resolve => {
-      let adds = new Array();
+      let adds = new Array(); let kii;
       for (const p in j.address) {
-        if (j.address[p].length === 1 && j.address[p][0] === j.tag) {
+        if (j.address[p].length === 1 && j.address[p][0].substr(0,4) === j.tag) {
           if (addr.value === '上海市') {
-            let ij; let ik; let ids = '';
-            for (ii = 0; ii < Ds.length; ii += 1) {
-              ij = j.districts[ Ds[ii] ];
-              for (ik = 0; ik < ij.length; ik += 1) {
-                if (ij[ik] === p) {
-                  ids = Ds[ii];
+            if (j.address[p][0].length > 4) {
+              adds.push([j.address[p][0].substr(4), p]);
+            } else {
+              for (kii = 0; kii < Ds.length; kii += 1) {
+                if (j.districts[ Ds[kii] ].indexOf(p) > -1) {
                   break;
-              } }
-              if (ids) { break; }
-            }
-            adds.push([ids, p]);
-          } else { //各区
-            let ij = j.districts[ addr.value ];
-            let ik;
-            for (ik = 0; ik < ij.length; ik += 1) {
-              if (ij[ik] === p) {
-                adds.push([addr.value, p]);
-                break;
+                }
               }
-          } }
+              adds.push([Ds[kii], p]);
+            }
+          } else { //各区
+            if (j.address[p][0].length > 4 && j.address[p][0].substr(4) === addr.value) {
+              adds.push([addr.value, p]);
+            } else if (j.address[p][0].length === 4 && j.districts[ addr.value ].indexOf(p) > -1) {
+              adds.push([addr.value, p]);
+            }
+          }
       } }
       resolve(adds);
     });
@@ -248,7 +245,7 @@
     } else if (j.listed_30days && d && j.listed_30days.indexOf(d) > -1 &&
         (!t || t.indexOf('上榜') === -1) ) {
       ks = '<span style="color:red;">' + ki + '.<sup>上榜' +
-           j.address[d].length + '次</sup></span> ';
+           '多次</sup></span> '; // dldl
     } else {
       ks = '<span class="em">' + ki + '.</span> ';
     }
@@ -261,8 +258,8 @@
           '\');">' + d + '</span> ';
     }
     ks += ' <em>' + (t || '') + '</em>';
-    if (d && !t || t.indexOf('首次') === -1) {
-      ks += ' ' + tagsHTML( j.address[d] );
+    if (k && d && !t || t.indexOf('首次') === -1) {
+      ks += ' ' + tagsHTML(dldl(k, d));
     }
     const kk = document.createElement('p');
     kk.style.padding = '0';
@@ -1109,6 +1106,35 @@
     }
   }
 
+  function dldl (k_, d_) {
+    const dl = j.address[d_];
+    const s1 = dl.join(',').split(k_);
+    let kii; let il = 0;
+    for (kii = 0; kii < Ds.length; kii += 1) {
+      if (j.districts[ Ds[kii] ].indexOf(d_) > -1) {
+        il += 1;
+      }
+      if (Ds[kii] === k_) { break; }
+    }
+    let s2; let dldl = new Array();
+    //console.log(k_, d_, il, s1);
+    if (il !== 1) { // 地址同名, 团结村 国权北路555 邯郸路20 星火村 五四村
+      while (s1.length > 1) {
+        s2 = s1.shift();
+        if (s2) {
+          dldl.push( s2.substr(s2.lastIndexOf(',') + 1) );
+        }
+      }
+    } else {
+      for (s2 = 0; s2 < dl.length; s2 += 1) {
+        if (dl[s2].length === 4) {
+          dldl.push( dl[s2] );
+        }
+      }
+    }
+    return dldl;
+  }
+
   function search (kt, pngNot) {
     let k = trim(kt);
     if (!k) {
@@ -1278,40 +1304,22 @@
     let map_x = new Array();
     let map_y = new Array();
     let map_addr = new Array();
-    let ij; let ik; let il; let release;
+    let release;
     for (i = 0; i < As.length; i += 1) {
       if (As[i].indexOf(k) > -1) {
-        dl = j.address[ As[i] ];
-        il = 0;
         for (ii = 0; ii < Ds.length; ii += 1) {
           release = 0;
-          ij = j.districts[ Ds[ii] ];
-          for (ik = 0; ik < ij.length; ik += 1) {
-            if (ij[ik] === As[i]) {
-              //console.log(Ds[ii]);
-              document.getElementById(Ds[ii]).style.background = 'yellow';
-              document.getElementById(Ds[ii] + 'line').textContent += '|';
-              il += 1;
-              sb += 1;
+          if (j.districts[ Ds[ii] ].indexOf(As[i]) > -1) {
+            //console.log(Ds[ii]);
+            document.getElementById(Ds[ii]).style.background = 'yellow';
+            document.getElementById(Ds[ii] + 'line').textContent += '|';
+            sb += 1;
 
 //onList.textContent += Ds[ii] + ',' + As[i] + ': ' + dl;
-const s1 = dl.join(',').split(Ds[ii]);
-let s2; let dldl;
-//console.log(As[i], Ds[ii], il, s1);
-if (il !== 1) { // 地址同名, 团结村 国权北路555 邯郸路20 星火村
-  dldl = new Array();
-  while (s1.length > 1) {
-    s2 = s1.shift();
-    if (s2) {
-      dldl.push( s2.substr(s2.lastIndexOf(',') + 1) );
-    }
-  }
-} else {
-  dldl = dl;
-}
-if (j.listed_30days && j.listed_30days.indexOf(As[i]) > -1 && dldl.length >= 30) {
+const dl = dldl(Ds[ii], As[i]);
+if (j.listed_30days && j.listed_30days.indexOf(As[i]) > -1 && dl.length >= 30) {
   ks = '<span style="color:red;">' + sb + '.<sup>上榜' +
-       dldl.length + '次</sup></span> ';
+       dl.length + '次</sup></span> ';
 } else {
   ks = '<span class="em">' + sb + '.</span> ';
 }
@@ -1336,14 +1344,14 @@ if (Ms.indexOf(Ds[ii] + As[i]) > -1) {
   console.log('搜索地址 未显示', Ds[ii] + As[i]);
   dotNotDraw += 1; // 搜索地址
 }
-if (dldl.length) {
-  if (dldl.join(',').indexOf(j.tag) > -1) {
+if (dl.length) {
+  if (dl.join(',').indexOf(j.tag) > -1) {
     if (map_push) { map_push = 2; }
-    ks += '<span style="color:red">' + tagsHTML(dldl) + '</span>';
+    ks += '<span style="color:red">' + tagsHTML(dl) + '</span>';
   } else {
-    ks += tagsHTML(dldl);
+    ks += tagsHTML(dl);
   }
-  release = parseInt( dldl.slice(-1)[0] );
+  release = parseInt( dl.slice(-1)[0] );
 }
 if (release) {
   release += (14 - 300);
@@ -1370,7 +1378,7 @@ if (release) {
     }
   }
 }
-if (il === 1 && _ww && _ww.indexOf(Ds[ii] + As[i]) > -1) {
+if (_ww && _ww.indexOf(Ds[ii] + As[i]) > -1) {
   const wdl = W.pairs[ Ds[ii] + As[i] ];
   let dli; let dl0; let dl1; let dlt = true;
   //if (dl.length > 4) {
@@ -1398,7 +1406,7 @@ if (il === 1 && _ww && _ww.indexOf(Ds[ii] + As[i]) > -1) {
       }
       ks += '<span class="click" onclick="search(this.textContent);">' +
             dl1 + '</span> 上榜于' +
-            tagsHTML(j.address[ dl1 ], 1) +
+            tagsHTML(dldl(dl0, dl1), 1) +
             '</span>';
     }
   }
@@ -1419,8 +1427,7 @@ if (map_push === 1) {
   map_addr.unshift( Ds[ii] + As[i] );
 }
 
-            //if
-            }
+          //if
           }
         }
       }
