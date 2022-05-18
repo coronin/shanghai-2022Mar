@@ -8,7 +8,7 @@ AsBs = ('0306','0307','0308','0309','0310',
       '0411','0412','0413','0414','0415','0416','0417','0418','0419','0420',
       '0421','0422','0423','0424','0425','0426','0427','0428','0429','0430',
       '0501','0502','0503','0504','0505','0506','0507','0508','0509','0510',
-      '0511','0512','0513','0514','0515','0516'
+      '0511','0512','0513','0514','0515','0516','0517'
       )
 #### 以上不能有末尾逗号 没有空字符检查
 As = AsBs[:-14]
@@ -140,7 +140,6 @@ def read_a_list(s, tag=''):
         line = l.strip().replace('（住宅）', ''
                        ).replace('（公寓）', '') ## 店铺）宿舍）
         if line == 'shanghaifabu' and tag != 'list':
-            #print('>>>>', s, line)
             by_address[line] += [s]
             continue
         for dd in districts:
@@ -158,6 +157,8 @@ def read_a_list(s, tag=''):
                                  line.find('新闻办编辑') > -1):
             running_district = ''
             continue
+        if len( line.strip() ) > 20:
+            print('>> %s.txt' % s, line, 20)
         if not line or line.find('居住于'
              ) > -1 or line.find('微信号'
              ) > -1 or line.find('微信平台'
@@ -226,7 +227,7 @@ def read_a_list(s, tag=''):
             else:
                 by_address[line] = [ '%s%s' % (s, running_district)]
         else:
-            print('>>', s, line, len(post) )
+            print('>> %s.txt' % s, line, len(post) )
     return post
 
 
@@ -241,7 +242,7 @@ if As == '0306':
 elif As:
     for s in As:
         A += read_a_list(s)
-        #print('>>>>', s)
+        #print('>>>>', s, len(A) )
 #print('A', list(set(by_district['杨浦区'])))
 B = []
 for s in Bs[:-1]:
@@ -285,7 +286,6 @@ for longline in A:
             line = longline[4:]
         else:
             line = longline[3:]
-        #print('>>>>', line)
         for dd in districts:
             if line in by_district[dd]:
                 if (districts_released.get(dd)):
@@ -305,7 +305,6 @@ for line, dates in by_address.items():
         listed30days.append(line)
     ddd = -1
     while As and len(dates) >= (0 - ddd) and dates[ddd][:4] == As[-1]:
-        #print('>>>>', line)
         count += 1
         dd = dates[ddd][4:]
         if line in by_district[dd]:
@@ -314,7 +313,7 @@ for line, dates in by_address.items():
             else:
                 latest_released[dd] = [line]
         else:
-            print('>>>>', line, dates)
+            print('>>', line, dates)
             raise
         ddd -= 1
     if line != 'shanghaifabu':

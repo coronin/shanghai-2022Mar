@@ -9,8 +9,8 @@ z = [
 #'0521','']
 #'0520','']
 #'0519','']
-#'0518','']
-'0517','']
+'0518','']
+#'0517','https://mp.weixin.qq.com/s/q2BapLzFqFVctV-g9xJYcw']
 #'0516','https://mp.weixin.qq.com/s/gnW4IoImldVq9jotw_C1nw']
 #'0515','https://mp.weixin.qq.com/s/19BHG_8SUwK07nUeNjc9Dw']
 #'0514','https://mp.weixin.qq.com/s/d1qIhfwsisM2jQpfURml3A']
@@ -106,6 +106,24 @@ day0x0x = {
 '青浦区': '', # 绿色青浦
 '奉贤区': '',
 '崇明区': '' }
+
+day0517 = {
+'浦东新区': 'https://mp.weixin.qq.com/s/HzNCRH9s6PEnQbuAYuYN3w', # 浦东发布
+'黄浦区': 'https://mp.weixin.qq.com/s/MoBw2czZTXcGbjxDsNPC1w',
+'静安区': 'https://mp.weixin.qq.com/s/vNOHpR9a-7_aSZtJlv8Zfg',
+'徐汇区': 'https://mp.weixin.qq.com/s/FOJcvSvn0nEXU7GlqULqaA',
+'长宁区': 'https://mp.weixin.qq.com/s/LQXH-yVOWCzDmHJEE9yPRw',
+'普陀区': 'https://mp.weixin.qq.com/s/6061EQ9_1ZDM6u3U2bHFng',
+'虹口区': 'https://mp.weixin.qq.com/s/YHvpzgI0aIHGzEbDJENMsg',
+'杨浦区': 'https://mp.weixin.qq.com/s/SbOOQuP5BMz-KxHOAPJPCg',
+'宝山区': 'https://mp.weixin.qq.com/s/1K98DVM2BvwmZ6UlXF1JPQ',
+'闵行区': 'https://mp.weixin.qq.com/s/DZmr41Nik0iKdk6odh5KRQ', # 今日闵行
+'嘉定区': 'https://mp.weixin.qq.com/s/fNYGP8Cb6Ooz5IaVlVv3bg',
+'金山区': '',
+'松江区': 'https://mp.weixin.qq.com/s/U6MRSphsxP_SLXX7BTgswg',
+'青浦区': 'https://mp.weixin.qq.com/s/FIgNcxcP1GzxAmW2PsksWw', # 绿色青浦
+'奉贤区': 'https://mp.weixin.qq.com/s/3xu28JQxrDaCYfK6EBY-oA',
+'崇明区': 'https://mp.weixin.qq.com/s/NILTzIVeoYc35a1LJEGTQw' }
 
 day0514 = {
 '浦东新区': 'https://mp.weixin.qq.com/s/rgGTNinnNGKFOmtCS5nGpQ', # 浦东发布
@@ -263,7 +281,7 @@ if not z[1]:
             print('day%s 没有%s的链接' % (z[0],zz0[i]) )
         else:
             wx = BeautifulSoup(request.urlopen(z1).read(), features="lxml")
-            wx_ = wx.find('div', {'id' : 'img-content'}).get_text()
+            wx_ = wx.find('div', {'id' : 'img-content'}).get_text("\n", strip=True)
             if wx_.find('%s月%s日' % (int(z[0][:2]), int(z[0][2:])) ) < 0:
                 print('day%s %s的链接没有有效日期' % (z[0],zz0[i]) )
                 raise
@@ -294,7 +312,7 @@ elif z[1].endswith('.html'):
     f = open('shanghaifabu/%s%s.txt' % (z[0],z[0]), 'r')
     page = f.read()
     f.close()
-    pp = BeautifulSoup(page, features="lxml").find('div', {'id' : 'ivs_content'}).get_text()
+    pp = BeautifulSoup(page, features="lxml").find('div', {'id' : 'ivs_content'}).get_text("\n", strip=True)
     import re
     ppp = re.findall(r'，居住于(\S{2,3}区[^，。]+)', pp) + re.findall(r'，居住地为(\S{2,3}区[^，。]+)', pp)
     print('就读于', re.findall(r'，就读于(\S{2,3}区[^，。]+)', pp) )
@@ -305,19 +323,19 @@ elif z[1].endswith('.html'):
     wxx = re.sub(r'(\S{2,3})区', r'\1区,', '\n'.join(ppp) )
 else:
     wx = BeautifulSoup(request.urlopen(z[1]).read(), features="lxml")
-    wxx = wx.find('div', {'id' : 'img-content'}).get_text()
+    wxx = wx.find('div', {'id' : 'img-content'}).get_text("\n", strip=True)
 res = wxx.replace('，', ',').replace('。', ',').replace('、', ',').replace('；', ',').replace(';', ','
         ).replace(' ', ',').replace('\t', ','
         ).replace('分别居住于', ',').replace('：', ','
-        ).replace('我区', ',,,,')
+        ).replace('我区', ',,,,').replace('已对相关', ',')
 
 Z = [ s.strip() for s in list(filter(None, res.split(',') )) ]
 #print(len(Z))
 for zz in Z:
-    if len(zz) > 50:
-        print('\n', zz, '\n')
+    if len( zz.strip() ) > 20: # 5/18 金山区
+        print('%s\n' % zz.strip() )
     elif zz.find('成功') > -1 or zz.find('目前') > -1:
-        print(zz)
+        print('## 成功 | 目前\n%s\n' % zz.strip() )
 print(z[1])
 if not z[1]:
     print('如采用此数据 请补一行shanghaifabu')

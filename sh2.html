@@ -9,7 +9,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
   <!-- script src="full.json"></script -->
-  <script src="shanghaifabu/map-location.json?v=0516"></script><!-- @@ -->
+  <script src="shanghaifabu/map-location.json?v=0517"></script><!-- @@ -->
   <script src="shanghaifabu/d3.min.v3.js"></script>
   <script src="shanghaifabu/topojson.min.180.js"></script><!-- http://geojson.io -->
   <script src="shanghaifabu/sh.json"></script><!-- http://datav.aliyun.com/portal/school/atlas/area_generator -->
@@ -20,7 +20,7 @@
   let i; let j; const _J = {};
   let As; let Ds;
   const today = new Date();
-  const j_data_init = 516; // @@
+  const j_data_init = 517; // @@
   let _today; // j.tag
   let Ml; let Ms; let map;
   let d3scale; let d3center; let svgWidth; let svgHeight;
@@ -786,7 +786,7 @@
     datestr.textContent = j.date;
     fetching.style.visibility = 'hidden';
     fetching2.style.visibility = 'hidden';
-    end_pre.textContent = '数据更新时间 ' + j.date +
+    end_pre.textContent = '\n\n数据更新时间 ' + j.date +
                           '\n源代码 github.com/coronin/shanghai-2022Mar' +
                           '\n作者 @the_paper_link';
     tag_m.textContent = parseInt(j.tag.substr(0,2) );
@@ -1723,7 +1723,8 @@ if (map_push === 1) {
       font-size: 75%;
     }
     em,
-    span.em {
+    span.em,
+    #end_pre {
       color: grey;
     }
     em> span {
@@ -1735,15 +1736,6 @@ if (map_push === 1) {
   </style>
 </head>
 <body onload="load_js();">
-  <div id="disqus_thread"></div>
-  <!-- script>
-  (function() { // 官网 通用代码
-    var d = document, s = d.createElement('script');
-    s.src = 'https://sh-teach-cn.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    })();
-  </script -->
   <p>
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a>
       <span id="datestr" style="color:blue;"></span>
@@ -1820,5 +1812,14 @@ if (map_push === 1) {
   <div style="color:green;display:none;" id="released" data-value="1"></div>
 
   <pre id="end_pre">EOF</pre>
+  <div id="disqus_thread"></div>
+  <!-- script>
+  (function() { // 官网 通用代码
+    var d = document, s = d.createElement('script');
+    s.src = 'https://sh-teach-cn.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+  </script -->
 </body>
 </html>
