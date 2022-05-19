@@ -9,7 +9,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
   <!-- script src="full.json"></script -->
-  <script src="shanghaifabu/map-location.json?v=0517"></script><!-- @@ -->
+  <script src="shanghaifabu/map-location.json?v=0518"></script><!-- @@ -->
   <script src="shanghaifabu/d3.min.v3.js"></script>
   <script src="shanghaifabu/topojson.min.180.js"></script><!-- http://geojson.io -->
   <script src="shanghaifabu/sh.json"></script><!-- http://datav.aliyun.com/portal/school/atlas/area_generator -->
@@ -20,7 +20,7 @@
   let i; let j; const _J = {};
   let As; let Ds;
   const today = new Date();
-  const j_data_init = 517; // @@
+  const j_data_init = 518; // @@
   let _today; // j.tag
   let Ml; let Ms; let map;
   let d3scale; let d3center; let svgWidth; let svgHeight;
@@ -1363,7 +1363,7 @@ if (release) {
     //onList.textContent += ' --> 4/' + release + '\n';
     ks += ' &rarr; 4/' + release;
     ks += ' <span style="color:green">已满14天</span>';
-  } else {
+  } else if (release < 132) {
     if (release > 100) { // 最近一次在5月
       release -= 100;
     } else {
@@ -1375,6 +1375,8 @@ if (release) {
     } else if (release === today.getDate() ) {
       ks += '<span style="color:green">是第14天</span>';
     }
+  } else {
+    ks += ' &rarr; <em>6/' + (release-131) + '</em></span>';
   }
 }
 if (_ww && _ww.indexOf(Ds[ii] + As[i]) > -1) {
