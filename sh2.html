@@ -1020,6 +1020,7 @@
       }
       map.stroke();
     });
+    let line_dot_must_shown1 = false;
     const line0 = JSON.parse(lines);
     const line1 = topojson.feature(line0, line0.objects.collection);
     map.strokeStyle = 'rgba(0,0,255,0.3)';
@@ -1028,11 +1029,25 @@
       dots = d.geometry.coordinates;
       map.beginPath();
       map.moveTo(mapX0(dots[0][0]), mapY0(dots[0][1]));
+      if (!line_dot_must_shown1 &&
+          mapX0(dots[0][0]) > 0 && mapX0(dots[0][0]) < svgWidth &&
+          mapY0(dots[0][1]) > 0 && mapY0(dots[0][1]) < svgHeight) {
+        line_dot_must_shown1 = true;
+      }
       for (i = 1; i < dots.length; i += 1) {
         map.lineTo(mapX0(dots[i][0]), mapY0(dots[i][1]));
+        if (!line_dot_must_shown1 &&
+            mapX0(dots[i][0]) > 0 && mapX0(dots[i][0]) < svgWidth &&
+            mapY0(dots[i][1]) > 0 && mapY0(dots[i][1]) < svgHeight) {
+          line_dot_must_shown1 = true;
+        }
       }
       map.stroke();
     });
+    if (!line_dot_must_shown1) {
+      d3scale = Math.floor(d3scale/2);
+      draw_sh();
+    }
   }
 
   // let _addr_manual = 0;
@@ -1481,9 +1496,9 @@ if (map_push === 1) {
       d3scale_ = Math.max.apply(null, [72000, d3scale_, Math.floor(d3scale_ * 3/map_XYtest )]);
       //console.log('scale min',
       //            Math.floor(d3scale_ * 3/map_XYtest ), ', used', d3scale_);
-      while (d3scale_ > 72000 * 16) {
-        d3scale_ = Math.floor(d3scale_/2);
-      }
+      //while (d3scale_ > 72000 * 16) { // line_dot_must_shown1
+      //  d3scale_ = Math.floor(d3scale_/2);
+      //}
       console.log('Found',
                   k, scaleChange, '更新前', d3scale, '计算值', d3scale_);
       if (d3scale_ && scaleChange && map_i < 100 && map_i > 1) {
@@ -1770,6 +1785,7 @@ if (map_push === 1) {
     <label for="addr" style="color:red;font-weight:bold;"><span>上榜地址</span></label>
     <input type="text" id="addr" name="addr" onkeydown="last_search=false;addrEnter();" />
     <button id="search_button" onclick="scaleChange=true;last_search=false;search(addr.value);">搜索</button>
+    &nbsp;以下基于2022/<span class="_tag"></span>的数据
   </p>
 
   <div id="pngGif"></div>
