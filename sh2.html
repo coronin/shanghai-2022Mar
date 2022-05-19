@@ -49,7 +49,8 @@
     released_today:'当日下榜', released:'累计下榜',
     districts:'累计阳', inB:'两周阳', latest_added:'比昨日多', today:'当日阳',
     latest_added2:'三阴阳', 6:'latest_added2',
-    latest_added7:'七阴阳', 7:'latest_added7' };
+    latest_added7:'七阴阳', 7:'latest_added7',
+    still_in:'计算阳', 8:'still_in' };
   let _check = check_choices['0'];
   let dotNotDraw = 0;
   const baseURL = window.location.toString().split('#')[0].split('?')[0];
@@ -82,10 +83,10 @@
   function cache14days () {
     return new Promise(resolve => {
       let afterD = parseInt(j.tag) - 14;
-      if (afterD > 331 && afterD < 400) {
-        afterD -= 69; // 401-14=387(318)
-      } else if (afterD > 430 && afterD < 500) {
-        afterD -= 70; // 512-14=498(428), 501-14=487(417)
+      if (331 < afterD && afterD <= 400) {
+        afterD -= 69; // 401-14=387(318), 414-14=400(331)
+      } else if (430 < afterD && afterD <= 500) {
+        afterD -= 70; // 514-14=500(430), 501-14=487(417)
       }
       let dl; let ki; let kj; let kii;
       let kjd;
@@ -185,6 +186,56 @@
         ki += kj - 1;
       }
     }
+  }
+
+  function populateStill (days) {
+    if (!days || days > 14) {
+      window.alert('请先尝试两周阳（14天内曾上榜至少1次）');
+      return;
+    }
+    if (j['still_in' + days]) {
+      check8.style.display = 'inline-block';
+      j.still_in = j['still_in' + days];
+      return;
+    }
+    return new Promise(resolve => {
+      j['still_in' + days] = {};
+      let s0 = parseInt(j.tag) - days;
+      if (331 < s0 && s0 <= 400) {
+        s0 -= 69;
+      } else if (430 < s0 && s0 <= 500) {
+        s0 -= 70;
+      }
+      let s1;
+      for (const p in j.inB) {
+        j['still_in' + days][p] = [];
+        Array.from(j.inB[p]).forEach((d) => {
+          if (j.address[d]) {
+            s1 = j.address[d].join(',');
+            if (s1.indexOf(p) > 3) {
+              if (parseInt(s1.substr(s1.lastIndexOf(p) - 4, 4)) >= s0) {
+                j['still_in' + days][p].push(d);
+              }
+            } else if (parseInt(j.address[d].slice(-1)[0].substr(0,4)) >= s0) {
+              s1 = -1;
+              while (j.address[d].slice(s1)[0] &&
+                     j.address[d].slice(s1)[0].length > 4) {
+                s1 -= 1;
+              }
+              if (j.address[d].slice(s1)[0] &&
+                  parseInt(j.address[d].slice(s1)[0]) >= s0) {
+                j['still_in' + days][p].push(d);
+              }
+            }
+          }
+        });
+      }
+      j.still_in = null;
+      _J[j.tag] = j;
+      check8.style.display = 'inline-block';
+      j.still_in = j['still_in' + days];    console.log(j.still_in);
+      resolve(1);
+    });
   }
 
   function onlyNewAddr () {
@@ -833,7 +884,7 @@
     return ds;
   }
 
-  function load () {
+  async function load () {
     Ml = JSON.parse(csv);
     Ms = Object.keys(Ml.locations);
     datestr.textContent = j.date;
@@ -969,6 +1020,12 @@
         k = hash2;
       }
       search(k);
+    }
+    if (!j.still_in) {
+      check8.style.display = 'none';
+      await populateStill(5).catch(e => {
+        return console.log(e);
+      });
     }
   }
 
@@ -1318,6 +1375,8 @@
         async14days(k);
       } else if (_check === 'districts') {
         list30days(k);
+      } else if (_check === 'still_in') {
+        asyncStill(k);
       }
       check_row.style.display = 'block';
       updateCheckStatus();
@@ -1352,6 +1411,8 @@
         async14days();
       } else if (_check === 'districts') {
         list30days();
+      } else if (_check === 'still_in') {
+        asyncStill();
       } else if (['latest_added2', 'latest_added7', 'latest_added'
                  ].indexOf(_check) > -1) {
         generalAppend();
@@ -1904,6 +1965,8 @@ map_addr.push( Ds[ii] + As[i] );
       data-value="1" /><span style="color:red">比昨日多</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
       data-value="0" /><span style="color:red">当日阳</span></label>
+    <label id="check8" style="display:none;"><input type="checkbox" name="check" onclick="onlyOne(this)"
+      data-value="8" /><span style="color:red">计算阳</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
       data-value="2" /><span style="color:red">两周阳</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
