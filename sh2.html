@@ -62,12 +62,12 @@
 
   function trim (s) { return (s || '').replace(/^\s+|\s+$/g, ''); }
 
-  function bubble2 (arr) {
+  function bubble2 (arr, b2 = 1) {
     let done = false; let tmp;
     while (!done) {
       done = true;
       for (i = 1; i < arr.length; i += 1) {
-        if (arr[i - 1][1] < arr[i][1]) {
+        if (arr[i - 1][b2] < arr[i][b2]) {
           done = false;
           tmp = arr[i - 1];
           arr[i - 1] = arr[i];
@@ -192,14 +192,15 @@
         if (j.address[p].length === 1 && j.address[p][0].substr(0,4) === j.tag) {
           if (addr.value === '上海市') {
             if (j.address[p][0].length > 4) {
-              adds.push([j.address[p][0].substr(4), p]);
+              adds.push([j.address[p][0].substr(4), p,
+                         99-Ds.indexOf(j.address[p][0].substr(4))]);
             } else {
               for (kii = 0; kii < Ds.length; kii += 1) {
                 if (j.districts[ Ds[kii] ].indexOf(p) > -1) {
                   break;
                 }
               }
-              adds.push([Ds[kii], p]);
+              adds.push([Ds[kii], p, 99-kii]);
             }
           } else { //各区
             if (j.address[p][0].length > 4 && j.address[p][0].substr(4) === addr.value) {
@@ -209,6 +210,7 @@
             }
           }
       } }
+      bubble2(adds, 2);
       resolve(adds);
     });
   }
