@@ -60,6 +60,7 @@
   let pngBase64 = {};
   let W; let _ww;
   let nextSpecial = '';
+  let loadingBlock = false;
 
   function trim (s) { return (s || '').replace(/^\s+|\s+$/g, ''); }
 
@@ -472,6 +473,9 @@
   }
 
   function updateLocation (hash_, q) {
+    if (loadingBlock) {
+      return;
+    }
     let url = baseURL + '#0' + hash_;
     if (q) {
       url += '?' + q;
@@ -611,6 +615,10 @@
   }
 
   function load_js () {
+    if (loadingBlock) {
+      return;
+    }
+    loadingBlock = true;
     const hash_orig = window.location.hash.slice(1).split('?')[0];
     const hash2_orig = decodeURIComponent(window.location.toString()).split('?')[1]; // undefined
     hash = hash_orig;
@@ -697,6 +705,7 @@
         }
         next_pre_vis(hash_);
         load();
+        loadingBlock = false;
       }, false);
       req.addEventListener("error", event => {
         if (baseURL.substr(0,4) !== 'http' || JSON.stringify(_J) === '{}') {
@@ -709,8 +718,8 @@
           });
           window.alert('数据无法下载 请稍后刷新页面\n当前可使用以下数据\n' +
                        Object.keys(_J)); // window.location.toString()
+          loadingBlock = false;
         }
-        return false;
       }, false);
       req.addEventListener("abort", event => {
         console.log(event);
@@ -753,6 +762,9 @@
   }
 
   function resetDay (dldi) {
+    if (loadingBlock) {
+      return;
+    }
     search_button.textContent = '搜索';
     addr.value = '';
     app.style.display = 'none';
