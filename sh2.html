@@ -495,7 +495,7 @@
         hash_ = parseInt(j.address.shanghaifabu.slice(-1)[0] );
       }
     } else {
-      window.alert(j.tag);
+      //window.alert(j.tag); // before and include 0318
       hash_ = parseInt(j.tag) - 1;
     }
     if (oldest) {
@@ -680,7 +680,8 @@
         if (baseURL.substr(0,4) !== 'http') {
           window.alert('数据无法下载 请访问 https://sh.teach.bio/');
         } else {
-          window.alert('数据无法下载 请刷新页面\n' + window.location.toString() );
+          window.alert('数据无法下载 请刷新页面\n或跳至以下数据\n' +
+                       Object.keys(_J)); // window.location.toString()
         }
         return false;
       }, false);
@@ -733,7 +734,7 @@
   }
 
   function tagsHTML (dl_, noClick) {
-    if (!dl_) { return ''; }
+    if (!dl_ || dl_.length === 0) { return ''; }
     const dl = [];
     let di;
     for (di = 0; di < dl_.length; di += 1) {
@@ -741,7 +742,7 @@
         dl.push( dl_[di] );
       }
     }
-    if (!dl) { return ''; }
+    if (!dl || dl.length === 0) { return ''; }
     let ds; let inwhile;
     if (noClick) {
       ds = '<span>' + hash2date(dl[0]) + '</span>';
@@ -1354,20 +1355,23 @@ if (dl.length) {
 }
 if (release) {
   release += (14 - 300);
-  if (release > 100) {
-    release -= 100;
-  } else if (release > 31) {
-    release -= 31; // 单次3月18日的地址
-  }
-  if (release < 31) {
+  if (release < 32) {
     //onList.textContent += ' --> 4/' + release + '\n';
-    ks += ' &rarr; 4/' + release;
-    ks += ' <span style="color:green">已满14天</span>';
-  } else if (release < 132) {
-    if (release > 100) { // 最近一次在5月
+    ks += ' &rarr; 3/' + release +
+          ' <span style="color:green">已满14天</span>';
+  } else if (release < 131) { // release 4月30+1
+    if (release > 100) {
       release -= 100;
     } else {
-      release -= 30;
+      release -= 31;
+    }
+    ks += ' &rarr; 4/' + release +
+          ' <span style="color:green">已满14天</span>';
+  } else if (release < 232) { // release 5月31+1
+    if (release > 200) {
+      release -= 200;
+    } else {
+      release -= 130;
     }
     ks += ' &rarr; 5/' + release;
     if (release < today.getDate() ) {
@@ -1376,7 +1380,7 @@ if (release) {
       ks += '<span style="color:green">是第14天</span>';
     }
   } else {
-    ks += ' &rarr; <em>6/' + (release-131) + '</em></span>';
+    ks += ' &rarr; 6/' + (release-231);
   }
 }
 if (_ww && _ww.indexOf(Ds[ii] + As[i]) > -1) {
@@ -1405,10 +1409,15 @@ if (_ww && _ww.indexOf(Ds[ii] + As[i]) > -1) {
         ks += '<span class="click" onclick="search(this.textContent);">' +
             dl0 + '</span> ';
       }
-      ks += '<span class="click" onclick="search(this.textContent);">' +
+      if (tagsHTML(dldl(dl0, dl1), 1) !== '') {
+        ks += '<span class="click" onclick="search(this.textContent);">' +
             dl1 + '</span> 上榜于' +
             tagsHTML(dldl(dl0, dl1), 1) +
             '</span>';
+      } else {
+        ks += '<span class="click" onclick="search(this.textContent);">' +
+            dl1 + '</span><!-- 上榜 --></span>';
+      }
     }
   }
 }
