@@ -644,12 +644,15 @@
       }, false);
       req.addEventListener("progress", event => {
         const ld = document.getElementsByClassName('loading_pr');
+        let ldint;
         Array.from(ld).forEach((d) => {
           if (event.lengthComputable) {
-            d.textContent = parseInt(100 * event.loaded/event.total) + '%';
+            ldint = parseInt(100 * event.loaded/event.total);
           } else {
-            d.textContent = parseInt(100 * event.loaded/3600000) + '%';
+            ldint = parseInt(100 * event.loaded/3600000);
           }
+          if (ldint > 99) { ldint = 99; }
+          d.textContent = ldint + '%';
         });
       }, false);
       req.addEventListener("load", event => {
@@ -671,16 +674,20 @@
         load();
       }, false);
       req.addEventListener("error", event => {
-        save_button.style.visibility = 'hidden';
-        addr.style.visibility = 'hidden';
-        search_button.style.visibility = 'hidden';
-        districtTbody.style.visibility = 'hidden';
-        next_button.style.visibility = 'hidden';
-        pre_button.style.visibility = 'hidden';
-        if (baseURL.substr(0,4) !== 'http') {
+        if (baseURL.substr(0,4) !== 'http' || _J === {}) {
+          save_button.style.visibility = 'hidden';
+          addr.style.visibility = 'hidden';
+          search_button.style.visibility = 'hidden';
+          districtTbody.style.visibility = 'hidden';
+          next_button.style.visibility = 'hidden';
+          pre_button.style.visibility = 'hidden';
           window.alert('数据无法下载 请访问 https://sh.teach.bio/');
         } else {
-          window.alert('数据无法下载 请刷新页面\n或跳至以下数据\n' +
+          const ld = document.getElementsByClassName('loading_pr');
+          Array.from(ld).forEach((d) => {
+            d.textContent = '暂存数据' + Object.keys(_J);
+          });
+          window.alert('数据无法下载 请稍后刷新页面\n当前可使用以下数据\n' +
                        Object.keys(_J)); // window.location.toString()
         }
         return false;

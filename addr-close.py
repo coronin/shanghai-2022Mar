@@ -1,5 +1,5 @@
-within = 100
-nearby = 7 # 仅用于输出check.txt
+within = 125
+nearby = 12 # 仅用于输出check.txt
 # 2022-5-11 init
 # 2022-5-14 amap gcj02
 

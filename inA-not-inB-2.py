@@ -14,8 +14,7 @@ AsBs = ('0306','0307','0308','0309','0310',
 As = AsBs[:-14]
 Bs = AsBs[-14:]
 if len(Bs) > 14:
-    print('not in B 最多14天')
-    raise
+    raise ValueError('not in B 最多14天')
 
 districts = ('浦东新区', '黄浦区', '静安区', '徐汇区', '长宁区',
              '普陀区', '虹口区', '杨浦区', '宝山区', '闵行区',
@@ -28,10 +27,9 @@ districts_today = {}
 districts_inB = {}
 by_address = {'shanghaifabu':['0313'] }
 if len(As) < 2:
-    print('in A 数据量少，0306需为字符', As)
+    raise ValueError('in A 数据量少，0306需为字符', As)
     #As = '0306' # if ,'0320')
     #As = []     # < 0320
-    raise
 transition_int = int(Bs[0])
 if (As):
     transition_int = int(As[0]) # 306
@@ -48,8 +46,7 @@ def clean_dates(arr):
         if ind < dsi:
             dsi = ind
     if not dsi in range(0, 16): # 16 not in range
-        print(dsi, ds, arr)
-        raise
+        raise ValueError(dsi, ds, arr)
     arr_new = []
     for aa in arr:
         arr_new.append(aa.replace(districts[dsi], ''))
@@ -120,7 +117,7 @@ def read_a_list(s, tag=''):
         return []
     global transition_int;
     if tag != 'list' and int(s) != transition_int:
-        raise
+        raise ValueError(s, transition_int)
     transition_int += 1
     if tag != 'list' and transition_int == 332:
         transition_int = 401
@@ -208,6 +205,8 @@ def read_a_list(s, tag=''):
             post.append( '%s%s' % (running_district, line) )
             continue
         elif running_district and '%s%s' % (running_district, line) not in post:
+            if re.match(r'\d+\D\D?$', line):
+                raise ValueError(s, line, len(post))
             post.append( '%s%s' % (running_district, line) )
             if line not in by_district[running_district]:
                 by_district[running_district].append(line)
@@ -233,7 +232,7 @@ def read_a_list(s, tag=''):
 
 # transition_int = 5090509
 # print('\n'.join(read_a_list('05090509') ))
-# raise
+# raise RuntimeError
 print('====================')
 
 A = []
@@ -265,7 +264,7 @@ print('by district total, w/dupl', ddc )
 #         print(zz)
 #     # if re.match(r'\d+\D\D+村', zz):
 #     #     print(zz)
-# raise
+# raise RuntimeError
 
 from datetime import datetime
 datestr = '%s' % datetime.now()
@@ -313,8 +312,7 @@ for line, dates in by_address.items():
             else:
                 latest_released[dd] = [line]
         else:
-            print('>>', line, dates)
-            raise
+            raise ValueError('>>', line, dates)
         ddd -= 1
     if line != 'shanghaifabu':
         by_address[line] = clean_dates(dates)
