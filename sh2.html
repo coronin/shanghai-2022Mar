@@ -191,12 +191,11 @@
   function populateStill (days) {
     if (!days || days > 14) {
       window.alert('请先尝试两周阳（14天内曾上榜至少1次）');
-      return;
+      return new Promise(res => { res(0); });
     }
     if (j['still_in' + days]) {
-      check8.style.display = 'inline-block';
       j.still_in = j['still_in' + days];
-      return;
+      return new Promise(res => { res(1); });
     }
     return new Promise(resolve => {
       j['still_in' + days] = {};
@@ -214,7 +213,8 @@
             s1 = j.address[d].join(',');
             if (s1.indexOf(p) > 3) {
               if (parseInt(s1.substr(s1.lastIndexOf(p) - 4, 4)) >= s0) {
-                j['still_in' + days][p].push(d);
+                j['still_in' + days][p].push([d,
+                  parseInt(s1.substr(s1.lastIndexOf(p) - 4, 4)) ]);
               }
             } else if (parseInt(j.address[d].slice(-1)[0].substr(0,4)) >= s0) {
               s1 = -1;
@@ -224,18 +224,52 @@
               }
               if (j.address[d].slice(s1)[0] &&
                   parseInt(j.address[d].slice(s1)[0]) >= s0) {
-                j['still_in' + days][p].push(d);
+                j['still_in' + days][p].push([d,
+                  parseInt(j.address[d].slice(s1)[0]) ]);
               }
             }
           }
         });
+        bubble2( j['still_in' + days][p] );
       }
       j.still_in = null;
       _J[j.tag] = j;
-      check8.style.display = 'inline-block';
-      j.still_in = j['still_in' + days];    console.log(j.still_in);
+      j.still_in = j['still_in' + days];
+
+console.log(days, j.still_in);
+
       resolve(1);
     });
+  }
+
+  async function asyncStill () {
+    const v = await populateStill(5).catch(e => {
+      return console.log(e);
+    });
+    if (v) {
+      listStill(addr.value);
+      draw_sh_addr(j.still_in[addr.value]);
+    }
+  }
+
+  function listStill (k) {
+    let ki = 0;
+    const kk = document.createElement('p');
+    const tt = '最近5日上榜';
+    if (j.still_in && k && j.still_in[k]) {
+      kk.innerHTML = '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);' +
+                     'j.still_in=j.still_in5;draw_sh_addr(null,\'' +
+                     k + tt + '\');">展示' + k + tt + '地址</button> ' +
+                     '<button onclick="h2dist.scrollIntoView();">各区统计</button> ' +
+                     '<input type="text" id="_still" name="_still" size=2 ' +
+                     'data-value=",5" onkeydown="stillEnter();" />';
+      onList.appendChild(kk);
+      // Array.from(j.still_in[k]).forEach((d) => {
+      //     ki += 1;
+      //     onListAppend(ki, k, d[0],
+      //                  '最近上榜于' + digi2date(d[1]) );
+      // });
+    }
   }
 
   function onlyNewAddr () {
@@ -313,7 +347,8 @@
           '\');">' + d + '</span> ';
     }
     ks += ' <em>' + (t || '') + '</em>';
-    if (k && d && (!t || t.indexOf('首次') === -1)) {
+    if (k && d && (!t || (
+        t.indexOf('首次') === -1 && t.indexOf('最近') === -1 ))) {
       ks += ' ' + tagsHTML(dldl(k, d));
     }
     const kk = document.createElement('p');
@@ -583,9 +618,9 @@
     if (lastest) {
       hash_ = j_data_init;
     }
-    if (next_button.getAttribute('data-value') !== "") {
+    if (next_button.getAttribute('data-value') !== '') {
       nextSpecial = next_button.getAttribute('data-value');
-      next_button.setAttribute('data-value', "");
+      next_button.setAttribute('data-value', '');
       next_button.style.border = '';
     }
     updateLocation(hash_, q);
@@ -612,6 +647,30 @@
     }
     const hash_ = i_ + 100 * month;
     updateLocation(hash_, q);
+  }
+
+  async function stillEnter (ky) {
+    const keyCode = ('which' in event) ? event.which : event.keyCode;
+    if (ky || keyCode === 13) {
+      const days = ky || parseInt(_still.value || '4');
+      if (document.getElementById('_still')) {
+        _still.value = '';
+      }
+      const v = await populateStill(days).catch(e => {
+        return console.log(e);
+      });
+      if (v && document.getElementById('_still') &&
+          _still.getAttribute('data-value').indexOf(',' + days) === -1 ) {
+        const c = document.createElement('span');
+        const tt = '最近' + days + '日';
+        c.innerHTML = ' <button onclick="map.clearRect(0,0,svgWidth,svgHeight);' +
+                      'j.still_in=j.still_in' + days + ';draw_sh_addr(null,\'' +
+                      addr.value + tt + '上榜\');">' + tt + '</button>';
+        _still.parentNode.appendChild(c);
+        _still.setAttribute(  'data-value', ',' + days +
+          _still.getAttribute('data-value')  );
+      }
+    }
   }
 
   function aprilEnter (ky) {
@@ -796,6 +855,10 @@
         admin: 'thepaperlink',
         adminLabel: 'Mod'
     });
+  }
+
+  function digi2date (_int) {
+    return Math.floor(_int/100) + '/' + (_int%100);
   }
 
   function hash2date (_s) {
@@ -1021,12 +1084,6 @@
       }
       search(k);
     }
-    if (!j.still_in) {
-      check8.style.display = 'none';
-      await populateStill(5).catch(e => {
-        return console.log(e);
-      });
-    }
   }
 
   function draw_sh () { // map-address.html
@@ -1157,6 +1214,11 @@
     let _R = 'rgba(255,0,0,';
     if (!mustRed && _check && _check.substr(0,8) === 'released') {
       _R = 'rgba(17,131,1,';
+    }
+    if (typeof s !== 'string') {
+      s = addr.value + s[0];
+    } else if (s.indexOf(',') > 0) {
+      s = s.substr(0, s.indexOf(','));
     }
     if (Ms.indexOf(s) > -1) {
       map.beginPath();
@@ -1355,7 +1417,7 @@
             }
           }
         }
-      } else {
+      } else if (_check !== 'still_in') {
         onListAppend(0, null, null, k + '无' + check_choices[_check] );
       }
       map.fillStyle = 'black';
@@ -1411,9 +1473,7 @@
         async14days();
       } else if (_check === 'districts') {
         list30days();
-      } else if (_check === 'still_in') {
-        asyncStill();
-      } else if (['latest_added2', 'latest_added7', 'latest_added'
+      } else if (['latest_added2', 'latest_added7', 'latest_added', 'still_in'
                  ].indexOf(_check) > -1) {
         generalAppend();
       }
@@ -1597,7 +1657,7 @@ map_addr.push( Ds[ii] + As[i] );
     }
     if (map_i === 0) {
       app.style.display = 'none';
-      next_button.setAttribute('data-value', "");
+      next_button.setAttribute('data-value', '');
       next_button.style.border = '';
       onListAppend(0, k.substr(0, k.length - 1), null, '&larr;可尝试');
     } else {
@@ -1709,8 +1769,7 @@ map_addr.push( Ds[ii] + As[i] );
       if (localMinimal.length) {
         bubble2(localMinimal, 3);
         draw_addr_withLabel(localMinimal[0][0],
-                            '上榜于' + Math.floor((999-localMinimal[0][3])/100) +
-                              '/' + (999-localMinimal[0][3])%100 );
+                            '上榜于' + digi2date(999-localMinimal[0][3]) );
       }
       map.fillStyle = 'red';
       if (dotNotDraw) {
@@ -1754,10 +1813,10 @@ map_addr.push( Ds[ii] + As[i] );
       if (document.getElementById(item + '_once')) {
         document.getElementById(item + '_once').style.visibility = 'hidden';
       }
-      document.getElementById(item).setAttribute('data-value', "0");
+      document.getElementById(item).setAttribute('data-value', '0');
     } else {
       document.getElementById(item).style.display = 'none';
-      document.getElementById(item).setAttribute('data-value', "1");
+      document.getElementById(item).setAttribute('data-value', '1');
     }
   }
 
@@ -1965,7 +2024,7 @@ map_addr.push( Ds[ii] + As[i] );
       data-value="1" /><span style="color:red">比昨日多</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
       data-value="0" /><span style="color:red">当日阳</span></label>
-    <label id="check8" style="display:none;"><input type="checkbox" name="check" onclick="onlyOne(this)"
+    <label><input type="checkbox" name="check" onclick="onlyOne(this)"
       data-value="8" /><span style="color:red">计算阳</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
       data-value="2" /><span style="color:red">两周阳</span></label>
