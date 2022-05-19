@@ -532,6 +532,7 @@
     if (next_button.getAttribute('data-value') !== "") {
       nextSpecial = next_button.getAttribute('data-value');
       next_button.setAttribute('data-value', "");
+      next_button.style.border = '';
     }
     updateLocation(hash_, q);
   }
@@ -601,6 +602,15 @@
     districtTbody.style.visibility = 'visible';
   }
 
+  function hard_off () {
+    save_button.style.visibility = 'hidden';
+    addr.style.visibility = 'hidden';
+    search_button.style.visibility = 'hidden';
+    districtTbody.style.visibility = 'hidden';
+    next_button.style.visibility = 'hidden';
+    pre_button.style.visibility = 'hidden';
+  }
+
   function load_js () {
     const hash_orig = window.location.hash.slice(1).split('?')[0];
     const hash2_orig = decodeURIComponent(window.location.toString()).split('?')[1]; // undefined
@@ -667,12 +677,19 @@
       req.addEventListener("load", event => {
         const e = event.target;
         const k = document.createElement('script');
-        k.textContent = e.responseText;
-        document.body.appendChild(k);
-        j = JSON.parse(data);
+        try {
+          k.textContent = e.responseText;
+          document.body.appendChild(k);
+          j = JSON.parse(data);
+        } catch (err) {
+          hard_off();
+          window.alert('数据无法下载 请访问 https://sh.teach.bio/');
+          return false;
+        }
         data = '';
         _J[hash] = j;
         if (parseInt(j.tag) > j_data_init) {
+          hard_off();
           window.alert('所得数据有错 请刷新页面\n' + window.location.toString() );
           return false;
         }
@@ -684,12 +701,7 @@
       }, false);
       req.addEventListener("error", event => {
         if (baseURL.substr(0,4) !== 'http' || JSON.stringify(_J) === '{}') {
-          save_button.style.visibility = 'hidden';
-          addr.style.visibility = 'hidden';
-          search_button.style.visibility = 'hidden';
-          districtTbody.style.visibility = 'hidden';
-          next_button.style.visibility = 'hidden';
-          pre_button.style.visibility = 'hidden';
+          hard_off();
           window.alert('数据无法下载 请访问 https://sh.teach.bio/');
         } else {
           const ld = document.getElementsByClassName('loading_pr');
@@ -1483,7 +1495,7 @@ if (_ww && _ww.indexOf(Ds[ii] + As[i]) > -1) {
             tagsHTML(dldl(dl0, dl1), 1) +
             '</span>';
       } else {
-        ks += '<span class="click" onclick="search(this.textContent);">' +
+        ks += '<span class="click" onclick="updateLocation(j_data_init, this.textContent);">' +
             dl1 + '</span><!-- 上榜 --></span>';
       }
     }
@@ -1516,6 +1528,7 @@ if (map_push === 1) {
     } else {
       if (map_i === 1) {
         next_button.setAttribute('data-value', map_addr[0]);
+        next_button.style.border = '.25em solid red';
       }
       addr.scrollIntoView();
       th_k.textContent = k;
@@ -1717,15 +1730,15 @@ if (map_push === 1) {
   <script src="shanghaifabu/FileSaver.min.205.js"></script><!-- https://cdnjs.com/ -->
   <script src="shanghaifabu/jszip.min.391.js"></script>
   <style>
-    body {background-color: white;}
-    p {line-height: 1.5em;}
+    body { background-color: white; }
+    p { line-height: 1.5em; }
     .click,
     button,
     label>input,
     #auto_save_status {
       cursor: pointer;
     }
-    button {padding-top: .2em;}
+    button { padding-top: .2em; }
     table> thead,
     #districtTbody {
       color: blue;
@@ -1764,7 +1777,7 @@ if (map_push === 1) {
     .april_button {
       box-shadow: inset 0 -8px #d0d0d0;
     }
-    #check_row {font-size: 75%}
+    #check_row { font-size: 75%; }
     #check_row label {
       display: inline-block;
       padding-right: 10px;
@@ -1778,14 +1791,9 @@ if (map_push === 1) {
     p> label> span {
       vertical-align: middle;
     }
-    #addr {
-      border: .25em solid red;
-      border-left-width: .5em;
-      border-right-width: .5em;
-    }
+    #addr { color: red; }
     #search_button {
       font-weight: bold;
-      background-color: rgba(255,0,0, 0.1);
     }
     #pngGif {
       border: .25em solid cyan;
@@ -1833,8 +1841,8 @@ if (map_push === 1) {
 
   </p>
   <p>
-    <label for="addr" style="color:red;font-weight:bold;"><span>上榜地址</span></label>
-    <input type="text" id="addr" name="addr" onkeydown="lastSearch=null;addrEnter();" />
+    <label for="addr"><span style="color:red;font-weight:bold;">上榜地址</span>
+      <input type="text" id="addr" name="addr" onkeydown="lastSearch=null;addrEnter();" /></label>
     <button id="search_button" onclick="scaleChange=true;lastSearch=null;search(addr.value);">搜索</button>
     &nbsp;&nbsp; <span style="vertical-align:middle;color:grey;">以下基于2022/<span class="_tag"></span>的数据</span>
   </p>
