@@ -60,7 +60,6 @@
   let pngBase64 = {};
   let W; let _ww;
   let nextSpecial = '';
-  let localMinimal = '';
 
   function trim (s) { return (s || '').replace(/^\s+|\s+$/g, ''); }
 
@@ -646,7 +645,7 @@
       datestr.textContent = '';
       fetching.style.visibility = 'visible';
       fetching2.style.visibility = 'visible';
-      console.log('Start downloading', hash);
+      console.log('Start downloading', hash + '.json');
       // let k = document.createElement('script');
       // k.src = k_src;
       // document.head.append(k);
@@ -693,7 +692,7 @@
           window.alert('所得数据有错 请刷新页面\n' + window.location.toString() );
           return false;
         }
-        if (j.address.shanghaifabu) {
+        if (j.address.shanghaifabu && hash !== j.address.shanghaifabu.slice(-1)[0]) {
           console.log('Last four shanghaifabu in data', j.tag, j.address.shanghaifabu.slice(-4) );
         }
         next_pre_vis(hash_);
@@ -1116,6 +1115,21 @@
     // _addr_manual += 1;
   }
 
+  function draw_addr_withLabel(s, t) {
+    map.fillStyle = 'black';
+    map.beginPath();
+    map.fillRect(mapX( Ml.locations[s][0] )-1.5,
+                 mapY( Ml.locations[s][1] )-1.5,
+                 3, 3 );
+    if (t) {
+      map.fillText(s+t, 1.5+mapX( Ml.locations[s][0] ),
+                        1.5+mapY( Ml.locations[s][1] ));
+    } else {
+      map.fillText(s, 1.5+mapX( Ml.locations[s][0] ),
+                      1.5+mapY( Ml.locations[s][1] ));
+    }
+  }
+
   function draw_sh_addr (jcDi, tt) {
     let ii;
     let map_i = 0;
@@ -1250,13 +1264,7 @@
       }
       draw_sh();
       if (nextSpecial) {
-        map.fillStyle = 'black';
-        map.beginPath();
-        map.fillRect(mapX( Ml.locations[nextSpecial][0] )-1.5,
-                     mapY( Ml.locations[nextSpecial][1] )-1.5,
-                     3, 3 );
-        map.fillText(k+addr.value, 1.5+mapX( Ml.locations[nextSpecial][0] ),
-                                   1.5+mapY( Ml.locations[nextSpecial][1] ));
+        draw_addr_withLabel(nextSpecial);
       }
       if (j[_check] && j[_check][k]) {
         for (ii = 0; ii < j[_check][k].length; ii += 1) { // .today
@@ -1379,7 +1387,7 @@
     });
     let kk; let ks; let sb = 0;
     let map_i = 0;
-    let map_push;
+    let map_mustLabel = '';
     const map_x = [];
     const map_y = [];
     const map_addr = [];
@@ -1417,16 +1425,14 @@ if (lastSearch && lastSearch !== As[i] && As[i].indexOf(lastSearch) > -1) {
 }
 ks += '\');">' + As[i] + '</span> ';
 if (Ms.indexOf(Ds[ii] + As[i]) > -1) {
-  map_push = 1;
   map_i += 1;
 } else {
-  map_push = 0;
   console.log('搜索地址 未显示', Ds[ii] + As[i]);
   dotNotDraw += 1; // 搜索地址
 }
 if (dl.length) {
   if (dl.join(',').indexOf(j.tag) > -1) {
-    if (map_push) { map_push = 2; }
+    map_mustLabel += ',' + Ds[ii] + As[i];
     ks += '<span style="color:red">' + tagsHTML(dl) + '</span>';
   } else {
     ks += tagsHTML(dl);
@@ -1507,15 +1513,9 @@ kk.style.padding = '0';
 kk.style.margin = '0';
 kk.innerHTML = ks;
 onList.appendChild(kk);
-if (map_push === 1) {
-  map_x.push(parseFloat( Ml.locations[Ds[ii] + As[i]][0] ));
-  map_y.push(parseFloat( Ml.locations[Ds[ii] + As[i]][1] ));
-  map_addr.push( Ds[ii] + As[i] );
-} else if (map_push === 2) {
-  map_x.unshift(parseFloat( Ml.locations[Ds[ii] + As[i]][0] ));
-  map_y.unshift(parseFloat( Ml.locations[Ds[ii] + As[i]][1] ));
-  map_addr.unshift( Ds[ii] + As[i] );
-}
+map_x.push(parseFloat( Ml.locations[Ds[ii] + As[i]][0] ));
+map_y.push(parseFloat( Ml.locations[Ds[ii] + As[i]][1] ));
+map_addr.push( Ds[ii] + As[i] );
 
           //if
           }
@@ -1544,6 +1544,13 @@ if (map_push === 1) {
       //console.log('scale max', d3scale_);
       let map_XYtest = svgWidth;
       let map_XYzero;
+      const localMinimal = [];
+      if (mapX(map_x[0]) > 0 && mapX(map_x[0]) < svgWidth &&
+          mapY(map_y[0]) > 0 && mapY(map_y[0]) < svgHeight &&
+          j.address[map_addr[0].substr(map_addr[0].indexOf('区')+1)] ) {
+        localMinimal.push([map_addr[0], map_y[0], map_x[0], 999-parseInt(
+          j.address[map_addr[0].substr(map_addr[0].indexOf('区')+1)][0].substr(0,4) )]);
+      }
       for (ii = 1; ii < map_i; ii += 1) {
         for (i = ii; i < map_i; i += 1) {
           map_XYzero = Math.sqrt(
@@ -1553,9 +1560,15 @@ if (map_push === 1) {
             map_XYtest = Math.min.apply(null, [map_XYtest, map_XYzero]);
           }
         }
+        if (mapX(map_x[ii]) > 0 && mapX(map_x[ii]) < svgWidth &&
+            mapY(map_y[ii]) > 0 && mapY(map_y[ii]) < svgHeight &&
+            j.address[map_addr[ii].substr(map_addr[ii].indexOf('区')+1)] ) {
+          localMinimal.push([map_addr[ii], map_y[ii], map_x[ii], 999-parseInt(
+            j.address[map_addr[ii].substr(map_addr[ii].indexOf('区')+1)][0].substr(0,4) )]);
+        }
       }
       // .arc(3) 0.0004325 ~ 589319
-      d3scale_ = Math.max.apply(null, [72000, d3scale_, Math.floor(d3scale_ * 3/map_XYtest )]);
+      d3scale_ = Math.max.apply(null, [36000, d3scale_, Math.floor(d3scale_ * 3/map_XYtest )]);
       //console.log('scale min',
       //            Math.floor(d3scale_ * 3/map_XYtest ), ', used', d3scale_);
       //while (d3scale_ > 72000 * 16) { // line_dot_must_shown1
@@ -1585,42 +1598,44 @@ if (map_push === 1) {
         draw_addr(d, true);
       });
       map.fillStyle = 'rgba(255,0,0,0.4)';
-      const gray_Y = [mapY(map_y[0]), 0,2];
-      let gray_dis = [];
-      map.fillText(map_addr[0],
-                   mapX(map_x[0]) + 3, gray_Y[0]);
+      (map_mustLabel !== '') && console.log('当日阳', map_mustLabel.substr(1));
       if (map_i > 1) {
         let labelNotDraw;
-        let _Y;
-        gray_dis = [ map_addr[0].substr(0,3) ];
-        let _dis = '';
-        for (i = 1; i < map_i; i += 1) {
-          labelNotDraw = false;
-          _Y = mapY(map_y[i]);
-          for (ii = 0; ii < gray_Y.length; ii += 1) {
-            if (Math.abs(_Y - gray_Y[ii]) < fontSize+2) {
-              labelNotDraw = true;
-              break;
-            }
-          }
-          if (!labelNotDraw) {
+        let _Y; const gray_Y = [];
+        for (i = 0; i < map_i; i += 1) {
+          if (map_mustLabel.indexOf(map_addr[i]) > 0) {
+            _Y = mapY(map_y[i]);
             gray_Y.push(_Y);
-            _dis = map_addr[i].substr(0,3);
-            if (gray_dis.indexOf(_dis) > -1) {
-              if (_dis === '浦东新') {
-                map.fillText(map_addr[i].substr(4),
-                           mapX(map_x[i]) + 3, _Y);
-              } else {
-                map.fillText(map_addr[i].substr(3),
-                           mapX(map_x[i]) + 3, _Y);
-              }
-            } else {
-              gray_dis.push(_dis);
-              map.fillText(map_addr[i],
-                           mapX(map_x[i]) + 3, _Y);
-            }
+            map.fillText(map_addr[i],
+                         mapX(map_x[i]) + 3, _Y);
           }
         }
+        if (localMinimal.length > 1) {
+          gray_Y.push(mapY( localMinimal[0][1] ));
+          Array.from(localMinimal.slice(1)).forEach((d) => {
+            if (!map_mustLabel || map_mustLabel.indexOf(d[0]) === -1) {
+              labelNotDraw = false;
+              _Y = mapY(d[1]);
+              for (i = 0; i < gray_Y.length; i += 1) {
+                if (Math.abs(_Y - gray_Y[i]) < fontSize+2) {
+                  labelNotDraw = true;
+                  break;
+                }
+              }
+              if (!labelNotDraw) {
+                gray_Y.push(_Y);
+                map.fillText(d[0].substr(d[0].indexOf('区')+1),
+                             mapX(d[2]) + 3, _Y);
+              }
+            }
+          });
+        }
+      }
+      if (localMinimal.length) {
+        bubble2(localMinimal, 3);
+        draw_addr_withLabel(localMinimal[0][0],
+                            '上榜于' + Math.floor((999-localMinimal[0][3])/100) +
+                              '/' + (999-localMinimal[0][3])%100 );
       }
       map.fillStyle = 'red';
       if (dotNotDraw) {
@@ -1734,7 +1749,7 @@ if (map_push === 1) {
     p { line-height: 1.5em; }
     .click,
     button,
-    label>input,
+    label> input[type=checkbox],
     #auto_save_status {
       cursor: pointer;
     }
@@ -1750,7 +1765,7 @@ if (map_push === 1) {
       border-bottom: 1px solid blue;
       border-collapse: collapse;
     }
-    tbody tr {
+    tbody> tr {
       border-top: 1px solid blue;
     }
     #latest_added,
