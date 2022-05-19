@@ -1524,6 +1524,8 @@ map_addr.push( Ds[ii] + As[i] );
     }
     if (map_i === 0) {
       app.style.display = 'none';
+      next_button.setAttribute('data-value', "");
+      next_button.style.border = '';
       onListAppend(0, k.substr(0, k.length - 1), null, '&larr;可尝试');
     } else {
       if (map_i === 1) {

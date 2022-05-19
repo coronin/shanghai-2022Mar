@@ -356,7 +356,9 @@ for zz in Z:
         print('## 成功 | 目前\n%s\n' % zz.strip() )
 print(z[1])
 if not z[1]:
-    print('如采用此数据 请补一行shanghaifabu')
+    print('###           shanghaifabu')
+    print('# 如用 请补一行 shanghaifabu')
+    print('###           shanghaifabu')
     fz = open('%s%s.txt' % (z[0],z[0]), 'w')
 else:
     fz = open('%s.txt' % z[0], 'w')
