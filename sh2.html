@@ -752,11 +752,14 @@
       }
     }
     if (!dl || dl.length === 0) { return ''; }
-    let ds; let inwhile;
+    let ds = '<span'; let inwhile;
+    if (dl[0] === '0307') {
+      ds += ' style="background-color:yellow;"';
+    }
     if (noClick) {
-      ds = '<span>' + hash2date(dl[0]) + '</span>';
+      ds += '>' + hash2date(dl[0]) + '</span>';
     } else {
-      ds = '<span class="click" onclick="resetDay(\'' +
+      ds += ' class="click" onclick="resetDay(\'' +
             dl[0] + '\');">' + hash2date(dl[0]) + '</span>';
     }
     for (di = 1; di < dl.length; di += 1) {
@@ -769,20 +772,30 @@
       }
       if (inwhile) {
         di -= 1;
-        if (noClick) {
-          ds += '<span>' + parseInt(dl[di].substr(2,2)) + '</span>';
+        if ((di+1) === dl.length && dl[di] === j.tag) {
+          ds += '<span style="background-color:yellow;"';
         } else {
-          ds += '<span class="click" onclick="resetDay(\'' +
+          ds += '<span';
+        }
+        if (noClick) {
+          ds += '>' + parseInt(dl[di].substr(2,2)) + '</span>';
+        } else {
+          ds += ' class="click" onclick="resetDay(\'' +
                 dl[di] + '\');">' + parseInt(dl[di].substr(2,2)) + '</span>';
         }
       } else {
         if (di < dl.length) { //  && ds.slice(-1)[0] !== '.'
           ds += ', ';
         }
-        if (noClick) {
-          ds += '<span>' + hash2date(dl[di]) + '</span>';
+        if ((di+1) === dl.length && dl[di] === j.tag) {
+          ds += '<span style="background-color:yellow;"';
         } else {
-          ds += '<span class="click" onclick="resetDay(\'' +
+          ds += '<span';
+        }
+        if (noClick) {
+          ds += '>' + hash2date(dl[di]) + '</span>';
+        } else {
+          ds += ' class="click" onclick="resetDay(\'' +
                 dl[di] + '\');">' + hash2date(dl[di]) + '</span>';
         }
       }
@@ -1704,7 +1717,8 @@ if (map_push === 1) {
       border: 0;}
     #th_k {
       text-align: left;
-      box-shadow: inset 0 .5em yellow;
+      color: blue;
+      font-weight: normal;
     }
     #april, #may, #march {
       border: 0;
@@ -1787,7 +1801,7 @@ if (map_push === 1) {
     <label for="addr" style="color:red;font-weight:bold;"><span>上榜地址</span></label>
     <input type="text" id="addr" name="addr" onkeydown="last_search=false;addrEnter();" />
     <button id="search_button" onclick="scaleChange=true;last_search=false;search(addr.value);">搜索</button>
-    &nbsp;以下基于2022/<span class="_tag"></span>的数据
+    &nbsp;&nbsp; <span style="vertical-align:middle;color:grey;">以下基于2022/<span class="_tag"></span>的数据</span>
   </p>
 
   <div id="pngGif"></div>
