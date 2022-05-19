@@ -59,6 +59,8 @@
   let fontSize;
   let pngBase64 = {};
   let W; let _ww;
+  let nextSpecial = '';
+  let localMinimal = '';
 
   function trim (s) { return (s || '').replace(/^\s+|\s+$/g, ''); }
 
@@ -205,7 +207,8 @@
           } else { //各区
             if (j.address[p][0].length > 4 && j.address[p][0].substr(4) === addr.value) {
               adds.push([addr.value, p]);
-            } else if (j.address[p][0].length === 4 && j.districts[ addr.value ].indexOf(p) > -1) {
+            } else if (j.address[p][0].length === 4 &&
+                       j.districts[ addr.value ] && j.districts[ addr.value ].indexOf(p) > -1) {
               adds.push([addr.value, p]);
             }
           }
@@ -251,11 +254,11 @@
       ks = '<span class="em">' + ki + '.</span> ';
     }
     if (k) {
-      ks += '<span class="click" onclick="search(this.textContent);">' +
+      ks += '<span class="click" onclick="scaleChange=true;search(this.textContent);">' +
           k + '</span>';
     }
     if (d) {
-      ks += '<span class="click _L" onclick="search(\'' + d +
+      ks += '<span class="click _L" onclick="scaleChange=true;search(\'' + d +
           '\');">' + d + '</span> ';
     }
     ks += ' <em>' + (t || '') + '</em>';
@@ -526,6 +529,10 @@
     if (lastest) {
       hash_ = j_data_init;
     }
+    if (next_button.getAttribute('data-value') !== "") {
+      nextSpecial = next_button.getAttribute('data-value');
+      next_button.setAttribute('data-value', "");
+    }
     updateLocation(hash_, q);
   }
 
@@ -676,7 +683,7 @@
         load();
       }, false);
       req.addEventListener("error", event => {
-        if (baseURL.substr(0,4) !== 'http' || _J === {}) {
+        if (baseURL.substr(0,4) !== 'http' || JSON.stringify(_J) === '{}') {
           save_button.style.visibility = 'hidden';
           addr.style.visibility = 'hidden';
           search_button.style.visibility = 'hidden';
@@ -1196,6 +1203,14 @@
     fontSize = 10; // 10px Microsoft YaHei
     if (scaleChange) { d3scale = 72000; }
     let ii;
+    if (nextSpecial && nextSpecial.endsWith(addr.value)) {
+      k = nextSpecial.substr(0, nextSpecial.indexOf('区')+1);
+      //_check = 'today';
+      // released_today, released,
+      // districts, inB, today, latest_added, latest_added2, latest_added7
+    } else {
+      nextSpecial = '';
+    }
     if (Ds.indexOf(k) > -1) { //各区
       // if (!j.today[k]) { // .latest_added [_check]
       //   addr.value = '';
@@ -1214,10 +1229,23 @@
       //   if (scaleChange && d3scale < 128000) {
       //     d3scale = 128000; }
       // }
-      if (scaleChange || (hash2 && hash2.indexOf(k) !== 0) ) {
-        d3scale = centers[k][2]; }
-      d3center = [centers[k][0], centers[k][1] ];
+      if (!nextSpecial &&
+          (scaleChange || (hash2 && hash2.indexOf(k) !== 0))) {
+        d3scale = centers[k][2];
+      }
+      if (!nextSpecial) {
+        d3center = [centers[k][0], centers[k][1] ];
+      }
       draw_sh();
+      if (nextSpecial) {
+        map.fillStyle = 'black';
+        map.beginPath();
+        map.fillRect(mapX( Ml.locations[nextSpecial][0] )-1.5,
+                     mapY( Ml.locations[nextSpecial][1] )-1.5,
+                     3, 3 );
+        map.fillText(k+addr.value, 1.5+mapX( Ml.locations[nextSpecial][0] ),
+                                   1.5+mapY( Ml.locations[nextSpecial][1] ));
+      }
       if (j[_check] && j[_check][k]) {
         for (ii = 0; ii < j[_check][k].length; ii += 1) { // .today
           draw_addr(k + j[_check][k][ii]);
@@ -1307,7 +1335,9 @@
     }
     // 搜索地址
     //auto_save_off();
-    console.log('Input', k);
+    if (!lastSearch || lastSearch !== k) {
+      console.log('Input', k);
+    }
     if (k.substr(0,4) === '浦东新区') {
       k = k.substr(4);
       addr.value = k;
@@ -1367,6 +1397,7 @@ if (map_i > 1) {
   ks += '<span class="click _L" onclick="search(this.textContent);">' + Ds[ii] + '</span>';
   ks += '<span data-click="lastSearch=\''+k+'\';search(\'';
 }
+// scaleChange=true;
 if (lastSearch && lastSearch !== As[i] && As[i].indexOf(lastSearch) > -1) {
   ks += lastSearch;
 } else {
@@ -1483,6 +1514,9 @@ if (map_push === 1) {
       app.style.display = 'none';
       onListAppend(0, k.substr(0, k.length - 1), null, '&larr;可尝试');
     } else {
+      if (map_i === 1) {
+        next_button.setAttribute('data-value', map_addr[0]);
+      }
       addr.scrollIntoView();
       th_k.textContent = k;
       if (!d3center || scaleChange) {
@@ -1514,8 +1548,8 @@ if (map_push === 1) {
       //while (d3scale_ > 72000 * 16) { // line_dot_must_shown1
       //  d3scale_ = Math.floor(d3scale_/2);
       //}
-      console.log('Found',
-                  k, scaleChange, '更新前', d3scale, '计算值', d3scale_);
+      console.log('地址', k,
+                  scaleChange, '更新前'+d3scale, '计算值'+d3scale_);
       if (d3scale_ && scaleChange && map_i < 100 && map_i > 1) {
         d3scale = d3scale_;
       }
@@ -1652,6 +1686,7 @@ if (map_push === 1) {
       window.alert('搜索地址时，可放大一倍。刷新页面，可重置');
       return false;
     }
+    lastSearch = addr.value;
     d3scale = d3scale * 2;
     scale2x_button.style.visibility = 'hidden';
     setTimeout(
@@ -1799,8 +1834,8 @@ if (map_push === 1) {
   </p>
   <p>
     <label for="addr" style="color:red;font-weight:bold;"><span>上榜地址</span></label>
-    <input type="text" id="addr" name="addr" onkeydown="last_search=false;addrEnter();" />
-    <button id="search_button" onclick="scaleChange=true;last_search=false;search(addr.value);">搜索</button>
+    <input type="text" id="addr" name="addr" onkeydown="lastSearch=null;addrEnter();" />
+    <button id="search_button" onclick="scaleChange=true;lastSearch=null;search(addr.value);">搜索</button>
     &nbsp;&nbsp; <span style="vertical-align:middle;color:grey;">以下基于2022/<span class="_tag"></span>的数据</span>
   </p>
 
@@ -1809,7 +1844,7 @@ if (map_push === 1) {
   <button onclick="preReload(addr.value,1);">&lt;&lt;</button>
   <button id="pre_button" onclick="preReload(addr.value);">&lt;</button>
   <span id="auto_save_status" class="_tag">/</span>
-  <button id="next_button" style="visibility:hidden;" onclick="nextReload(addr.value);">&gt;</button>
+  <button id="next_button" data-value="" style="visibility:hidden;" onclick="nextReload(addr.value);">&gt;</button>
   <button onclick="nextReload(addr.value,1);">&gt;&gt;</button>
   <button id="clear_button" style="visibility:hidden;" onclick="search();">隐藏</button>
   <button id="reload_button" onclick="window.location.reload();">重置</button>
