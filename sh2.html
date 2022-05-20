@@ -999,18 +999,25 @@
       //   console.log( j.inB[ Ds[i] ] );
       //   console.log( j.today[ Ds[i] ] );
       // }
-      k.innerHTML = '<td class="click" onclick="_check=\'today\';search(this.textContent);">' +
-                    Ds[i] + '</td><td class="click" onclick="_check=\'districts\';search(\''+Ds[i]+'\');">' +
-                    j.districts[ Ds[i] ].length + '</td><td id="' +
-                    Ds[i] + 'line" style="text-align:left;"></td><td class="click" onclick="_check=\'inB\';search(\''+Ds[i]+'\');">' +
-                    (j.inB[ Ds[i] ] || []).length +
-                    '</td><td style="color:red;" class="click" onclick="_check=\'latest_added\';search(\''+Ds[i]+'\');">' +
-                    (j.today[ Ds[i] ] || []).length +
-                    '</td><td style="color:green;" class="click" onclick="_check=\'released\';search(\''+Ds[i]+'\');">' +
-                    (j.released[ Ds[i] ] || []).length + '</td>';
+      k.innerHTML = '<td class="click" onclick="_check=\'today\';search(this.textContent);"' +
+          ' title="当日阳">' +
+          Ds[i] + '</td><td class="click" onclick="_check=\'districts\';search(\''+Ds[i]+'\');"' +
+          ' title="' + Ds[i] + '累计阳">' +
+          j.districts[ Ds[i] ].length + '</td><td id="' +
+          Ds[i] + 'line" style="text-align:left;"></td>' +
+          '<td class="click" onclick="_check=\'inB\';search(\''+Ds[i]+'\');"' +
+          ' title="' + Ds[i] + '两周阳">' +
+          (j.inB[ Ds[i] ] || []).length +
+          '</td><td class="click" onclick="_check=\'latest_added\';search(\''+Ds[i]+'\');"' +
+          ' title="' + Ds[i] + '比昨日多" style="color:red;">' +
+          (j.today[ Ds[i] ] || []).length +
+          '</td><td class="click" onclick="_check=\'released\';search(\''+Ds[i]+'\');"' +
+          ' title="' + Ds[i] + '累计下榜" style="color:green;">' +
+          (j.released[ Ds[i] ] || []).length + '</td>';
       if (j.released_today[ Ds[i] ] ) {
-        k.innerHTML += '<td style="color:green;" class="click" onclick="_check=\'released_today\';search(\''+Ds[i]+'\');">' +
-                    (j.released_today[ Ds[i] ] || []).length + '</td>';
+        k.innerHTML += '<td class="click" onclick="_check=\'released_today\';search(\''+Ds[i]+'\');"' +
+          ' title="' + Ds[i] + '当日下榜" style="color:green;">' +
+          (j.released_today[ Ds[i] ] || []).length + '</td>';
       } else {
         k.innerHTML += '<td style="color:green;">&ndash;</td>';
       }
@@ -2032,15 +2039,15 @@ map_addr.push( Ds[ii] + As[i] );
 </head>
 <body onload="load_js();">
   <p>
-    数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">公众号 shanghaifabu</a>
-      <span id="datestr" style="color:blue;"></span>
+    数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">shanghaifabu</a>
+      <span id="datestr" style="color:grey;"></span>
       <span id="fetching" style="color:blue;"> <span class="loading_pr">not ready,</span> loaded</span>
-    <br/>本页为<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
+    <br/>正在展示<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
     <br/> &nbsp;&nbsp;&nbsp;&nbsp;
       <span class="click" class="april_button" onclick="jumpApr(addr.value,3);"><span class="em">跳至</span>3/</span><input type="text" id="march" name="march" size=2 onkeydown="aprilEnter(3);" />
       &nbsp; <span class="click" class="april_button" onclick="jumpApr(addr.value);"><span class="em">跳至</span>4/</span><input type="text" id="april" name="april" size=2 onkeydown="aprilEnter();" />
       &nbsp; <span class="click" class="april_button" onclick="jumpApr(addr.value,5);"><span class="em">跳至</span>5/</span><input type="text" id="may" name="may" size=2 onkeydown="aprilEnter(5);" />
-    <br/>搜索<span onclick="search(this.textContent);" class="click _L">上海市</span> 可以在地图中定位上榜地址
+    <br/>搜索<span onclick="search(this.textContent);" class="click _L">上海市</span> 可以在地图中定位相关地址
   </p>
   <p>
     <label for="addr"><span style="color:red;font-weight:bold;">上榜地址</span>
@@ -2068,8 +2075,7 @@ map_addr.push( Ds[ii] + As[i] );
   <canvas id="app" style="display:none;"></canvas>
   <!-- 3.district 2.inB 0.today 4.released 5.released_today 1.latest_added -->
   <div id="check_row" style="display:none;">
-    <label><span>2022年 3月6日 至
-             <span id="tag_m2"></span>月<span id="tag_d2"></span>日
+    <label><span>3月6日 至 <span id="tag_m2"></span>月<span id="tag_d2"></span>日
            </span></label>
     <label id="check7" style="display:none;"><input type="checkbox" name="check" onclick="onlyOne(this)"
       data-value="7" /><span style="color:red">七阴阳</span></label>
