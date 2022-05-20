@@ -62,6 +62,7 @@
   let W; let _ww;
   let nextSpecial = '';
   let loadingBlock = false;
+  let _still_in = 5;
 
   function trim (s) { return (s || '').replace(/^\s+|\s+$/g, ''); }
 
@@ -80,7 +81,7 @@
     }
   }
 
-  function cache14days () {
+  function cache7in14 () {
     return new Promise(resolve => {
       let afterD = parseInt(j.tag) - 14;
       if (331 < afterD && afterD <= 400) {
@@ -139,11 +140,11 @@
     });
   }
 
-  async function async14days (k) {
+  async function async7in14 (k) {
     if (!j.cache14days) {
       j.cache14days = {};
       j.cached_14days = [];
-      const v = await cache14days().catch(e => {
+      const v = await cache7in14().catch(e => {
         return console.log(e);
       });
       if (v) {
@@ -188,91 +189,105 @@
     }
   }
 
+  async function asyncPopulateStill () {
+    await populateStill(_still_in).catch(e => {
+      return console.log(e);
+    });
+  }
+
   function populateStill (days) {
+    return new Promise(resolve => {
+////
     if (!days || days > 14) {
-      window.alert('请先尝试两周阳（14天内曾上榜至少1次）');
-      return new Promise(res => { res(0); });
+      resolve(0);
+      return;
     }
     if (j['still_in' + days]) {
       j.still_in = j['still_in' + days];
-      return new Promise(res => { res(1); });
+      resolve(1);
+      return;
     }
-    return new Promise(resolve => {
-      j['still_in' + days] = {};
-      let s0 = parseInt(j.tag) - days;
-      if (331 < s0 && s0 <= 400) {
-        s0 -= 69;
-      } else if (430 < s0 && s0 <= 500) {
-        s0 -= 70;
-      }
-      let s1;
-      for (const p in j.inB) {
-        j['still_in' + days][p] = [];
-        Array.from(j.inB[p]).forEach((d) => {
-          if (j.address[d]) {
-            s1 = j.address[d].join(',');
-            if (s1.indexOf(p) > 3) {
-              if (parseInt(s1.substr(s1.lastIndexOf(p) - 4, 4)) >= s0) {
-                j['still_in' + days][p].push([d,
-                  parseInt(s1.substr(s1.lastIndexOf(p) - 4, 4)) ]);
-              }
-            } else if (parseInt(j.address[d].slice(-1)[0].substr(0,4)) >= s0) {
-              s1 = -1;
-              while (j.address[d].slice(s1)[0] &&
-                     j.address[d].slice(s1)[0].length > 4) {
-                s1 -= 1;
-              }
-              if (j.address[d].slice(s1)[0] &&
-                  parseInt(j.address[d].slice(s1)[0]) >= s0) {
-                j['still_in' + days][p].push([d,
-                  parseInt(j.address[d].slice(s1)[0]) ]);
-              }
+    j['still_in' + days] = {};
+    let s0 = parseInt(j.tag) - days;
+    if (331 < s0 && s0 <= 400) {
+      s0 -= 69;
+    } else if (430 < s0 && s0 <= 500) {
+      s0 -= 70;
+    }
+    let s1;
+    for (const p in j.inB) {
+      j['still_in' + days][p] = [];
+      Array.from(j.inB[p]).forEach((d) => {
+        if (j.address[d]) {
+          s1 = j.address[d].join(',');
+          if (s1.indexOf(p) > 3) {
+            if (parseInt(s1.substr(s1.lastIndexOf(p) - 4, 4)) >= s0) {
+              j['still_in' + days][p].push([d,
+                parseInt(s1.substr(s1.lastIndexOf(p) - 4, 4)) ]);
+            }
+          } else if (parseInt(j.address[d].slice(-1)[0].substr(0,4)) >= s0) {
+            s1 = -1;
+            while (j.address[d].slice(s1)[0] &&
+                   j.address[d].slice(s1)[0].length > 4) {
+              s1 -= 1;
+            }
+            if (j.address[d].slice(s1)[0] &&
+                parseInt(j.address[d].slice(s1)[0]) >= s0) {
+              j['still_in' + days][p].push([d,
+                parseInt(j.address[d].slice(s1)[0]) ]);
             }
           }
-        });
-        bubble2( j['still_in' + days][p] );
-      }
-      j.still_in = null;
-      _J[j.tag] = j;
-      j.still_in = j['still_in' + days];
-
+        }
+      });
+      bubble2( j['still_in' + days][p] );
+    }
+    j.still_in = null;
+    _J[j.tag] = j;
+    j.still_in = j['still_in' + days];
+////
 console.log(days, j.still_in);
-
-      resolve(1);
-    });
+    resolve(1);
+  });
   }
 
-  async function asyncStill () {
-    const v = await populateStill(5).catch(e => {
-      return console.log(e);
-    });
-    if (v) {
-      listStill(addr.value);
-      draw_sh_addr(j.still_in[addr.value]);
-    }
-  }
+  // function listDrawStill (k) {
+  //   if (!document.getElementById('_still') || !_still.value) {
+  //     populateStill(parseInt( _still_in ));
+  //     if (document.getElementById('_still')) {
+  //       _still.value = _still_in;
+  //     }
+  //   } else {
+  //     populateStill(parseInt( _still.value ));
+  //     _still_in = _still.value;
+  //   }
+  //   listStill(k);
 
-  function listStill (k) {
-    let ki = 0;
-    const kk = document.createElement('p');
-    const tt = '最近5日上榜';
-    if (j.still_in && k && j.still_in[k]) {
-      kk.innerHTML = '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);' +
-                     'j.still_in=j.still_in5;draw_sh_addr(null,\'' +
-                     k + tt + '\');">展示' + k + tt + '地址</button> ' +
-                     '<button onclick="h2dist.scrollIntoView();">各区统计</button> ' +
-                     '<input type="text" id="_still" name="_still" size=2 ' +
-                     'data-value=",5" onkeydown="stillEnter();" />';
-      onList.appendChild(kk);
-      // Array.from(j.still_in[k]).forEach((d) => {
-      //     ki += 1;
-      //     onListAppend(ki, k, d[0],
-      //                  '最近上榜于' + digi2date(d[1]) );
-      // });
-    }
-  }
+  //   console.log(_check)
 
-  function onlyNewAddr () {
+  //   draw_sh_addr(j.still_in[k]);
+  // }
+
+  // function onlyListStill (k) {
+  //   let ki = 0;
+  //   const kk = document.createElement('p');
+  //   const tt = '最近5日上榜';
+  //   if (j.still_in && k && j.still_in[k]) {
+  //     kk.innerHTML = '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);' +
+  //                    'j.still_in=j.still_in5;draw_sh_addr(null,\'' +
+  //                    k + tt + '\');">展示' + k + tt + '地址</button> ' +
+  //                    '<button onclick="h2dist.scrollIntoView();">各区统计</button> ' +
+  //                    '<input type="text" id="_still" name="_still" size=2 ' +
+  //                    'data-value=",5" onkeydown="stillEnter();" />';
+  //     onList.appendChild(kk);
+  //     // Array.from(j.still_in[k]).forEach((d) => {
+  //     //     ki += 1;
+  //     //     onListAppend(ki, k, d[0],
+  //     //                  '最近上榜于' + digi2date(d[1]) );
+  //     // });
+  //   }
+  // }
+
+  function firstSince0306 () {
     return new Promise(resolve => {
       const adds = []; let kii;
       for (const p in j.address) {
@@ -303,8 +318,8 @@ console.log(days, j.still_in);
     });
   }
 
-  async function asyncNewAddr () {
-    const v = await onlyNewAddr().catch(e => {
+  async function asyncFirstSince0306 () {
+    const v = await firstSince0306().catch(e => {
       return console.log(e);
     });
     if (v) {
@@ -347,8 +362,7 @@ console.log(days, j.still_in);
           '\');">' + d + '</span> ';
     }
     ks += ' <em>' + (t || '') + '</em>';
-    if (k && d && (!t || (
-        t.indexOf('首次') === -1 && t.indexOf('最近') === -1 ))) {
+    if (k && d && (!t || t.indexOf('首次') === -1)) { //&& t.indexOf('最近') === -1
       ks += ' ' + tagsHTML(dldl(k, d));
     }
     const kk = document.createElement('p');
@@ -372,7 +386,9 @@ console.log(days, j.still_in);
     // console.log(ki, k+d);
   }
 
-  function list30days (k) {
+  function cacheList30times () {
+    return new Promise(resolve => {
+////////
     let dl; let ki; let kj; let kii;
     let kjd;
     if (j.listed_30days && !j.list30days) {
@@ -428,7 +444,18 @@ console.log(days, j.still_in);
       }
       _J[j.tag] = j;
     }
-    ki = 0;
+////////
+      resolve(1);
+    });
+  }
+
+  async function asyncList30times (k) {
+    const v = await cacheList30times().catch(e => {
+      return console.log(e);
+    });
+    if (v) {
+////////
+    let ki = 0;
     const kk = document.createElement('p');
     const tt = '超30次上榜';
     if (j.list30days && k && j.list30days[k]) {
@@ -463,12 +490,14 @@ console.log(days, j.still_in);
         ki += kj - 1;
       }
     }
+////////
+    }
   }
 
   function generalAppend () {
     let kii; let kj; let ki = 0;
     for (kii = 0; kii < Ds.length; kii += 1) {
-      if (!j[_check][Ds[kii]]) {
+      if (!j[_check] || !j[_check][Ds[kii]]) {
         continue;
       }
       ki += 1;
@@ -649,17 +678,13 @@ console.log(days, j.still_in);
     updateLocation(hash_, q);
   }
 
-  async function stillEnter (ky) {
+  function stillEnter (ky) {//@@@@
     const keyCode = ('which' in event) ? event.which : event.keyCode;
     if (ky || keyCode === 13) {
       const days = ky || parseInt(_still.value || '4');
-      if (document.getElementById('_still')) {
-        _still.value = '';
-      }
-      const v = await populateStill(days).catch(e => {
-        return console.log(e);
-      });
-      if (v && document.getElementById('_still') &&
+      _still.value = '' + days;
+      populateStill(days);
+      if (document.getElementById('_still') &&
           _still.getAttribute('data-value').indexOf(',' + days) === -1 ) {
         const c = document.createElement('span');
         const tt = '最近' + days + '日';
@@ -947,7 +972,7 @@ console.log(days, j.still_in);
     return ds;
   }
 
-  async function load () {
+  function load () {
     Ml = JSON.parse(csv);
     Ms = Object.keys(Ml.locations);
     datestr.textContent = j.date;
@@ -971,6 +996,7 @@ console.log(days, j.still_in);
     Array.from(tags).forEach((d) => {
       d.textContent = _today;
     });
+    asyncPopulateStill();
     auto_save_status.onclick = function () {
       if (autoSavePNG) {
         auto_save_off();
@@ -1215,9 +1241,10 @@ console.log(days, j.still_in);
     if (!mustRed && _check && _check.substr(0,8) === 'released') {
       _R = 'rgba(17,131,1,';
     }
-    if (typeof s !== 'string') {
-      s = addr.value + s[0];
-    } else if (s.indexOf(',') > 0) {
+    //if (typeof s !== 'string') {
+    //  s = addr.value + s[0];
+    //} else
+    if (s.indexOf(',') > 0) {
       s = s.substr(0, s.indexOf(','));
     }
     if (Ms.indexOf(s) > -1) {
@@ -1278,7 +1305,7 @@ console.log(days, j.still_in);
       }
     } else {
       for (i = 0; i < Ds.length; i += 1) {
-        if (!j[_check][Ds[i] ]) {
+        if (!j[_check] || !j[_check][Ds[i] ]) {
           continue;
         }
         if (ttf && Ds[i].substr(0,3) !== ttf) {
@@ -1400,7 +1427,7 @@ console.log(days, j.still_in);
       if (j[_check] && j[_check][k]) {
         for (ii = 0; ii < j[_check][k].length; ii += 1) { // .today
           draw_addr(k + j[_check][k][ii]);
-          if (['latest_added2', 'latest_added7', 'latest_added'
+          if (['latest_added2', 'latest_added7', 'latest_added', 'still_in'
               ].indexOf(_check) > -1) {
             if (_check === 'latest_added' && j.latest_added2 &&
                        j.latest_added2[k] &&
@@ -1432,13 +1459,11 @@ console.log(days, j.still_in);
                      0,svgHeight-1-fontSize);
       }
       if (_check === 'today') {
-        asyncNewAddr();
+        asyncFirstSince0306();
       } else if (_check === 'inB') {
-        async14days(k);
+        async7in14(k);
       } else if (_check === 'districts') {
-        list30days(k);
-      } else if (_check === 'still_in') {
-        asyncStill(k);
+        asyncList30times(k);
       }
       check_row.style.display = 'block';
       updateCheckStatus();
@@ -1468,11 +1493,11 @@ console.log(days, j.still_in);
       }
       draw_sh_addr();
       if (_check === 'today') {
-        asyncNewAddr();
+        asyncFirstSince0306();
       } else if (_check === 'inB') {
-        async14days();
+        async7in14();
       } else if (_check === 'districts') {
-        list30days();
+        asyncList30times();
       } else if (['latest_added2', 'latest_added7', 'latest_added', 'still_in'
                  ].indexOf(_check) > -1) {
         generalAppend();
