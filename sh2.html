@@ -190,15 +190,22 @@
   }
 
   async function asyncPopulateStill () {
-    await populateStill(_still_in).catch(e => {
+    const v = await populateStill(_still_in).catch(e => {
       return console.log(e);
     });
+    if (v && !_still.value) {
+      _still.value = _still_in;
+    } else if(!v) {
+      window.alert('无法计算最近' + _still.value + '阳');
+      _still_in = 5;
+      _still.value = 5;
+    }
   }
 
   function populateStill (days) {
     return new Promise(resolve => {
-////
-    if (!days || days > 14) {
+////////
+    if (!days || days >= 14) {
       resolve(0);
       return;
     }
@@ -221,18 +228,18 @@
         if (j.address[d]) {
           s1 = j.address[d].join(',');
           if (s1.indexOf(p) > 3) {
-            if (parseInt(s1.substr(s1.lastIndexOf(p) - 4, 4)) >= s0) {
+            if (parseInt(s1.substr(s1.lastIndexOf(p) - 4, 4)) > s0) {
               j['still_in' + days][p].push([d,
                 parseInt(s1.substr(s1.lastIndexOf(p) - 4, 4)) ]);
             }
-          } else if (parseInt(j.address[d].slice(-1)[0].substr(0,4)) >= s0) {
+          } else if (parseInt(j.address[d].slice(-1)[0].substr(0,4)) > s0) {
             s1 = -1;
             while (j.address[d].slice(s1)[0] &&
                    j.address[d].slice(s1)[0].length > 4) {
               s1 -= 1;
             }
             if (j.address[d].slice(s1)[0] &&
-                parseInt(j.address[d].slice(s1)[0]) >= s0) {
+                parseInt(j.address[d].slice(s1)[0]) > s0) {
               j['still_in' + days][p].push([d,
                 parseInt(j.address[d].slice(s1)[0]) ]);
             }
@@ -244,48 +251,10 @@
     j.still_in = null;
     _J[j.tag] = j;
     j.still_in = j['still_in' + days];
-////
-console.log(days, j.still_in);
     resolve(1);
   });
+////////
   }
-
-  // function listDrawStill (k) {
-  //   if (!document.getElementById('_still') || !_still.value) {
-  //     populateStill(parseInt( _still_in ));
-  //     if (document.getElementById('_still')) {
-  //       _still.value = _still_in;
-  //     }
-  //   } else {
-  //     populateStill(parseInt( _still.value ));
-  //     _still_in = _still.value;
-  //   }
-  //   listStill(k);
-
-  //   console.log(_check)
-
-  //   draw_sh_addr(j.still_in[k]);
-  // }
-
-  // function onlyListStill (k) {
-  //   let ki = 0;
-  //   const kk = document.createElement('p');
-  //   const tt = '最近5日上榜';
-  //   if (j.still_in && k && j.still_in[k]) {
-  //     kk.innerHTML = '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);' +
-  //                    'j.still_in=j.still_in5;draw_sh_addr(null,\'' +
-  //                    k + tt + '\');">展示' + k + tt + '地址</button> ' +
-  //                    '<button onclick="h2dist.scrollIntoView();">各区统计</button> ' +
-  //                    '<input type="text" id="_still" name="_still" size=2 ' +
-  //                    'data-value=",5" onkeydown="stillEnter();" />';
-  //     onList.appendChild(kk);
-  //     // Array.from(j.still_in[k]).forEach((d) => {
-  //     //     ki += 1;
-  //     //     onListAppend(ki, k, d[0],
-  //     //                  '最近上榜于' + digi2date(d[1]) );
-  //     // });
-  //   }
-  // }
 
   function firstSince0306 () {
     return new Promise(resolve => {
@@ -349,7 +318,7 @@ console.log(days, j.still_in);
     } else if (j.listed_30days && d && j.listed_30days.indexOf(d) > -1 &&
         (!t || t.indexOf('上榜') === -1) ) {
       ks = '<span style="color:red;">' + ki + '.<sup>上榜' +
-           '多次</sup></span> '; // dldl
+           '超30</sup></span> '; // dldl
     } else {
       ks = '<span class="em">' + ki + '.</span> ';
     }
@@ -362,7 +331,8 @@ console.log(days, j.still_in);
           '\');">' + d + '</span> ';
     }
     ks += ' <em>' + (t || '') + '</em>';
-    if (k && d && (!t || t.indexOf('首次') === -1)) { //&& t.indexOf('最近') === -1
+    if (k && d && (!t || t.indexOf('首次') === -1 &&
+                         t.indexOf('最近') === -1 )) {
       ks += ' ' + tagsHTML(dldl(k, d));
     }
     const kk = document.createElement('p');
@@ -502,8 +472,13 @@ console.log(days, j.still_in);
       }
       ki += 1;
       kj = j[_check][Ds[kii]].length;
-      onListAppend(ki, Ds[kii], null,
-                   kj + '处 ' + check_choices[_check]);
+      if (_check === 'still_in') {
+        onListAppend(ki, Ds[kii], null, kj +
+                     '处 最近' + _still_in + '日上榜' );
+      } else {
+        onListAppend(ki, Ds[kii], null, kj +
+                     '处 ' + check_choices[_check] );
+      }
       ki += kj - 1;
     }
   }
@@ -676,26 +651,6 @@ console.log(days, j.still_in);
     }
     const hash_ = i_ + 100 * month;
     updateLocation(hash_, q);
-  }
-
-  function stillEnter (ky) {//@@@@
-    const keyCode = ('which' in event) ? event.which : event.keyCode;
-    if (ky || keyCode === 13) {
-      const days = ky || parseInt(_still.value || '4');
-      _still.value = '' + days;
-      populateStill(days);
-      if (document.getElementById('_still') &&
-          _still.getAttribute('data-value').indexOf(',' + days) === -1 ) {
-        const c = document.createElement('span');
-        const tt = '最近' + days + '日';
-        c.innerHTML = ' <button onclick="map.clearRect(0,0,svgWidth,svgHeight);' +
-                      'j.still_in=j.still_in' + days + ';draw_sh_addr(null,\'' +
-                      addr.value + tt + '上榜\');">' + tt + '</button>';
-        _still.parentNode.appendChild(c);
-        _still.setAttribute(  'data-value', ',' + days +
-          _still.getAttribute('data-value')  );
-      }
-    }
   }
 
   function aprilEnter (ky) {
@@ -997,6 +952,10 @@ console.log(days, j.still_in);
       d.textContent = _today;
     });
     asyncPopulateStill();
+    _still.onchange = function () {
+      _still_in = parseInt(_still.value);
+      asyncPopulateStill();
+    };
     auto_save_status.onclick = function () {
       if (autoSavePNG) {
         auto_save_off();
@@ -1242,7 +1201,6 @@ console.log(days, j.still_in);
       _R = 'rgba(17,131,1,';
     }
     //if (typeof s !== 'string') {
-    //  s = addr.value + s[0];
     //} else
     if (s.indexOf(',') > 0) {
       s = s.substr(0, s.indexOf(','));
@@ -1318,19 +1276,23 @@ console.log(days, j.still_in);
       }
     }
     map.fillStyle = 'black';
+    let _c = check_choices[_check];
+    if (_check === 'still_in') {
+      _c = '最近' + _still_in + '日上榜';
+    }
     if (map_i && dotNotDraw) {
-      map.fillText((tt || '上海市' + check_choices[_check]) + map_i +
+      map.fillText((tt || '上海市' + _c) + map_i +
                    '个地址 未显示其中' + dotNotDraw + '个 2022/' + _today,
                    0,svgHeight-1-fontSize);
       dotNotDraw = 0;
     } else if (map_i) {
-      map.fillText((tt || '上海市' + check_choices[_check]) + ' ' + map_i +
+      map.fillText((tt || '上海市' + _c) + ' ' + map_i +
                    '个地址 2022/' + _today,
                    0,svgHeight-1-fontSize);
-    } else if (tt) {
-      onListAppend(0, null, null, '无' + tt );
+    } else if (!map_i && tt) {
+      onListAppend(0, null, null, '无' + tt);
     } else {
-      onListAppend(0, null, null, '上海市无' + check_choices[_check] );
+      onListAppend(0, null, null, '上海市无' + _c);
     }
   }
 
@@ -1439,22 +1401,31 @@ console.log(days, j.still_in);
                        j.latest_added7[k].indexOf( j[_check][k][ii] ) === -1) {
               onListAppend(ii+1, k, j[_check][k][ii],
                            '在“三阴阳”<span>不在“七阴阳”</span>');
+            } else if (_check === 'still_in')  {
+              onListAppend(ii+1, k, j[_check][k][ii][0], (
+j.tag === '0'+j[_check][k][ii][1] ) ? '' : '截至' + hash2date(j.tag) +
+                                           ' 最近上榜于' + digi2date(j[_check][k][ii][1])
+                           );
             } else {
               onListAppend(ii+1, k, j[_check][k][ii]);
             }
           }
         }
-      } else if (_check !== 'still_in') {
+      } else {
         onListAppend(0, null, null, k + '无' + check_choices[_check] );
       }
       map.fillStyle = 'black';
+      let _c = check_choices[_check];
+      if (_check === 'still_in') {
+        _c = '最近' + _still_in + '日上榜';
+      }
       if (dotNotDraw) {
-        map.fillText(k + check_choices[_check] + j[_check][k].length +
+        map.fillText(k + _c + j[_check][k].length +
                      '个地址 其中' + dotNotDraw + '个无法显示 2022/' + _today,
                      0,svgHeight-1-fontSize);
         dotNotDraw = 0;
       } else if (j[_check] && j[_check][k]) {
-        map.fillText(k + check_choices[_check] + ' ' + j[_check][k].length +
+        map.fillText(k + _c + ' ' + j[_check][k].length +
                      '个地址 2022/' + _today,
                      0,svgHeight-1-fontSize);
       }
@@ -1999,6 +1970,11 @@ map_addr.push( Ds[ii] + As[i] );
       font-size: 90%;
       margin-left: .5em;
     }
+    #_still {
+      border: 0;
+      text-align: center;
+      color: red;
+    }
   </style>
 </head>
 <body onload="load_js();">
@@ -2050,7 +2026,8 @@ map_addr.push( Ds[ii] + As[i] );
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
       data-value="0" /><span style="color:red">当日阳</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
-      data-value="8" /><span style="color:red">计算阳</span></label>
+      data-value="8" /><input type="text" id="_still" name="_still" size=1
+      /><span style="color:red">日阳</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
       data-value="2" /><span style="color:red">两周阳</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
