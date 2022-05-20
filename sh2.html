@@ -1470,6 +1470,7 @@ j.tag === '0'+j[_check][k][ii][1] ) ? '' : '截至' + hash2date(j.tag) +
       if (d3scale < 48000) {
         d3scale = 48000; }
       if (!scaleChange && (hash2 && hash2.indexOf(k) !== 0) ) {
+        ester_egg.textContent = '保留了原关注地址；可__重置__查看全市';
         reload_button.textContent = '重置可以查看全市';
         reload_button.style.fontWeight = 'bold';
         setTimeout(
@@ -1739,7 +1740,8 @@ map_addr.push( Ds[ii] + As[i] );
         d3scale = d3scale_;
       }
       if (!scaleChange && d3scale > d3scale_) {
-        reload_button.textContent = '重置'; // 重置可以展示所有地点
+        ester_egg.textContent = '可__重置__展示所有地址';
+        // reload_button.textContent = '重置';
         // reload_button.style.fontWeight = 'bold';
         // setTimeout(
         //   function () {
@@ -1808,21 +1810,23 @@ map_addr.push( Ds[ii] + As[i] );
     }
     if (sb === 0) {
       addr.focus();
-      search_button.textContent = '无结果，可输入再搜';
-      setTimeout(
-        function () {
-          search_button.textContent = '搜索';
-        },
-        1000 * 5
-      );
+      ester_egg.textContent = addr.value + ' 无结果';
+      // search_button.textContent = '无结果，可输入再搜';
+      // setTimeout(
+      //   function () {
+      //     search_button.textContent = '搜索';
+      //   },
+      //   1000 * 5
+      // );
     } else {
-      search_button.textContent = '查到' + sb + '个地址，可输入再搜';
-      setTimeout(
-        function () {
-          search_button.textContent = '搜索';
-        },
-        1000 * 5
-      );
+      ester_egg.textContent = addr.value + ' 查到' + sb + '个地址';
+      // search_button.textContent = '查到' + sb + '个地址，可输入再搜';
+      // setTimeout(
+      //   function () {
+      //     search_button.textContent = '搜索';
+      //   },
+      //   1000 * 5
+      // );
       clear_button.style.visibility = 'visible';
     }
     if (autoSavePNG && !pngNot) {
