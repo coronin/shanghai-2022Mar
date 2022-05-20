@@ -1362,6 +1362,7 @@
     onList.textContent = '';
     map.clearRect(0, 0, svgWidth, svgHeight);
     scale2x_button.style.visibility = 'hidden';
+    scale2x_button1.style.visibility = 'hidden';
     svgWidth = 640;
     svgHeight = 480;
     fontSize = 10; // 10px Microsoft YaHei
@@ -1522,6 +1523,7 @@ j.tag === '0'+j[_check][k][ii][1] ) ? '' : '截至' + hash2date(j.tag) +
       _check = check_choices['0'];
     }
     scale2x_button.style.visibility = 'visible';
+    scale2x_button1.style.visibility = 'visible';
     check_row.style.display = 'none';
     // for (ii = 0; ii < Ds.length; ii += 1) {
     //   document.getElementById(Ds[ii]).style.background = 'white';
@@ -1678,7 +1680,7 @@ map_addr.push( Ds[ii] + As[i] );
       onListAppend(0, k.substr(0, k.length - 1), null, '&larr;可尝试');
     } else {
       if (map_i === 1 && map_addr[0].endsWith(k)) {
-        ester_egg.textContent = '';
+        ester_egg.textContent = '同区数据比较 建议先缩放 再点右箭头';
         next_button.setAttribute('data-value', map_addr[0]);
         next_button.style.border = '.25em solid red';
       } else if (map_i === 1) {
@@ -1687,8 +1689,6 @@ map_addr.push( Ds[ii] + As[i] );
                                 ' 可开启同区数据比较';
       } else {
         lastAddrFirstTag = null;
-        ester_egg.textContent = '搜索精确地址' +
-                                ' 可开启同区数据比较';
       }
       addr.scrollIntoView();
       th_k.textContent = k;
@@ -1819,7 +1819,6 @@ map_addr.push( Ds[ii] + As[i] );
       //   1000 * 5
       // );
     } else {
-      ester_egg.textContent = addr.value + ' 查到' + sb + '个地址';
       // search_button.textContent = '查到' + sb + '个地址，可输入再搜';
       // setTimeout(
       //   function () {
@@ -1870,21 +1869,32 @@ map_addr.push( Ds[ii] + As[i] );
     });
   }
 
-  function scale2x () {
+  function scale2x (r) {
     if (['市', '区'].indexOf(
         addr.value.slice(-1)[0] ) > -1 ) {
       window.alert('搜索地址时，可放大一倍。刷新页面，可重置');
       return false;
     }
     lastSearch = addr.value;
-    d3scale = d3scale * 2;
-    scale2x_button.style.visibility = 'hidden';
-    setTimeout(
-      function () {
-        scale2x_button.style.visibility = 'visible';
-      },
-      1000 * 5
-    );
+    if (r) {
+      d3scale = d3scale / 2;
+      scale2x_button1.style.visibility = 'hidden';
+      setTimeout(
+        function () {
+          scale2x_button1.style.visibility = 'visible';
+        },
+        1000 * 5
+      );
+    } else {
+      d3scale = d3scale * 2;
+      scale2x_button.style.visibility = 'hidden';
+      setTimeout(
+        function () {
+          scale2x_button.style.visibility = 'visible';
+        },
+        1000 * 5
+      );
+    }
     updateLocation(parseInt(j.tag), addr.value);
   }
 
@@ -2047,7 +2057,8 @@ map_addr.push( Ds[ii] + As[i] );
   <button onclick="nextReload(addr.value,1);">&gt;&gt;</button>
   <button id="clear_button" style="visibility:hidden;" onclick="search();">隐藏</button>
   <button id="reload_button" onclick="window.location.reload();">重置</button>
-  <button id="scale2x_button" style="visibility:hidden;" onclick="scale2x();">放大</button>
+  <button id="scale2x_button" style="visibility:hidden;" onclick="scale2x();">&plus;</button>
+  <button id="scale2x_button1" style="visibility:hidden;" onclick="scale2x(1);">&minus;</button>
   <span id="fetching2" style="color:blue;">Loading<span id="loading_span"></span>
     <span class="loading_pr"></span></span>
   <span id="auto_save_" style="color:cyan;">自动缓存&rarr;</span><br/>
