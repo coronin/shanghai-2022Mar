@@ -4,11 +4,17 @@ from urllib import request
 # os.system('scrapy fetch --nolog https://www.cell.com/cell/newarticles > cell.txt')
 
 z = [
+#'0529','']
+#'0528','']
+#'0527','']
+#'0526','']
+#'0525','']
+#'0524','']
 #'0523','']
 #'0522','']
 #'0521','']
-#'0520','']
-'0519','']
+'0520','']
+#'0519','https://mp.weixin.qq.com/s/HIjthO2QrWMs3awazdyI5Q']
 #'0518','https://mp.weixin.qq.com/s/rQ385zJfnJQVH1A9TE98TA']
 #'0517','https://mp.weixin.qq.com/s/q2BapLzFqFVctV-g9xJYcw']
 #'0516','https://mp.weixin.qq.com/s/gnW4IoImldVq9jotw_C1nw']
@@ -85,11 +91,11 @@ z = [
 #'0320','http://mp.weixin.qq.com/s?__biz=MjM5NTA5NzYyMA==&mid=2654520238&idx=1&sn=47dd022fb617df72df0a0f486c9278c6&chksm=bd31ded58a4657c3afc7406744c71b2c50e2d204825e4059a13b47abd2e0412dc4cc7485a379']
 #'0319','https://mp.weixin.qq.com/s/njMjbpRELpe7SWA7AnB5NA']
 #'0318','https://mp.weixin.qq.com/s/xLVPnOTErTe3dmAenUyDGQ']
-# no place info before 3/18
-# 从3月18日起三天内，我市对非重点区域内人员分时分批次开展一次免费核酸检测
-# 从3月13日启动校园封闭管理
+## no place info before 3/6
+## 从3月18日起三天内，我市对非重点区域内人员分时分批次开展一次免费核酸检测
+## 从3月13日启动校园封闭管理
 
-day0x0x = {
+day0x2x = {
 '浦东新区': '', # 浦东发布
 '黄浦区': '',
 '静安区': '',
@@ -107,6 +113,24 @@ day0x0x = {
 '奉贤区': '',
 '崇明区': '' }
 
+day0519 = {
+'浦东新区': 'https://mp.weixin.qq.com/s/2xz1WJ5R7Nx0v6sQEFMTnQ', # 浦东发布
+'黄浦区': 'https://mp.weixin.qq.com/s/xv4YCm5_8mHaxh8-Pya3bQ',
+'静安区': 'https://mp.weixin.qq.com/s/EDjB7G7NbapgUvT2AJbp-w',
+'徐汇区': 'https://mp.weixin.qq.com/s/lLjXWgbjvvRCxY32O43rOg',
+'长宁区': 'https://mp.weixin.qq.com/s/ZiNUJXGYIGOswHuyu7hqqg',
+'普陀区': 'https://mp.weixin.qq.com/s/2RozWVnCCNpr5lLFzQZyAA',
+'虹口区': 'https://mp.weixin.qq.com/s/Yv0YuNRsnkSlmQoNhNQFHQ',
+'杨浦区': 'https://mp.weixin.qq.com/s/xo5Eflg9BiQAVKjS44FNvw',
+'宝山区': 'https://mp.weixin.qq.com/s/1fppPDqcL3h_DBqPIbkhjw',
+'闵行区': 'https://mp.weixin.qq.com/s/TKW11owAyOhCF_xOzaNjuw', # 今日闵行
+'嘉定区': 'https://mp.weixin.qq.com/s/FpYoZ_IXMUCSPj4XsRjSBQ',
+'金山区': '',
+'松江区': 'https://mp.weixin.qq.com/s/hIIJdNUCmjRHpMbY6JfDmA',
+'青浦区': 'https://mp.weixin.qq.com/s/fYWI0vz15hm14sIphz1eSQ', # 绿色青浦
+'奉贤区': 'https://mp.weixin.qq.com/s/ubppdt0wI2JRC-UKsCsthQ',
+'崇明区': 'https://mp.weixin.qq.com/s/JdDJs1g6_2sl5s4JvSKmLw' }
+
 day0518 = {
 '浦东新区': 'https://mp.weixin.qq.com/s/dKOcL5W6qJwOlUd0VTTVNQ', # 浦东发布
 '黄浦区': 'https://mp.weixin.qq.com/s/Iv2-UKwul6l-1xewanwyQw',
@@ -119,7 +143,7 @@ day0518 = {
 '宝山区': 'https://mp.weixin.qq.com/s/6wzy3MxzpBvgQRdk6jTkIw',
 '闵行区': 'https://mp.weixin.qq.com/s/QRQ_jet26z7d-2ckibbRZQ', # 今日闵行
 '嘉定区': 'https://mp.weixin.qq.com/s/KtWn9zD4n3fXLdLAPadzZg',
-'金山区': '',
+'金山区': 'https://mp.weixin.qq.com/s/hwpY9tACteauy_-PoeYYZA',
 '松江区': 'https://mp.weixin.qq.com/s/Z-wQKqtbzD2fUAd6r-Emuw',
 '青浦区': 'https://mp.weixin.qq.com/s/9YkWp3h5tNO0INa8uPWX0A', # 绿色青浦
 '奉贤区': 'https://mp.weixin.qq.com/s/1iqbysiFxfUsUC-gsorevA',
@@ -357,7 +381,7 @@ for zz in Z:
 print(z[1])
 if not z[1]:
     print('###           shanghaifabu')
-    print('# 如用 请补一行 shanghaifabu')
+    print('# shanghaifabu 如用请补一行')
     print('###           shanghaifabu')
     fz = open('%s%s.txt' % (z[0],z[0]), 'w')
 else:

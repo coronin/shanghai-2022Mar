@@ -89,14 +89,14 @@ for l in csv[aa:]: # [1:]
     #     raise
     ls = l.split(',')
     if len(ls) > 4 and ls[1] and ls[2] and ls[4]:
-        if int(ls[4]) <= 20:
+        if int(ls[4]) <= 30: # 可信度 大于30
             nnnn += 1
             continue
         if ls[0] not in C:
             C.append( ls[0].strip() )
         # 1经度 2纬度
         # 3 是否精确
-        # 4 可信度 大于20
+        # 4 可信度
         # 6 bd09_to_wgs84 gcj02_to_wgs84
         if len(ls) > 7 and ls[6] == 'bd09':
             CC[ ls[0].strip() ] = bd09_to_wgs84(float(ls[1]), float(ls[2])
