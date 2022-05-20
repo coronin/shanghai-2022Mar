@@ -66,6 +66,7 @@
   let pngBase64 = {};
   let W; let _ww;
   let nextSpecial = '';
+  let lastAddrFirstTag;
   let _still_in = 5;
 
   function trim (s) { return (s || '').replace(/^\s+|\s+$/g, ''); }
@@ -595,7 +596,11 @@
     if (oldest) {
       hash_ = 307;
     }
-    updateLocation(hash_, q);
+    if (lastAddrFirstTag) {
+      updateLocation(parseInt(lastAddrFirstTag), q);
+    } else {
+      updateLocation(hash_, q);
+    }
   }
 
   function nextReload (q, lastest) {
@@ -646,7 +651,11 @@
       }
     }
     const hash_ = i_ + 100 * month;
-    updateLocation(hash_, q);
+    if (lastAddrFirstTag) {
+      updateLocation(parseInt(lastAddrFirstTag), q);
+    } else {
+      updateLocation(hash_, q);
+    }
   }
 
   function aprilEnter (ky) {
@@ -879,6 +888,7 @@
     } else {
       ds += ' class="click" onclick="resetDay(\'' +
             dl[0] + '\');">' + hash2date(dl[0]) + '</span>';
+      lastAddrFirstTag = dl[0];
     }
     for (di = 1; di < dl.length; di += 1) {
       inwhile = false;
@@ -1348,6 +1358,7 @@
     }
     window.location.replace(baseURL + '#' + j.tag + '?' + k);
     //document.title = 'sh.teach.bio/2 ? ' + k + '  2022/' + _today;
+    lastAddrFirstTag = null;
     onList.textContent = '';
     map.clearRect(0, 0, svgWidth, svgHeight);
     scale2x_button.style.visibility = 'hidden';
@@ -1554,7 +1565,8 @@ if (map_i > 1) {
   ks += '<span data-click="lastSearch=\''+k+'\';search(\'';
 }
 // scaleChange=true;
-if (lastSearch && lastSearch !== As[i] && As[i].indexOf(lastSearch) > -1) {
+if (lastSearch && lastSearch !== As[i] &&
+    As[i].indexOf(lastSearch) > -1 ) { // 非精确地址 启用
   ks += lastSearch;
 } else {
   ks += As[i];
@@ -1673,6 +1685,7 @@ map_addr.push( Ds[ii] + As[i] );
                                         map_addr[0].indexOf('区')+1 ) +
                                 ' 可开启同区数据比较';
       } else {
+        lastAddrFirstTag = null;
         ester_egg.textContent = '搜索精确地址' +
                                 ' 可开启同区数据比较';
       }
@@ -2012,7 +2025,6 @@ map_addr.push( Ds[ii] + As[i] );
       &nbsp; <span class="click" class="april_button" onclick="jumpApr(addr.value);"><span class="em">跳至</span>4/</span><input type="text" id="april" name="april" size=2 onkeydown="aprilEnter();" />
       &nbsp; <span class="click" class="april_button" onclick="jumpApr(addr.value,5);"><span class="em">跳至</span>5/</span><input type="text" id="may" name="may" size=2 onkeydown="aprilEnter(5);" />
     <br/>搜索<span onclick="search(this.textContent);" class="click _L">上海市</span> 可以在地图中定位上榜地址
-
   </p>
   <p>
     <label for="addr"><span style="color:red;font-weight:bold;">上榜地址</span>
