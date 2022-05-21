@@ -86,14 +86,19 @@
     }
   }
 
+  function jtagOffset (dd) {
+    let d = parseInt(j.tag) - dd;
+    if (331 < d && d <= 400) {
+      d -= 69; // 401-14=387(318), 414-14=400(331)
+    } else if (430 < d && d <= 500) {
+      d -= 70; // 514-14=500(430), 501-14=487(417)
+    }
+    return d;
+  }
+
   function cache7in14 () {
     return new Promise(resolve => {
-      let afterD = parseInt(j.tag) - 14;
-      if (331 < afterD && afterD <= 400) {
-        afterD -= 69; // 401-14=387(318), 414-14=400(331)
-      } else if (430 < afterD && afterD <= 500) {
-        afterD -= 70; // 514-14=500(430), 501-14=487(417)
-      }
+      let afterD = jtagOffset(14);
       let dl; let ki; let kj; let kii;
       let kjd;
       for (const p in j.address) {
@@ -219,12 +224,7 @@
         return;
       }
       j['still_in' + days] = {};
-      let s0 = parseInt(j.tag) - days;
-      if (331 < s0 && s0 <= 400) {
-        s0 -= 69;
-      } else if (430 < s0 && s0 <= 500) {
-        s0 -= 70;
-      }
+      let s0 = jtagOffset(days);
       let s1;
       for (const p in j.inB) {
         j['still_in' + days][p] = [];
@@ -362,65 +362,69 @@
 
   function cacheList30times () {
     return new Promise(resolve => {
-      let dl; let ki; let kj; let kii;
-      let kjd;
-      if (j.listed_30days && !j.list30days) {
-
-//@@@@
-// const jlist30days = Object.keys(j.districts).map(function (d) {
-//     j.districts[d]  .length >= 30
-// })
-
+      if (!j.list30days) {
         j.list30days = {};
         j.listed_30days_long = [];
-        Array.from(j.listed_30days).forEach((d) => {
-          for (kii = 0; kii < Ds.length; kii += 1) {
-            if (j.districts[ Ds[kii] ].indexOf(d) > -1) {
-              break;
-          } }
-          dl = j.address[d];
-          kj = 0;
-          kjd = '';
-          for (ki = 0; ki < dl.length; ki += 1) {
-            if (dl[ki].length > 4) { // 地址同名
-              kjd += ',' + dl[ki];
-            } else {
-              kj += 1;
+        Ds.forEach((k) => {
+          let kj; let kjj;
+          let j30 = []; let _j30 = [];
+          let j0 = []; let jFirst = []; let j7neg = []; let j3neg = []; let j1neg = [];
+          let jA = []; let jA0 = []; let jB = [];
+          let j14 = [];
+          Array.from(j.districts[k]).forEach((d) => {
+            kj = dldl(k, d);
+            // .inB   (j.tag + 13)
+            // .released
+            // .released_today
+            if (kj.length >= 30) {
+              _j30.push(k + d);
+              j30.push( [d, kj.length] );
             }
-          }
-          if (kj >= 30) {
-            j.listed_30days_long.push(Ds[kii] + d);
-            if (j.list30days[Ds[kii]]) {
-              j.list30days[Ds[kii]].push( [d, kj] );
-            } else {
-              j.list30days[Ds[kii]] = [ [d, kj] ];
-            }
-          } //else { // 五四村 星火村
-          //   const ind = j.listed_30days.indexOf(d);
-          //   if (ind > -1) {
-          //     j.listed_30days.splice(ind, 1);
-          //   }
-          // }
-          if (kjd && (kjd.match(/,/g) || []).length >= 30) {
-            for (kii = 0; kii < Ds.length; kii += 1) {
-              const re = new RegExp(Ds[kii], 'g');
-              kj = (kjd.match(re) || []).length;
-              if (kj >= 30) {
-                j.listed_30days_long.push(Ds[kii] + d);
-                if (j.list30days[Ds[kii]]) {
-                  j.list30days[Ds[kii]].push( [d, kj] );
-                } else {
-                  j.list30days[Ds[kii]] = [ [d, kj] ];
+            if (kj.slice(-1)[0] === j.tag) {
+              j0.push(d); // .today
+              if (kj.length === 1) {
+                jFirst.push(d);
+              } else {
+                kjj = parseInt(kj.slice(-2)[0]);
+                if (kjj < jtagOffset(7)) {
+                  j7neg.push(d);
+                } else{
+                  if (kjj < jtagOffset(3)) {
+                    j3neg.push(d);
+                  } else if (kjj < jtagOffset(1)) {
+                    j1neg.push(d); }
+                  kjj = 0;
+                  Array.from(kj).forEach((dd) => {
+                    if (parseInt(dd) > jtagOffset(14)) { //@@@@ >=
+                      kjj += 1;
+                    }
+                  });
+                  if (kjj >= 7) {
+                    j14.push( [d, kjj] );
+                  }
                 }
-              }
-            }
+            } }
+            kjj = parseInt(kj.slice(-1)[0]);
+            if (kjj <= jtagOffset(14)) {
+              jA.push(d);
+              if (kjj === jtagOffset(14)) { jA0.push(d); }
+            } else { jB.push(d); }
+          });
+          // console.log(k, j.districts[k].length, jB.length, j0.length, jA.length, jA0.length,
+          //   '七阴'+j7neg.length, '三阴'+j7neg.length, '昨阴'+j1neg.length );
+          console.log(j.tag, k, jA0.length,
+            '月内'+j30.length, '两周内'+j14.length, '首次'+jFirst.length );
+
+          if (_j30) {
+            j.list30days[k] = j30;
+            j.listed_30days_long.push(..._j30);
           }
         });
-        for (kii = 0; kii < Ds.length; kii += 1) {
-          if (j.list30days && j.list30days[Ds[kii]]) {
-            bubble2( j.list30days[Ds[kii]] );
+        Ds.forEach((k) => {
+          if (j.list30days && j.list30days[k]) {
+            bubble2( j.list30days[k] );
           }
-        }
+        });
         _J[j.tag] = j;
       }
       resolve(1);
@@ -950,8 +954,6 @@
     Ml = JSON.parse(csv);
     Ms = Object.keys(Ml.locations);
     datestr.textContent = j.date;
-    fetching.style.visibility = 'hidden';
-    fetching2.style.visibility = 'hidden';
     end_pre.textContent = '\n\n数据更新时间 ' + j.date +
                           '\n源代码 github.com/coronin/shanghai-2022Mar' +
                           '\n作者 @the_paper_link';
@@ -1084,6 +1086,8 @@
       check7.style.display = 'none';
     }
     onList.textContent = '';
+    fetching.style.visibility = 'hidden';
+    fetching2.style.visibility = 'hidden';
     if (window.location.toString().indexOf('?') > -1) {
       if (hash2.indexOf('$') > -1) {
         scaleChange = false;

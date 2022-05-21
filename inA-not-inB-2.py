@@ -297,11 +297,11 @@ print('in A, not in B, estimated', count, '\n')
 
 
 latest_released = {}
-listed30days = []
+# listed30days = []
 count = 0
 for line, dates in by_address.items():
-    if len(dates) >= 30: # 地址同名 日期连着区
-        listed30days.append(line)
+    # if len(dates) >= 30: # 地址同名 日期连着区
+    #     listed30days.append(line)
     ddd = -1
     while As and len(dates) >= (0 - ddd) and dates[ddd][:4] == As[-1]:
         count += 1
@@ -316,14 +316,15 @@ for line, dates in by_address.items():
         ddd -= 1
     if line != 'shanghaifabu':
         by_address[line] = clean_dates(dates)
-print('released %s, estimated' % Bs[-1], count)
 
-# if A:
-#     for dd in districts:
-#         if latest_released.get(dd):
-#             print('%s\t%s' % (dd, len(latest_released[dd]) ))
-#         else:
-#             print('%s\t0' % dd)
+print('released %s, estimated' % Bs[-1], count)
+if A:
+    for dd in districts:
+        if latest_released.get(dd):
+            print('%s\t%s' % (dd, len(latest_released[dd]) ))
+        else:
+            print('%s\t0' % dd)
+
 # listed_30days = list(set(listed30days))
 # print('\nlisted 30 days', len(listed_30days) )
 # if len(AsBs) < 39: # 0412
@@ -417,16 +418,16 @@ fz.close()
 j = {'date':datestr,
      'tag':Bs[-1],
      'address':by_address,
-     'today':districts_today,
-     'inB':districts_inB,
-     'districts':by_district,
-     'released':districts_released,
-     'released_today':latest_released,
-     'latest_added2':latest_added2,
-     'latest_added7':latest_added7,
-     'latest_added':latest_added }
+     # 'today':districts_today,          # map of by_district
+     # 'inB':districts_inB,              # map of by_district
+     'districts':by_district }
+     # 'released':districts_released,    # map of by_district
+     # 'released_today':latest_released, # map of by_district
+     # 'latest_added2':latest_added2,    # map of by_district
+     # 'latest_added7':latest_added7,    # map of by_district
+     # 'latest_added':latest_added       # map of by_district
 # if listed_30days:
-#     j['listed_30days'] = listed_30days => map of by_district
+#     j['listed_30days'] = listed_30days # map of by_district
 fz = open('shanghaifabu/full%s.json' % Bs[-1], 'w')
 fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
 #  jsonp  '%s(%s)' % (callback, out)
