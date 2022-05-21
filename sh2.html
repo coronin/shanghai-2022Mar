@@ -55,7 +55,8 @@
     districts:'累计阳', inB:'两周阳', latest_added:'比昨日多', today:'当日阳',
     latest_added2:'三阴阳', 6:'latest_added2',
     latest_added7:'七阴阳', 7:'latest_added7',
-    still_in:'计算阳', 8:'still_in' };
+    still_in:'计算阳', 8:'still_in',
+    first_in:'首次上榜', cache14days:'两周内超7次上榜', list30days:'3月6日以来超30次上榜' };
   let _check = check_choices['0'];
   let dotNotDraw = 0;
   const baseURL = window.location.toString().split('#')[0].split('?')[0];
@@ -104,13 +105,14 @@
       const v2 = await populateStill(_still_in).catch(e => {
         return console.log(e);
       });
-      if (v2 && !_still.value) {
-        _still.value = _still_in;
-      } else if(!v) {
+      if (!v2) {
         window.alert('无法计算最近' + _still.value + '阳');
         _still_in = 5;
         _still.value = 5;
       }
+    } else {
+      window.alert('数据有误 请刷新页面\n' + window.location.toString() );
+      return false;
     }
   }
 
@@ -122,6 +124,7 @@
       }
       if (j['still_in' + days]) {
         j.still_in = j['still_in' + days];
+        _still.value = days;
         resolve(1);
         return;
       }
@@ -157,6 +160,7 @@
       j.still_in = null;
       _J[j.tag] = j;
       j.still_in = j['still_in' + days];
+      _still.value = days;
       resolve(1);
     });
   }
@@ -179,11 +183,11 @@
                      '<button onclick="h2dist.scrollIntoView();">各区统计</button>';
       onList.appendChild(kk);
       Array.from(j.cache14days[k]).forEach((d) => {
-          ki += 1;
-          onListAppend(ki, k, d[0],
-                       '两周内' + d[1] + '次上榜');
+        ki += 1;
+        onListAppend(ki, k, d[0],
+                   '两周内' + d[1] + '次上榜');
       });
-    } else if (j.cached_14days.length && !k) {
+    } else if (j.cached_14days && !k) {
       kk.innerHTML = '<button onclick="map.clearRect(0,0,svgWidth,svgHeight);' +
                      'draw_sh_addr(j.cached_14days,\'' +
                      '上海市' + tt + '\');">展示' + tt + '地址</button> ' +
@@ -191,16 +195,12 @@
                      '">两周内曾上榜至少1次</button> ' +
                      '<button onclick="h2dist.scrollIntoView();">各区统计</button>';
       onList.appendChild(kk);
-      ki += 1;
-      let kj;
-      Ds.forEach((k) => {
-        if (j.cache14days[k]) {
-          kj = j.cache14days[k].length;
-          if (kj > 0) {
-            onListAppend(ki, k, null, '两周内 ' + kj + '处超7次上榜');
-            ki += kj;
-        } }
-      });
+      ki = _check;
+      _check = 'cache14days';
+      generalAppend();
+      _check = ki;
+    } else {
+      onListAppend(' ', (k || '上海市'), null, '无超7次的');
     }
   }
 
@@ -243,18 +243,40 @@
     }
     let ki = 0;
     if (k) {
-      Array.from(j.first_in[k]).forEach((d) => {
-        ki += 1;
-        onListAppend(ki, k, d,
-                     '3月6日以来 首次上榜');
-      });
+      if (j.first_in[k]) {
+        Array.from(j.first_in[k]).forEach((d) => {
+          ki += 1;
+          onListAppend(ki, k, d,
+                       '3月6日以来 首次上榜');
+        });
+      } else {
+        onListAppend(' ', k, null, '无');
+      }
     } else {
-      Ds.forEach((kk) => {
-      Array.from(j.first_in[kk]).forEach((d) => {
-        ki += 1;
-        onListAppend(ki, kk, d,
-                     '3月6日以来 首次上榜');
-      }); });
+      Ds.forEach((k) => {
+        if (j.first_in[k]) {
+          ki += j.first_in[k].length;
+        }
+      });
+      if (ki < 100) {
+        ki = 0;
+        Ds.forEach((k) => {
+          if (j.first_in[k]) {
+            Array.from(j.first_in[k]).forEach((d) => {
+              ki += 1;
+              onListAppend(ki, k, d,
+                           '3月6日以来 首次上榜');
+            });
+          } else {
+            onListAppend(' ', k, null, '无');
+          }
+        });
+      } else {
+        ki = _check;
+        _check = 'first_in';
+        generalAppend();
+        _check = ki;
+      }
     }
   }
 
@@ -273,7 +295,7 @@
     if (!ki) {
       ks = '<br/>';
     } else if (j.listed_30days_long && k && d && j.listed_30days_long.indexOf(k + d) > -1 &&
-        (!t || t.indexOf('上榜') === -1) ) {
+               (!t || t.indexOf('上榜') === -1) ) {
       ks = '<span style="color:red;">' + ki + '.<sup>上榜' +
            dldl(k, d).length + '次</sup></span> ';
     } else {
@@ -294,8 +316,6 @@
       ks += ' ' + tagsHTML(dldl(k, d));
     }
     const kk = document.createElement('p');
-    kk.style.padding = '0';
-    kk.style.margin = '0';
     kk.innerHTML = ks;
     onList.appendChild(kk);
     // if (['inB', 'districts'
@@ -322,13 +342,15 @@
         j.first_in = {};
         j.cache14days = {};
         j.cached_14days = [];
-        j.today = {};
-        j.inB = {};
-        j.released = {};
-        j.released_today = {};
-        j.latest_added = {};
-        j.latest_added2 = {};
-        j.latest_added7 = {};
+        if (parseInt(j.tag) > 500) {
+          j.today = {};
+          j.inB = {};
+          j.released = {};
+          j.released_today = {};
+          j.latest_added = {};
+          j.latest_added2 = {};
+          j.latest_added7 = {};
+        }
         Ds.forEach((k) => {
           let kj; let kjj;
           let j30 = []; let _j30 = [];
@@ -374,27 +396,67 @@
                 j14.push( [d, kjj] ); }
             }
           });
+          j1neg.push(...jFirst);
+          j3neg.push(...jFirst);
+          j7neg.push(...jFirst);
           // console.log(k, j.districts[k].length, jB.length, j0.length, jA.length, jA0.length,
           //   '七阴'+j7neg.length, '三阴'+j7neg.length, '昨阴'+j1neg.length,
           //   '月内'+j30.length, '首次'+jFirst.length, '两周内'+j14.length )
-          if (_j30) {
+          if ([] !== _j30) {
             bubble2(j30);
             j.list30days[k] = j30;
             j.listed_30days_long.push(..._j30);
           }
-          j.first_in[k] = jFirst;
-          bubble2(j14);
-          j.cache14days[k] = j14;
-          j.cached_14days.push(..._j14);
-          if (parseInt(j.tag) > 500) {
-            j.today[k] = j0;
-            j.inB[k] = jB;
-            j.released[k] = jA;
-            j.released_today[k] = jA0;
-            j.latest_added[k] = j1neg.concat(jFirst);
-            j.latest_added2[k] = j3neg.concat(jFirst);
-            j.latest_added7[k] = j7neg.concat(jFirst);
+          if ([] !== jFirst) j.first_in[k] = jFirst;
+          if ([] !== _j14) {
+            bubble2(j14);
+            j.cache14days[k] = j14;
+            j.cached_14days.push(..._j14);
           }
+          ////if (parseInt(j.tag) > 500) {
+            if (j.today[k]) {
+              kj = [...j.today[k]].filter(x => j0.indexOf(x) === -1);
+              kj.length && j.today[k].length === j0.length && console.log(
+              k, '当日阳 py多了', kj);
+            }
+            if ([] !== j0) j.today[k] = j0;
+            if (j.inB[k]) {
+              kj = [...j.inB[k]].filter(x => !jB.indexOf(x) === -1);
+              kj.length && j.inB[k].length === jB.length && console.log(
+              k, '两周阳 py多了', kj);
+            }
+            if ([] !== jB) j.inB[k] = jB;
+            if (j.released[k]) {
+              kj = [...j.released[k]].filter(x => !jA.indexOf(x) === -1);
+              kj.length && j.released[k].length === jA.length && console.log(
+              k, '累计下榜 py多了', kj);
+            }
+            if ([] !== jA) j.released[k] = jA;
+            if (j.released_today[k]) {
+              kj = [...j.released_today[k]].filter(x => !jA0.indexOf(x) === -1);
+              kj.length && j.released_today[k].length === jA0.length && console.log(
+              k, '当日下榜 py多了', kj);
+            }
+            if ([] !== jA0) j.released_today[k] = jA0;
+            if (j.latest_added[k]) {
+              kj = [...j.latest_added[k]].filter(x => !j1neg.indexOf(x) === -1);
+              kj.length && j.latest_added[k].length === j1neg.length && console.log(
+              k, '比昨日多 py多了', kj);
+            }
+            if ([] !== j1neg) j.latest_added[k] = j1neg;
+            if (j.latest_added2[k]) {
+              kj = [...j.latest_added2[k]].filter(x => !j3neg.indexOf(x) === -1);
+              kj.length && j.latest_added2[k].length === j3neg.length && console.log(
+              k, '三阴阳 py多了', kj);
+            }
+            if ([] !== j3neg) j.latest_added2[k] = j3neg;
+            if (j.latest_added7[k]) {
+              kj = [...j.latest_added7[k]].filter(x => !j7neg.indexOf(x) === -1);
+              kj.length && j.latest_added7[k].length === j7neg.length && console.log(
+              k, '七阴阳 py多了', kj);
+            }
+            if ([] !== j7neg) j.latest_added7[k] = j7neg;
+          ////}
         });
         _J[j.tag] = j;
       }
@@ -432,36 +494,32 @@
                      '">3月6日以来曾上榜至少1次</button> ' +
                      '<button onclick="h2dist.scrollIntoView();">各区统计</button>';
       onList.appendChild(kk);
-      ki += 1;
-      let kj;
-      Ds.forEach((k) => {
-        if (j.list30days[k]) {
-          kj = j.list30days[k].length;
-          if (kj > 0) {
-            onListAppend(ki, k, null, '3月6日以来 ' + kj + '处超30次上榜');
-            ki += kj;
-        } }
-      });
+      ki = _check;
+      _check = 'list30days';
+      generalAppend();
+      _check = ki;
+    } else {
+      onListAppend(' ', (k || '上海市'), null, '无超30次的');
     }
   }
 
   function generalAppend () {
-    let kii; let kj; let ki = 0;
-    for (kii = 0; kii < Ds.length; kii += 1) {
-      if (!j[_check] || !j[_check][Ds[kii]]) {
-        continue;
+    let kj; let ki = 1;
+    Ds.forEach((k) => {
+      if (!j[_check] || !j[_check][k] || !j[_check][k].length) {
+        onListAppend(' ', k, null, '无');
+      } else {
+        kj = j[_check][k].length;
+        if (_check === 'still_in') {
+          onListAppend(ki, k, null, kj +
+                       '处 最近' + _still_in + '日上榜' );
+        } else {
+          onListAppend(ki, k, null, kj +
+                       '处 ' + check_choices[_check] );
+        }
+        ki += kj;
       }
-      ki += 1;
-      kj = j[_check][Ds[kii]].length;
-      if (_check === 'still_in') {
-        onListAppend(ki, Ds[kii], null, kj +
-                     '处 最近' + _still_in + '日上榜' );
-      } else if (kj) {
-        onListAppend(ki, Ds[kii], null, kj +
-                     '处 ' + check_choices[_check] );
-      }
-      ki += kj - 1;
-    }
+    });
   }
 
   function mapX (z) { // 57变大==>区域变窄  .004修正区域平移
@@ -642,6 +700,13 @@
     }
   }
 
+  function stillEnter () {
+    const keyCode = ('which' in event) ? event.which : event.keyCode;
+    if (keyCode === 13) {
+      window.alert('点击选择框 展示' + _still.value + '日阳');
+    }
+  }
+
   function aprilEnter (ky) {
     const keyCode = ('which' in event) ? event.which : event.keyCode;
     if (keyCode === 13) {
@@ -779,7 +844,7 @@
         _J[hash] = j;
         if (parseInt(j.tag) > j_data_init) {
           hard_off();
-          window.alert('所得数据有错 请刷新页面\n' + window.location.toString() );
+          window.alert('数据日期有错 请刷新页面\n' + window.location.toString() );
           return false;
         }
         if (j.address.shanghaifabu && hash !== j.address.shanghaifabu.slice(-1)[0]) {
@@ -915,7 +980,7 @@
     return ds;
   }
 
-  function load () {
+  async function load () {
     Ml = JSON.parse(csv);
     Ms = Object.keys(Ml.locations);
     datestr.textContent = j.date;
@@ -961,7 +1026,10 @@
       pngGif.style.visibility = 'visible';
     }
     Ds = Object.keys(j.districts);
-    asyncPopulateStill();
+    await asyncPopulateStill().catch(e => {
+      window.alert('代码有误 请邮件告知\ndev@teach.bio');
+      return console.log(e);
+    });
     _still.onchange = function () {
       _still_in = parseInt(_still.value);
       asyncPopulateStill();
@@ -1048,6 +1116,13 @@
       check7.style.display = 'inline-block';
     } else {
       check7.style.display = 'none';
+    }
+    if (parseInt(j.tag) > 319) { // 累计下榜 当日下榜
+      check4.style.display = 'inline-block';
+      check5.style.display = 'inline-block';
+    } else {
+      check4.style.display = 'none';
+      check5.style.display = 'none';
     }
     onList.textContent = '';
     fetching.style.visibility = 'hidden';
@@ -1441,9 +1516,9 @@ j.tag === '0'+j[_check][k][ii][1] ) ? '' : '截至' + hash2date(j.tag) +
       }
       if (_check === 'today') {
         asyncFirstSince0306(k);
-      } else if (_check === 'inB') {
+      } else if (_check === 'inB' && parseInt(j.tag) > 312) {
         async7in14(k);
-      } else if (_check === 'districts') {
+      } else if (_check === 'districts' && parseInt(j.tag) > 405) {
         asyncList30times(k);
       }
       check_row.style.display = 'block';
@@ -1476,9 +1551,9 @@ j.tag === '0'+j[_check][k][ii][1] ) ? '' : '截至' + hash2date(j.tag) +
       draw_sh_addr();
       if (_check === 'today') {
         asyncFirstSince0306();
-      } else if (_check === 'inB') {
+      } else if (_check === 'inB' && parseInt(j.tag) > 312) {
         async7in14();
-      } else if (_check === 'districts') {
+      } else if (_check === 'districts' && parseInt(j.tag) > 405) {
         asyncList30times();
       } else if (['latest_added2', 'latest_added7', 'latest_added', 'still_in'
                  ].indexOf(_check) > -1) {
@@ -1651,8 +1726,6 @@ if (_ww && _ww.indexOf(Ds[ii] + As[i]) > -1) {
 }
 kk = document.createElement('p');
 //kk.id = As[i];
-kk.style.padding = '0';
-kk.style.margin = '0';
 kk.innerHTML = ks;
 onList.appendChild(kk);
 map_x.push(parseFloat( Ml.locations[Ds[ii] + As[i]][0] ));
@@ -2019,6 +2092,11 @@ map_addr.push( Ds[ii] + As[i] );
       font-size: 75%;
     }
     #ester_egg { background-color: yellow; }
+    #onList> p {
+      margin: 0;
+      padding: 0 0 0 4em;
+      text-indent: -4em;
+    }
   </style>
 </head>
 <body onload="load_js();">
@@ -2048,7 +2126,7 @@ map_addr.push( Ds[ii] + As[i] );
   <span id="auto_save_status" class="_tag">/</span>
   <button id="next_button" data-value="" style="visibility:hidden;" onclick="nextReload(addr.value);">&gt;</button>
   <button id="next_button2" onclick="nextReload(addr.value,1);">&gt;&gt;</button>
-  <button id="clear_button" style="visibility:hidden;" onclick="search();">隐藏</button>
+  <button id="clear_button" style="visibility:hidden;" onclick="search();">隐图</button>
   <button id="reload_button" onclick="window.location.reload();">重置</button>
   <button id="scale2x_button" style="visibility:hidden;" onclick="scale2x();">&plus;</button>
   <button id="scale2x_button1" style="visibility:hidden;" onclick="scale2x(1);">&minus;</button>
@@ -2071,14 +2149,14 @@ map_addr.push( Ds[ii] + As[i] );
       data-value="0" /><span style="color:red">当日阳</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
       data-value="8" /><input type="text" id="_still" name="_still" size=2
-      /><span style="color:red">日阳</span></label>
+      onkeydown="stillEnter();" /><span style="color:red">日阳</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
       data-value="2" /><span style="color:red">两周阳</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
       data-value="3" /><span style="color:red">累计阳</span></label>
-    <label><input type="checkbox" name="check" onclick="onlyOne(this)"
+    <label id="check4"><input type="checkbox" name="check" onclick="onlyOne(this)"
       data-value="4" /><span style="color:green">累计下榜</span></label>
-    <label><input type="checkbox" name="check" onclick="onlyOne(this)"
+    <label id="check5"><input type="checkbox" name="check" onclick="onlyOne(this)"
       data-value="5" /><span style="color:green">当日下榜</span></label>
   </div>
 
