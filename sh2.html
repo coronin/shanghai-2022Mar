@@ -97,15 +97,20 @@
   }
 
   async function asyncPopulateStill () {
-    const v = await populateStill(_still_in).catch(e => {
+    const v = await cacheList().catch(e => {
       return console.log(e);
     });
-    if (v && !_still.value) {
-      _still.value = _still_in;
-    } else if(!v) {
-      window.alert('无法计算最近' + _still.value + '阳');
-      _still_in = 5;
-      _still.value = 5;
+    if (v) {
+      const v2 = await populateStill(_still_in).catch(e => {
+        return console.log(e);
+      });
+      if (v2 && !_still.value) {
+        _still.value = _still_in;
+      } else if(!v) {
+        window.alert('无法计算最近' + _still.value + '阳');
+        _still_in = 5;
+        _still.value = 5;
+      }
     }
   }
 
@@ -186,17 +191,16 @@
                      '">两周内曾上榜至少1次</button> ' +
                      '<button onclick="h2dist.scrollIntoView();">各区统计</button>';
       onList.appendChild(kk);
-      let kj; let kii;
-      for (kii = 0; kii < Ds.length; kii += 1) {
-        if (!j.cache14days[Ds[kii]]) {
-          continue;
-        }
-        ki += 1;
-        kj = j.cache14days[Ds[kii]].length;
-        onListAppend(ki, Ds[kii], null,
-                     '两周内 ' + kj + '处超7次上榜');
-        ki += kj - 1;
-      }
+      ki += 1;
+      let kj;
+      Ds.forEach((k) => {
+        if (j.cache14days[k]) {
+          kj = j.cache14days[k].length;
+          if (kj > 0) {
+            onListAppend(ki, k, null, '两周内 ' + kj + '处超7次上榜');
+            ki += kj;
+        } }
+      });
     }
   }
 
@@ -352,22 +356,23 @@
                   j3neg.push(d); }
                 if (kjj < jtagOffset(7)) {
                   j7neg.push(d);
-                } else {
-                  kjj = 0;
-                  Array.from(kj).forEach((dd) => {
-                    if (parseInt(dd) > jtagOffset(14)) {
-                      kjj += 1; }
-                  });
-                  if (kjj >= 7) {
-                    _j14.push(k + d);
-                    j14.push( [d, kjj] ); }
                 }
             } }
             kjj = parseInt(kj.slice(-1)[0]);
             if (kjj <= jtagOffset(14)) {
               jA.push(d);
               if (kjj === jtagOffset(14)) { jA0.push(d); }
-            } else { jB.push(d); }
+            } else {
+              jB.push(d);
+              kjj = 0;
+              Array.from(kj).forEach((dd) => {
+                if (parseInt(dd) > jtagOffset(14)) {
+                  kjj += 1; }
+              });
+              if (kjj >= 7) {
+                _j14.push(k + d);
+                j14.push( [d, kjj] ); }
+            }
           });
           // console.log(k, j.districts[k].length, jB.length, j0.length, jA.length, jA0.length,
           //   '七阴'+j7neg.length, '三阴'+j7neg.length, '昨阴'+j1neg.length,
@@ -381,23 +386,19 @@
           bubble2(j14);
           j.cache14days[k] = j14;
           j.cached_14days.push(..._j14);
-          j.today[k] = j0;
-          j.inB[k] = jB;
-          j.released[k] = jA;
-          j.released_today[k] = jA0;
-          j.latest_added[k] = j1neg;
-          j.latest_added2[k] = j3neg;
-          j.latest_added7[k] = j7neg;
+          if (parseInt(j.tag) > 500) {
+            j.today[k] = j0;
+            j.inB[k] = jB;
+            j.released[k] = jA;
+            j.released_today[k] = jA0;
+            j.latest_added[k] = j1neg.concat(jFirst);
+            j.latest_added2[k] = j3neg.concat(jFirst);
+            j.latest_added7[k] = j7neg.concat(jFirst);
+          }
         });
         _J[j.tag] = j;
       }
       resolve(1);
-    });
-  }
-
-  async function asCacheList () {
-    const v = await cacheList().catch(e => {
-      return console.log(e);
     });
   }
 
@@ -431,16 +432,16 @@
                      '">3月6日以来曾上榜至少1次</button> ' +
                      '<button onclick="h2dist.scrollIntoView();">各区统计</button>';
       onList.appendChild(kk);
-      for (kii = 0; kii < Ds.length; kii += 1) {
-        if (!j.list30days[Ds[kii]]) {
-          continue;
-        }
-        ki += 1;
-        kj = j.list30days[Ds[kii]].length;
-        onListAppend(ki, Ds[kii], null,
-                     '3月6日以来 ' + kj + '处超30次上榜');
-        ki += kj - 1;
-      }
+      ki += 1;
+      let kj;
+      Ds.forEach((k) => {
+        if (j.list30days[k]) {
+          kj = j.list30days[k].length;
+          if (kj > 0) {
+            onListAppend(ki, k, null, '3月6日以来 ' + kj + '处超30次上榜');
+            ki += kj;
+        } }
+      });
     }
   }
 
@@ -455,7 +456,7 @@
       if (_check === 'still_in') {
         onListAppend(ki, Ds[kii], null, kj +
                      '处 最近' + _still_in + '日上榜' );
-      } else {
+      } else if (kj) {
         onListAppend(ki, Ds[kii], null, kj +
                      '处 ' + check_choices[_check] );
       }
@@ -936,11 +937,6 @@
     Array.from(tags).forEach((d) => {
       d.textContent = _today;
     });
-    asyncPopulateStill();
-    _still.onchange = function () {
-      _still_in = parseInt(_still.value);
-      asyncPopulateStill();
-    };
     auto_save_status.onclick = function () {
       if (autoSavePNG) {
         auto_save_off();
@@ -965,7 +961,11 @@
       pngGif.style.visibility = 'visible';
     }
     Ds = Object.keys(j.districts);
-    asCacheList();
+    asyncPopulateStill();
+    _still.onchange = function () {
+      _still_in = parseInt(_still.value);
+      asyncPopulateStill();
+    };
     As = Object.keys(j.address);
     th_k.textContent = '';
     districtTbody.textContent = '';
