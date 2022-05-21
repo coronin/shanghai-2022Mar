@@ -9,7 +9,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
   <!-- script src="full.json"></script -->
-  <script src="shanghaifabu/map-location.json?v=0519"></script><!-- @@ -->
+  <script src="shanghaifabu/map-location.json?v=0520"></script><!-- @@ -->
   <script src="shanghaifabu/d3.min.v3.js"></script>
   <script src="shanghaifabu/topojson.min.180.js"></script><!-- http://geojson.io -->
   <script src="shanghaifabu/sh.json"></script><!-- http://datav.aliyun.com/portal/school/atlas/area_generator -->
@@ -20,7 +20,7 @@
   let i; let j; const _J = {};
   let As; let Ds;
   const today = new Date();
-  const j_data_init = 519; // @@
+  const j_data_init = 520; // @@
   let _today; // j.tag
   let Ml; let Ms; let map;
   let d3scale; let d3center; let svgWidth; let svgHeight;
@@ -628,6 +628,7 @@
       nextSpecial = next_button.getAttribute('data-value');
       next_button.setAttribute('data-value', '');
       next_button.style.border = '';
+      next_button2.style.border = '';
     }
     updateLocation(hash_, q);
   }
@@ -1686,12 +1687,14 @@ map_addr.push( Ds[ii] + As[i] );
       app.style.display = 'none';
       next_button.setAttribute('data-value', '');
       next_button.style.border = '';
+      next_button2.style.border = '';
       onListAppend(0, k.substr(0, k.length - 1), null, '&larr;可尝试');
     } else {
       if (map_i === 1 && map_addr[0].endsWith(k)) {
         ester_egg.textContent = '同区数据比较 建议先缩放 再点右箭头';
         next_button.setAttribute('data-value', map_addr[0]);
         next_button.style.border = '.25em solid red';
+        next_button2.style.border = '.25em solid red';
       } else if (map_i === 1) {
         ester_egg.textContent = '搜索 ' + map_addr[0].substr(
                                         map_addr[0].indexOf('区')+1 ) +
@@ -2063,7 +2066,7 @@ map_addr.push( Ds[ii] + As[i] );
   <button id="pre_button" onclick="preReload(addr.value);">&lt;</button>
   <span id="auto_save_status" class="_tag">/</span>
   <button id="next_button" data-value="" style="visibility:hidden;" onclick="nextReload(addr.value);">&gt;</button>
-  <button onclick="nextReload(addr.value,1);">&gt;&gt;</button>
+  <button id="next_button2" onclick="nextReload(addr.value,1);">&gt;&gt;</button>
   <button id="clear_button" style="visibility:hidden;" onclick="search();">隐藏</button>
   <button id="reload_button" onclick="window.location.reload();">重置</button>
   <button id="scale2x_button" style="visibility:hidden;" onclick="scale2x();">&plus;</button>
