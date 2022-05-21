@@ -281,18 +281,18 @@ for longline in A:
     if longline not in Z and longline not in BB: # and line not in notThese:
         count += 1
         Z.append(longline)
-        if longline.startswith('浦东新区'):
-            line = longline[4:]
-        else:
-            line = longline[3:]
-        for dd in districts:
-            if line in by_district[dd]:
-                if (districts_released.get(dd)):
-                    districts_released[dd] += [line]
-                else:
-                    districts_released[dd] = [line]
-                break
-            pass
+        # if longline.startswith('浦东新区'):
+        #     line = longline[4:]
+        # else:
+        #     line = longline[3:]
+        # for dd in districts:
+        #     if line in by_district[dd]:
+        #         if (districts_released.get(dd)):
+        #             districts_released[dd] += [line]
+        #         else:
+        #             districts_released[dd] = [line]
+        #         break
+        #     pass
 print('in A, not in B, estimated', count, '\n')
 
 
@@ -330,66 +330,66 @@ if A:
 # if len(AsBs) < 39: # 0412
 #     print('should be zero, before 0412')
 
-latest_added = {}
-Bs2 = read_a_list(Bs[-2], tag='list')
-for dd in districts:
-    if not districts_today.get(dd):
-        continue
-    #print('>>>>', dd, len(districts_today[dd]) )
-    for line in districts_today[dd]:
-        if ('%s%s' % (dd, line)) not in Bs2:
-            #print('>>>>', dd, line)
-            if (latest_added.get(dd)):
-                latest_added[dd] += [line]
-            else:
-                latest_added[dd] = [line]
+# latest_added = {}
+# Bs2 = read_a_list(Bs[-2], tag='list')
+# for dd in districts:
+#     if not districts_today.get(dd):
+#         continue
+#     #print('>>>>', dd, len(districts_today[dd]) )
+#     for line in districts_today[dd]:
+#         if ('%s%s' % (dd, line)) not in Bs2:
+#             #print('>>>>', dd, line)
+#             if (latest_added.get(dd)):
+#                 latest_added[dd] += [line]
+#             else:
+#                 latest_added[dd] = [line]
 
-latest_added2 = {}
-latest_added7 = {}
-Bs4 = [[], [], [], [], [], [] ] # >= 0501
-try:
-    Bs4[0] = read_a_list(Bs[-3], tag='list')
-    Bs4[1] = read_a_list(Bs[-4], tag='list')
-    for dd in districts:
-        if not districts_today.get(dd):
-            continue
-        #print('>>>>', dd, len(districts_today[dd]) )
-        for line in districts_today[dd]:
-            if ('%s%s' % (dd, line)) not in Bs2 and (
-                '%s%s' % (dd, line)) not in Bs4[0] and (
-                '%s%s' % (dd, line)) not in Bs4[1]:
-                #print('>>>>', dd, line)
-                if (latest_added2.get(dd)):
-                    latest_added2[dd] += [line]
-                else:
-                    latest_added2[dd] = [line]
-    try:
-        Bs4[2] = read_a_list(Bs[-5], tag='list')
-        Bs4[3] = read_a_list(Bs[-6], tag='list')
-        Bs4[4] = read_a_list(Bs[-7], tag='list')
-        Bs4[5] = read_a_list(Bs[-8], tag='list')
-        for dd in districts:
-            if not districts_today.get(dd):
-                continue
-            #print('>>>>', dd, len(districts_today[dd]) )
-            for line in districts_today[dd]:
-                last38 = False
-                for Bs4_ in Bs4:
-                    if ('%s%s' % (dd, line)) in Bs4_:
-                        last38 = True;
-                        break;
-                if last38:
-                    continue
-                if ('%s%s' % (dd, line)) not in Bs2:
-                    #print('>>>>', dd, line)
-                    if (latest_added7.get(dd)):
-                        latest_added7[dd] += [line]
-                    else:
-                        latest_added7[dd] = [line]
-    except:
-        print('>> empty .latest_added7')
-except:
-    print('>> empty .latest_added2')
+# latest_added2 = {}
+# latest_added7 = {}
+# Bs4 = [[], [], [], [], [], [] ] # >= 0501
+# try:
+#     Bs4[0] = read_a_list(Bs[-3], tag='list')
+#     Bs4[1] = read_a_list(Bs[-4], tag='list')
+#     for dd in districts:
+#         if not districts_today.get(dd):
+#             continue
+#         #print('>>>>', dd, len(districts_today[dd]) )
+#         for line in districts_today[dd]:
+#             if ('%s%s' % (dd, line)) not in Bs2 and (
+#                 '%s%s' % (dd, line)) not in Bs4[0] and (
+#                 '%s%s' % (dd, line)) not in Bs4[1]:
+#                 #print('>>>>', dd, line)
+#                 if (latest_added2.get(dd)):
+#                     latest_added2[dd] += [line]
+#                 else:
+#                     latest_added2[dd] = [line]
+#     try:
+#         Bs4[2] = read_a_list(Bs[-5], tag='list')
+#         Bs4[3] = read_a_list(Bs[-6], tag='list')
+#         Bs4[4] = read_a_list(Bs[-7], tag='list')
+#         Bs4[5] = read_a_list(Bs[-8], tag='list')
+#         for dd in districts:
+#             if not districts_today.get(dd):
+#                 continue
+#             #print('>>>>', dd, len(districts_today[dd]) )
+#             for line in districts_today[dd]:
+#                 last38 = False
+#                 for Bs4_ in Bs4:
+#                     if ('%s%s' % (dd, line)) in Bs4_:
+#                         last38 = True;
+#                         break;
+#                 if last38:
+#                     continue
+#                 if ('%s%s' % (dd, line)) not in Bs2:
+#                     #print('>>>>', dd, line)
+#                     if (latest_added7.get(dd)):
+#                         latest_added7[dd] += [line]
+#                     else:
+#                         latest_added7[dd] = [line]
+#     except:
+#         print('>> empty .latest_added7')
+# except:
+#     print('>> empty .latest_added2')
 
 
 print('\n')
@@ -436,9 +436,9 @@ print('\nupdate drag-me.html and sh2.html with full.json?v=%s' % Bs[-1] )
 if not A:
     print('no A, today', len(districts_today) )
     print('no A, inB', len(districts_inB) )
-    print('no A, released', len(districts_released) )
+    # print('no A, released', len(districts_released) )
     print('no A, latest released', len(latest_released) )
-    print('no A, latest added', len(latest_added) )
+    # print('no A, latest added', len(latest_added) )
 
 # 以上注释，以更新 map-location.json
 ####
