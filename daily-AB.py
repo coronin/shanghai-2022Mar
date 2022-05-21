@@ -389,7 +389,8 @@ res = wxx.replace('，', ',').replace('。', ',').replace('、', ',').replace('�
         ).replace('分别居住于', ',').replace('：', ','
         ).replace('我区', ',,,,').replace('已对相关', ',')
 
-Z = [ s.strip() for s in list(filter(None, res.split(',') )) ]
+#Z = [ s.strip() for s in list(filter(None, res.split(',') )) ]
+Z = [ s.strip() for s in filter(None, res.split(',') ) ]
 #print(len(Z))
 for zz in Z:
     if len( zz.strip() ) > 20: # 5/18 金山区
