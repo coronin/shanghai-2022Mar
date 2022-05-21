@@ -316,18 +316,18 @@ for line, dates in by_address.items():
         ddd -= 1
     if line != 'shanghaifabu':
         by_address[line] = clean_dates(dates)
-
 print('released %s, estimated' % Bs[-1], count)
-if A:
-    for dd in districts:
-        if latest_released.get(dd):
-            print('%s\t%s' % (dd, len(latest_released[dd]) ))
-        else:
-            print('%s\t0' % dd)
-listed_30days = list(set(listed30days))
-print('\nlisted 30 days', len(listed_30days) )
-if len(AsBs) < 39: # 0412
-    print('should be zero, before 0412')
+
+# if A:
+#     for dd in districts:
+#         if latest_released.get(dd):
+#             print('%s\t%s' % (dd, len(latest_released[dd]) ))
+#         else:
+#             print('%s\t0' % dd)
+# listed_30days = list(set(listed30days))
+# print('\nlisted 30 days', len(listed_30days) )
+# if len(AsBs) < 39: # 0412
+#     print('should be zero, before 0412')
 
 latest_added = {}
 Bs2 = read_a_list(Bs[-2], tag='list')
@@ -425,8 +425,8 @@ j = {'date':datestr,
      'latest_added2':latest_added2,
      'latest_added7':latest_added7,
      'latest_added':latest_added }
-if listed_30days:
-    j['listed_30days'] = listed_30days
+# if listed_30days:
+#     j['listed_30days'] = listed_30days => map of by_district
 fz = open('shanghaifabu/full%s.json' % Bs[-1], 'w')
 fz.write("data='%s'" % json.dumps(j, ensure_ascii=False) ) #, sort_keys=True, indent=2
 #  jsonp  '%s(%s)' % (callback, out)

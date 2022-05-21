@@ -318,10 +318,10 @@
     let ks;
     if (!ki) {
       ks = '<br/>';
-    } else if (j.listed_30days && d && j.listed_30days.indexOf(d) > -1 &&
+    } else if (j.listed_30days_long && k && d && j.listed_30days_long.indexOf(k + d) > -1 &&
         (!t || t.indexOf('上榜') === -1) ) {
       ks = '<span style="color:red;">' + ki + '.<sup>上榜' +
-           '超30</sup></span> '; // dldl
+           dldl(k, d).length + '次</sup></span> ';
     } else {
       ks = '<span class="em">' + ki + '.</span> ';
     }
@@ -365,6 +365,12 @@
       let dl; let ki; let kj; let kii;
       let kjd;
       if (j.listed_30days && !j.list30days) {
+
+//@@@@
+// const jlist30days = Object.keys(j.districts).map(function (d) {
+//     j.districts[d]  .length >= 30
+// })
+
         j.list30days = {};
         j.listed_30days_long = [];
         Array.from(j.listed_30days).forEach((d) => {
@@ -418,6 +424,12 @@
         _J[j.tag] = j;
       }
       resolve(1);
+    });
+  }
+
+  async function asCacheList30times () {
+    const v = await cacheList30times().catch(e => {
+      return console.log(e);
     });
   }
 
@@ -987,6 +999,7 @@
       pngGif.style.visibility = 'visible';
     }
     Ds = Object.keys(j.districts);
+    asCacheList30times();
     As = Object.keys(j.address);
     th_k.textContent = '';
     districtTbody.textContent = '';
@@ -1564,7 +1577,7 @@ j.tag === '0'+j[_check][k][ii][1] ) ? '' : '截至' + hash2date(j.tag) +
 
 //onList.textContent += Ds[ii] + ',' + As[i] + ': ' + dl;
 const dl = dldl(Ds[ii], As[i]);
-if (j.listed_30days && j.listed_30days.indexOf(As[i]) > -1 && dl.length >= 30) {
+if (j.listed_30days_long && j.listed_30days_long.indexOf(Ds[ii] + As[i]) > -1 && dl.length >= 30) {
   ks = '<span style="color:red;">' + sb + '.<sup>上榜' +
        dl.length + '次</sup></span> ';
 } else {
