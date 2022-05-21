@@ -1569,7 +1569,7 @@ if (j.listed_30days && j.listed_30days.indexOf(As[i]) > -1 && dl.length >= 30) {
 } else {
   ks = '<span class="em">' + sb + '.</span> ';
 }
-if (map_i > 1) {
+if (map_i > 1 || lastSearch) {
   ks += '<span class="click" onclick="search(this.textContent);">' + Ds[ii] + '</span>';
   ks += '<span class="click _L" onclick="lastSearch=\''+k+'\';search(\'';
 } else {
@@ -1579,11 +1579,11 @@ if (map_i > 1) {
 // scaleChange=true;
 if (lastSearch && lastSearch !== As[i] &&
     As[i].indexOf(lastSearch) > -1 ) { // 非精确地址 启用
-  ks += lastSearch;
+  ks += lastSearch + '\');" title="点击返回 ' + lastSearch + '">';
 } else {
-  ks += As[i];
+  ks += As[i] + '\');">';
 }
-ks += '\');">' + As[i] + '</span> ';
+ks += As[i] + '</span> ';
 if (Ms.indexOf(Ds[ii] + As[i]) > -1) {
   map_i += 1;
 } else {
