@@ -8,14 +8,167 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
-  <script src="shanghaifabu/full0520.json"></script><!-- @@ -->
+  <script src="shanghaifabu/full0521.json"></script><!-- @@ -->
   <script>
   let i; let j; let As; let Ds;
   const today = new Date();
 
   function trim (s) { return (s || '').replace(/^\s+|\s+$/g, ''); }
 
-  function load () {
+  function jtagOffset (dd) {
+    let d = parseInt(j.tag) - dd;
+    if (331 < d && d <= 400) {
+      d -= 69; // 401-14=387(318), 414-14=400(331)
+    } else if (430 < d && d <= 500) {
+      d -= 70; // 514-14=500(430), 501-14=487(417)
+    } else if (531 < d && d <= 600) {
+      d -= 69;
+    }
+    return d;
+  }
+
+  function dldl (k_, d_) {
+    const dl = j.address[d_];
+    const s1 = (dl || []).join(',').split(k_);
+    let kii; let il = 0;
+    for (kii = 0; kii < Ds.length; kii += 1) {
+      if (j.districts[ Ds[kii] ].indexOf(d_) > -1) {
+        il += 1;
+      }
+      if (Ds[kii] === k_) { break; }
+    }
+    let s2; const dldl = [];
+    //console.log(k_, d_, il, s1);
+    if (il !== 1) { // 地址同名, 团结村 国权北路555 邯郸路20 星火村 五四村
+      while (s1.length > 1) {
+        s2 = s1.shift();
+        if (s2) {
+          dldl.push( s2.substr(s2.lastIndexOf(',') + 1) );
+        }
+      }
+    } else {
+      for (s2 = 0; s2 < dl.length; s2 += 1) {
+        if (dl[s2].length === 4) {
+          dldl.push( dl[s2] );
+        }
+      }
+    }
+    return dldl;
+  }
+
+  function bubble2 (arr, b2 = 1) {
+    let done = false; let tmp;
+    while (!done) {
+      done = true;
+      for (i = 1; i < arr.length; i += 1) {
+        if (arr[i - 1][b2] < arr[i][b2]) {
+          done = false;
+          tmp = arr[i - 1];
+          arr[i - 1] = arr[i];
+          arr[i] = tmp;
+        }
+      }
+    }
+  }
+
+  function cacheList () {
+    return new Promise(resolve => {
+      if (!j.list30times) {
+        console.time('>> cache lists ' + j.tag);
+        j.list30times = {};
+        j.listed_30times_long = [];
+        j.first_in = {};
+        j.cache14days = {};
+        j.cached_14days = [];
+        if (parseInt(j.tag) > 405) { // 清明假
+          j.today = {};
+          j.inB = {};
+          j.released = {};
+          j.released_today = {};
+          j.latest_added = {};
+          j.latest_added2 = {};
+          j.latest_added7 = {};
+        }
+        Ds.forEach((k) => {
+          let kj; let kjj;
+          let j30 = []; let _j30 = [];
+          let j0 = []; let jFirst = []; let j7neg = []; let j3neg = []; let j1neg = [];
+          let jA = []; let jA0 = []; let jB = [];
+          let j14 = []; let _j14 = [];
+          Array.from(j.districts[k]).forEach((d) => {
+            kj = dldl(k, d);
+            // .inB   (j.tag + 13)
+            // .released
+            // .released_today
+            if (kj.length >= 30) {
+              _j30.push(k + d);
+              j30.push( [d, kj.length] );
+            }
+            if (kj.slice(-1)[0] === j.tag) {
+              j0.push(d); // .today
+              if (kj.length === 1) {
+                jFirst.push(d);
+              } else {
+                kjj = parseInt(kj.slice(-2)[0]);
+                if (kjj < jtagOffset(1)) {
+                  j1neg.push(d); }
+                if (kjj < jtagOffset(3)) {
+                  j3neg.push(d); }
+                if (kjj < jtagOffset(7)) {
+                  j7neg.push(d);
+                }
+            } }
+            kjj = parseInt(kj.slice(-1)[0]);
+            if (kjj <= jtagOffset(14)) {
+              jA.push(d);
+              if (kjj === jtagOffset(14)) { jA0.push(d); }
+            } else {
+              jB.push(d);
+              kjj = 0;
+              Array.from(kj).forEach((dd) => {
+                if (parseInt(dd) > jtagOffset(14)) {
+                  kjj += 1; }
+              });
+              if (kjj >= 7) {
+                _j14.push(k + d);
+                j14.push( [d, kjj] ); }
+            }
+          });
+          j1neg.push(...jFirst);
+          j3neg.push(...jFirst);
+          j7neg.push(...jFirst);
+          // console.log(k, j.districts[k].length, jB.length, j0.length, jA.length, jA0.length,
+          //   '七阴'+j7neg.length, '三阴'+j7neg.length, '昨阴'+j1neg.length,
+          //   '月内'+j30.length, '首次'+jFirst.length, '两周内'+j14.length )
+          if ([] !== _j30) {
+            bubble2(j30);
+            j.list30times[k] = j30;
+            j.listed_30times_long.push(..._j30);
+          }
+          if ([] !== jFirst) j.first_in[k] = jFirst;
+          if ([] !== _j14) {
+            bubble2(j14);
+            j.cache14days[k] = j14;
+            j.cached_14days.push(..._j14);
+          }
+          ////if (parseInt(j.tag) > 500) {
+            if ([] !== j0) j.today[k] = j0;
+            if ([] !== jB) j.inB[k] = jB;
+            if ([] !== jA) j.released[k] = jA;
+            if ([] !== jA0) j.released_today[k] = jA0;
+            if ([] !== j1neg) j.latest_added[k] = j1neg;
+            if ([] !== j3neg) j.latest_added2[k] = j3neg;
+            if ([] !== j7neg) j.latest_added7[k] = j7neg;
+          ////}
+        });
+        //_J[j.tag] = j;
+        console.timeEnd('>> cache lists ' + j.tag);
+      }
+      resolve(1);
+    });
+  }
+
+  async function load () {
     j = JSON.parse(data);
     datestr.textContent = j.date;
     end_pre.textContent = '更新时间 ' + j.date + '\n源代码 github.com/coronin/shanghai-2022Mar';
@@ -23,6 +176,7 @@
     tag_d.textContent = parseInt(j.tag.substr(2,2) );
     let k;
     Ds = Object.keys(j.districts);
+    await cacheList();
     As = Object.keys(j.address);
     console.log( j.address.shanghaifabu );
     for (i = 0; i < Ds.length; i += 1) {
@@ -234,7 +388,7 @@
     更新时间 <span id="datestr" style="color:blue;">fetching... not ready</span><br/>
     本页的<span style="background-color:yellow;">今日</span>为2022年<span id="tag_m"></span>月<span id="tag_d"></span>日
     <!--   j.tag-1    @@ -->
-    搜索<a href="/#0519">昨日数据</a>
+    搜索<a href="/#0520">昨日数据</a>
   </p>
   <p>
     <label for="addr">上榜地址</label>
