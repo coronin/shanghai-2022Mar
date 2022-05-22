@@ -43,7 +43,7 @@ _z = (
 checked_tags = ('0306', '0317', '0307',
                 '0308','0309','0310','0311','0312','0313','0314','0315','0316') #@@@@
 used_kd = []
-_data = []
+_data = {}
 datadata = {}
 for z in _z:
     print('\n%s' % z[1])
@@ -120,13 +120,13 @@ for z in _z:
             print('    ', xi, ','.join(xx[xi]), zz)
         try:
             if data.get(running_k + zz):
-                data[running_k + zz] += [[z[0]] + list(xx[xi])]
+                data[running_k + zz] += [ xx[xi] ]
                 datadata[running_k + zz] += [[z[0]] + list(xx[xi])]
                 if len(data[running_k + zz]) > max_dc:
                     max_dc = len(data[running_k + zz])
                     max_d = running_k + zz
             else:
-                data[running_k + zz] = [[z[0]] + list(xx[xi])]
+                data[running_k + zz] = [ xx[xi] ]
                 datadata[running_k + zz] = [[z[0]] + list(xx[xi])]
         except:
             raise ValueError(z[0], running_k, zz, xi, len(xx) )
@@ -138,7 +138,7 @@ for z in _z:
         print('#%s最后一个' % z[0], ','.join(xx[xi-1]), zz)
     if max_dc != len(re.findall(max_d, pps)):
         raise ValueError(z[0], max_d, max_dc, len(re.findall(max_d, pps)) )
-    _data += [data]
+    _data[z[0]] = data
 ####
 #@@@@ 菊园新区 -> 菊园新新
 from datetime import datetime
