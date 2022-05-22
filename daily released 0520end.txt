@@ -1,0 +1,1643 @@
+# 2022/5/21 用js检查
+#           发现py没有处理好同名地址 导致py偶尔会少几个村
+
+====================
+in A, estimated 35194
+in B, estimated 4752
+by district total, w/dupl 35896
+in A, not in B, estimated 31144
+
+released 0520, estimated 573
+浦东新区	111
+黄浦区	96
+静安区	76
+徐汇区	39
+长宁区	12
+普陀区	12
+虹口区	47
+杨浦区	30
+宝山区	85
+闵行区	21
+嘉定区	24
+金山区	1
+松江区	9
+青浦区	8
+奉贤区	1
+崇明区	1
+
+
+====================
+in A, estimated 35071
+in B, estimated 5252
+by district total, w/dupl 35874
+in A, not in B, estimated 30622
+
+released 0519, estimated 625
+浦东新区	96
+黄浦区	130
+静安区	61
+徐汇区	29
+长宁区	23
+普陀区	14
+虹口区	58
+杨浦区	35
+宝山区	85
+闵行区	25
+嘉定区	24
+金山区	0
+松江区	31
+青浦区	8
+奉贤区	2
+崇明区	4
+
+
+====================
+in A, estimated 34943
+in B, estimated 5794
+by district total, w/dupl 35851
+in A, not in B, estimated 30057
+
+released 0518, estimated 602
+浦东新区	112
+黄浦区	105
+静安区	61
+徐汇区	36
+长宁区	19
+普陀区	11
+虹口区	41
+杨浦区	30
+宝山区	71
+闵行区	32
+嘉定区	35
+金山区	0
+松江区	42
+青浦区	7
+奉贤区	0
+崇明区	0
+
+
+====================
+in A, estimated 34798
+in B, estimated 6335
+by district total, w/dupl 35833
+in A, not in B, estimated 29498
+
+released 0517, estimated 633
+浦东新区	119
+黄浦区	109
+静安区	85
+徐汇区	23
+长宁区	18
+普陀区	10
+虹口区	77
+杨浦区	45
+宝山区	73
+闵行区	32
+嘉定区	9
+金山区	0
+松江区	18
+青浦区	10
+奉贤区	2
+崇明区	3
+
+
+====================
+in A, estimated 34666
+in B, estimated 6902
+by district total, w/dupl 35807
+in A, not in B, estimated 28905
+
+released 0516, estimated 637
+浦东新区	128
+黄浦区	119
+静安区	72
+徐汇区	21
+长宁区	24
+普陀区	19
+虹口区	60
+杨浦区	27
+宝山区	76
+闵行区	35
+嘉定区	28
+金山区	0
+松江区	16
+青浦区	7
+奉贤区	3
+崇明区	2
+
+
+====================
+in A, estimated 34508
+in B, estimated 7473
+by district total, w/dupl 35785
+in A, not in B, estimated 28312
+
+released 0515, estimated 788
+浦东新区	173
+黄浦区	132
+静安区	66
+徐汇区	38
+长宁区	24
+普陀区	16
+虹口区	98
+杨浦区	53
+宝山区	91
+闵行区	35
+嘉定区	21
+金山区	0
+松江区	23
+青浦区	17
+奉贤区	0
+崇明区	1
+
+
+====================
+in A, estimated 34281
+in B, estimated 8190
+by district total, w/dupl 35756
+in A, not in B, estimated 27566
+
+released 0514, estimated 729
+浦东新区	122
+黄浦区	112
+静安区	91
+徐汇区	35
+长宁区	24
+普陀区	21
+虹口区	77
+杨浦区	32
+宝山区	115
+闵行区	35
+嘉定区	23
+金山区	0
+松江区	25
+青浦区	15
+奉贤区	0
+崇明区	2
+
+
+====================
+in A, estimated 34087
+in B, estimated 8791
+by district total, w/dupl 35714
+in A, not in B, estimated 26923
+
+released 0513, estimated 924
+浦东新区	190
+黄浦区	118
+静安区	126
+徐汇区	64
+长宁区	30
+普陀区	20
+虹口区	89
+杨浦区	69
+宝山区	88
+闵行区	51
+嘉定区	28
+金山区	2
+松江区	36
+青浦区	9
+奉贤区	2
+崇明区	2
+
+
+====================
+in A, estimated 33780
+in B, estimated 9587
+by district total, w/dupl 35662
+in A, not in B, estimated 26075
+
+released 0512, estimated 1067
+浦东新区	214
+黄浦区	151
+静安区	97
+徐汇区	127
+长宁区	39
+普陀区	38
+虹口区	122
+杨浦区	51
+宝山区	71
+闵行区	36
+嘉定区	51
+金山区	1
+松江区	43
+青浦区	24
+奉贤区	0
+崇明区	2
+
+
+====================
+in A, estimated 33447
+in B, estimated 10502
+by district total, w/dupl 35597
+in A, not in B, estimated 25095
+
+released 0511, estimated 944
+浦东新区	188
+黄浦区	125
+静安区	118
+徐汇区	31
+长宁区	23
+普陀区	36
+虹口区	142
+杨浦区	62
+宝山区	86
+闵行区	37
+嘉定区	31
+金山区	0
+松江区	40
+青浦区	24
+奉贤区	1
+崇明区	0
+
+
+====================
+in A, estimated 33110
+in B, estimated 11352
+by district total, w/dupl 35561
+in A, not in B, estimated 24209
+
+released 0510, estimated 1058
+浦东新区	184
+黄浦区	107
+静安区	93
+徐汇区	72
+长宁区	36
+普陀区	39
+虹口区	83
+杨浦区	94
+宝山区	127
+闵行区	91
+嘉定区	58
+金山区	1
+松江区	43
+青浦区	24
+奉贤区	5
+崇明区	1
+
+
+====================
+in A, estimated 32738
+in B, estimated 12310
+by district total, w/dupl 35517
+in A, not in B, estimated 23207
+
+released 0509, estimated 1162
+浦东新区	192
+黄浦区	201
+静安区	76
+徐汇区	71
+长宁区	31
+普陀区	31
+虹口区	134
+杨浦区	81
+宝山区	95
+闵行区	71
+嘉定区	77
+金山区	0
+松江区	63
+青浦区	37
+奉贤区	2
+崇明区	0
+
+
+====================
+in A, estimated 32172
+in B, estimated 13313
+by district total, w/dupl 35431
+in A, not in B, estimated 22118
+
+released 0508, estimated 1230
+浦东新区	280
+黄浦区	160
+静安区	115
+徐汇区	91
+长宁区	42
+普陀区	44
+虹口区	53
+杨浦区	87
+宝山区	103
+闵行区	121
+嘉定区	77
+金山区	4
+松江区	31
+青浦区	19
+奉贤区	3
+崇明区	0
+
+
+====================
+in A, estimated 31520
+in B, estimated 14330
+by district total, w/dupl 35311
+in A, not in B, estimated 20981
+
+released 0507, estimated 1192
+浦东新区	288
+黄浦区	150
+静安区	24
+徐汇区	64
+长宁区	61
+普陀区	33
+虹口区	57
+杨浦区	94
+宝山区	185
+闵行区	69
+嘉定区	62
+金山区	3
+松江区	62
+青浦区	36
+奉贤区	4
+崇明区	0
+
+
+====================
+in A, estimated 30781
+in B, estimated 15300
+by district total, w/dupl 35194
+in A, not in B, estimated 19894
+
+released 0506, estimated 1236
+浦东新区	333
+黄浦区	212
+静安区	41
+徐汇区	57
+长宁区	37
+普陀区	39
+虹口区	97
+杨浦区	82
+宝山区	94
+闵行区	102
+嘉定区	61
+金山区	2
+松江区	48
+青浦区	31
+奉贤区	0
+崇明区	0
+
+
+====================
+in A, estimated 29999
+in B, estimated 16306
+by district total, w/dupl 35071
+in A, not in B, estimated 18765
+
+released 0505, estimated 1110
+浦东新区	299
+黄浦区	110
+静安区	110
+徐汇区	82
+长宁区	33
+普陀区	27
+虹口区	72
+杨浦区	34
+宝山区	40
+闵行区	161
+嘉定区	46
+金山区	1
+松江区	59
+青浦区	36
+奉贤区	0
+崇明区	0
+
+
+====================
+in A, estimated 29471
+in B, estimated 17195
+by district total, w/dupl 34943
+in A, not in B, estimated 17748
+
+released 0504, estimated 1026
+浦东新区	191
+黄浦区	176
+静安区	66
+徐汇区	66
+长宁区	38
+普陀区	30
+虹口区	66
+杨浦区	93
+宝山区	46
+闵行区	103
+嘉定区	60
+金山区	1
+松江区	70
+青浦区	20
+奉贤区	0
+崇明区	0
+
+
+====================
+in A, estimated 28855
+in B, estimated 17999
+by district total, w/dupl 34798
+in A, not in B, estimated 16799
+
+released 0503, estimated 1024
+浦东新区	242
+黄浦区	182
+静安区	103
+徐汇区	53
+长宁区	47
+普陀区	43
+虹口区	69
+杨浦区	50
+宝山区	28
+闵行区	94
+嘉定区	52
+金山区	1
+松江区	30
+青浦区	29
+奉贤区	1
+崇明区	0
+
+
+====================
+in A, estimated 28176
+in B, estimated 18811
+by district total, w/dupl 34666
+in A, not in B, estimated 15855
+
+released 0502, estimated 875
+浦东新区	266
+黄浦区	119
+静安区	54
+徐汇区	19
+长宁区	33
+普陀区	21
+虹口区	96
+杨浦区	16
+宝山区	54
+闵行区	66
+嘉定区	55
+金山区	0
+松江区	64
+青浦区	11
+奉贤区	1
+崇明区	0
+
+
+====================
+in A, estimated 27501
+in B, estimated 19473
+by district total, w/dupl 34508
+in A, not in B, estimated 15035
+
+released 0501, estimated 981
+浦东新区	261
+黄浦区	85
+静安区	66
+徐汇区	61
+长宁区	43
+普陀区	55
+虹口区	72
+杨浦区	46
+宝山区	53
+闵行区	99
+嘉定区	55
+金山区	0
+松江区	51
+青浦区	29
+奉贤区	5
+崇明区	0
+
+
+====================
+in A, estimated 26792
+in B, estimated 20147
+by district total, w/dupl 34281
+in A, not in B, estimated 14134
+
+released 0430, estimated 938
+浦东新区	259
+黄浦区	58
+静安区	89
+徐汇区	65
+长宁区	28
+普陀区	73
+虹口区	99
+杨浦区	46
+宝山区	23
+闵行区	109
+嘉定区	56
+金山区	1
+松江区	12
+青浦区	14
+奉贤区	4
+崇明区	2
+
+
+====================
+in A, estimated 26060
+in B, estimated 20794
+by district total, w/dupl 34087
+in A, not in B, estimated 13293
+
+released 0429, estimated 944
+浦东新区	235
+黄浦区	78
+静安区	23
+徐汇区	67
+长宁区	73
+普陀区	7
+虹口区	110
+杨浦区	80
+宝山区	25
+闵行区	70
+嘉定区	58
+金山区	2
+松江区	75
+青浦区	29
+奉贤区	9
+崇明区	3
+
+
+====================
+in A, estimated 25339
+in B, estimated 21316
+by district total, w/dupl 33780
+in A, not in B, estimated 12464
+
+released 0428, estimated 835
+浦东新区	197
+黄浦区	118
+静安区	19
+徐汇区	60
+长宁区	45
+普陀区	14
+虹口区	78
+杨浦区	42
+宝山区	33
+闵行区	87
+嘉定区	52
+金山区	3
+松江区	64
+青浦区	20
+奉贤区	2
+崇明区	1
+
+
+====================
+in A, estimated 24664
+in B, estimated 21707
+by district total, w/dupl 33447
+in A, not in B, estimated 11740
+
+released 0427, estimated 917
+浦东新区	189
+黄浦区	51
+静安区	18
+徐汇区	46
+长宁区	48
+普陀区	31
+虹口区	148
+杨浦区	62
+宝山区	53
+闵行区	108
+嘉定区	51
+金山区	3
+松江区	69
+青浦区	32
+奉贤区	6
+崇明区	2
+
+
+====================
+in A, estimated 23813
+in B, estimated 22197
+by district total, w/dupl 33110
+in A, not in B, estimated 10913
+
+released 0426, estimated 1037
+浦东新区	195
+黄浦区	77
+静安区	86
+徐汇区	51
+长宁区	49
+普陀区	57
+虹口区	85
+杨浦区	62
+宝山区	32
+闵行区	147
+嘉定区	68
+金山区	6
+松江区	60
+青浦区	53
+奉贤区	7
+崇明区	2
+
+
+====================
+in A, estimated 22651
+in B, estimated 22765
+by district total, w/dupl 32738
+in A, not in B, estimated 9973
+
+released 0425, estimated 962
+浦东新区	183
+黄浦区	95
+静安区	43
+徐汇区	34
+长宁区	16
+普陀区	66
+虹口区	114
+杨浦区	79
+宝山区	102
+闵行区	115
+嘉定区	9
+金山区	5
+松江区	52
+青浦区	27
+奉贤区	17
+崇明区	5
+
+
+====================
+in A, estimated 21484
+in B, estimated 23048
+by district total, w/dupl 32172
+in A, not in B, estimated 9124
+
+released 0424, estimated 1118
+浦东新区	147
+黄浦区	92
+静安区	46
+徐汇区	110
+长宁区	12
+普陀区	42
+虹口区	78
+杨浦区	113
+宝山区	122
+闵行区	58
+嘉定区	71
+金山区	15
+松江区	122
+青浦区	77
+奉贤区	11
+崇明区	2
+
+
+====================
+in A, estimated 20011
+in B, estimated 23406
+by district total, w/dupl 31520
+in A, not in B, estimated 8114
+
+released 0423, estimated 929
+浦东新区	230
+黄浦区	29
+静安区	51
+徐汇区	35
+长宁区	48
+普陀区	35
+虹口区	39
+杨浦区	74
+宝山区	213
+闵行区	29
+嘉定区	24
+金山区	8
+松江区	47
+青浦区	53
+奉贤区	14
+崇明区	0
+
+
+====================
+in A, estimated 18844
+in B, estimated 23501
+by district total, w/dupl 30781
+in A, not in B, estimated 7280
+
+released 0422, estimated 1045
+浦东新区	134
+黄浦区	140
+静安区	42
+徐汇区	64
+长宁区	46
+普陀区	37
+虹口区	19
+杨浦区	44
+宝山区	268
+闵行区	11
+嘉定区	112
+金山区	9
+松江区	65
+青浦区	31
+奉贤区	17
+崇明区	6
+
+
+====================
+in A, estimated 17233
+in B, estimated 23668
+by district total, w/dupl 29999
+in A, not in B, estimated 6331
+
+released 0421, estimated 782
+浦东新区	199
+黄浦区	82
+静安区	35
+徐汇区	44
+长宁区	72
+普陀区	39
+虹口区	22
+杨浦区	28
+宝山区	29
+闵行区	8
+嘉定区	77
+金山区	14
+松江区	63
+青浦区	42
+奉贤区	20
+崇明区	8
+
+
+====================
+in A, estimated 15883
+in B, estimated 23861
+by district total, w/dupl 29471
+in A, not in B, estimated 5610
+
+released 0420, estimated 836
+浦东新区	132
+黄浦区	71
+静安区	55
+徐汇区	47
+长宁区	34
+普陀区	38
+虹口区	54
+杨浦区	40
+宝山区	47
+闵行区	21
+嘉定区	133
+金山区	18
+松江区	43
+青浦区	63
+奉贤区	33
+崇明区	7
+
+
+====================
+in A, estimated 14228
+in B, estimated 24002
+by district total, w/dupl 28855
+in A, not in B, estimated 4853
+
+released 0419, estimated 553
+浦东新区	70
+黄浦区	43
+静安区	41
+徐汇区	46
+长宁区	6
+普陀区	18
+虹口区	38
+杨浦区	43
+宝山区	45
+闵行区	14
+嘉定区	24
+金山区	15
+松江区	62
+青浦区	56
+奉贤区	27
+崇明区	5
+
+
+====================
+in A, estimated 13079
+in B, estimated 23819
+by district total, w/dupl 28176
+in A, not in B, estimated 4357
+
+released 0418, estimated 478
+浦东新区	78
+黄浦区	62
+静安区	6
+徐汇区	69
+长宁区	4
+普陀区	9
+虹口区	59
+杨浦区	22
+宝山区	25
+闵行区	7
+嘉定区	20
+金山区	14
+松江区	45
+青浦区	37
+奉贤区	16
+崇明区	5
+
+
+====================
+in A, estimated 11859
+in B, estimated 23546
+by district total, w/dupl 27501
+in A, not in B, estimated 3955
+
+released 0417, estimated 475
+浦东新区	74
+黄浦区	51
+静安区	42
+徐汇区	15
+长宁区	14
+普陀区	12
+虹口区	23
+杨浦区	31
+宝山区	30
+闵行区	16
+嘉定区	46
+金山区	26
+松江区	28
+青浦区	29
+奉贤区	28
+崇明区	10
+
+
+====================
+in A, estimated 10680
+in B, estimated 23244
+by district total, w/dupl 26792
+in A, not in B, estimated 3548
+
+released 0416, estimated 508
+浦东新区	46
+黄浦区	46
+静安区	50
+徐汇区	47
+长宁区	8
+普陀区	24
+虹口区	49
+杨浦区	17
+宝山区	29
+闵行区	7
+嘉定区	72
+金山区	7
+松江区	43
+青浦区	26
+奉贤区	31
+崇明区	6
+
+
+====================
+in A, estimated 9429
+in B, estimated 22975
+by district total, w/dupl 26060
+in A, not in B, estimated 3085
+
+released 0415, estimated 406
+浦东新区	119
+黄浦区	29
+静安区	32
+徐汇区	35
+长宁区	3
+普陀区	22
+虹口区	6
+杨浦区	13
+宝山区	8
+闵行区	3
+嘉定区	25
+金山区	14
+松江区	48
+青浦区	16
+奉贤区	24
+崇明区	9
+
+
+====================
+in A, estimated 8535
+in B, estimated 22628
+by district total, w/dupl 25339
+in A, not in B, estimated 2711
+
+released 0414, estimated 271
+浦东新区	96
+黄浦区	11
+静安区	18
+徐汇区	3
+长宁区	26
+普陀区	2
+虹口区	22
+杨浦区	8
+宝山区	1
+闵行区	3
+嘉定区	12
+金山区	7
+松江区	13
+青浦区	7
+奉贤区	40
+崇明区	2
+
+
+====================
+in A, estimated 7783
+in B, estimated 22170
+by district total, w/dupl 24664
+in A, not in B, estimated 2494
+
+released 0413, estimated 401
+浦东新区	140
+黄浦区	46
+静安区	11
+徐汇区	16
+长宁区	9
+普陀区	10
+虹口区	20
+杨浦区	7
+宝山区	31
+闵行区	16
+嘉定区	31
+金山区	8
+松江区	20
+青浦区	10
+奉贤区	17
+崇明区	9
+
+
+====================
+in A, estimated 6728
+in B, estimated 21684
+by district total, w/dupl 23813
+in A, not in B, estimated 2129
+
+released 0412, estimated 342
+浦东新区	115
+黄浦区	14
+静安区	23
+徐汇区	45
+长宁区	1
+普陀区	8
+虹口区	15
+杨浦区	9
+宝山区	23
+闵行区	10
+嘉定区	31
+金山区	1
+松江区	13
+青浦区	5
+奉贤区	20
+崇明区	9
+
+
+====================
+in A, estimated 5659
+in B, estimated 20820
+by district total, w/dupl 22651
+in A, not in B, estimated 1831
+
+released 0411, estimated 406
+浦东新区	222
+黄浦区	43
+静安区	15
+徐汇区	4
+长宁区	11
+普陀区	7
+虹口区	1
+杨浦区	3
+宝山区	16
+闵行区	4
+嘉定区	27
+金山区	1
+松江区	18
+青浦区	7
+奉贤区	26
+崇明区	1
+
+
+====================
+in A, estimated 4443
+in B, estimated 20016
+by district total, w/dupl 21484
+in A, not in B, estimated 1468
+
+released 0410, estimated 263
+浦东新区	108
+黄浦区	10
+静安区	9
+徐汇区	14
+长宁区	4
+普陀区	11
+虹口区	1
+杨浦区	4
+宝山区	6
+闵行区	15
+嘉定区	36
+金山区	3
+松江区	20
+青浦区	12
+奉贤区	7
+崇明区	3
+
+
+====================
+in A, estimated 3707
+in B, estimated 18756
+by district total, w/dupl 20011
+in A, not in B, estimated 1255
+
+released 0409, estimated 207
+浦东新区	34
+黄浦区	20
+静安区	9
+徐汇区	16
+长宁区	1
+普陀区	8
+虹口区	8
+杨浦区	3
+宝山区	18
+闵行区	25
+嘉定区	43
+金山区	0
+松江区	6
+青浦区	0
+奉贤区	15
+崇明区	1
+
+
+====================
+in A, estimated 3241
+in B, estimated 17758
+by district total, w/dupl 18844
+in A, not in B, estimated 1086
+
+released 0408, estimated 196
+浦东新区	175
+黄浦区	3
+静安区	1
+徐汇区	1
+长宁区	1
+普陀区	0
+虹口区	0
+杨浦区	5
+宝山区	0
+闵行区	5
+嘉定区	1
+金山区	0
+松江区	0
+青浦区	0
+奉贤区	0
+崇明区	4
+
+
+====================
+in A, estimated 2675
+in B, estimated 16288
+by district total, w/dupl 17233
+in A, not in B, estimated 945
+
+released 0407, estimated 127
+浦东新区	7
+黄浦区	18
+静安区	8
+徐汇区	3
+长宁区	12
+普陀区	1
+虹口区	5
+杨浦区	4
+宝山区	11
+闵行区	11
+嘉定区	27
+金山区	2
+松江区	12
+青浦区	1
+奉贤区	2
+崇明区	3
+
+
+====================
+in A, estimated 2345
+in B, estimated 15020
+by district total, w/dupl 15883
+in A, not in B, estimated 863
+
+released 0406, estimated 102
+浦东新区	40
+黄浦区	4
+静安区	7
+徐汇区	7
+长宁区	1
+普陀区	4
+虹口区	1
+杨浦区	0
+宝山区	6
+闵行区	10
+嘉定区	8
+金山区	1
+松江区	6
+青浦区	3
+奉贤区	4
+崇明区	0
+
+
+====================
+in A, estimated 2065
+in B, estimated 13422
+by district total, w/dupl 14228
+in A, not in B, estimated 806
+
+released 0405, estimated 103
+浦东新区	37
+黄浦区	14
+静安区	7
+徐汇区	2
+长宁区	4
+普陀区	3
+虹口区	2
+杨浦区	1
+宝山区	0
+闵行区	9
+嘉定区	15
+金山区	0
+松江区	2
+青浦区	3
+奉贤区	4
+崇明区	0
+
+
+====================
+in A, estimated 1787
+in B, estimated 12341
+by district total, w/dupl 13079
+in A, not in B, estimated 738
+
+released 0404, estimated 132
+浦东新区	28
+黄浦区	13
+静安区	6
+徐汇区	10
+长宁区	7
+普陀区	3
+虹口区	2
+杨浦区	5
+宝山区	15
+闵行区	4
+嘉定区	22
+金山区	6
+松江区	4
+青浦区	1
+奉贤区	5
+崇明区	1
+
+
+====================
+in A, estimated 1514
+in B, estimated 11211
+by district total, w/dupl 11859
+in A, not in B, estimated 648
+
+released 0403, estimated 119
+浦东新区	37
+黄浦区	9
+静安区	7
+徐汇区	3
+长宁区	3
+普陀区	4
+虹口区	1
+杨浦区	3
+宝山区	5
+闵行区	19
+嘉定区	15
+金山区	8
+松江区	1
+青浦区	3
+奉贤区	1
+崇明区	0
+
+
+====================
+in A, estimated 1214
+in B, estimated 10128
+by district total, w/dupl 10680
+in A, not in B, estimated 552
+
+released 0402, estimated 85
+浦东新区	25
+黄浦区	5
+静安区	3
+徐汇区	14
+长宁区	2
+普陀区	5
+虹口区	2
+杨浦区	2
+宝山区	3
+闵行区	4
+嘉定区	14
+金山区	1
+松江区	1
+青浦区	1
+奉贤区	3
+崇明区	0
+
+
+====================
+in A, estimated 1005
+in B, estimated 8932
+by district total, w/dupl 9429
+in A, not in B, estimated 497
+
+released 0401, estimated 95
+浦东新区	22
+黄浦区	3
+静安区	2
+徐汇区	7
+长宁区	3
+普陀区	4
+虹口区	4
+杨浦区	4
+宝山区	8
+闵行区	6
+嘉定区	10
+金山区	7
+松江区	3
+青浦区	6
+奉贤区	6
+崇明区	0
+
+
+====================
+in A, estimated 821
+in B, estimated 8117
+by district total, w/dupl 8535
+in A, not in B, estimated 418
+
+released 0331, estimated 57
+浦东新区	12
+黄浦区	4
+静安区	1
+徐汇区	5
+长宁区	1
+普陀区	5
+虹口区	3
+杨浦区	0
+宝山区	5
+闵行区	5
+嘉定区	8
+金山区	1
+松江区	4
+青浦区	0
+奉贤区	1
+崇明区	2
+
+
+====================
+in A, estimated 705
+in B, estimated 7412
+by district total, w/dupl 7783
+in A, not in B, estimated 371
+
+released 0330, estimated 53
+浦东新区	15
+黄浦区	3
+静安区	2
+徐汇区	1
+长宁区	3
+普陀区	1
+虹口区	2
+杨浦区	0
+宝山区	4
+闵行区	5
+嘉定区	12
+金山区	0
+松江区	3
+青浦区	1
+奉贤区	1
+崇明区	0
+
+
+====================
+in A, estimated 609
+in B, estimated 6396
+by district total, w/dupl 6728
+in A, not in B, estimated 332
+
+released 0329, estimated 69
+浦东新区	11
+黄浦区	6
+静安区	6
+徐汇区	6
+长宁区	0
+普陀区	3
+虹口区	3
+杨浦区	2
+宝山区	4
+闵行区	7
+嘉定区	7
+金山区	3
+松江区	7
+青浦区	2
+奉贤区	2
+崇明区	0
+
+
+====================
+in A, estimated 498
+in B, estimated 5387
+by district total, w/dupl 5659
+in A, not in B, estimated 272
+
+released 0328, estimated 38
+浦东新区	3
+黄浦区	6
+静安区	3
+徐汇区	5
+长宁区	1
+普陀区	0
+虹口区	1
+杨浦区	1
+宝山区	0
+闵行区	4
+嘉定区	6
+金山区	3
+松江区	4
+青浦区	0
+奉贤区	1
+崇明区	0
+
+
+====================
+in A, estimated 433
+in B, estimated 4194
+by district total, w/dupl 4443
+in A, not in B, estimated 249
+
+released 0327, estimated 71
+浦东新区	15
+黄浦区	7
+静安区	3
+徐汇区	3
+长宁区	3
+普陀区	4
+虹口区	3
+杨浦区	2
+宝山区	2
+闵行区	8
+嘉定区	8
+金山区	3
+松江区	5
+青浦区	4
+奉贤区	1
+崇明区	0
+
+
+====================
+in A, estimated 306
+in B, estimated 3522
+by district total, w/dupl 3707
+in A, not in B, estimated 185
+
+released 0326, estimated 21
+浦东新区	13
+黄浦区	0
+静安区	2
+徐汇区	1
+长宁区	2
+普陀区	0
+虹口区	0
+杨浦区	0
+宝山区	1
+闵行区	0
+嘉定区	1
+金山区	1
+松江区	0
+青浦区	0
+奉贤区	0
+崇明区	0
+
+
+====================
+in A, estimated 270
+in B, estimated 3067
+by district total, w/dupl 3241
+in A, not in B, estimated 174
+
+released 0325, estimated 32
+浦东新区	1
+黄浦区	2
+静安区	2
+徐汇区	8
+长宁区	0
+普陀区	0
+虹口区	1
+杨浦区	0
+宝山区	1
+闵行区	8
+嘉定区	5
+金山区	0
+松江区	3
+青浦区	1
+奉贤区	0
+崇明区	0
+
+
+====================
+in A, estimated 212
+in B, estimated 2531
+by district total, w/dupl 2675
+in A, not in B, estimated 144
+
+released 0324, estimated 35
+浦东新区	3
+黄浦区	0
+静安区	2
+徐汇区	5
+长宁区	1
+普陀区	3
+虹口区	2
+杨浦区	0
+宝山区	7
+闵行区	2
+嘉定区	3
+金山区	0
+松江区	4
+青浦区	3
+奉贤区	0
+崇明区	0
+
+
+====================
+in A, estimated 162
+in B, estimated 2231
+by district total, w/dupl 2345
+in A, not in B, estimated 114
+
+released 0323, estimated 32
+浦东新区	4
+黄浦区	1
+静安区	0
+徐汇区	1
+长宁区	1
+普陀区	0
+虹口区	2
+杨浦区	1
+宝山区	0
+闵行区	12
+嘉定区	6
+金山区	0
+松江区	4
+青浦区	0
+奉贤区	0
+崇明区	0
+
+
+====================
+in A, estimated 110
+in B, estimated 1981
+by district total, w/dupl 2065
+in A, not in B, estimated 84
+
+released 0322, estimated 31
+浦东新区	2
+黄浦区	0
+静安区	1
+徐汇区	2
+长宁区	1
+普陀区	2
+虹口区	0
+杨浦区	0
+宝山区	7
+闵行区	2
+嘉定区	3
+金山区	0
+松江区	8
+青浦区	3
+奉贤区	0
+崇明区	0
+
+
+====================
+in A, estimated 75
+in B, estimated 1734
+by district total, w/dupl 1787
+in A, not in B, estimated 53
+
+released 0321, estimated 31
+浦东新区	2
+黄浦区	0
+静安区	0
+徐汇区	6
+长宁区	0
+普陀区	1
+虹口区	1
+杨浦区	0
+宝山区	4
+闵行区	8
+嘉定区	6
+金山区	1
+松江区	2
+青浦区	0
+奉贤区	0
+崇明区	0
+
+
+====================
+in A, estimated 36
+in B, estimated 1491
+by district total, w/dupl 1514
+in A, not in B, estimated 23
+
+released 0320, estimated 0
+浦东新区	0
+黄浦区	0
+静安区	0
+徐汇区	0
+长宁区	0
+普陀区	0
+虹口区	0
+杨浦区	0
+宝山区	0
+闵行区	0
+嘉定区	0
+金山区	0
+松江区	0
+青浦区	0
+奉贤区	0
+崇明区	0
+
+
+====================
+in A, estimated 0
+in B, estimated 1214
+by district total, w/dupl 1214
+in A, not in B, estimated 0
+released 0319, estimated 0
+
+
+====================
+in B, estimated 1005
+by district total, w/dupl 1005
+in A, not in B, estimated 0
+released 0318, estimated 0
+
+
+====================
+in B, estimated 821
+by district total, w/dupl 821
+in A, not in B, estimated 0
+released 0317, estimated 0
+
+
+====================
+in B, estimated 705
+by district total, w/dupl 70
+in A, not in B, estimated 0
+released 0316, estimated 0
+
+
+====================
+in B, estimated 609
+by district total, w/dupl 609
+in A, not in B, estimated 0
+released 0315, estimated 0
+
+
+====================
+in B, estimated 498
+by district total, w/dupl 498
+in A, not in B, estimated 0
+released 0314, estimated 0
+
+
+====================
+in B, estimated 433
+by district total, w/dupl 433
+in A, not in B, estimated 0
+released 0313, estimated 0
+
+
+====================
+in B, estimated 306
+by district total, w/dupl 306
+in A, not in B, estimated 0
+released 0312, estimated 0
+
+
+====================
+in B, estimated 270
+by district total, w/dupl 270
+in A, not in B, estimated 0
+released 0311, estimated 0
+
+
+====================
+in B, estimated 212
+by district total, w/dupl 212
+in A, not in B, estimated 0
+released 0310, estimated 0
+
+
+====================
+in B, estimated 162
+by district total, w/dupl 162
+in A, not in B, estimated 0
+released 0309, estimated 0
+
+
+====================
+in B, estimated 110
+by district total, w/dupl 110
+in A, not in B, estimated 0
+released 0308, estimated 0
+
+
+====================
+in B, estimated 75
+by district total, w/dupl 75
+in A, not in B, estimated 0
+released 0307, estimated 0

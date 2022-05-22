@@ -294,7 +294,7 @@ for longline in A:
         #             districts_released[dd] = [line]
         #         break
         #     pass
-print('in A, not in B, estimated', count, '\n')
+print('in A, not in B, estimated', count)
 
 
 latest_released = {}
@@ -317,7 +317,8 @@ for line, dates in by_address.items():
         ddd -= 1
     if line != 'shanghaifabu':
         by_address[line] = clean_dates(dates)
-
+if count:
+    print('\n')
 print('released %s, estimated' % Bs[-1], count)
 if A:
     for dd in districts:
