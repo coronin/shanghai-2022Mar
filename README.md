@@ -26,5 +26,6 @@
 * inA-not-inB-2 生成每日 full.json 更新地址文件 map-location.json
 * inAB-close    读入地址csv 更新临近地址文件 inAB-close.json（目前有1万多地址有待check）
 * addr-amap     读入待check文件 获取高德数据（存为 gcj02 精度51）
+* early-Ab      提取早期 同地址的性别与年龄
 
 作者 @the_paper_link
