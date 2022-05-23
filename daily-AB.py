@@ -113,6 +113,24 @@ day0x2x = {
 '奉贤区': '',
 '崇明区': '' }
 
+day0522 = {
+'浦东新区': 'https://mp.weixin.qq.com/s/T0t5dPEOHXyTUxmNVgsWCw', # 浦东发布
+'黄浦区': 'https://mp.weixin.qq.com/s/NvXZigkgzyArQ_ASzcYLUQ',
+'静安区': 'https://mp.weixin.qq.com/s/01Pnw5ba04dsbqzl6BdxdA',
+'徐汇区': 'https://mp.weixin.qq.com/s/x-Wgbl5Wq4VswHEpQwyj0A',
+'长宁区': 'https://mp.weixin.qq.com/s/dUsBgO62gYGjPGSbv2tIqA',
+'普陀区': 'https://mp.weixin.qq.com/s/jlWMnvAF8BYecot-0bi2NQ',
+'虹口区': 'https://mp.weixin.qq.com/s/fT_pEuz31aNshll-jlqKAg',
+'杨浦区': 'https://mp.weixin.qq.com/s/5DMz0AugUA4VQVczidgOaw',
+'宝山区': 'https://mp.weixin.qq.com/s/H573ECdcPI_GEKzty5nT8Q',
+'闵行区': 'https://mp.weixin.qq.com/s/uhcRKlLtJkFdpj-6LAYKeQ', # 今日闵行
+'嘉定区': 'https://mp.weixin.qq.com/s/1Qk6OK-wERATUVsE9GZQsQ',
+'金山区': '',
+'松江区': 'https://mp.weixin.qq.com/s/CBkSYF9V7Fp138PBV8MmIw',
+'青浦区': 'https://mp.weixin.qq.com/s/Qvid27sVL7di8TknFJPjEA', # 绿色青浦
+'奉贤区': 'https://mp.weixin.qq.com/s/Uhc7wOfYg2079xATjf62Nw',
+'崇明区': 'https://mp.weixin.qq.com/s/DAj0BN-VyXCm_OBd2zuXTg' }
+
 day0521 = {
 '浦东新区': 'https://mp.weixin.qq.com/s/dFidfJSNO3m2eliO-dOESg', # 浦东发布
 '黄浦区': 'https://mp.weixin.qq.com/s/spHKYQRqra8uU5PQoijbjA',
@@ -125,7 +143,7 @@ day0521 = {
 '宝山区': 'https://mp.weixin.qq.com/s/684PIb-Z1z3jfEvMAaDxlw',
 '闵行区': 'https://mp.weixin.qq.com/s/T9ntQmRIrh7CN8RSSi0wzQ', # 今日闵行
 '嘉定区': 'https://mp.weixin.qq.com/s/vtNlYIb2AOQfWYutH9FosA',
-'金山区': '',
+'金山区': 'https://mp.weixin.qq.com/s/yQst6HViNkothQQCpHwNPw', # 反推 检查了4月1日之后的
 '松江区': 'https://mp.weixin.qq.com/s/Qw0wx3hiQ8KWsPqvUJOR0g',
 '青浦区': 'https://mp.weixin.qq.com/s/jeR7Ixf4nvZ17MSIq6gPog', # 绿色青浦
 '奉贤区': 'https://mp.weixin.qq.com/s/4mpvam5Otvm8km6HT4vOfQ',

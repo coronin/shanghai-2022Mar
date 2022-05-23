@@ -9,7 +9,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
   <!-- script src="full.json"></script -->
-  <script src="shanghaifabu/map-location.json?v=0521"></script><!-- @@ -->
+  <script src="shanghaifabu/map-location.json?v=0522"></script><!-- @@ -->
   <script src="shanghaifabu/d3.min.v3.js"></script>
   <script src="shanghaifabu/topojson.min.180.js"></script><!-- http://geojson.io -->
   <script src="shanghaifabu/sh.json"></script><!-- http://datav.aliyun.com/portal/school/atlas/area_generator -->
@@ -20,7 +20,7 @@
   let i; let j; const _J = {};
   let As; let Ds;
   const today = new Date();
-  const j_data_init = 521; // @@
+  const j_data_init = 522; // @@
   let _today; // j.tag
   let Ml; let Ms; let map;
   let d3scale; let d3center; let svgWidth; let svgHeight;
@@ -349,17 +349,28 @@
     console.log('fetch1, async pairs', _ww.length);
   }).catch(err => console.log('fetch1', err));
 
+  function init_ks(k, d, num, dl, t) {
+    if (!dl) dl = dldl(k, d);
+    let ks;
+    if (j.listed_30times_long && k && d && j.listed_30times_long.indexOf(k + d) > -1 &&
+        dl.length >= 30 && (!t || t.indexOf('上榜') === -1) ) {
+      ks = '<span style="color:red;">' + num + '.<sup>上榜' +
+           dl.length + '次</sup>';
+    } else {
+      ks = '<span class="em">' + num + '.';
+    }
+    if (_m0f0['cut' + explode_cutoff] &&
+        _m0f0['cut' + explode_cutoff].indexOf(k + d) > -1) {
+      ks += '<sup style="background-color:red;color:white">上榜早</sup>';
+    }
+    ks += '</span> ';
+    return ks;
+  }
+
   function onListAppend (ki, k, d, t) {
     let ks;
-    if (!ki) {
-      ks = '<br/>';
-    } else if (j.listed_30times_long && k && d && j.listed_30times_long.indexOf(k + d) > -1 &&
-               (!t || t.indexOf('上榜') === -1) ) {
-      ks = '<span style="color:red;">' + ki + '.<sup>上榜' +
-           dldl(k, d).length + '次</sup></span> ';
-    } else {
-      ks = '<span class="em">' + ki + '.</span> ';
-    }
+    if (!ki) { ks = '<br/>';
+    } else {   ks = init_ks(k, d, ki, null, t); }
     if (k) {
       ks += '<span class="click" onclick="scaleChange=true;search(this.textContent);">' +
           k + '</span>';
@@ -1727,17 +1738,7 @@ j.tag === '0'+j[_check][k][ii][1] ) ? '' : '截至' + hash2date(j.tag) +
 
 //onList.textContent += Ds[ii] + ',' + As[i] + ': ' + dl;
 const dl = dldl(Ds[ii], As[i]);
-if (j.listed_30times_long && j.listed_30times_long.indexOf(Ds[ii] + As[i]) > -1 && dl.length >= 30) {
-  ks = '<span style="color:red;">' + sb + '.<sup>上榜' +
-       dl.length + '次</sup>';
-} else {
-  ks = '<span class="em">' + sb + '.';
-}
-if (_m0f0['cut' + explode_cutoff] &&
-    _m0f0['cut' + explode_cutoff].indexOf(Ds[ii] + As[i]) > -1) {
-  ks += '<sup style="background-color:red;color:white">上榜早</sup>';
-}
-ks += '</span> ';
+ks = init_ks(Ds[ii], As[i], sb, dl);
 if (map_i > 1 || lastSearch) {
   ks += '<span class="click" onclick="search(this.textContent);">' + Ds[ii] + '</span>';
   ks += '<span class="click _L" onclick="lastSearch=\''+k+'\';search(\'';
@@ -2253,9 +2254,9 @@ map_addr.push( Ds[ii] + As[i] );
   <button id="next_button" data-value="" style="visibility:hidden;" onclick="nextReload(addr.value);">&gt;</button>
   <button id="next_button2" onclick="nextReload(addr.value,1);">&gt;&gt;</button>
   <button id="clear_button" style="visibility:hidden;" onclick="search();">隐图</button>
-  <button id="reload_button" onclick="window.location.reload();">重置</button>
   <button id="scale2x_button" style="visibility:hidden;" onclick="scale2x();">&plus;</button>
   <button id="scale2x_button1" style="visibility:hidden;" onclick="scale2x(1);">&minus;</button>
+  <button id="reload_button" onclick="window.location.reload();">重置</button>
   <span id="fetching2" style="color:blue;">Loading<span id="loading_span"></span>
     <span class="loading_pr"></span></span>
   <span id="auto_save_" style="color:cyan;">自动缓存&rarr;</span><br/>

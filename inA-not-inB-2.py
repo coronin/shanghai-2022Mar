@@ -9,7 +9,7 @@ AsBs = ('0306','0307','0308','0309','0310',
       '0421','0422','0423','0424','0425','0426','0427','0428','0429','0430',
       '0501','0502','0503','0504','0505','0506','0507','0508','0509','0510',
       '0511','0512','0513','0514','0515','0516','0517','0518','0519','0520',
-      '0521'
+      '0521','0522'
       )
 #### 以上不能有末尾逗号 没有空字符检查
 As = AsBs[:-14]
@@ -157,7 +157,8 @@ def read_a_list(s, tag=''):
             continue
         if len( line.strip() ) > 20:
             print('>> %s.txt' % s, line, 20)
-        if not line or line.find('居住于'
+        if not line or line == '新增' or line.find('区新增'
+             ) > -1 or line.find('无新增'
              ) > -1 or line.find('微信号'
              ) > -1 or line.find('微信平台'
              ) > -1 or line.find('功能介绍'
@@ -170,16 +171,16 @@ def read_a_list(s, tag=''):
              ) > -1 or line.find('修改'
              ) > -1 or line.find('上海发布'
              ) > -1 or line.find('各区信息'
-             ) > -1 or line.find('区新增'
-             ) > -1 or line.find('无新增'
+             ) > -1 or line.find('居住于'
              ) > -1 or line.find('2022年'
              ) > -1 or line.find('3月'
              ) > -1 or line.find('4月'
              ) > -1 or line.find('5月'
+             ) > -1 or line.find('6月'
              ) > -1 or line.find('1例为'
              ) > -1 or line.find('病例'
              ) > -1 or line.find('感染者'
-             ) > -1 or line.find('中发现'
+             ) > -1 or line.find('中发现' # 隔离管控
              ) > -1 or line.find('落实管控'
              ) > -1 or line.find('采取封控'
              ) > -1 or line.find('落实消毒'
