@@ -332,7 +332,7 @@
         m0f0.ages = m0f0.male.map((d) => d[1]).concat(
                      m0f0.female.map((d) => d[1]) );
         _m0f0[m0f0.d] = m0f0;
-        if (m0f0.count > explode_cutoff) console.log('早期多人', k, m0f0);
+        //if (m0f0.count > explode_cutoff) console.log('早期多人', k, m0f0);
       // }
     }
     console.log(d0+'~'+d9, '男'+m9, '女'+f9);
@@ -531,14 +531,17 @@
         });
         console.timeEnd('>> cache lists ' + j.tag);
         _J[j.tag] = j;
-        cache_m0f0(5);
+        if (!_m0f0['cut5']) cache_m0f0(5);
       }
       resolve(1);
     });
   }
 
+  _m0f0_sets = {};
   function cache_m0f0 (cutoff) {
     _m0f0['cut' + cutoff] = [];
+
+    let arr1 = []; let arr2 = []; let arr3 = [];
     Object.keys(_m0f0).forEach((d) => {
       const m0f0 = _m0f0[d];
       if (!m0f0.dates) {
@@ -550,8 +553,26 @@
         } else if (!j.address[m0f0.d]) {
           console.log('早期地址有误', m0f0.k, m0f0.d);
         }
+        if (m0f0.count > 1) {
+          if (Math.min.apply(null, m0f0.ages) < 6) {
+            // console.log('早期'+m0f0.count+'人 含幼儿未上学', Math.min.apply(null, m0f0.ages),
+            //             m0f0.k, m0f0.d, '后期上榜', j.address[m0f0.d].length-1, '次');
+            arr1.push([m0f0.k, m0f0.d, j.address[m0f0.d].length-1 ]); }
+          if (Math.max.apply(null, m0f0.ages) > 70) {
+            // console.log('早期'+m0f0.count+'人 含高寿老人', Math.max.apply(null, m0f0.ages),
+            //             m0f0.k, m0f0.d, '后期上榜', j.address[m0f0.d].length-1, '次');
+            arr2.push([m0f0.k, m0f0.d, j.address[m0f0.d].length-1 ]); }
+          if (6 < Math.min.apply(null, m0f0.ages) &&
+                  Math.min.apply(null, m0f0.ages) < 15) {
+            // console.log('早期'+m0f0.count+'人 含义务教育学生', Math.min.apply(null, m0f0.ages),
+            //             m0f0.k, m0f0.d,'后期上榜', j.address[m0f0.d].length-1, '次');
+            arr3.push([m0f0.k, m0f0.d, j.address[m0f0.d].length-1 ]); }
+        }
       }
     });
+    _m0f0_sets['tooYoung'] = arr1;
+    _m0f0_sets['stuTravel'] = arr2;
+    _m0f0_sets['tooOld'] = arr3;
   }
 
   async function asyncList30times (k) {
