@@ -381,11 +381,17 @@ function onListAppend (ki, k, d, t) {
     ks += '<span class="click _L" onclick="scaleChange=true;search(\'' + d +
         '\');">' + d + '</span> ';
   }
-  ks += ' <em>' + (t || '') + '</em>';
-  if (k && d && (!t || t.indexOf('首次') === -1 &&
-                       t.indexOf('最近') === -1 &&
-                       t.indexOf('不在') === -1 )) {
-    ks += ' ' + tagsHTML(dldl(k, d));
+  if (t && t.indexOf('上榜后') > 3) {
+    let dl = dldl(k, d);
+    ks += ' ' + tagsHTML([dl[0]]) + '<span class="em">' + t + '</span>' +
+          tagsHTML(dl.slice(1) );
+  } else {
+    ks += ' <em>' + (t || '') + '</em>';
+    if (k && d && (!t || t.indexOf('首次') === -1 &&
+                         t.indexOf('最近') === -1 &&
+                         t.indexOf('不在') === -1 )) {
+      ks += ' ' + tagsHTML(dldl(k, d));
+    }
   }
   const kk = document.createElement('p');
   kk.innerHTML = ks;
@@ -534,6 +540,9 @@ function cacheList () {
       console.timeEnd('>> cache lists ' + j.tag);
       _J[j.tag] = j;
       if (!_m0f0.cut5) cache_m0f0(5);
+      Array.from( document.getElementsByName('sets') ).forEach((d) => {
+        d.style.visibility = 'visible';
+      });
     }
     resolve(1);
   });
@@ -542,7 +551,6 @@ function cacheList () {
 const _m0f0_sets = {};
 function cache_m0f0 (cutoff) {
   _m0f0['cut' + cutoff] = [];
-
   const arr1 = []; const arr2 = []; const arr3 = []; const arr4 = [];
   Object.keys(_m0f0).forEach((d) => {
     const m0f0 = _m0f0[d];
@@ -583,6 +591,7 @@ function cache_m0f0 (cutoff) {
     bubble2(eval('arr' + (d+1)), 3);
     _m0f0_sets['arr' + (d+1)] = eval('arr' + (d+1));
   });
+  _setEx.value = cutoff;
 }
 
 async function asyncList30times (k) {
@@ -821,6 +830,18 @@ function jumpApr (q, month) {
     lastAddrFirstTag = null;
   } else {
     updateLocation(hash_, q);
+  }
+}
+
+function setsEnter () {
+  const keyCode = ('which' in event) ? event.which : event.keyCode;
+  if (keyCode === 13) {
+    if (!parseInt(_setEx.value) || parseInt(_setEx.value) < 2) {
+      window.alert('数据组 无法展示' + _setEx.value + '次上榜的');
+    } else {
+      explode_cutoff = parseInt(_setEx.value);
+      if (!_m0f0['cut' + explode_cutoff]) cache_m0f0(explode_cutoff);
+    }
   }
 }
 
@@ -1272,6 +1293,9 @@ function draw_sh () { // map-address.html
   app.height = svgHeight;
   app.style.display = 'block';
   app.style.padding = '5px 0 2px 0';
+  Array.from( document.getElementsByName('map') ).forEach((d) => {
+    d.style.visibility = 'visible';
+  });
   const jj = JSON.parse(sh);
   const dt = topojson.feature(jj, jj.objects.collection);
   //const dn = topojson.neighbors(jj.objects.collection.geometries);
@@ -1557,7 +1581,16 @@ function dldl (k_, d_) {
   return dldl;
 }
 
+function init_map () {
+  map.clearRect(0, 0, svgWidth, svgHeight);
+  scale2x_button.style.visibility = 'hidden';
+  scale2x_button1.style.visibility = 'hidden';
+  svgWidth = 640;
+  svgHeight = 480;
+  fontSize = 10; // 10px Microsoft YaHei
+}
 let map_mustLabel;
+
 function search (kt, pngNot) {
   let k = trim(kt);
   if (!k) {
@@ -1576,12 +1609,7 @@ function search (kt, pngNot) {
   //document.title = 'sh.teach.bio/2 ? ' + k + '  2022/' + _today;
   lastAddrFirstTag = null;
   onList.textContent = '';
-  map.clearRect(0, 0, svgWidth, svgHeight);
-  scale2x_button.style.visibility = 'hidden';
-  scale2x_button1.style.visibility = 'hidden';
-  svgWidth = 640;
-  svgHeight = 480;
-  fontSize = 10; // 10px Microsoft YaHei
+  init_map();
   if (scaleChange) { d3scale = 72000; }
   let ii;
   if (nextSpecial && nextSpecial.endsWith(addr.value)) {
@@ -1931,7 +1959,7 @@ map_addr.push( Ds[ii] + As[i] );
 function draw_sh_multi (k, map_i, map_x, map_y, map_addr) {
   let ii;
   addr.scrollIntoView();
-  th_k.textContent = k;
+  if (k.indexOf('数据组') === -1) th_k.textContent = k;
   if (!d3center || scaleChange) {
     d3center = [average(map_x), average(map_y) ];
   }
@@ -1997,12 +2025,14 @@ function draw_sh_multi (k, map_i, map_x, map_y, map_addr) {
     draw_addr(d, true);
   });
   map.fillStyle = 'rgba(255,0,0,0.4)';
-  (map_mustLabel !== '') && console.log('当日阳', map_mustLabel.substr(1));
+  if (map_mustLabel && map_mustLabel !== '') {
+    console.log('当日阳', map_mustLabel.substr(1));
+  }
   if (map_i > 1) {
     let labelNotDraw;
     let _Y; const gray_Y = [];
     for (i = 0; i < map_i; i += 1) {
-      if (map_mustLabel.indexOf(map_addr[i]) > 0) {
+      if (map_mustLabel && map_mustLabel.indexOf(map_addr[i]) > 0) {
         _Y = mapY(map_y[i]);
         gray_Y.push(_Y);
         map.fillText(map_addr[i],
@@ -2140,11 +2170,31 @@ function setsOp (I) {
   Array.from(checkboxes).forEach((d) => {
     if (d !== I) d.checked = false;
   });
-  window.alert( I.parentNode.textContent );
+  //window.alert(  );
+  addr.value = '';
+  onList.textContent = '';
+  init_map();
+  let ki = 0;
+  const map_x = [];
+  const map_y = [];
+  const map_addr = [];
+  _m0f0_sets['arr' + I.getAttribute('data-value') ].forEach((d) => {
+    ki += 1;
+    map_x.push(parseFloat( Ml.locations[d[0] + d[1]][0] ));
+    map_y.push(parseFloat( Ml.locations[d[0] + d[1]][1] ));
+    map_addr.push(d[0] + d[1]);
+    if (_m0f0['cut' + explode_cutoff] &&
+        _m0f0['cut' + explode_cutoff].indexOf(d[0] + d[1]) > -1) {
+      onListAppend(ki, d[0], d[1], d[2] + '上榜后超' + explode_cutoff + '次 ');
+    } else {
+      onListAppend(ki, d[0], d[1], d[2] + '上榜后 ');
+    }
+  });
+  d3scale = 72000; //@@@@ 卡死 @@@@ 黑色标记
+  console.log('will draw sets', ki, map_addr.length);
+  draw_sh_multi(I.parentNode.textContent + '数据组',
+                ki, map_x, map_y, map_addr);
 
-console.log(_m0f0_sets['arr' + I.getAttribute('data-value') ]);
-
-  //search(); @@@@
 }
   </script>
   <!-- SukkaW/DisqusJS -->
@@ -2255,7 +2305,7 @@ console.log(_m0f0_sets['arr' + I.getAttribute('data-value') ]);
       font-size: 90%;
       margin-left: .5em;
     }
-    #_still {
+    #_still, #_setEx {
       border: 0;
       padding: 0;
       margin: 0;
@@ -2274,7 +2324,8 @@ console.log(_m0f0_sets['arr' + I.getAttribute('data-value') ]);
       padding: 0 0 0 4em;
       text-indent: -4em;
     }
-    #_still, #april, #march, #may {
+    #_still, #_setEx,
+    #april, #march, #may {
       width: 1.5em;
     }
   </style>
@@ -2345,20 +2396,28 @@ console.log(_m0f0_sets['arr' + I.getAttribute('data-value') ]);
   <div id="map_options">
     <br/>
     <label><span>地图</span></label>
-    <label><input type="checkbox" name="map" onclick="mapOp(this)" checked /><span>标盒马门店</span></label>
-    <label><input type="checkbox" name="map" onclick="mapOp(this)" /><span>标中小学</span></label>
-    <label><input type="checkbox" name="map" onclick="mapOp(this)" /><span>标大学</span></label>
-    <label><input type="checkbox" name="map" onclick="mapOp(this)" /><span>标精致咖啡馆</span></label>
+    <label><input type="checkbox" name="map" onclick="mapOp(this)" checked
+      /><span>标盒马门店</span></label>
+    <label><input type="checkbox" name="map" onclick="mapOp(this)" style="visibility:hidden;"
+      /><span>标中小学</span></label>
+    <label><input type="checkbox" name="map" onclick="mapOp(this)" style="visibility:hidden;"
+      /><span>标大学</span></label>
+    <label><input type="checkbox" name="map" onclick="mapOp(this)" style="visibility:hidden;"
+      /><span>标精致咖啡馆</span></label>
     <br/>
-    <label style="border-top:1px solid grey;width:100%;"><span>数据组</span> <span id="sets_label"></span></label>
+    <label style="border-top:1px solid grey;width:100%;"><span>数据组</span>
+      <span id="sets_label"></span>
+      <span>&middot; 上榜早的阈值</span>
+      <input type="text" id="_setEx" name="_setEx" onkeydown="setsEnter();" />
+    </label>
     <br/>
-    <label><input type="checkbox" name="sets" onclick="setsOp(this)"
+    <label><input type="checkbox" name="sets" onclick="setsOp(this)" style="visibility:hidden;"
       data-value="1" /><span>幼儿</span></label>
-    <label><input type="checkbox" name="sets" onclick="setsOp(this)"
+    <label><input type="checkbox" name="sets" onclick="setsOp(this)" style="visibility:hidden;"
       data-value="2" /><span>高龄</span></label>
-    <label><input type="checkbox" name="sets" onclick="setsOp(this)"
+    <label><input type="checkbox" name="sets" onclick="setsOp(this)" style="visibility:hidden;"
       data-value="4" /><span>夫妻</span></label>
-    <label><input type="checkbox" name="sets" onclick="setsOp(this)"
+    <label><input type="checkbox" name="sets" onclick="setsOp(this)" style="visibility:hidden;"
       data-value="3" /><span>上学</span></label>
   </div>
 
