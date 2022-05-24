@@ -155,7 +155,7 @@ print('ww object size:', len(ww) )
 to_check = []
 for key,val in ww.items():
     if len(val) > nearby:
-        print('>>', key, len(val) )
+        # 2022-5-24 print('>>', key, len(val) )
         if not key in to_check:
             to_check.append(key)
         for vv in val:

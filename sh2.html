@@ -363,9 +363,50 @@ function init_ks (k, d, num, dl, t) {
   }
   if (_m0f0['cut' + explode_cutoff] &&
       _m0f0['cut' + explode_cutoff].indexOf(k + d) > -1) {
-    ks += '<sup style="background-color:red;color:white">上榜早</sup>';
+    ks += '<sup style="background-color:red;color:white;">上榜早</sup>';
   }
   ks += '</span> ';
+  return ks;
+}
+
+function kd_related_ww (k, d) {
+  let ks = '';
+  const wdl = W.pairs[k + d];
+  let dli; let dl0; let dl1; let dlt = true;
+  //if (dl.length > 4) {
+  //  console.log(_ww.length, '超过4个临近地址', Ds[ii] + As[i]);
+  //  console.log(dl.join('\n'));
+  //}
+  for (dli = 0; dli < wdl.length; dli += 1) {
+    if (wdl[dli].substr(0,4) === '浦东新区') {
+      dl0 = wdl[dli].substr(0, 4);
+      dl1 = wdl[dli].substr(4);
+    } else {
+      dl0 = wdl[dli].substr(0, 3);
+      dl1 = wdl[dli].substr(3);
+    }
+    if (dl1 !== d) {
+      if (dlt) {
+        dlt = false;
+        ks += '<br/><span class="inAB_close" style="padding-left:1.6em">临近地址 '; // W.within
+      } else {
+        ks += '<br/><span class="inAB_close">'; // W.within
+      }
+      if (dl0 !== k) {
+        ks += '<span class="click" onclick="search(this.textContent);">' +
+            dl0 + '</span> ';
+      }
+      if (tagsHTML(dldl(dl0, dl1), 1) !== '') {
+        ks += '<span class="click" onclick="search(this.textContent);">' +
+            dl1 + '</span> 上榜于' +
+            tagsHTML(dldl(dl0, dl1), 1) +
+            '</span>';
+      } else {
+        ks += '<span class="click" onclick="updateLocation(j_data_init, this.textContent);">' +
+            dl1 + '</span><!-- 上榜 --></span>';
+      }
+    }
+  }
   return ks;
 }
 
@@ -385,6 +426,9 @@ function onListAppend (ki, k, d, t) {
     let dl = dldl(k, d);
     ks += ' ' + tagsHTML([dl[0]]) + '<span class="em">' + t + '</span>' +
           tagsHTML(dl.slice(1) );
+    if (_ww && _ww.indexOf(k + d) > -1) {
+      ks += kd_related_ww(k, d);
+    }
   } else {
     ks += ' <em>' + (t || '') + '</em>';
     if (k && d && (!t || t.indexOf('首次') === -1 &&
@@ -1076,7 +1120,7 @@ function tagsHTML (dl_, noClick) {
   }
   if (!dl || dl.length === 0) { return ''; }
   let ds = '<span'; let inwhile;
-  if (dl[0] === '0307') {
+  if (dl[0] === '0306') {
     ds += ' style="background-color:yellow;"';
   }
   if (noClick) {
@@ -1800,102 +1844,67 @@ j.tag === '0'+j[_check][k][ii][1] ) ? '' : '截至' + hash2date(j.tag) +
 const dl = dldl(Ds[ii], As[i]);
 ks = init_ks(Ds[ii], As[i], sb, dl);
 if (map_i > 1 || lastSearch) {
-ks += '<span class="click" onclick="search(this.textContent);">' + Ds[ii] + '</span>';
-ks += '<span class="click _L" onclick="lastSearch=\''+k+'\';search(\'';
+  ks += '<span class="click" onclick="search(this.textContent);">' + Ds[ii] + '</span>';
+  ks += '<span class="click _L" onclick="lastSearch=\''+k+'\';search(\'';
 } else {
-ks += '<span class="click _L" onclick="search(this.textContent);">' + Ds[ii] + '</span>';
-ks += '<span data-click="lastSearch=\''+k+'\';search(\'';
+  ks += '<span class="click _L" onclick="search(this.textContent);">' + Ds[ii] + '</span>';
+  ks += '<span data-click="lastSearch=\''+k+'\';search(\'';
 }
 // scaleChange=true;
 if (lastSearch && lastSearch !== As[i] &&
-  As[i].indexOf(lastSearch) > -1 ) { // 非精确地址 启用
-ks += lastSearch + '\');" title="点击返回 ' + lastSearch + '">';
+    As[i].indexOf(lastSearch) > -1 ) { // 非精确地址 启用
+  ks += lastSearch + '\');" title="点击返回 ' + lastSearch + '">';
 } else {
-ks += As[i] + '\');">';
+  ks += As[i] + '\');">';
 }
 ks += As[i] + '</span> ';
 if (Ms.indexOf(Ds[ii] + As[i]) > -1) {
-map_i += 1;
+  map_i += 1;
 } else {
-console.log('搜索地址 未显示', Ds[ii] + As[i]);
-dotNotDraw += 1; // 搜索地址
+  console.log('搜索地址 未显示', Ds[ii] + As[i]);
+  dotNotDraw += 1; // 搜索地址
 }
 if (dl.length) {
-if (dl.join(',').indexOf(j.tag) > -1) {
-  map_mustLabel += ',' + Ds[ii] + As[i];
-  ks += '<span style="color:red">' + tagsHTML(dl) + '</span>';
-} else {
-  ks += tagsHTML(dl);
-}
-release = parseInt( dl.slice(-1)[0] );
+  if (dl.join(',').indexOf(j.tag) > -1) {
+    map_mustLabel += ',' + Ds[ii] + As[i];
+    ks += '<span style="color:red">' + tagsHTML(dl) + '</span>';
+  } else {
+    ks += tagsHTML(dl);
+  }
+  release = parseInt( dl.slice(-1)[0] );
 }
 if (release) {
-release += (14 - 300);
-if (release < 32) {
-  //onList.textContent += ' --> 4/' + release + '\n';
-  ks += ' &rarr; 3/' + release +
-        ' <span style="color:green">已满14天</span>';
-} else if (release < 131) { // release 4月30+1
-  if (release > 100) {
-    release -= 100;
+  release += (14 - 300);
+  if (release < 32) {
+    //onList.textContent += ' --> 4/' + release + '\n';
+    ks += ' &rarr; 3/' + release +
+          ' <span style="color:green">已满14天</span>';
+  } else if (release < 131) { // release 4月30+1
+    if (release > 100) {
+      release -= 100;
+    } else {
+      release -= 31;
+    }
+    ks += ' &rarr; 4/' + release +
+          ' <span style="color:green">已满14天</span>';
+  } else if (release < 232) { // release 5月31+1
+    if (release > 200) {
+      release -= 200;
+    } else {
+      release -= 130;
+    }
+    ks += ' &rarr; 5/' + release;
+    if (release < today.getDate() ) {
+      ks += ' <span style="color:green">已满14天</span>';
+    } else if (release === today.getDate() ) {
+      ks += '<span style="color:green">是第14天</span>';
+    }
   } else {
-    release -= 31;
+    ks += ' &rarr; 6/' + (release-231);
   }
-  ks += ' &rarr; 4/' + release +
-        ' <span style="color:green">已满14天</span>';
-} else if (release < 232) { // release 5月31+1
-  if (release > 200) {
-    release -= 200;
-  } else {
-    release -= 130;
-  }
-  ks += ' &rarr; 5/' + release;
-  if (release < today.getDate() ) {
-    ks += ' <span style="color:green">已满14天</span>';
-  } else if (release === today.getDate() ) {
-    ks += '<span style="color:green">是第14天</span>';
-  }
-} else {
-  ks += ' &rarr; 6/' + (release-231);
-}
 }
 if (_ww && _ww.indexOf(Ds[ii] + As[i]) > -1) {
-const wdl = W.pairs[ Ds[ii] + As[i] ];
-let dli; let dl0; let dl1; let dlt = true;
-//if (dl.length > 4) {
-//  console.log(_ww.length, '超过4个临近地址', Ds[ii] + As[i]);
-//  console.log(dl.join('\n'));
-//}
-for (dli = 0; dli < wdl.length; dli += 1) {
-  if (wdl[dli].substr(0,4) === '浦东新区') {
-    dl0 = wdl[dli].substr(0, 4);
-    dl1 = wdl[dli].substr(4);
-  } else {
-    dl0 = wdl[dli].substr(0, 3);
-    dl1 = wdl[dli].substr(3);
-  }
-  if (dl1 !== As[i]) {
-    if (dlt) {
-      dlt = false;
-      ks += '<br/><span class="inAB_close" style="padding-left:1.6em">临近地址 '; // W.within
-    } else {
-      ks += '<br/><span class="inAB_close">'; // W.within
-    }
-    if (dl0 !== Ds[ii]) {
-      ks += '<span class="click" onclick="search(this.textContent);">' +
-          dl0 + '</span> ';
-    }
-    if (tagsHTML(dldl(dl0, dl1), 1) !== '') {
-      ks += '<span class="click" onclick="search(this.textContent);">' +
-          dl1 + '</span> 上榜于' +
-          tagsHTML(dldl(dl0, dl1), 1) +
-          '</span>';
-    } else {
-      ks += '<span class="click" onclick="updateLocation(j_data_init, this.textContent);">' +
-          dl1 + '</span><!-- 上榜 --></span>';
-    }
-  }
-}
+  ks += kd_related_ww(Ds[ii], As[i]);
 }
 kk = document.createElement('p');
 //kk.id = As[i];
@@ -2060,7 +2069,7 @@ function draw_sh_multi (k, map_i, map_x, map_y, map_addr) {
       });
     }
   }
-  if (localMinimal.length) {
+  if (localMinimal.length && k.indexOf('数据组') === -1) {
     bubble2(localMinimal, 3);
     draw_addr_withLabel(localMinimal[0][0],
                         '上榜于' + digi2date(999-localMinimal[0][3]) );
@@ -2190,8 +2199,8 @@ function setsOp (I) {
       onListAppend(ki, d[0], d[1], d[2] + '上榜后 ');
     }
   });
-  d3scale = 72000; //@@@@ 卡死 @@@@ 黑色标记
-  console.log('will draw sets', ki, map_addr.length);
+  d3scale = 36000;
+  console.log('will draw sets with', map_addr.length, 'addresses');
   draw_sh_multi(I.parentNode.textContent + '数据组',
                 ki, map_x, map_y, map_addr);
 
@@ -2407,7 +2416,7 @@ function setsOp (I) {
     <br/>
     <label style="border-top:1px solid grey;width:100%;"><span>数据组</span>
       <span id="sets_label"></span>
-      <span>&middot; 上榜早的阈值</span>
+      <span>&middot; <span style="background-color:red;color:white;">上榜早</span>的阈值</span>
       <input type="text" id="_setEx" name="_setEx" onkeydown="setsEnter();" />
     </label>
     <br/>
