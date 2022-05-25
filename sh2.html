@@ -426,12 +426,21 @@ function onListAppend (ki, k, d, t) {
   if (t && t.indexOf('上榜后') > 1) { // _m0f0
     let dl = dldl(k, d);
     ks += ' ' + tagsHTML([dl[0]]) + '<span class="em"';
-    // if (t.indexOf('|') > 1) {
-    //   ks += ' title="' + t.substr(t.indexOf('|')+1, t.indexOf('上榜后') ) +
-    //         '">' +
-    //         t.substr(0, t.indexOf('|')) + t.substr(t.indexOf('上榜后'));
-    // } else {
-      ks += '>' + t; //}
+    if (t.indexOf('|') > 1) {
+      let ti0 = parseInt( t.substr(1,2) );
+      const ti1 = t.indexOf(',');
+      let ti2 = ti1;
+      while (ti0 > 1) {
+        ti2 = t.indexOf(',', ti2+1);
+        ti0 -= 1;
+      }
+      if (ti2 > 0) {
+        ks += '>' + t.substr(0, ti2) + ';' + t.substr(ti2 + 1);
+      } else {
+      ks += '>' + t; }
+    } else {
+      ks += '>' + t;
+    }
     ks += '</span>' + tagsHTML(dl.slice(1) );
     if (_ww && _ww.indexOf(k + d) > -1) {
       ks += kd_related_ww(k, d);
@@ -485,7 +494,9 @@ function cacheList () {
       let j0; let jFirst; let j7neg; let j3neg; let j1neg;
       let jA; let jA0; let jB;
       let j14; let _j14;
-      Ds.forEach((k) => {
+      Ds.forEach((k, ind) => {
+        loading_pr.textContent =  (84 + ind) + '%';
+        loading_pr2.textContent = (84 + ind) + '%';
         let kj; let kjj;
         j30 = [];  _j30 = [];
         j0 = [];  jFirst = [];  j7neg = [];  j3neg = [];  j1neg = [];
@@ -606,6 +617,7 @@ function cacheList () {
 const _m0f0_sets = {};
 function cache_m0f0 (cutoff) {
   _m0f0['cut' + cutoff] = [];
+  const arr0 = [];
   const arr1 = []; const arr2 = []; const arr3 = []; const arr4 = [];
   Object.keys(_m0f0).forEach((d) => {
     const m0f0 = _m0f0[d];
@@ -617,8 +629,12 @@ function cache_m0f0 (cutoff) {
         if (j.address[m0f0.d].length > explode_cutoff_max) {
           explode_cutoff_max = j.address[m0f0.d].length; }
         _m0f0['cut' + cutoff].push(m0f0.k + m0f0.d);
-      } else if (!j.address[m0f0.d]) {
+      }
+      if (!j.address[m0f0.d]) {
         console.log('早期地址有误', m0f0.k, m0f0.d);
+      } else {
+        arr0.push([m0f0.k, m0f0.d, m0f0.sex +
+                  '|' + m0f0.ages, j.address[m0f0.d].length-1 ]);
       }
       if (m0f0.count > 1) {
         if (Math.min.apply(null, m0f0.ages) < 6) {
@@ -643,13 +659,14 @@ function cache_m0f0 (cutoff) {
             parseInt(m0f0.sex.substr(m0f0.sex.indexOf('女') + 1)) > 0) {
           // console.log('成人'+m0f0.count+'人 含男女',
           //             m0f0.k, m0f0.d, m0f0.sex, '后期上榜', j.address[m0f0.d].length-1, '次');
-          arr4.push([m0f0.k, m0f0.d, m0f0.sex, j.address[m0f0.d].length-1 ]); }
+          arr4.push([m0f0.k, m0f0.d, m0f0.sex +
+                    '|' + m0f0.ages, j.address[m0f0.d].length-1 ]); }
       }
     }
   });
-  [...Array(4).keys()].forEach((d) => {
-    bubble2(eval('arr' + (d+1)), 3);
-    _m0f0_sets['arr' + (d+1)] = eval('arr' + (d+1));
+  [...Array(5).keys()].forEach((d) => {
+    bubble2(eval('arr' + d), 3);
+    _m0f0_sets['arr' + d] = eval('arr' + d);
   });
   _setEx.value = cutoff;
 }
@@ -1017,23 +1034,18 @@ function load_js () {
     // };
     const req = new XMLHttpRequest();
     req.addEventListener("loadstart", event => {
-      const ld = document.getElementsByClassName('loading_pr');
-      Array.from(ld).forEach((d) => {
-        d.textContent = '0%';
-      });
+      loading_pr.textContent =  '0%';
+      loading_pr2.textContent = '0%';
     }, false);
     req.addEventListener("progress", event => {
-      const ld = document.getElementsByClassName('loading_pr');
-      let ldint;
-      Array.from(ld).forEach((d) => {
-        if (event.lengthComputable) {
-          ldint = parseInt(100 * event.loaded/event.total);
-        } else {
-          ldint = parseInt(100 * event.loaded/3600000);
-        }
-        if (ldint > 99) { ldint = 99; }
-        d.textContent = ldint + '%';
-      });
+      if (event.lengthComputable) {
+        ldint = parseInt(100 * event.loaded/event.total);
+      } else {
+        ldint = parseInt(100 * event.loaded/3600000);
+      }
+      if (ldint > 83) { ldint = 99 - 16; } // 解析 full.json 需要约2秒
+      loading_pr.textContent =  ldint + '%';
+      loading_pr2.textContent = ldint + '%';
     }, false);
     req.addEventListener("load", event => {
       const e = event.target;
@@ -1067,10 +1079,8 @@ function load_js () {
         hard_off();
         window.alert('数据无法下载 请访问 https://sh.teach.bio/');
       } else {
-        const ld = document.getElementsByClassName('loading_pr');
-        Array.from(ld).forEach((d) => {
-          d.textContent = '可用数据: ' + Object.keys(_J).join(', ');
-        });
+        loading_pr.textContent =  '可用数据: ' + Object.keys(_J).join(', ');
+        loading_pr2.textContent = '可用数据: ' + Object.keys(_J).join(', ');
         window.alert('数据无法下载 请稍后刷新页面\n当前可使用以下数据\n' +
                      Object.keys(_J)); // window.location.toString()
       }
@@ -2138,6 +2148,9 @@ function updateCheckStatus () {
       d.checked = false;
     }
   });
+  Array.from( document.getElementsByName('sets') ).forEach((d) => {
+    d.checked = false;
+  });
 }
 
 function scale2x (r) {
@@ -2175,9 +2188,6 @@ function onlyOne (I) {
   Array.from(checkboxes).forEach((d) => {
     if (d !== I) d.checked = false;
   });
-  Array.from( document.getElementsByName('sets') ).forEach((d) => {
-    d.checked = false;
-  });
   _check = check_choices[I.getAttribute('data-value')];
   //console.log('data-value >', _check, j[_check]);
   search(addr.value, true);
@@ -2206,27 +2216,40 @@ function setsOp (I) {
   Array.from(checkboxes).forEach((d) => {
     if (d !== I) d.checked = false;
   });
-  //window.alert(  );
-  addr.value = '';
+  Array.from( document.getElementsByName('check') ).forEach((d) => {
+    d.checked = false;
+  });
+  const arr_ = I.getAttribute('data-value');
+  if (arr_ === "0" &&
+      Ds.indexOf(addr.value) === -1) {
+    window.alert('无法展示' + (addr.value || '空') + '的早期数据');
+    I.checked = false;
+    return false;
+  }
   onList.textContent = '';
   init_map();
   let ki = 0;
   const map_x = [];
   const map_y = [];
   const map_addr = [];
-  _m0f0_sets['arr' + I.getAttribute('data-value') ].forEach((d) => {
-    ki += 1;
-    map_x.push(parseFloat( Ml.locations[d[0] + d[1]][0] ));
-    map_y.push(parseFloat( Ml.locations[d[0] + d[1]][1] ));
-    map_addr.push(d[0] + d[1]);
-    if (_m0f0['cut' + explode_cutoff] &&
-        _m0f0['cut' + explode_cutoff].indexOf(d[0] + d[1]) > -1) {
-      onListAppend(ki, d[0], d[1], zero_people(d[2])+'上榜后超'+explode_cutoff+'次 ');
-    } else {
-      onListAppend(ki, d[0], d[1], zero_people(d[2])+'上榜后 ');
+  _m0f0_sets['arr' + arr_].forEach((d) => {
+    if (arr_ !== '0' || d[0] === addr.value) {
+      ki += 1;
+      map_x.push(parseFloat( Ml.locations[d[0] + d[1]][0] ));
+      map_y.push(parseFloat( Ml.locations[d[0] + d[1]][1] ));
+      map_addr.push(d[0] + d[1]);
+      if (_m0f0['cut' + explode_cutoff] &&
+          _m0f0['cut' + explode_cutoff].indexOf(d[0] + d[1]) > -1) {
+        onListAppend(ki, d[0], d[1], zero_people(d[2])+'|上榜后超'+explode_cutoff+'次 ');
+      } else if (j.address[ d[1] ].length > 1) {
+        onListAppend(ki, d[0], d[1], zero_people(d[2])+'|上榜后 ');
+      } else {
+        onListAppend(ki, d[0], d[1], zero_people(d[2]) );
+      }
     }
   });
   d3scale = 36000;
+  addr.value = '';
   console.log('will draw sets with', map_addr.length, 'addresses');
   draw_sh_multi(I.parentNode.textContent + '数据组',
                 ki, map_x, map_y, map_addr);
@@ -2370,7 +2393,7 @@ function setsOp (I) {
   <p>
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">shanghaifabu</a>
       <span id="datestr" style="color:grey;"></span>
-      <span id="fetching" style="color:blue;"> <span class="loading_pr">not ready,</span> loaded</span>
+      <span id="fetching" style="color:blue;"> <span id="loading_pr2">not ready,</span> loaded</span>
     <br/>正展示<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
     <br/> &nbsp;&nbsp;&nbsp;&nbsp;
       <span class="click" class="april_button" onclick="jumpApr(addr.value,3);"><span class="em">跳至</span>3/</span><input type="text" id="march" name="march" onkeydown="aprilEnter(3);" />
@@ -2398,7 +2421,7 @@ function setsOp (I) {
   <button id="scale2x_button1" style="visibility:hidden;" onclick="scale2x(1);">&minus;</button>
   <button id="reload_button" onclick="window.location.reload();">重置</button>
   <span id="fetching2" style="color:blue;">Loading<span id="loading_span"></span>
-    <span class="loading_pr"></span></span>
+    <span id="loading_pr"></span></span>
   <span id="auto_save_" style="color:cyan;">自动缓存&rarr;</span><br/>
 
   <canvas id="app" style="display:none;"></canvas>
@@ -2443,7 +2466,7 @@ function setsOp (I) {
     <br/>
     <label style="border-top:1px solid grey;width:100%;"><span>数据组</span>
       <span id="sets_label"></span>
-      <span>&middot; <span style="color:red;">上榜早</span>且累计上榜</span><input
+      <span>&middot; 标记<span style="color:red;">上榜早</span>且累计上榜</span><input
         type="text" id="_setEx" name="_setEx" onkeydown="setsEnter();" />次
     </label>
     <br/>
@@ -2455,6 +2478,8 @@ function setsOp (I) {
       data-value="4" /><span>夫妻</span></label>
     <label><input type="checkbox" name="sets" onclick="setsOp(this)" style="visibility:hidden;"
       data-value="3" /><span>上学</span></label>
+    <label><input type="checkbox" name="sets" onclick="setsOp(this)" style="visibility:hidden;"
+      data-value="0" /><span>各区</span></label>
   </div>
 
   <h2 id="h2dist"><span onclick="search(this.textContent);" class="click">上海市</span>各区统计（地址数）</h2>
