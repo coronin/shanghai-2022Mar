@@ -165,7 +165,7 @@ for key,val in ww.items():
 from datetime import datetime
 datestr = '%s' % datetime.now()
 fz = open('addr-close-check.txt', 'w')
-fz.write('# AB %s 可信度20' % datestr)
+fz.write('# AB %s 可信度30' % datestr)
 fz.write('\n# https://console.amap.com/dev/')
 fz.write('\n%s' % '\n'.join(to_check) )
 fz.write('\n####')

@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>0523 sh listed address, since March 6th 2022</title><!-- @@ -->
+  <title>0524 sh listed address, since March 6th 2022</title><!-- @@ -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
   <!-- script src="full.json"></script -->
-  <script src="shanghaifabu/map-location.json?v=0523"></script><!-- @@ -->
+  <script src="shanghaifabu/map-location.json?v=0524"></script><!-- @@ -->
   <script src="shanghaifabu/d3.min.v3.js"></script>
   <script src="shanghaifabu/topojson.min.180.js"></script><!-- http://geojson.io -->
   <script src="shanghaifabu/sh.json"></script><!-- http://datav.aliyun.com/portal/school/atlas/area_generator -->
@@ -35,6 +35,7 @@ let lastAddrFirstTag;
 let _still_in = 5;
 let _mapOp = '已' + '标盒马门店';
 let explode_cutoff = 5;
+let explode_cutoff_max = 0; // 每日会变化
 const baseURL = window.location.toString().split('#')[0].split('?')[0];
 const ms = { 3: 'march', 4: 'april', 5: 'may', 6: 'june' };
 const check_choices = {
@@ -474,12 +475,16 @@ function cacheList () {
       j.latest_added2 = {};
       j.latest_added7 = {};
       ////}
+      let j30; let _j30;
+      let j0; let jFirst; let j7neg; let j3neg; let j1neg;
+      let jA; let jA0; let jB;
+      let j14; let _j14;
       Ds.forEach((k) => {
         let kj; let kjj;
-        const j30 = []; const _j30 = [];
-        const j0 = []; const jFirst = []; const j7neg = []; const j3neg = []; const j1neg = [];
-        const jA = []; const jA0 = []; const jB = [];
-        const j14 = []; const _j14 = [];
+        j30 = [];  _j30 = [];
+        j0 = [];  jFirst = [];  j7neg = [];  j3neg = [];  j1neg = [];
+        jA = [];  jA0 = [];  jB = [];
+        j14 = [];  _j14 = [];
         Array.from(j.districts[k]).forEach((d) => {
           kj = dldl(k, d);
           // .inB   (j.tag + 13)
@@ -525,60 +530,60 @@ function cacheList () {
         // console.log(k, j.districts[k].length, jB.length, j0.length, jA.length, jA0.length,
         //   '七阴'+j7neg.length, '三阴'+j7neg.length, '昨阴'+j1neg.length,
         //   '月内'+j30.length, '首次'+jFirst.length, '两周内'+j14.length )
-        if ([] !== _j30) {
+        if (_j30.length) {
           bubble2(j30);
           j.list30times[k] = j30;
           j.listed_30times_long.push(..._j30);
         }
-        if ([] !== jFirst) j.first_in[k] = jFirst;
-        if ([] !== _j14) {
+        if (_j14.length) {
           bubble2(j14);
           j.cache14days[k] = j14;
           j.cached_14days.push(..._j14);
         }
+        if (jFirst.length) j.first_in[k] = jFirst;
         ////if (parseInt(j.tag) > 500) {
         if (j.today[k]) {
           kj = [...j.today[k]].filter(x => j0.indexOf(x) === -1);
           kj.length && j.today[k].length === j0.length && console.log(
           k, '当日阳 py多了', kj);
         }
-        if ([] !== j0) j.today[k] = j0;
+        if (j0.length) j.today[k] = j0;
         if (j.inB[k]) {
           kj = [...j.inB[k]].filter(x => !jB.indexOf(x) === -1);
           kj.length && j.inB[k].length === jB.length && console.log(
           k, '两周阳 py多了', kj);
         }
-        if ([] !== jB) j.inB[k] = jB;
+        if (jB.length) j.inB[k] = jB;
         if (j.released[k]) {
           kj = [...j.released[k]].filter(x => !jA.indexOf(x) === -1);
           kj.length && j.released[k].length === jA.length && console.log(
           k, '累计下榜 py多了', kj);
         }
-        if ([] !== jA) j.released[k] = jA;
+        if (jA.length) j.released[k] = jA;
         if (j.released_today[k]) {
           kj = [...j.released_today[k]].filter(x => !jA0.indexOf(x) === -1);
           kj.length && j.released_today[k].length === jA0.length && console.log(
           k, '当日下榜 py多了', kj);
         }
-        if ([] !== jA0) j.released_today[k] = jA0;
+        if (jA0.length) j.released_today[k] = jA0;
         if (j.latest_added[k]) {
           kj = [...j.latest_added[k]].filter(x => !j1neg.indexOf(x) === -1);
           kj.length && j.latest_added[k].length === j1neg.length && console.log(
           k, '比昨日多 py多了', kj);
         }
-        if ([] !== j1neg) j.latest_added[k] = j1neg;
+        if (j1neg.length) j.latest_added[k] = j1neg;
         if (j.latest_added2[k]) {
           kj = [...j.latest_added2[k]].filter(x => !j3neg.indexOf(x) === -1);
           kj.length && j.latest_added2[k].length === j3neg.length && console.log(
           k, '三阴阳 py多了', kj);
         }
-        if ([] !== j3neg) j.latest_added2[k] = j3neg;
+        if (j3neg.length) j.latest_added2[k] = j3neg;
         if (j.latest_added7[k]) {
           kj = [...j.latest_added7[k]].filter(x => !j7neg.indexOf(x) === -1);
           kj.length && j.latest_added7[k].length === j7neg.length && console.log(
           k, '七阴阳 py多了', kj);
         }
-        if ([] !== j7neg) j.latest_added7[k] = j7neg;
+        if (j7neg.length) j.latest_added7[k] = j7neg;
         ////}
       });
       console.timeEnd('>> cache lists ' + j.tag);
@@ -603,6 +608,8 @@ function cache_m0f0 (cutoff) {
     } else {
       if (j.address[m0f0.d] && j.address[m0f0.d].length > cutoff) { // explode_cutoff
         //console.log('早发后爆', m0f0.k, m0f0.d, j.address[m0f0.d] );
+        if (j.address[m0f0.d].length > explode_cutoff_max) {
+          explode_cutoff_max = j.address[m0f0.d].length; }
         _m0f0['cut' + cutoff].push(m0f0.k + m0f0.d);
       } else if (!j.address[m0f0.d]) {
         console.log('早期地址有误', m0f0.k, m0f0.d);
@@ -880,7 +887,9 @@ function jumpApr (q, month) {
 function setsEnter () {
   const keyCode = ('which' in event) ? event.which : event.keyCode;
   if (keyCode === 13) {
-    if (!parseInt(_setEx.value) || parseInt(_setEx.value) < 2) {
+    if (!parseInt(_setEx.value) ||
+        parseInt(_setEx.value) < 2 ||
+        parseInt(_setEx.value) > explode_cutoff_max ) {
       window.alert('数据组 无法展示' + _setEx.value + '次上榜的');
     } else {
       explode_cutoff = parseInt(_setEx.value);
@@ -1253,7 +1262,7 @@ async function load () {
         '</td><td class="click" onclick="_check=\'released\';search(\''+Ds[i]+'\');"' +
         ' title="' + Ds[i] + '累计下榜" style="color:green;">' +
         (j.released[ Ds[i] ] || []).length + '</td>';
-    if (j.released_today[ Ds[i] ] ) {
+    if (j.released_today[ Ds[i] ]) {
       k.innerHTML += '<td class="click" onclick="_check=\'released_today\';search(\''+Ds[i]+'\');"' +
         ' title="' + Ds[i] + '当日下榜" style="color:green;">' +
         (j.released_today[ Ds[i] ] || []).length + '</td>';
@@ -1263,7 +1272,7 @@ async function load () {
     k.id = Ds[i];
     districtTbody.appendChild(k);
     k = document.createElement('p');
-    if (j.latest_added && j.latest_added[ Ds[i] ] ) {
+    if (j.latest_added && j.latest_added[ Ds[i] ]) {
       k.innerHTML = '<span style="color:black;"><strong onclick="_check=\'latest_added\';search(this.textContent);"' +
                     ' class="click _L">' + Ds[i] + '</strong> 2022/' + _today + '涉及' +
                     (j.today[ Ds[i] ] || []).length +
@@ -1277,19 +1286,19 @@ async function load () {
     }
     latest_added.appendChild(k);
     k = document.createElement('p');
-    if (j.released_today && j.released_today[ Ds[i] ] ) {
+    if (j.released_today && j.released_today[ Ds[i] ]) {
       k.innerHTML = '<span style="color:black;" onclick="_check=\'released_today\';search(this.textContent);"' +
                     ' class="click _L">' + Ds[i] + '</span>: ' + j.released_today[ Ds[i] ];
     } else {
-      k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> 无';
+      k.innerHTML = '<span style="color:black;">' + Ds[i] + ': 无</span>';
     }
     latest_released.appendChild(k);
     k = document.createElement('p');
-    if (j.released && j.released[ Ds[i] ] ) {
+    if (j.released && j.released[ Ds[i] ]) {
       k.innerHTML = '<span style="color:black;" onclick="_check=\'released\';search(this.textContent);"' +
                     ' class="click _L">' + Ds[i] + '</span>: ' + j.released[ Ds[i] ];
     } else {
-      k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> 无';
+      k.innerHTML = '<span style="color:black;">' + Ds[i] + ': 无</span>';
     }
     released.appendChild(k);
   }
@@ -2344,7 +2353,7 @@ function setsOp (I) {
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">shanghaifabu</a>
       <span id="datestr" style="color:grey;"></span>
       <span id="fetching" style="color:blue;"> <span class="loading_pr">not ready,</span> loaded</span>
-    <br/>正在展示<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
+    <br/>正展示<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
     <br/> &nbsp;&nbsp;&nbsp;&nbsp;
       <span class="click" class="april_button" onclick="jumpApr(addr.value,3);"><span class="em">跳至</span>3/</span><input type="text" id="march" name="march" onkeydown="aprilEnter(3);" />
       &nbsp; <span class="click" class="april_button" onclick="jumpApr(addr.value);"><span class="em">跳至</span>4/</span><input type="text" id="april" name="april" onkeydown="aprilEnter();" />
@@ -2416,8 +2425,8 @@ function setsOp (I) {
     <br/>
     <label style="border-top:1px solid grey;width:100%;"><span>数据组</span>
       <span id="sets_label"></span>
-      <span>&middot; <span style="background-color:red;color:white;">上榜早</span>的阈值</span>
-      <input type="text" id="_setEx" name="_setEx" onkeydown="setsEnter();" />
+      <span>&middot; <span style="color:red;">上榜早</span>且累计上榜</span><input
+        type="text" id="_setEx" name="_setEx" onkeydown="setsEnter();" />次
     </label>
     <br/>
     <label><input type="checkbox" name="sets" onclick="setsOp(this)" style="visibility:hidden;"
