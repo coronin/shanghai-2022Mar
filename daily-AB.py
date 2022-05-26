@@ -113,6 +113,24 @@ day0x2x = {
 '奉贤区': '',
 '崇明区': '' }
 
+day0525 = {
+'浦东新区': 'https://mp.weixin.qq.com/s/d5AUpd7EmQI_w4yl6RwIlg', # 浦东发布
+'黄浦区': 'https://mp.weixin.qq.com/s/dYaFRFv3ujfZ4q520Gj0wA',
+'静安区': 'https://mp.weixin.qq.com/s/SyxO5x-NyQncThpTNdNZLw',
+'徐汇区': 'https://mp.weixin.qq.com/s/ON1WaHHbINBz_y4q_-jYfQ',
+'长宁区': 'https://mp.weixin.qq.com/s/iIGRpdOZbJQbNYbKDGq4pA',
+'普陀区': 'https://mp.weixin.qq.com/s/v07CVfl6BXj7AaQ-fj2BLw',
+'虹口区': 'https://mp.weixin.qq.com/s/c7UllL_uj2LuCpcQzAVStQ',
+'杨浦区': 'https://mp.weixin.qq.com/s/Oo7j7B6msoLuc7PAUhbIlQ',
+'宝山区': 'https://mp.weixin.qq.com/s/IkZmngERkOEbozUT7U4IWA',
+'闵行区': 'https://mp.weixin.qq.com/s/94XJZ3DBtqa6TFJI9XLOUg', # 今日闵行
+'嘉定区': 'https://mp.weixin.qq.com/s/4bNFHUEBG3ZfeGL1Jznw7Q',
+'金山区': '',
+'松江区': 'https://mp.weixin.qq.com/s/eA_UrBCerl-fZ_oY4p79WQ',
+'青浦区': 'https://mp.weixin.qq.com/s/YDJkBmDez_-OeDoTprgwUQ', # 绿色青浦
+'奉贤区': 'https://mp.weixin.qq.com/s/EcfriFVs8j0W7A-_kHE4dw',
+'崇明区': 'https://mp.weixin.qq.com/s/dFVRV6N0ETlnzNN6XfIZng' }
+
 day0522 = {
 '浦东新区': 'https://mp.weixin.qq.com/s/T0t5dPEOHXyTUxmNVgsWCw', # 浦东发布
 '黄浦区': 'https://mp.weixin.qq.com/s/NvXZigkgzyArQ_ASzcYLUQ',
@@ -125,7 +143,7 @@ day0522 = {
 '宝山区': 'https://mp.weixin.qq.com/s/H573ECdcPI_GEKzty5nT8Q',
 '闵行区': 'https://mp.weixin.qq.com/s/uhcRKlLtJkFdpj-6LAYKeQ', # 今日闵行
 '嘉定区': 'https://mp.weixin.qq.com/s/1Qk6OK-wERATUVsE9GZQsQ',
-'金山区': '',
+'金山区': 'https://mp.weixin.qq.com/s/u94QcD38_Dxr8KamX1bizA',
 '松江区': 'https://mp.weixin.qq.com/s/CBkSYF9V7Fp138PBV8MmIw',
 '青浦区': 'https://mp.weixin.qq.com/s/Qvid27sVL7di8TknFJPjEA', # 绿色青浦
 '奉贤区': 'https://mp.weixin.qq.com/s/Uhc7wOfYg2079xATjf62Nw',
@@ -429,9 +447,9 @@ res = wxx.replace('，', ',').replace('。', ',').replace('、', ',').replace('�
 Z = [ s.strip() for s in filter(None, res.split(',') ) ]
 #print(len(Z))
 for zz in Z:
-    if len( zz.strip() ) > 20: # 5/18 金山区
-        print('%s\n' % zz.strip() )
-    elif zz.find('成功') > -1 or zz.find('目前') > -1:
+    #if len( zz.strip() ) > 20: # 5/18 金山区 5/26 关闭长度提醒
+    #    print('%s\n' % zz.strip() )
+    if zz.find('成功') > -1 or zz.find('目前') > -1:
         print('## 成功 | 目前\n%s\n' % zz.strip() )
 print(z[1])
 if not z[1]:

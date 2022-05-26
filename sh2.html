@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>0524 sh listed address, since March 6th 2022</title><!-- @@ -->
+  <title>0525 sh listed address, since March 6th 2022</title><!-- @@ -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
   <!-- script src="full.json"></script -->
-  <script src="shanghaifabu/map-location.json?v=0524"></script><!-- @@ -->
+  <script src="shanghaifabu/map-location.json?v=0525"></script><!-- @@ -->
   <script src="shanghaifabu/d3.min.v3.js"></script>
   <script src="shanghaifabu/topojson.min.180.js"></script><!-- http://geojson.io -->
   <script src="shanghaifabu/sh.json"></script><!-- http://datav.aliyun.com/portal/school/atlas/area_generator -->
@@ -1749,6 +1749,13 @@ j.tag === '0'+j[_check][k][ii][1] ) ? '' : '截至' + hash2date(j.tag) +
     } else {
       onListAppend(0, null, null, k + '无' + check_choices[_check] );
     }
+    if (_check === 'today') {
+      asyncFirstSince0306(k);
+    } else if (_check === 'inB' && parseInt(j.tag) > 312) {
+      async7in14(k);
+    } else if (_check === 'districts' && parseInt(j.tag) > 405) {
+      asyncList30times(k);
+    }
     map.fillStyle = 'black';
     let _c = check_choices[_check];
     if (_check === 'still_in') {
@@ -1763,13 +1770,6 @@ j.tag === '0'+j[_check][k][ii][1] ) ? '' : '截至' + hash2date(j.tag) +
       map.fillText(k + _c + ' ' + j[_check][k].length +
                    '个地址 2022/' + _today,
                    0,svgHeight-1-fontSize);
-    }
-    if (_check === 'today') {
-      asyncFirstSince0306(k);
-    } else if (_check === 'inB' && parseInt(j.tag) > 312) {
-      async7in14(k);
-    } else if (_check === 'districts' && parseInt(j.tag) > 405) {
-      asyncList30times(k);
     }
     check_row.style.display = 'block';
     updateCheckStatus();
