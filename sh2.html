@@ -299,7 +299,7 @@ fetch2().then(e36 => {
   // for (const [key, value] of Object.entries(e36.by_day)) {
   //   console.log(key, value.length);
   // }
-  let m9 = 0; let f9 = 0;  // total count
+  let m9 = 0; let f9 = 0; // total count
   let d9 = 0; let d0 = 999;
   for (const [k, v] of Object.entries(e36.by_address)) {
     // if (!Ml.locations.get(k)) {
@@ -331,8 +331,8 @@ fetch2().then(e36 => {
       });
       m0f0.dates = [...new Set(m0f0.male.map((d) => d[0]).concat(
                    m0f0.female.map((d) => d[0]) ))];
-      m0f0.ages = m0f0.male.map((d) => d[1]).sort((u,v) => u-v).concat(
-                  m0f0.female.map((d) => d[1]).sort((u,v)=>u-v) );
+      m0f0.ages = m0f0.male.map((d) => d[1]).sort((u,v) => u - v).concat(
+                  m0f0.female.map((d) => d[1]).sort((u,v) => u-v) );
       m0f0.sex = '男' + m0f0.male.length + '女' + m0f0.female.length;
       _m0f0[m0f0.d] = m0f0;
       //if (m0f0.count > explode_cutoff) console.log('早期多人', k, m0f0);
@@ -424,7 +424,7 @@ function onListAppend (ki, k, d, t) {
         '\');">' + d + '</span> ';
   }
   if (t && t.indexOf('上榜后') > 1) { // _m0f0
-    let dl = dldl(k, d);
+    const dl = dldl(k, d);
     ks += ' ' + tagsHTML([dl[0]]) + '<span class="em"';
     if (t.indexOf('|') > 1) {
       let ti0 = parseInt( t.substr(1,2) );
@@ -447,9 +447,9 @@ function onListAppend (ki, k, d, t) {
     }
   } else {
     ks += ' <em>' + (t || '') + '</em>';
-    if (k && d && (!t || t.indexOf('首次') === -1 &&
-                         t.indexOf('最近') === -1 &&
-                         t.indexOf('不在') === -1 )) {
+    if (k && d && (!t || (t.indexOf('首次') === -1 &&
+                          t.indexOf('最近') === -1 &&
+                          t.indexOf('不在') === -1 ))) {
       ks += ' ' + tagsHTML(dldl(k, d));
     }
   }
@@ -498,10 +498,10 @@ function cacheList () {
         loading_pr.textContent =  (84 + ind) + '%';
         loading_pr2.textContent = (84 + ind) + '%';
         let kj; let kjj;
-        j30 = [];  _j30 = [];
-        j0 = [];  jFirst = [];  j7neg = [];  j3neg = [];  j1neg = [];
-        jA = [];  jA0 = [];  jB = [];
-        j14 = [];  _j14 = [];
+        j30 = []; _j30 = [];
+        j0 = []; jFirst = []; j7neg = []; j3neg = []; j1neg = [];
+        jA = []; jA0 = []; jB = [];
+        j14 = []; _j14 = [];
         Array.from(j.districts[k]).forEach((d) => {
           kj = dldl(k, d);
           // .inB   (j.tag + 13)
@@ -771,7 +771,7 @@ function pngMulti () {
     window.alert('启动图片缓存，请点击左右箭头间的日期');
   }
   const imgL = Object.keys(pngBase64);
-  var zip = new JSZip();
+  const zip = new JSZip();
   let img0;
   let img1 = '# ' + today.toLocaleString('zh-CN') + '\r\n\r\n';
   for (i = 0; i < imgL.length; i += 1) {
@@ -1033,9 +1033,10 @@ function load_js () {
     // k.onerror = function () {
     // };
     const req = new XMLHttpRequest();
+    let ldint;
     req.addEventListener("loadstart", event => {
-      loading_pr.textContent =  '0%';
-      loading_pr2.textContent = '0%';
+      loading_pr.textContent = '0%';
+      loading_pr2.textContent ='0%';
     }, false);
     req.addEventListener("progress", event => {
       if (event.lengthComputable) {
@@ -1044,8 +1045,8 @@ function load_js () {
         ldint = parseInt(100 * event.loaded/3600000);
       }
       if (ldint > 83) { ldint = 99 - 16; } // 解析 full.json 需要约2秒
-      loading_pr.textContent =  ldint + '%';
-      loading_pr2.textContent = ldint + '%';
+      loading_pr.textContent = ldint + '%';
+      loading_pr2.textContent =ldint + '%';
     }, false);
     req.addEventListener("load", event => {
       const e = event.target;
@@ -1079,8 +1080,8 @@ function load_js () {
         hard_off();
         window.alert('数据无法下载 请访问 https://sh.teach.bio/');
       } else {
-        loading_pr.textContent =  '可用数据: ' + Object.keys(_J).join(', ');
-        loading_pr2.textContent = '可用数据: ' + Object.keys(_J).join(', ');
+        loading_pr.textContent = '可用数据: ' + Object.keys(_J).join(', ');
+        loading_pr2.textContent ='可用数据: ' + Object.keys(_J).join(', ');
         window.alert('数据无法下载 请稍后刷新页面\n当前可使用以下数据\n' +
                      Object.keys(_J)); // window.location.toString()
       }
@@ -1739,7 +1740,7 @@ function search (kt, pngNot) {
           } else if (_check === 'still_in')  {
             onListAppend(ii+1, k, j[_check][k][ii][0], (
 j.tag === '0'+j[_check][k][ii][1] ) ? '' : '截至' + hash2date(j.tag) +
-                                        ' 最近上榜于' + digi2date(j[_check][k][ii][1])
+                                           ' 最近上榜于' + digi2date(j[_check][k][ii][1])
                          );
           } else {
             onListAppend(ii+1, k, j[_check][k][ii]);
@@ -2249,11 +2250,10 @@ function setsOp (I) {
     }
   });
   d3scale = 36000;
-  addr.value = '';
+  if (Ds.indexOf(addr.value) === -1) addr.value = '';
   console.log('will draw sets with', map_addr.length, 'addresses');
   draw_sh_multi(I.parentNode.textContent + '数据组',
-                ki, map_x, map_y, map_addr);
-
+                ki, map_x, map_y, map_addr );
 }
   </script>
   <!-- SukkaW/DisqusJS -->
