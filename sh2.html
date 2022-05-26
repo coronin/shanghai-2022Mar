@@ -141,7 +141,7 @@ function populateStill (days) {
     let s1;
     for (const p in j.inB) {
       j['still_in' + days][p] = [];
-      Array.from(j.inB[p]).forEach((d) => {
+      j.inB[p].forEach((d) => { //Array.from(
         if (j.address[d]) {
           s1 = j.address[d].join(',');
           if (s1.indexOf(p) > 3) {
@@ -190,7 +190,7 @@ async function async7in14 (k) {
                    '">两周内曾上榜至少1次</button> ' +
                    '<button onclick="h2dist.scrollIntoView();">各区统计</button>';
     onList.appendChild(kk);
-    Array.from(j.cache14days[k]).forEach((d) => {
+    j.cache14days[k].forEach((d) => { //Array.from(
       ki += 1;
       onListAppend(ki, k, d[0],
                  '两周内' + d[1] + '次上榜');
@@ -253,7 +253,7 @@ async function asyncFirstSince0306 (k) {
   let ki = 0;
   if (k) {
     if (j.first_in[k]) {
-      Array.from(j.first_in[k]).forEach((d) => {
+      j.first_in[k].forEach((d) => { //Array.from(
         ki += 1;
         onListAppend(ki, k, d,
                      '3月6日以来 首次上榜');
@@ -271,7 +271,7 @@ async function asyncFirstSince0306 (k) {
       ki = 0;
       Ds.forEach((k) => {
         if (j.first_in[k]) {
-          Array.from(j.first_in[k]).forEach((d) => {
+          j.first_in[k].forEach((d) => { //Array.from(
             ki += 1;
             onListAppend(ki, k, d,
                          '3月6日以来 首次上榜');
@@ -373,25 +373,30 @@ function init_ks (k, d, num, dl, t) {
 function kd_related_ww (k, d) {
   let ks = '';
   const wdl = W.pairs[k + d];
-  let dli; let dl0; let dl1; let dlt = true;
+  let dl0; let dl1; let dlt = true;
   //if (dl.length > 4) {
   //  console.log(_ww.length, '超过4个临近地址', Ds[ii] + As[i]);
   //  console.log(dl.join('\n'));
   //}
-  for (dli = 0; dli < wdl.length; dli += 1) {
-    if (wdl[dli].substr(0,4) === '浦东新区') {
-      dl0 = wdl[dli].substr(0, 4);
-      dl1 = wdl[dli].substr(4);
+  wdl.forEach((dd) => {
+    if (dd.substr(0,4) === '浦东新区') {
+      dl0 = dd.substr(0, 4);
+      dl1 = dd.substr(4);
     } else {
-      dl0 = wdl[dli].substr(0, 3);
-      dl1 = wdl[dli].substr(3);
+      dl0 = dd.substr(0, 3);
+      dl1 = dd.substr(3);
     }
     if (dl1 !== d) {
       if (dlt) {
         dlt = false;
-        ks += '<br/><span class="inAB_close" style="padding-left:1.6em">临近地址 '; // W.within
+        if (d3scale > 1000000) {
+          ks += '<br/><span class="inAB_close_click" onclick="draw_grey(\'' +
+                k + d + '\',this);">临近地址 '; // W.within
+        } else {
+          ks += '<br/><span class="inAB_close" style="padding-left:1.6em">临近地址 ';
+        }
       } else {
-        ks += '<br/><span class="inAB_close">'; // W.within
+        ks += '<br/><span class="inAB_close">';
       }
       if (dl0 !== k) {
         ks += '<span class="click" onclick="search(this.textContent);">' +
@@ -407,7 +412,7 @@ function kd_related_ww (k, d) {
             dl1 + '</span><!-- 上榜 --></span>';
       }
     }
-  }
+  });
   return ks;
 }
 
@@ -502,7 +507,7 @@ function cacheList () {
         j0 = []; jFirst = []; j7neg = []; j3neg = []; j1neg = [];
         jA = []; jA0 = []; jB = [];
         j14 = []; _j14 = [];
-        Array.from(j.districts[k]).forEach((d) => {
+        j.districts[k].forEach((d) => { //Array.from(
           kj = dldl(k, d);
           // .inB   (j.tag + 13)
           // .released
@@ -532,7 +537,7 @@ function cacheList () {
           } else {
             jB.push(d);
             kjj = 0;
-            Array.from(kj).forEach((dd) => {
+            kj.forEach((dd) => { //Array.from(
               if (parseInt(dd) > jtagOffset(14)) {
                 kjj += 1; }
             });
@@ -688,7 +693,7 @@ async function asyncList30times (k) {
                    '">3月6日以来曾上榜至少1次</button> ' +
                    '<button onclick="h2dist.scrollIntoView();">各区统计</button>';
     onList.appendChild(kk);
-    Array.from(j.list30times[k]).forEach((d) => {
+    j.list30times[k].forEach((d) => { //Array.from(
         ki += 1;
         onListAppend(ki, k, d[0],
                      '3月6日以来 上榜' + d[1] + '次');
@@ -928,6 +933,9 @@ function stillEnter () {
   const keyCode = ('which' in event) ? event.which : event.keyCode;
   if (keyCode === 13) {
     window.alert('点击选择框 展示' + _still.value + '日阳');
+    Array.from( document.getElementsByName('check') ).forEach((d) => {
+      d.checked = false;
+    });
   }
 }
 
@@ -1560,6 +1568,20 @@ function draw_addr (s, mustRed) {
   // _addr_manual += 1;
 }
 
+function draw_grey (kd, item) {
+  const wdl = W.pairs[kd];
+  item.onclick = null;
+  item.style.cursor = 'default';
+  map.fillStyle = 'grey';
+  //console.log(d3scale, kd);
+  wdl.forEach((d) => {
+    map.beginPath();
+    map.fillRect(mapX( Ml.locations[d][0] )-1.5,
+                 mapY( Ml.locations[d][1] )-1.5,
+                 3, 3 );
+  });
+}
+
 function draw_addr_withLabel (s, t) {
   map.fillStyle = 'black';
   map.beginPath();
@@ -2079,7 +2101,7 @@ function draw_sh_multi (k, map_i, map_x, map_y, map_addr) {
     }
     if (localMinimal.length > 1) {
       gray_Y.push(mapY( localMinimal[0][1] ));
-      Array.from(localMinimal.slice(1)).forEach((d) => {
+      localMinimal.slice(1).forEach((d) => { //Array.from(
         if (!map_mustLabel || map_mustLabel.indexOf(d[0]) === -1) {
           labelNotDraw = false;
           _Y = mapY(d[1]);
@@ -2348,10 +2370,15 @@ function setsOp (I) {
       display: inline-block;
       text-align: center;
     }
+    .inAB_close_click,
     .inAB_close {
       color: grey;
       padding-left: 6em;
       font-size: 75%;
+    }
+    .inAB_close_click {
+      padding-left: 1.6em;
+      cursor: pointer;
     }
     em,
     span.em,
