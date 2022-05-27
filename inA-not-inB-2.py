@@ -319,7 +319,7 @@ for line, dates in by_address.items():
     if line != 'shanghaifabu':
         by_address[line] = clean_dates(dates)
 if count:
-    print('\n')
+    print('')
 print('released %s, estimated' % Bs[-1], count)
 if A:
     for dd in districts:

@@ -859,6 +859,7 @@ function preReload (q, oldest) {
     hash_ = 307;
   }
   if (oldest && lastAddrFirstTag &&
+      lastAddrFirstTag !== j.tag &&
       [...Ds, '上海市'].indexOf(addr.value) === -1 ) {
     updateLocation(parseInt(lastAddrFirstTag), q);
     lastAddrFirstTag = null;
