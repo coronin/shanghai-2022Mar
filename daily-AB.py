@@ -6,8 +6,8 @@ from urllib import request
 z = [
 #'0529','']
 #'0528','']
-#'0527','']
-'0526','']
+'0527','']
+#'0526','https://mp.weixin.qq.com/s/edhko1xae7do5FhPSER7Qw']
 #'0525','https://mp.weixin.qq.com/s/ofoMUIJOQNAtwGXn7Xqr3g']
 #'0524','https://mp.weixin.qq.com/s/Zpll7k6wZfJiPNeV8sz6Ig']
 #'0523','https://mp.weixin.qq.com/s/-8XvTb6gxkgfNzMxQ_COZw']
@@ -125,7 +125,7 @@ day0525 = {
 '宝山区': 'https://mp.weixin.qq.com/s/IkZmngERkOEbozUT7U4IWA',
 '闵行区': 'https://mp.weixin.qq.com/s/94XJZ3DBtqa6TFJI9XLOUg', # 今日闵行
 '嘉定区': 'https://mp.weixin.qq.com/s/4bNFHUEBG3ZfeGL1Jznw7Q',
-'金山区': '',
+'金山区': 'https://mp.weixin.qq.com/s/HoQ-D-tJ1bf9e11htBtpHQ',
 '松江区': 'https://mp.weixin.qq.com/s/eA_UrBCerl-fZ_oY4p79WQ',
 '青浦区': 'https://mp.weixin.qq.com/s/YDJkBmDez_-OeDoTprgwUQ', # 绿色青浦
 '奉贤区': 'https://mp.weixin.qq.com/s/EcfriFVs8j0W7A-_kHE4dw',

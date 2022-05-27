@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>0525 sh listed address, since March 6th 2022</title><!-- @@ -->
+  <title>0526 sh listed address, since March 6th 2022</title><!-- @@ -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
   <!-- script src="full.json"></script -->
-  <script src="shanghaifabu/map-location.json?v=0525"></script><!-- @@ -->
+  <script src="shanghaifabu/map-location.json?v=0526"></script><!-- @@ -->
   <script src="shanghaifabu/d3.min.v3.js"></script>
   <script src="shanghaifabu/topojson.min.180.js"></script><!-- http://geojson.io -->
   <script src="shanghaifabu/sh.json"></script><!-- http://datav.aliyun.com/portal/school/atlas/area_generator -->
@@ -1029,7 +1029,7 @@ function load_js () {
     next_pre_vis(hash_);
     load();
   } else {
-    datestr.textContent = '';
+    //datestr.textContent = '';
     fetching.style.visibility = 'visible';
     fetching2.style.visibility = 'visible';
     console.log('Downloading', hash + '.json');
@@ -1211,7 +1211,7 @@ function tagsHTML (dl_, noClick) {
 async function load () {
   Ml = JSON.parse(csv);
   Ms = Object.keys(Ml.locations);
-  datestr.textContent = j.date;
+  //datestr.textContent = j.date;
   end_pre.textContent = '\n\n数据更新时间 ' + j.date +
                         '\n源代码 github.com/coronin/shanghai-2022Mar' +
                         '\n作者 @the_paper_link';
@@ -2339,9 +2339,9 @@ function setsOp (I) {
     #check_row label,
     #map_options label {
       display: inline-block;
-      padding-right: 10px;
-      padding-left: 22px;
-      text-indent: -22px;
+      padding-right: .5em;
+      /* padding-left: 22px;
+      text-indent: -22px; */
     }
     #map_options input,
     #map_options label>span,
@@ -2419,9 +2419,9 @@ function setsOp (I) {
 <body onload="load_js();">
   <p>
     数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">shanghaifabu</a>
-      <span id="datestr" style="color:grey;"></span>
+      <!-- span id="datestr" style="color:grey;"></span -->
       <span id="fetching" style="color:blue;"> <span id="loading_pr2">not ready,</span> loaded</span>
-    <br/>正展示<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
+    <br/>展示<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
     <br/> &nbsp;&nbsp;&nbsp;&nbsp;
       <span class="click" class="april_button" onclick="jumpApr(addr.value,3);"><span class="em">跳至</span>3/</span><input type="text" id="march" name="march" onkeydown="aprilEnter(3);" />
       &nbsp; <span class="click" class="april_button" onclick="jumpApr(addr.value);"><span class="em">跳至</span>4/</span><input type="text" id="april" name="april" onkeydown="aprilEnter();" />
@@ -2493,8 +2493,8 @@ function setsOp (I) {
     <br/>
     <label style="border-top:1px solid grey;width:100%;"><span>数据组</span>
       <span id="sets_label"></span>
-      <span>&middot; 标记<span style="color:red;">上榜早</span>且累计上榜</span><input
-        type="text" id="_setEx" name="_setEx" onkeydown="setsEnter();" />次
+      <span>&middot; 标记<span style="color:red;">上榜早</span>且累计上榜<input
+        type="text" id="_setEx" name="_setEx" onkeydown="setsEnter();" />次</span>
     </label>
     <br/>
     <label><input type="checkbox" name="sets" onclick="setsOp(this)" style="visibility:hidden;"
