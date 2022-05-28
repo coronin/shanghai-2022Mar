@@ -89,13 +89,17 @@
           j.latest_added2 = {};
           j.latest_added7 = {};
         ////}
+        let j30; let _j30;
+        let j0; let jFirst; let j7neg; let j3neg; let j1neg;
+        let jA; let jA0; let jB;
+        let j14; let _j14;
         Ds.forEach((k) => {
           let kj; let kjj;
-          let j30 = []; let _j30 = [];
-          let j0 = []; let jFirst = []; let j7neg = []; let j3neg = []; let j1neg = [];
-          let jA = []; let jA0 = []; let jB = [];
-          let j14 = []; let _j14 = [];
-          Array.from(j.districts[k]).forEach((d) => {
+          j30 = []; _j30 = [];
+          j0 = []; jFirst = []; j7neg = []; j3neg = []; j1neg = [];
+          jA = []; jA0 = []; jB = [];
+          j14 = []; _j14 = [];
+          j.districts[k].forEach((d) => { //Array.from(
             kj = dldl(k, d);
             // .inB   (j.tag + 13)
             // .released
@@ -125,7 +129,7 @@
             } else {
               jB.push(d);
               kjj = 0;
-              Array.from(kj).forEach((dd) => {
+              kj.forEach((dd) => { //Array.from(
                 if (parseInt(dd) > jtagOffset(14)) {
                   kjj += 1; }
               });
@@ -207,15 +211,20 @@
       k = document.createElement('p');
       if (j.latest_added && j.latest_added[ Ds[i] ]  && j.latest_added[ Ds[i] ].length ) {
         k.innerHTML = '<span style="color:black;">' + Ds[i] + '：今日涉及' +
-                      (j.today[ Ds[i] ] || []).length +
-                      '个地址，下列' + j.latest_added[ Ds[i] ].length +
-                      '个地址不同于昨日</span><br/>' + j.latest_added[ Ds[i] ];
+                      j.today[ Ds[i] ].length +
+                      '个地址（如下）</span> ' + j.latest_added[ Ds[i] ].length +
+                      '个地址不同于昨日<br/>' + j.latest_added[ Ds[i] ] +
+                      '<span style="color:grey;">' +
+                      ((j.today[ Ds[i] ].length > j.latest_added[ Ds[i] ].length) ? ',' : '') +
+                      [...j.today[Ds[i]]].filter(x => j.latest_added[Ds[i]].indexOf(x) === -1) +
+                      '</span>';
       } else {
         k.innerHTML = '<span style="color:black;">' + Ds[i] + '：今日涉及' +
                       (j.today[ Ds[i] ] || []).length +
-                      '个地址</span>';
+                      '个地址</span><br/><span style="color:grey;">' + j.today[ Ds[i] ] +
+                      '</span>';
       }
-      latest_added.appendChild(k);
+      divToday.appendChild(k); // j.latest_added
       k = document.createElement('p');
       if (j.released_today && j.released_today[ Ds[i] ] && j.released_today[ Ds[i] ].length ) {
         k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> ' + j.released_today[ Ds[i] ];
@@ -401,8 +410,8 @@
     <tr style="color:black;"><th>行政单位</th><th>累计上榜</th><th></th><th>两周内</th><th>今日涉及</th>
       <th>累计下榜</th><th>今日下榜</th></tr>
   </table>
-  <h2 onclick="show_full('latest_added');" style="color:red;" class="click">值得关注的地址</h2>
-  <div style="color:red;list-style-type:none;font-size:75%;" id="latest_added"></div>
+  <h2 onclick="show_full('divToday');" style="color:red;" class="click">今日涉及的地址</h2>
+  <div style="color:red;list-style-type:none;font-size:75%;" id="divToday"></div>
   <h2 onclick="show_full('latest_released');" class="click">今日下榜的地址<i id="latest_released_once" style="color:grey;">点击显示</i></h2>
   <div style="color:green;list-style-type:none;font-size:75%;display:none;" id="latest_released" data-value="1"></div>
   <h2 onclick="show_full('released');" class="click">累计下榜的地址<i id="released_once" style="color:grey;">点击显示</i></h2>

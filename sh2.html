@@ -552,60 +552,60 @@ function cacheList () {
         // console.log(k, j.districts[k].length, jB.length, j0.length, jA.length, jA0.length,
         //   '七阴'+j7neg.length, '三阴'+j7neg.length, '昨阴'+j1neg.length,
         //   '月内'+j30.length, '首次'+jFirst.length, '两周内'+j14.length )
-        if (_j30.length) {
+        if (_j30 !== []) {
           bubble2(j30);
           j.list30times[k] = j30;
           j.listed_30times_long.push(..._j30);
         }
-        if (_j14.length) {
+        if (_j14 !== []) {
           bubble2(j14);
           j.cache14days[k] = j14;
           j.cached_14days.push(..._j14);
         }
-        if (jFirst.length) j.first_in[k] = jFirst;
+        if (jFirst !== []) j.first_in[k] = jFirst;
         ////if (parseInt(j.tag) > 500) {
         if (j.today[k]) {
           kj = [...j.today[k]].filter(x => j0.indexOf(x) === -1);
           kj.length && j.today[k].length === j0.length && console.log(
           k, '当日阳 py多了', kj);
         }
-        if (j0.length) j.today[k] = j0;
+        if (j0 !== []) j.today[k] = j0;
         if (j.inB[k]) {
           kj = [...j.inB[k]].filter(x => !jB.indexOf(x) === -1);
           kj.length && j.inB[k].length === jB.length && console.log(
           k, '两周阳 py多了', kj);
         }
-        if (jB.length) j.inB[k] = jB;
+        if (jB !== []) j.inB[k] = jB;
         if (j.released[k]) {
           kj = [...j.released[k]].filter(x => !jA.indexOf(x) === -1);
           kj.length && j.released[k].length === jA.length && console.log(
           k, '累计下榜 py多了', kj);
         }
-        if (jA.length) j.released[k] = jA;
+        if (jA !== []) j.released[k] = jA;
         if (j.released_today[k]) {
           kj = [...j.released_today[k]].filter(x => !jA0.indexOf(x) === -1);
           kj.length && j.released_today[k].length === jA0.length && console.log(
           k, '当日下榜 py多了', kj);
         }
-        if (jA0.length) j.released_today[k] = jA0;
+        if (jA0 !== []) j.released_today[k] = jA0;
         if (j.latest_added[k]) {
           kj = [...j.latest_added[k]].filter(x => !j1neg.indexOf(x) === -1);
           kj.length && j.latest_added[k].length === j1neg.length && console.log(
           k, '比昨日多 py多了', kj);
         }
-        if (j1neg.length) j.latest_added[k] = j1neg;
+        if (j1neg !== []) j.latest_added[k] = j1neg;
         if (j.latest_added2[k]) {
           kj = [...j.latest_added2[k]].filter(x => !j3neg.indexOf(x) === -1);
           kj.length && j.latest_added2[k].length === j3neg.length && console.log(
           k, '三阴阳 py多了', kj);
         }
-        if (j3neg.length) j.latest_added2[k] = j3neg;
+        if (j3neg !== []) j.latest_added2[k] = j3neg;
         if (j.latest_added7[k]) {
           kj = [...j.latest_added7[k]].filter(x => !j7neg.indexOf(x) === -1);
           kj.length && j.latest_added7[k].length === j7neg.length && console.log(
           k, '七阴阳 py多了', kj);
         }
-        if (j7neg.length) j.latest_added7[k] = j7neg;
+        if (j7neg !== []) j.latest_added7[k] = j7neg;
         ////}
       });
       console.timeEnd('>> cache lists ' + j.tag);
@@ -1266,9 +1266,9 @@ async function load () {
   As = Object.keys(j.address);
   th_k.textContent = '';
   districtTbody.textContent = '';
-  latest_added.textContent = '';
-  latest_released.textContent = '';
-  released.textContent = '';
+  divToday.textContent = '';
+  divLatestReleased.textContent = '';
+  divReleased.textContent = '';
   let k;
   for (i = 0; i < Ds.length; i += 1) {
     k = document.createElement('tr');
@@ -1304,16 +1304,21 @@ async function load () {
     if (j.latest_added && j.latest_added[ Ds[i] ]) {
       k.innerHTML = '<span style="color:black;"><strong onclick="_check=\'latest_added\';search(this.textContent);"' +
                     ' class="click _L">' + Ds[i] + '</strong> 2022/' + _today + '涉及' +
-                    (j.today[ Ds[i] ] || []).length +
-                    '个地址，下列' + j.latest_added[ Ds[i] ].length +
-                    '个地址不同于之前一日</span><br/>' + j.latest_added[ Ds[i] ];
+                    j.today[ Ds[i] ].length +
+                    '个地址（如下）</span> ' + j.latest_added[ Ds[i] ].length +
+                    '个地址不同于前一日<br/>' + j.latest_added[ Ds[i] ] +
+                    '<span style="color:grey;">' +
+                    ((j.today[ Ds[i] ].length > j.latest_added[ Ds[i] ].length) ? ',' : '') +
+                    [...j.today[Ds[i]]].filter(x => j.latest_added[Ds[i]].indexOf(x) === -1) +
+                    '</span>';
     } else {
       k.innerHTML = '<span style="color:black;"><strong onclick="_check=\'today\';search(this.textContent);"' +
                     ' class="click _L">' + Ds[i] + '</strong> 2022/' + _today + '涉及' +
                     (j.today[ Ds[i] ] || []).length +
-                    '个地址</span>';
+                    '个地址</span><br/><span style="color:grey;">' + j.today[ Ds[i] ] +
+                    '</span>';
     }
-    latest_added.appendChild(k);
+    divToday.appendChild(k); // j.latest_added
     k = document.createElement('p');
     if (j.released_today && j.released_today[ Ds[i] ]) {
       k.innerHTML = '<span style="color:black;" onclick="_check=\'released_today\';search(this.textContent);"' +
@@ -1321,7 +1326,7 @@ async function load () {
     } else {
       k.innerHTML = '<span style="color:black;">' + Ds[i] + ': 无</span>';
     }
-    latest_released.appendChild(k);
+    divLatestReleased.appendChild(k);
     k = document.createElement('p');
     if (j.released && j.released[ Ds[i] ]) {
       k.innerHTML = '<span style="color:black;" onclick="_check=\'released\';search(this.textContent);"' +
@@ -1329,7 +1334,7 @@ async function load () {
     } else {
       k.innerHTML = '<span style="color:black;">' + Ds[i] + ': 无</span>';
     }
-    released.appendChild(k);
+    divReleased.appendChild(k);
   }
   map = document.getElementById('app').getContext('2d');
   if (window.location.toString().indexOf('=') === -1 && !autoSavePNG) {
@@ -1916,7 +1921,7 @@ if (Ms.indexOf(Ds[ii] + As[i]) > -1) {
   console.log('搜索地址 未显示', Ds[ii] + As[i]);
   dotNotDraw += 1; // 搜索地址
 }
-if (dl.length) {
+if (dl.length > 0) {
   if (dl.join(',').indexOf(j.tag) > -1) {
     map_mustLabel += ',' + Ds[ii] + As[i];
     ks += '<span style="color:red">' + tagsHTML(dl) + '</span>';
@@ -2309,9 +2314,9 @@ function setsOp (I) {
     tbody> tr {
       border-top: 1px solid blue;
     }
-    #latest_added,
-    #latest_released,
-    #released {
+    #divToday,
+    #divLatestReleased,
+    #divReleased {
       list-style-type: none;
       font-size: 75%;
     }
@@ -2518,14 +2523,14 @@ function setsOp (I) {
     <tbody id="districtTbody"></tbody>
   </table>
 
-  <h2 onclick="show_full('latest_added');" style="color:red;" class="click _L">值得关注的地址</h2>
-  <div style="color:red;" id="latest_added"></div>
+  <h2 onclick="show_full('divToday');" style="color:red;" class="click">今日涉及的地址</h2>
+  <div style="color:red;list-style-type:none;font-size:75%;" id="divToday"></div>
 
-  <h2 onclick="show_full('latest_released');" class="click _L"><span class="_tag"></span>下榜的地址<em id="latest_released_once">点击显示</em></h2>
-  <div style="color:green;display:none;" id="latest_released" data-value="1"></div>
+  <h2 onclick="show_full('divLatestReleased');" class="click _L"><span class="_tag"></span>下榜的地址<em id="latest_released_once">点击显示</em></h2>
+  <div style="color:green;display:none;" id="divLatestReleased" data-value="1"></div>
 
-  <h2 onclick="show_full('released');" class="click _L">累计下榜的地址<em id="released_once">点击显示</em></h2>
-  <div style="color:green;display:none;" id="released" data-value="1"></div>
+  <h2 onclick="show_full('divReleased');" class="click _L">累计下榜的地址<em id="released_once">点击显示</em></h2>
+  <div style="color:green;display:none;" id="divReleased" data-value="1"></div>
 
   <pre id="end_pre">EOF</pre>
   <div id="disqus_thread"></div>
