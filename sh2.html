@@ -95,12 +95,21 @@ function bubble2 (arr, b2 = 1) {
 
 function jtagOffset (dd) {
   let d = parseInt(j.tag) - dd;
-  if (d > 331 && d <= 400) {
-    d -= 69; // 401-14=387(318), 414-14=400(331)
-  } else if (d > 430 && d <= 500) {
-    d -= 70; // 514-14=500(430), 501-14=487(417)
-  } else if (d > 531 && d <= 600) {
-    d -= 69;
+  if ((d > 331 && d <= 400) ||
+      (d > 531 && d <= 600) ) {
+    // 401-14=387(318), 414-14=400(331)
+    // 331+1=332(401), 531+1=532(601)
+    if (dd > 0) {
+      d -= 69;
+    } else {
+      d += 69; }
+  } else if ((d > 430 && d <= 500) ||
+             (d > 630 && d <= 700) ) {
+    // 514-14=500(430), 501-14=487(417)
+    if (dd > 0) {
+      d -= 70;
+    } else {
+      d += 70; }
   }
   return d;
 }
@@ -430,7 +439,7 @@ function onListAppend (ki, k, d, t) {
   }
   if (t && t.indexOf('上榜后') > 1) { // _m0f0
     const dl = dldl(k, d);
-    ks += ' ' + tagsHTML([dl[0]]) + '<span class="em"';
+    ks += ' ' + tagsHTML([ dl[0] ]) + '<span class="em"';
     if (t.indexOf('|') > 1) {
       let ti0 = parseInt( t.substr(1,2) );
       const ti1 = t.indexOf(',');
@@ -908,7 +917,9 @@ function jumpApr (q, month) {
     }
   }
   const hash_ = i_ + 100 * month;
-  if (lastAddrFirstTag) {
+  if (lastAddrFirstTag &&
+      parseInt(lastAddrFirstTag) > hash_ &&
+      [...Ds, '上海市'].indexOf(addr.value) === -1 ) {
     updateLocation(parseInt(lastAddrFirstTag), q);
     lastAddrFirstTag = null;
   } else {
@@ -1067,6 +1078,7 @@ function load_js () {
       } catch (err) {
         hard_off();
         window.alert('数据无法下载\nhttps://sh.teach.bio/');
+        window.location.replace(baseURL);
         return false;
       }
       data = '';
@@ -1986,8 +1998,10 @@ map_addr.push( Ds[ii] + As[i] );
     if (map_i === 1 && map_addr[0].endsWith(k)) {
       ester_egg.textContent = '同区数据比较 建议先缩放 再点右箭头';
       next_button.setAttribute('data-value', map_addr[0]);
-      next_button.style.border = '.25em solid red';
-      next_button2.style.border = '.25em solid red';
+      if (parseInt(j.tag) !== j_data_init) {
+        next_button.style.border = '.25em solid red';
+        next_button2.style.border = '.25em solid red';
+      }
     } else if (map_i === 1) {
       ester_egg.textContent = '搜索 ' + map_addr[0].substr(
                                       map_addr[0].indexOf('区')+1 ) +
