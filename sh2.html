@@ -1320,8 +1320,8 @@ async function load () {
     if (j.latest_added && j.latest_added[ Ds[i] ]) {
       k.innerHTML = '<span style="color:black;"><strong onclick="_check=\'latest_added\';search(this.textContent);"' +
                     ' class="click _L">' + Ds[i] + '</strong> 2022/' + _today + '涉及' +
-                    j.today[Ds[i]].length +
-                    '个地址（如下）</span> ' +
+                    j.today[Ds[i]].length + '个地址' +
+                    ((j.today[Ds[i]].length > 0) ? '（如下）</span> ' : '</span>') +
                     ((j.latest_added[ Ds[i] ].length > 0) ? (j.latest_added[ Ds[i] ].length + '个地址不同于前一日') : '') +
                     '<br/>' + j.latest_added[ Ds[i] ] +
                     '<span style="color:grey;">' +
