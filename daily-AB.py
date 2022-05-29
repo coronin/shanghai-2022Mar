@@ -104,7 +104,7 @@ z = [
 #'0318','https://mp.weixin.qq.com/s/xLVPnOTErTe3dmAenUyDGQ']
 ## no place info before 3/6
 ## 从3月18日起三天内，我市对非重点区域内人员分时分批次开展一次免费核酸检测
-## 从3月13日启动校园封闭管理
+## 从3月13日启动校园封闭管理，5月31日结束本学期授课
 
 day0x2x = {
 '浦东新区': '', # 浦东发布
@@ -123,6 +123,24 @@ day0x2x = {
 '青浦区': '', # 绿色青浦
 '奉贤区': '',
 '崇明区': '' }
+
+day0528 = {
+'浦东新区': 'https://mp.weixin.qq.com/s/Bo2B-jNOSiY72ala5To0og', # 浦东发布
+'黄浦区': 'https://mp.weixin.qq.com/s/SBu6SVu1KVdU4m40jutWJQ',
+'静安区': 'https://mp.weixin.qq.com/s/DQ1xkm8o3jAkR70dBjchnQ',
+'徐汇区': 'https://mp.weixin.qq.com/s/P2dPs1rEMCbEfcvgGm_F4g',
+'长宁区': 'https://mp.weixin.qq.com/s/eCjtpBIcG_lD6H5kJ2rfLw',
+'普陀区': 'https://mp.weixin.qq.com/s/dyesG6DCITjLuDtKX4wZrQ',
+'虹口区': 'https://mp.weixin.qq.com/s/rk0xMpbg_2VKeLRRFzO4vw',
+'杨浦区': 'https://mp.weixin.qq.com/s/ZUWquB5OLzDOBSSj3Bv1Yw',
+'宝山区': 'https://mp.weixin.qq.com/s/wm9aLrY8ukose-lsxDubgg',
+'闵行区': 'https://mp.weixin.qq.com/s/J3y2rlXqozB6nwsbb_3-xQ', # 今日闵行
+'嘉定区': 'https://mp.weixin.qq.com/s/aaotu7mr79OjbuqMIeV4vQ',
+'金山区': '',
+'松江区': 'https://mp.weixin.qq.com/s/9IuLbAzvIRMNVySfExzI-Q',
+'青浦区': 'https://mp.weixin.qq.com/s/dFFdqqktNkv9TLVL-UNceA', # 绿色青浦
+'奉贤区': 'https://mp.weixin.qq.com/s/RyNYBPgKsOZk8l_BgxXeFw',
+'崇明区': 'https://mp.weixin.qq.com/s/9zIQ6SYjErh0_et1JELcuw' }
 
 day0527 = {
 '浦东新区': 'https://mp.weixin.qq.com/s/_ylKQHmyuP39Xs6IY1ALYA', # 浦东发布

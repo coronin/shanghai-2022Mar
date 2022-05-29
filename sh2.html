@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>0527 sh listed address, since March 6th 2022</title><!-- @@ -->
+  <title>0528 sh listed address, since March 6th 2022</title><!-- @@ -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
   <!-- script src="full.json"></script -->
-  <script src="shanghaifabu/map-location.json?v=0527"></script><!-- @@ -->
+  <script src="shanghaifabu/map-location.json?v=0528"></script><!-- @@ -->
   <script src="shanghaifabu/d3.min.v3.js"></script>
   <script src="shanghaifabu/topojson.min.180.js"></script><!-- http://geojson.io -->
   <script src="shanghaifabu/sh.json"></script><!-- http://datav.aliyun.com/portal/school/atlas/area_generator -->
@@ -1316,18 +1316,19 @@ async function load () {
     if (j.latest_added && j.latest_added[ Ds[i] ]) {
       k.innerHTML = '<span style="color:black;"><strong onclick="_check=\'latest_added\';search(this.textContent);"' +
                     ' class="click _L">' + Ds[i] + '</strong> 2022/' + _today + '涉及' +
-                    j.today[ Ds[i] ].length +
-                    '个地址（如下）</span> ' + j.latest_added[ Ds[i] ].length +
-                    '个地址不同于前一日<br/>' + j.latest_added[ Ds[i] ] +
+                    j.today[Ds[i]].length +
+                    '个地址（如下）</span> ' +
+                    ((j.latest_added[ Ds[i] ].length > 0) ? (j.latest_added[ Ds[i] ].length + '个地址不同于前一日') : '')
+                    '<br/>' + j.latest_added[ Ds[i] ] +
                     '<span style="color:grey;">' +
-                    ((j.today[ Ds[i] ].length > j.latest_added[ Ds[i] ].length) ? ',' : '') +
-                    [...j.today[Ds[i]]].filter(x => j.latest_added[Ds[i]].indexOf(x) === -1) +
+                    ((j.today[Ds[i]].length > j.latest_added[ Ds[i] ].length) ? ',' : '') +
+                    [...j.today[Ds[i]]].filter(x => j.latest_added[ Ds[i] ].indexOf(x) === -1) +
                     '</span>';
     } else {
       k.innerHTML = '<span style="color:black;"><strong onclick="_check=\'today\';search(this.textContent);"' +
                     ' class="click _L">' + Ds[i] + '</strong> 2022/' + _today + '涉及' +
-                    (j.today[ Ds[i] ] || []).length +
-                    '个地址</span><br/><span style="color:grey;">' + j.today[ Ds[i] ] +
+                    (j.today[Ds[i]] || []).length +
+                    '个地址</span><br/><span style="color:grey;">' + j.today[Ds[i]] +
                     '</span>';
     }
     divToday.appendChild(k); // j.latest_added
@@ -2537,7 +2538,7 @@ function setsOp (I) {
     <tbody id="districtTbody"></tbody>
   </table>
 
-  <h2 onclick="show_full('divToday');" style="color:red;" class="click">今日涉及的地址</h2>
+  <h2 onclick="show_full('divToday');" style="color:red;" class="click">当日涉及的地址</h2>
   <div style="color:red;list-style-type:none;font-size:75%;" id="divToday"></div>
 
   <h2 onclick="show_full('divLatestReleased');" class="click _L"><span class="_tag"></span>下榜的地址<em id="latest_released_once">点击显示</em></h2>
