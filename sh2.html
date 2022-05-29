@@ -1325,7 +1325,7 @@ async function load () {
                     ((j.latest_added[ Ds[i] ].length > 0) ? (j.latest_added[ Ds[i] ].length + '个地址不同于前一日') : '') +
                     '<br/>' + j.latest_added[ Ds[i] ] +
                     '<span style="color:grey;">' +
-                    ((j.today[Ds[i]].length > j.latest_added[ Ds[i] ].length) ? ',' : '') +
+                    ((j.latest_added[ Ds[i] ].length > 0 && j.today[Ds[i]].length > j.latest_added[ Ds[i] ].length) ? ',' : '') +
                     [...j.today[Ds[i]]].filter(x => j.latest_added[ Ds[i] ].indexOf(x) === -1) +
                     '</span>';
     } else {
