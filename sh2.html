@@ -651,23 +651,27 @@ function cache_m0f0 (cutoff) {
                   '|' + m0f0.ages, j.address[m0f0.d].length-1 ]);
       }
       if (m0f0.count > 1) {
-        if (Math.min.apply(null, m0f0.ages) < 6) {
+        if (j.address[m0f0.d] &&
+            Math.min.apply(null, m0f0.ages) < 6 ) {
           // console.log('早期'+m0f0.count+'人 含幼儿未上学', m0f0.ages,
           //             m0f0.k, m0f0.d, m0f0.sex, '后期上榜', j.address[m0f0.d].length-1, '次');
           arr1.push([m0f0.k, m0f0.d, m0f0.sex +
                     '|' + m0f0.ages, j.address[m0f0.d].length-1 ]); }
-        if (Math.max.apply(null, m0f0.ages) > 70) {
+        if (j.address[m0f0.d] &&
+            Math.max.apply(null, m0f0.ages) > 70 ) {
           // console.log('早期'+m0f0.count+'人 含高寿老人', m0f0.ages,
           //             m0f0.k, m0f0.d, m0f0.sex, '后期上榜', j.address[m0f0.d].length-1, '次');
           arr2.push([m0f0.k, m0f0.d, m0f0.sex +
                     '|' + m0f0.ages, j.address[m0f0.d].length-1 ]); }
-        if (Math.min.apply(null, m0f0.ages) >= 6 &&
-            Math.min.apply(null, m0f0.ages) < 18) {
+        if (j.address[m0f0.d] &&
+            Math.min.apply(null, m0f0.ages) >= 6 &&
+            Math.min.apply(null, m0f0.ages) < 18 ) {
           // console.log('早期'+m0f0.count+'人 含中小学生', m0f0.ages,
           //             m0f0.k, m0f0.d, m0f0.sex, '后期上榜', j.address[m0f0.d].length-1, '次');
           arr3.push([m0f0.k, m0f0.d, m0f0.sex +
                     '|' + m0f0.ages, j.address[m0f0.d].length-1 ]); }
-        if (Math.min.apply(null, m0f0.ages) >= 18 &&
+        if (j.address[m0f0.d] &&
+            Math.min.apply(null, m0f0.ages) >= 18 &&
             Math.min.apply(null, m0f0.ages) < 50 && m0f0.sex &&
             parseInt(m0f0.sex.substr(1, m0f0.sex.indexOf('女'))) > 0 &&
             parseInt(m0f0.sex.substr(m0f0.sex.indexOf('女') + 1)) > 0) {
