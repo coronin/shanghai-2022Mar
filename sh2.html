@@ -1337,7 +1337,7 @@ async function load () {
     }
     divToday.appendChild(k); // j.latest_added
     k = document.createElement('p');
-    if (j.released_today && j.released_today[ Ds[i] ]) {
+    if (j.released_today && j.released_today[ Ds[i] ] && j.released_today[ Ds[i] ].length > 0) {
       k.innerHTML = '<span style="color:black;" onclick="_check=\'released_today\';search(this.textContent);"' +
                     ' class="click _L">' + Ds[i] + '</span>: ' + j.released_today[ Ds[i] ];
     } else {
@@ -1345,7 +1345,7 @@ async function load () {
     }
     divLatestReleased.appendChild(k);
     k = document.createElement('p');
-    if (j.released && j.released[ Ds[i] ]) {
+    if (j.released && j.released[ Ds[i] ] && j.released[ Ds[i] ].length > 0) {
       k.innerHTML = '<span style="color:black;" onclick="_check=\'released\';search(this.textContent);"' +
                     ' class="click _L">' + Ds[i] + '</span>: ' + j.released[ Ds[i] ];
     } else {

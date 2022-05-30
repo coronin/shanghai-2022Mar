@@ -226,7 +226,7 @@
       }
       divToday.appendChild(k); // j.latest_added
       k = document.createElement('p');
-      if (j.released_today && j.released_today[ Ds[i] ] && j.released_today[ Ds[i] ].length ) {
+      if (j.released_today && j.released_today[ Ds[i] ] && j.released_today[ Ds[i] ].length > 0) {
         k.innerHTML = '<span style="color:black;">' + Ds[i] + ':</span> ' + j.released_today[ Ds[i] ];
       } else {
         k.innerHTML = '<span style="color:black;">' + Ds[i] + ': 无</span>';
