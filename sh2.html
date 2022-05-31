@@ -35,7 +35,7 @@ let lastAddrFirstTag;
 let _still_in = 5;
 let _mapOp = '已' + '标盒马门店';
 let explode_cutoff = 5;
-let explode_cutoff_max = 0; // 每日会变化
+let explode_cutoff_max; // 每日会变化
 const baseURL = window.location.toString().split('#')[0].split('?')[0];
 const ms = { 3: 'march', 4: 'april', 5: 'may', 6: 'june' };
 const check_choices = {
@@ -371,8 +371,8 @@ function init_ks (k, d, num, dl, t) {
   } else {
     ks = '<span class="em">' + num + '.';
   }
-  if (_m0f0['cut' + explode_cutoff] &&
-      _m0f0['cut' + explode_cutoff].indexOf(k + d) > -1) {
+  if (_m0f0[j.tag + 'cut' + explode_cutoff] &&
+      _m0f0[j.tag + 'cut' + explode_cutoff].indexOf(k + d) > -1) {
     ks += '<sup style="background-color:red;color:white;">上榜早</sup>';
   }
   ks += '</span> ';
@@ -619,7 +619,7 @@ function cacheList () {
       });
       console.timeEnd('>> cache lists ' + j.tag);
       _J[j.tag] = j;
-      if (!_m0f0.cut5) cache_m0f0(5);
+      if (!_m0f0[j.tag + 'cut' + explode_cutoff]) cache_m0f0(explode_cutoff);
       Array.from( document.getElementsByName('sets') ).forEach((d) => {
         d.style.visibility = 'visible';
       });
@@ -630,8 +630,9 @@ function cacheList () {
 
 const _m0f0_sets = {};
 function cache_m0f0 (cutoff) {
-  _m0f0['cut' + cutoff] = [];
+  _m0f0[j.tag + 'cut' + cutoff] = [];
   const arr0 = [];
+  explode_cutoff_max = 0;
   const arr1 = []; const arr2 = []; const arr3 = []; const arr4 = [];
   Object.keys(_m0f0).forEach((d) => {
     const m0f0 = _m0f0[d];
@@ -642,11 +643,10 @@ function cache_m0f0 (cutoff) {
         // console.log('早发后爆', m0f0.k, m0f0.d, j.address[m0f0.d] );
         if (j.address[m0f0.d].length > explode_cutoff_max) {
           explode_cutoff_max = j.address[m0f0.d].length; }
-        _m0f0['cut' + cutoff].push(m0f0.k + m0f0.d);
+        _m0f0[j.tag + 'cut' + cutoff].push(m0f0.k + m0f0.d);
       }
-      if (!j.address[m0f0.d]) {
-        console.log('早期地址有误', m0f0.k, m0f0.d);
-      } else {
+      if (j.address[m0f0.d]) {
+        //console.log('地址未收录', m0f0.k, m0f0.d);
         arr0.push([m0f0.k, m0f0.d, m0f0.sex +
                   '|' + m0f0.ages, j.address[m0f0.d].length-1 ]);
       }
@@ -937,10 +937,10 @@ function setsEnter () {
     if (!parseInt(_setEx.value) ||
         parseInt(_setEx.value) < 2 ||
         parseInt(_setEx.value) > explode_cutoff_max ) {
-      window.alert('数据组 无法展示' + _setEx.value + '次上榜的');
+      window.alert('数据组 无法展示' + _setEx.value + '次上榜的，最大值' + explode_cutoff_max);
     } else {
       explode_cutoff = parseInt(_setEx.value);
-      if (!_m0f0['cut' + explode_cutoff]) cache_m0f0(explode_cutoff);
+      if (!_m0f0[j.tag + 'cut' + explode_cutoff]) cache_m0f0(explode_cutoff);
     }
   }
 }
@@ -2275,8 +2275,8 @@ function setsOp (I) {
       map_x.push(parseFloat( Ml.locations[d[0] + d[1]][0] ));
       map_y.push(parseFloat( Ml.locations[d[0] + d[1]][1] ));
       map_addr.push(d[0] + d[1]);
-      if (_m0f0['cut' + explode_cutoff] &&
-          _m0f0['cut' + explode_cutoff].indexOf(d[0] + d[1]) > -1) {
+      if (_m0f0[j.tag + 'cut' + explode_cutoff] &&
+          _m0f0[j.tag + 'cut' + explode_cutoff].indexOf(d[0] + d[1]) > -1) {
         onListAppend(ki, d[0], d[1], zero_people(d[2])+'|上榜后超'+explode_cutoff+'次 ');
       } else if (j.address[ d[1] ].length > 1) {
         onListAppend(ki, d[0], d[1], zero_people(d[2])+'|上榜后 ');
@@ -2286,10 +2286,16 @@ function setsOp (I) {
     }
   });
   d3scale = 36000;
-  if (Ds.indexOf(addr.value) === -1) addr.value = '';
-  console.log('will draw sets with', map_addr.length, 'addresses');
-  draw_sh_multi(I.parentNode.textContent + '数据组',
-                ki, map_x, map_y, map_addr );
+  if (arr_ !== '0' ||
+      Ds.indexOf(addr.value) === -1) addr.value = '';
+  if (map_addr.length > 0) {
+    console.log('will draw sets with', map_addr.length, 'addresses');
+    draw_sh_multi(I.parentNode.textContent + '数据组',
+                  ki, map_x, map_y, map_addr );
+  } else {
+    window.alert(j.tag+ '无' + I.parentNode.textContent + '数据');
+    I.checked = false;
+  }
 }
   </script>
   <!-- SukkaW/DisqusJS -->
