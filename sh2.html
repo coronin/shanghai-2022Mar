@@ -909,16 +909,11 @@ function jumpApr (q, month) {
   let i_ = parseInt(inputS);
   if (!inputS || !i_ || i_ > 31 || i_ < 1) {
     document.getElementById(ms[month]).value = '';
-    document.getElementById(ms[month]).focus();
     return;
   } else if (month === 3 && i_ < 7) {
-    march.value = '';
     i_ = 7;
-  } else {
-    for (i = 3; i < 6; i += 1) {
-      if (i !== month) {
-        document.getElementById(ms[i]).value = ''; }
-    }
+  } else if (i_ === 31 && (month === 4 || month === 6)) {
+    i_ = 30;
   }
   const hash_ = i_ + 100 * month;
   if (lastAddrFirstTag &&
@@ -2341,14 +2336,9 @@ function setsOp (I) {
       color: blue;
       font-weight: normal;
     }
-    #april, #may, #march {
+    #april, #may, #march, #june {
       border: 0;
-    }
-    #april, #may, #march {
-      box-shadow: inset 0 -7px #d0d0d0;
-    }
-    .april_button {
-      box-shadow: inset 0 -8px #d0d0d0;
+      box-shadow: inset 0 -3px #d0d0d0;
     }
     #check_row, #map_options {
       font-size: 75%;
@@ -2429,7 +2419,7 @@ function setsOp (I) {
       text-indent: -4em;
     }
     #_still, #_setEx,
-    #april, #march, #may {
+    #april, #may, #march, #june {
       width: 1.5em;
     }
   </style>
@@ -2440,11 +2430,7 @@ function setsOp (I) {
       <!-- span id="datestr" style="color:grey;"></span -->
       <span id="fetching" style="color:blue;"> <span id="loading_pr2">not ready,</span> loaded</span>
     <br/>展示<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
-    <br/> &nbsp;&nbsp;&nbsp;&nbsp;
-      <span class="click" class="april_button" onclick="jumpApr(addr.value,3);"><span class="em">跳至</span>3/</span><input type="text" id="march" name="march" onkeydown="aprilEnter(3);" />
-      &nbsp; <span class="click" class="april_button" onclick="jumpApr(addr.value);"><span class="em">跳至</span>4/</span><input type="text" id="april" name="april" onkeydown="aprilEnter();" />
-      &nbsp; <span class="click" class="april_button" onclick="jumpApr(addr.value,5);"><span class="em">跳至</span>5/</span><input type="text" id="may" name="may" onkeydown="aprilEnter(5);" />
-    <br/>搜索<span onclick="search(this.textContent);" class="click _L">上海市</span> 可以在地图中定位相关地址
+    <!-- br/>搜索<span onclick="search(this.textContent);" class="click _L">上海市</span> 可以在地图中定位相关地址 -->
   </p>
   <p>
     <label for="addr"><span style="color:red;font-weight:bold;">上榜地址</span>
@@ -2511,8 +2497,8 @@ function setsOp (I) {
     <br/>
     <label style="border-top:1px solid grey;width:100%;"><span>数据组</span>
       <span id="sets_label"></span>
-      <span>&middot; 标记<span style="color:red;">上榜早</span>且累计上榜<input
-        type="text" id="_setEx" name="_setEx" onkeydown="setsEnter();" />次</span>
+      <span>&middot; 标记<span style="color:red;">上榜早</span>且累计上榜</span><input
+        type="text" id="_setEx" name="_setEx" onkeydown="setsEnter();" /><span>次</span>
     </label>
     <br/>
     <label><input type="checkbox" name="sets" onclick="setsOp(this)" style="visibility:hidden;"
@@ -2525,6 +2511,17 @@ function setsOp (I) {
       data-value="3" /><span>上学</span></label>
     <label><input type="checkbox" name="sets" onclick="setsOp(this)" style="visibility:hidden;"
       data-value="0" /><span>各区</span></label>
+    <br/>
+    <label style="border-top:1px solid grey;width:100%;"><span>日期跳至</span>
+      &nbsp; <span class="click" class="april_button" onclick="jumpApr(addr.value,3);">3月</span><input type="text" id="march" name="march" onkeydown="aprilEnter(3);" /><span>日</span>
+      &nbsp; <span class="click" class="april_button" onclick="jumpApr(addr.value);">4月</span><input type="text" id="april" name="april" onkeydown="aprilEnter();" /><span>日</span>
+      &nbsp; <span class="click" class="april_button" onclick="jumpApr(addr.value,5);">5月</span><input type="text" id="may" name="may" onkeydown="aprilEnter(5);" /><span>日</span>
+      <!-- &nbsp; <span class="click" class="april_button" onclick="jumpApr(addr.value,6);">6月</span><input type="text" id="may" name="may" onkeydown="aprilEnter(6);" /><span>日</span -->
+    </label>
+
+
+
+
   </div>
 
   <h2 id="h2dist"><span onclick="search(this.textContent);" class="click">上海市</span>各区统计（地址数）</h2>
