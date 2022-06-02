@@ -8,7 +8,8 @@ AsBs = ('0306','0307','0308','0309','0310',
       '0421','0422','0423','0424','0425','0426','0427','0428','0429','0430',
       '0501','0502','0503','0504','0505','0506','0507','0508','0509','0510',
       '0511','0512','0513','0514','0515','0516','0517','0518','0519','0520',
-      '0521','0522','0523','0524','0525','0526','0527','0528','0529','0530','0531'
+      '0521','0522','0523','0524','0525','0526','0527','0528','0529','0530','0531',
+      '0601'
       )
 #### 以上不能有末尾逗号 没有空字符检查
 As = AsBs[:-14]
@@ -212,7 +213,7 @@ def read_a_list(s, tag=''):
             if line not in by_district[running_district]:
                 by_district[running_district].append(line)
             if tag == 'today':
-                print('today', running_district, line)
+                print(Bs[-1], running_district, line)
                 # 2022-6-1
                 if districts_today.get(running_district):
                     districts_today[running_district] += [line]
