@@ -10,6 +10,16 @@
   <link rel="manifest" href="/site.webmanifest">
   <script src="shanghaifabu/full0601.json"></script><!-- @@ -->
   <script>
+  const hot_addr = { // 2022-6-2 18:11
+    '浦东新区惠南镇梅花新邨': '0602',
+    '浦东新区银霄路39弄': '0602',
+    '静安区武定西路1189号': '0602',
+    '静安区芷江西路593弄': '0602',
+    '闵行区剑川路165号': '0530',
+    '浦东新区丁香路910弄': '0529',
+    '松江区滨湖路585弄': '0528',
+    '嘉定区永靖路898弄（北区）': '0525',
+    '青浦区迮庵村（杨巷西区）': '0520' };
   let i; let j; let As; let Ds;
   const today = new Date();
 
@@ -205,6 +215,15 @@
                       (j.today[ Ds[i] ] || []).length + '</td><td style="color:green;">' +
                       (j.released[ Ds[i] ] || []).length + '</td><td style="color:green;">' +
                       '&ndash;</td>';
+      }
+      const hot_addresses = '' + Object.keys(hot_addr);
+      if (hot_addresses.indexOf(Ds[i]) > -1) {
+        th_hot.textContent = '中风险';
+        k.innerHTML += '<td style="color:red;">' +
+                       (hot_addresses.split(Ds[i]).length - 1) +
+                       '处</td>';
+      } else {
+        k.innerHTML += '<td></td>';
       }
       k.id = Ds[i];
       districtTable.appendChild(k);
@@ -414,7 +433,8 @@
   <h2>各区统计（地址数）</h2>
   <table id="districtTable" style="border:1px solid blue;color:blue;font-size:75%;text-align:center;">
     <tr style="color:black;"><th>行政单位</th><th>累计上榜</th><th></th><th>两周内</th><th>今日涉及</th>
-      <th>累计下榜</th><th>今日下榜</th></tr>
+      <th>累计下榜</th><th>今日下榜</th>
+    <th id="th_hot"></th></tr>
   </table>
   <h2 onclick="show_full('divToday');" style="color:red;" class="click">今日涉及的地址</h2>
   <div style="color:red;list-style-type:none;font-size:75%;" id="divToday"></div>
