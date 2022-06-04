@@ -68,9 +68,10 @@ const centers = {
 const sh_district7 = ['黄浦区', '徐汇区', '长宁区', '静安区', '普陀区', '虹口区', '杨浦区'];
 const feng0328 = ['浦东新区', '金山区', '奉贤区', '崇明区'];
 // 闵行区浦锦街道、浦江镇，松江区新浜镇、石湖荡镇、泖港镇、叶榭镇
+const h0603 = '{"type":"Topology","objects":{"collection":{"type":"GeometryCollection","geometries":[{"type":"Polygon","id":5683,"properties":{"_draw_type":"fill"},"bbox":[121.4573492,31.22018662,121.46030676,31.2216919],"arcs":[[0]]}]}},"arcs":[[[0,5863],[508,-2882],[632,-2981],[1885,999],[1939,842],[1062,570],[1552,444],[1553,701],[516,163],[177,1938],[41,1702],[134,2640],[-3392,-1237],[-3858,-1628],[-2749,-1271]]],"transform":{"scale":[2.957855785577251e-7,1.5054305430542477e-7],"translate":[121.4573492,31.22018662]},"bbox":[121.4573492,31.22018662,121.46030676,31.2216919]}';
 const hot_addr = { // 2022-6-3 17:19
   '宝山区乾溪一村': '0603',
-  '黄浦区瑞金二路街道13街坊': '0603',
+  '黄浦区瑞金二路街道13街坊': 'h0603',
   '徐汇区新乐路58弄': '0603',
   '浦东新区惠南镇梅花新邨': '0602',
   '浦东新区银霄路39弄': '0602',
@@ -1483,6 +1484,25 @@ function draw_sh () { // map-address.html
       map.fillText(hot_addr[d] + ' ' + d.substr(d.indexOf('区')+1),
                1.5+mapX0( Ml.locations[d][0] ),
                1.5+mapY0( Ml.locations[d][1] ) - fontSize);
+    } else if (hot_addr[d].length === 5) {
+      const jj0 = JSON.parse( eval(hot_addr[d]) );
+      const dt0 = topojson.feature(jj0, jj0.objects.collection);
+      let d0xy;
+      dt0.features.forEach((d0) => {
+        d0xy = d0.geometry.coordinates[0].slice(-1)[0];
+        map.moveTo(mapX0(d0xy[0]), mapY0(d0xy[1]));
+        d0xy = [0, svgHeight];
+        d0.geometry.coordinates[0].forEach((d1) => {
+          map.lineTo(mapX0(d1[0]), mapY0(d1[1]));
+          if (d0xy[0] < mapX0(d1[0])) d0xy[0] = mapX0(d1[0]);
+          if (d0xy[1] > mapY0(d1[1])) d0xy[1] = mapY0(d1[1]);
+          //d0xy[1] += mapY0(d1[1]);
+        });
+        map.fill();
+        //d0xy[1] = d0xy[1] / d0.geometry.coordinates[0].length;
+      });
+      map.fillText(hot_addr[d].substr(1) + ' ' + d.substr(d.indexOf('区')+1),
+                   1.5+d0xy[0], d0xy[1] );
     }
   });
   map.fillStyle = 'blue';
