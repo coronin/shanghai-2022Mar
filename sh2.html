@@ -1489,17 +1489,19 @@ function draw_sh () { // map-address.html
       const dt0 = topojson.feature(jj0, jj0.objects.collection);
       let d0xy;
       dt0.features.forEach((d0) => {
-        d0xy = d0.geometry.coordinates[0].slice(-1)[0];
-        map.moveTo(mapX0(d0xy[0]), mapY0(d0xy[1]));
+        map.beginPath();
+        // d0xy = d0.geometry.coordinates[0].slice(-1)[0];
+        // map.moveTo(mapX0(d0xy[0]), mapY0(d0xy[1]));
         d0xy = [0, svgHeight];
         d0.geometry.coordinates[0].forEach((d1) => {
-          map.lineTo(mapX0(d1[0]), mapY0(d1[1]));
+          // map.lineTo(mapX0(d1[0]), mapY0(d1[1]));
           if (d0xy[0] < mapX0(d1[0])) d0xy[0] = mapX0(d1[0]);
           if (d0xy[1] > mapY0(d1[1])) d0xy[1] = mapY0(d1[1]);
           //d0xy[1] += mapY0(d1[1]);
         });
-        map.fill();
         //d0xy[1] = d0xy[1] / d0.geometry.coordinates[0].length;
+        pg(d0);
+        map.fill();
       });
       map.fillText(hot_addr[d].substr(1) + ' ' + d.substr(d.indexOf('区')+1),
                    1.5+d0xy[0], d0xy[1] );
@@ -1555,12 +1557,13 @@ function draw_sh () { // map-address.html
   map.strokeStyle = 'rgba(0,0,255,0.2)';
   map.lineWidth = 6;
   river1.features.forEach((d) => {
-    dots = d.geometry.coordinates;
     map.beginPath();
-    map.moveTo(mapX0(dots[0][0]), mapY0(dots[0][1]));
-    for (i = 1; i < dots.length; i += 1) {
-      map.lineTo(mapX0(dots[i][0]), mapY0(dots[i][1]));
-    }
+    // dots = d.geometry.coordinates;
+    // map.moveTo(mapX0(dots[0][0]), mapY0(dots[0][1]));
+    // for (i = 1; i < dots.length; i += 1) {
+    //   map.lineTo(mapX0(dots[i][0]), mapY0(dots[i][1]));
+    // }
+    pg(d);
     map.stroke();
   });
   let line_dot_must_shown1 = false;
@@ -1569,20 +1572,21 @@ function draw_sh () { // map-address.html
   map.strokeStyle = 'rgba(0,0,255,0.3)';
   map.lineWidth = 1.0;
   line1.features.forEach((d) => {
-    dots = d.geometry.coordinates;
     map.beginPath();
-    map.moveTo(mapX0(dots[0][0]), mapY0(dots[0][1]));
-    if (!line_dot_must_shown1 &&
-        withinSVG(mapX0(dots[0][0]), mapY0(dots[0][1])) ) {
-      line_dot_must_shown1 = true;
-    }
-    for (i = 1; i < dots.length; i += 1) {
-      map.lineTo(mapX0(dots[i][0]), mapY0(dots[i][1]));
+    dots = d.geometry.coordinates;
+    // map.moveTo(mapX0(dots[0][0]), mapY0(dots[0][1]));
+    // if (!line_dot_must_shown1 &&
+    //     withinSVG(mapX0(dots[0][0]), mapY0(dots[0][1])) ) {
+    //   line_dot_must_shown1 = true;
+    // }
+    for (i = 0; i < dots.length; i += 1) {
+      // map.lineTo(mapX0(dots[i][0]), mapY0(dots[i][1]));
       if (!line_dot_must_shown1 &&
           withinSVG(mapX0(dots[i][0]), mapY0(dots[i][1])) ) {
         line_dot_must_shown1 = true;
       }
     }
+    pg(d);
     map.stroke();
   });
   if (!line_dot_must_shown1) {
