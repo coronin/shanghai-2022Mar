@@ -2095,7 +2095,8 @@ function draw_sh_multi (k, map_i, map_x, map_y, map_addr) {
   let ii;
   addr.scrollIntoView();
   if (k.indexOf('数据组') === -1) th_k.textContent = k;
-  if (!d3center || scaleChange) {
+  if ((!d3center || scaleChange) &&
+      k.substr(0,2) !== '各区' ) {
     d3center = [average(map_x), average(map_y) ];
   }
   let d3scale_;
@@ -2137,7 +2138,8 @@ function draw_sh_multi (k, map_i, map_x, map_y, map_addr) {
   //}
   console.log('地址', k, _check, '更新前'+d3scale,
               scaleChange, d3scale_ ? '计算值'+d3scale_ : '无计算值' );
-  if (d3scale_ && scaleChange && map_i < 100 && map_i > 1) {
+  if (d3scale_ && scaleChange && map_i < 100 && map_i > 1 &&
+      k.substr(0,2) !== '各区' ) {
     d3scale = d3scale_;
   }
   if (!scaleChange && d3scale > d3scale_) {
@@ -2346,7 +2348,7 @@ function setsOp (I) {
       }
     }
   });
-  d3scale = 36000;
+  if (I.parentNode.textContent !== '各区') d3scale = 36000;
   if (arr_ !== '0' ||
       Ds.indexOf(addr.value) === -1) addr.value = '';
   if (map_addr.length > 0) {
