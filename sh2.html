@@ -2536,9 +2536,9 @@ function setsOp (I) {
       data-value="1" /><span style="color:red">比昨日多</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
       data-value="0" /><span style="color:red">当日阳</span></label>
-    <label><input type="checkbox" name="check" onclick="onlyOne(this)"
-      data-value="8" /><input type="text" id="_still" name="_still"
-      onkeydown="stillEnter();" /><span style="color:red">日阳</span></label>
+    <label style="padding-right:0px"><input type="checkbox" name="check" onclick="onlyOne(this)"
+      style="margin-right:0;" data-value="8" /></label><input type="text" id="_still" name="_still"
+      onkeydown="stillEnter();" /><span style="color:red;vertical-align:middle;padding-right:.5em;">日阳</span>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
       data-value="2" /><span style="color:red">两周阳</span></label>
     <label><input type="checkbox" name="check" onclick="onlyOne(this)"
@@ -2580,16 +2580,14 @@ function setsOp (I) {
     <label><input type="checkbox" name="sets" onclick="setsOp(this)" style="visibility:hidden;"
       data-value="0" /><span>各区</span></label>
     <br/>
-    <label style="border-top:1px solid grey;width:100%;"><span>日期跳至</span>
-      &nbsp; <span class="click" class="april_button" onclick="jumpApr(addr.value,3);">3月</span><input type="text" id="march" name="march" onkeydown="aprilEnter(3);" /><span>日</span>
-      &nbsp; <span class="click" class="april_button" onclick="jumpApr(addr.value);">4月</span><input type="text" id="april" name="april" onkeydown="aprilEnter();" /><span>日</span>
-      &nbsp; <span class="click" class="april_button" onclick="jumpApr(addr.value,5);">5月</span><input type="text" id="may" name="may" onkeydown="aprilEnter(5);" /><span>日</span>
-      <!-- &nbsp; <span class="click" class="april_button" onclick="jumpApr(addr.value,6);">6月</span><input type="text" id="may" name="may" onkeydown="aprilEnter(6);" /><span>日</span -->
-    </label>
-
-
-
-
+    <div style="border-top:1px solid grey;width:100%;padding-top:2px;margin-top:2px">日期跳至
+      &nbsp; <span class="click april_button" onclick="jumpApr(addr.value,3);">3月</span><input type="text" id="march" name="march" onkeydown="aprilEnter(3);" />日
+      &nbsp; <span class="click april_button" onclick="jumpApr(addr.value);">4月</span><input type="text" id="april" name="april" onkeydown="aprilEnter();" />日
+      &nbsp; <span class="click april_button" onclick="jumpApr(addr.value,5);">5月</span><input type="text" id="may" name="may" onkeydown="aprilEnter(5);" />日
+      <!-- &nbsp; <span class="click" class="april_button" onclick="jumpApr(addr.value,6);">6月</span><input type="text" id="may" name="may" onkeydown="aprilEnter(6);" />日 -->
+      <br/>2022年2月7日零时，中风险清零；
+      <br/>2月24日，首位本土感染者；3月6日开始公布感染者地址，目前仍在继续
+    </div>
   </div>
 
   <h2 id="h2dist"><span onclick="search(this.textContent);" class="click">上海市</span>各区统计（地址数）</h2>

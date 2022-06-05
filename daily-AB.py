@@ -61,9 +61,18 @@ z = [
 #'0309','https://wsjkw.sh.gov.cn/xwfb/20220310/c7a3763da0cd46cbb563df4064ee1a15.html'] #区地址个数 77
 #'0308','https://wsjkw.sh.gov.cn/xwfb/20220309/077a50ff4cf4422d836e857126008ff6.html']
 #'0307','https://wsjkw.sh.gov.cn/xwfb/20220308/a2f9fa49a4274509a1a42fa871bf77ee.html'] #区地址个数 55
-#'0306','https://wsjkw.sh.gov.cn/xwfb/20220307/6490dbd707674b278f40159595aa5cd9.html']
-#'0305','https://wsjkw.sh.gov.cn/xwfb/20220306/ce44bea5ad8e41bf85165cdf35c84bdb.html']
-#'0304','https://wsjkw.sh.gov.cn/xwfb/20220305/1fd23e48cc4f479ea8fc56c9e1052759.html']
+#'0306','https://wsjkw.sh.gov.cn/xwfb/20220307/6490dbd707674b278f40159595aa5cd9.html'] #首次出现区地址
+# '0305','https://wsjkw.sh.gov.cn/xwfb/20220306/ce44bea5ad8e41bf85165cdf35c84bdb.html'] #新增本土0+28
+# '0304','https://wsjkw.sh.gov.cn/xwfb/20220305/1fd23e48cc4f479ea8fc56c9e1052759.html'] #新增本土3+16
+# '0303','https://wsjkw.sh.gov.cn/xwfb/20220304/164e0c9e7efe41fd91d6eb9e10967cdb.html'] #新增本土2+14
+# '0302','https://wsjkw.sh.gov.cn/xwfb/20220303/c44474f0577a4e829896aadf668045b7.html'] #新增本土3+5
+# '0301','https://wsjkw.sh.gov.cn/xwfb/20220302/e0c9d63937ed4cfba163c3c97ae05e1d.html'] #新增本土1+1
+# '0228','https://wsjkw.sh.gov.cn/xwfb/20220301/b992a70472604bb7b72c86489baa1f7d.html'] #新增本土0+3
+# '0227','https://wsjkw.sh.gov.cn/xwfb/20220228/1414e2d0a238477d8ec869c6a060c7b4.html'] #新增本土0+1
+# '0226','https://wsjkw.sh.gov.cn/xwfb/20220227/6e6c8939bef34f59abb161cddd0391fb.html'] #新增本土0+1
+# '0225','https://wsjkw.sh.gov.cn/xwfb/20220226/9ae3ec12e2484e4b920f5e681c0e15d0.html'] #新增本土0+1
+# '0224','https://wsjkw.sh.gov.cn/xwfb/20220225/ff147b9957c34af0847c9ad201122404.html'] #新增本土0+1
+# '0206','https://wsjkw.sh.gov.cn/xwfb/20220207/4852ce2f752d46c2a70e4d0b4d711bce.html'] #0207中风险清零
 #'0506','https://mp.weixin.qq.com/s/bqZp2AqqE-FPzJpx6FlhPA']
 #'0505','https://mp.weixin.qq.com/s/IqIqMik_fGpPgfNgIZ8ieg']
 #'0504','https://mp.weixin.qq.com/s/J68hA0ncRR_q91ccVINP0g']
