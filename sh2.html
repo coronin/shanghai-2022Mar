@@ -1477,39 +1477,41 @@ function draw_sh () { // map-address.html
                  mapX0(d.properties.center[0]),
                  mapY0(d.properties.center[1]));
   });
-  map.fillStyle = 'red';
-  Object.keys(hot_addr).forEach((d) => { // 2022-6-2
-    if (Ml.locations[d]) {
-      map.beginPath();
-      map.fillRect(mapX0( Ml.locations[d][0] ),
-                   mapY0( Ml.locations[d][1] ),
-                   3, 3 );
-      map.fillText(hot_addr[d] + ' ' + d.substr(d.indexOf('区')+1),
-               1.5+mapX0( Ml.locations[d][0] ),
-               1.5+mapY0( Ml.locations[d][1] ) - fontSize);
-    } else if (hot_addr[d].length === 5) {
-      const jj0 = JSON.parse( eval(hot_addr[d]) );
-      const dt0 = topojson.feature(jj0, jj0.objects.collection);
-      let d0xy;
-      dt0.features.forEach((d0) => {
+  if (j_data_init === parseInt(j.tag)) {
+    map.fillStyle = 'red';
+    Object.keys(hot_addr).forEach((d) => { // 2022-6-2
+      if (Ml.locations[d]) {
         map.beginPath();
-        // d0xy = d0.geometry.coordinates[0].slice(-1)[0];
-        // map.moveTo(mapX0(d0xy[0]), mapY0(d0xy[1]));
-        d0xy = [0, svgHeight];
-        d0.geometry.coordinates[0].forEach((d1) => {
-          // map.lineTo(mapX0(d1[0]), mapY0(d1[1]));
-          if (d0xy[0] < mapX0(d1[0])) d0xy[0] = mapX0(d1[0]);
-          if (d0xy[1] > mapY0(d1[1])) d0xy[1] = mapY0(d1[1]);
-          //d0xy[1] += mapY0(d1[1]);
+        map.fillRect(mapX0( Ml.locations[d][0] ),
+                     mapY0( Ml.locations[d][1] ),
+                     3, 3 );
+        map.fillText(hot_addr[d] + ' ' + d.substr(d.indexOf('区')+1),
+                 1.5+mapX0( Ml.locations[d][0] ),
+                 1.5+mapY0( Ml.locations[d][1] ) - fontSize);
+      } else if (hot_addr[d].length === 5) {
+        const jj0 = JSON.parse( eval(hot_addr[d]) );
+        const dt0 = topojson.feature(jj0, jj0.objects.collection);
+        let d0xy;
+        dt0.features.forEach((d0) => {
+          map.beginPath();
+          // d0xy = d0.geometry.coordinates[0].slice(-1)[0];
+          // map.moveTo(mapX0(d0xy[0]), mapY0(d0xy[1]));
+          d0xy = [0, svgHeight];
+          d0.geometry.coordinates[0].forEach((d1) => {
+            // map.lineTo(mapX0(d1[0]), mapY0(d1[1]));
+            if (d0xy[0] < mapX0(d1[0])) d0xy[0] = mapX0(d1[0]);
+            if (d0xy[1] > mapY0(d1[1])) d0xy[1] = mapY0(d1[1]);
+            //d0xy[1] += mapY0(d1[1]);
+          });
+          //d0xy[1] = d0xy[1] / d0.geometry.coordinates[0].length;
+          pg(d0);
+          map.fill();
         });
-        //d0xy[1] = d0xy[1] / d0.geometry.coordinates[0].length;
-        pg(d0);
-        map.fill();
-      });
-      map.fillText(hot_addr[d].substr(1) + ' ' + d.substr(d.indexOf('区')+1),
-                   1.5+d0xy[0], d0xy[1] );
-    }
-  });
+        map.fillText(hot_addr[d].substr(1) + ' ' + d.substr(d.indexOf('区')+1),
+                     1.5+d0xy[0], d0xy[1] );
+      }
+    });
+  }
   map.fillStyle = 'blue';
   let dots_count = 0; let dotX; let dotY;
   if (_mapOp.indexOf('咖啡') > -1) {
