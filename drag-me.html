@@ -10,7 +10,10 @@
   <link rel="manifest" href="/site.webmanifest">
   <script src="shanghaifabu/full0605.json"></script><!-- @@ -->
   <script>
-  const hot_addr = { // 2022-6-5 8PM
+  const hot_addr = { // 2022-6-6 17:13
+    '静安区广延路1188弄': '0606',
+    '徐汇区永嘉路172弄': '0606',
+    '徐汇区田林十一村': '0606',
     '宝山区蕰川路1498弄': '0605',
     '虹口区池沟路60弄': '0605',
     '虹口区昆明路56号': '0605',
@@ -224,7 +227,7 @@
       const hot_addresses = '' + Object.keys(hot_addr);
       if (hot_addresses.indexOf(Ds[i]) > -1) {
         th_hot.textContent = '中风险';
-        k.innerHTML += '<td style="color:red;">' +
+        k.innerHTML += '<td style="color:purple;">' +
                        (hot_addresses.split(Ds[i]).length - 1) +
                        '处</td>';
       } else {
@@ -439,7 +442,7 @@
   <table id="districtTable" style="border:1px solid blue;color:blue;font-size:75%;text-align:center;">
     <tr style="color:black;"><th>行政单位</th><th>累计上榜</th><th></th><th>两周内</th><th>今日涉及</th>
       <th>累计下榜</th><th>今日下榜</th>
-    <th id="th_hot"></th></tr>
+    <th id="th_hot" style="color:purple;"></th></tr>
   </table>
   <h2 onclick="show_full('divToday');" style="color:red;" class="click">今日涉及的地址</h2>
   <div style="color:red;list-style-type:none;font-size:75%;" id="divToday"></div>

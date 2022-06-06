@@ -69,7 +69,10 @@ const sh_district7 = ['黄浦区', '徐汇区', '长宁区', '静安区', '普�
 const feng0328 = ['浦东新区', '金山区', '奉贤区', '崇明区'];
 // 闵行区浦锦街道、浦江镇，松江区新浜镇、石湖荡镇、泖港镇、叶榭镇
 const h0603 = '{"type":"Topology","objects":{"collection":{"type":"GeometryCollection","geometries":[{"type":"Polygon","id":5683,"properties":{"_draw_type":"fill"},"bbox":[121.4573492,31.22018662,121.46030676,31.2216919],"arcs":[[0]]}]}},"arcs":[[[0,5863],[508,-2882],[632,-2981],[1885,999],[1939,842],[1062,570],[1552,444],[1553,701],[516,163],[177,1938],[41,1702],[134,2640],[-3392,-1237],[-3858,-1628],[-2749,-1271]]],"transform":{"scale":[2.957855785577251e-7,1.5054305430542477e-7],"translate":[121.4573492,31.22018662]},"bbox":[121.4573492,31.22018662,121.46030676,31.2216919]}';
-const hot_addr = { // 2022-6-5 8PM
+const hot_addr = { // 2022-6-6 17:13
+  '静安区广延路1188弄': '0606',
+  '徐汇区永嘉路172弄': '0606',
+  '徐汇区田林十一村': '0606',
   '宝山区蕰川路1498弄': '0605',
   '虹口区池沟路60弄': '0605',
   '虹口区昆明路56号': '0605',
@@ -1318,7 +1321,7 @@ async function load () {
     const hot_addresses = '' + Object.keys(hot_addr);
     if (j_data_init === parseInt(j.tag) && hot_addresses.indexOf(Ds[i]) > -1) {
       th_hot.textContent = '中风险';
-      k.innerHTML += '<td style="color:red;">' +
+      k.innerHTML += '<td style="color:purple;">' +
                      (hot_addresses.split(Ds[i]).length - 1) +
                      '处</td>';
     } else {
@@ -1478,7 +1481,7 @@ function draw_sh () { // map-address.html
                  mapY0(d.properties.center[1]));
   });
   if (j_data_init === parseInt(j.tag)) {
-    map.fillStyle = 'red';
+    map.fillStyle = 'purple';
     Object.keys(hot_addr).forEach((d) => { // 2022-6-2
       if (Ml.locations[d]) {
         map.beginPath();
@@ -2598,7 +2601,7 @@ function setsOp (I) {
       <th>&nbsp;行政单位&nbsp;</th><th>&nbsp;累计上榜&nbsp;</th>
       <th id="th_k"></th><th>&nbsp;两周内&nbsp;</th><th>&nbsp;<span class="_tag"></span>涉及&nbsp;</th>
       <th>&nbsp;累计下榜&nbsp;</th><th>&nbsp;<span class="_tag"></span>下榜&nbsp;</th>
-      <th id="th_hot"></th>
+      <th id="th_hot" style="color:purple;"></th>
     </tr></thead>
     <tbody id="districtTbody"></tbody>
   </table>
