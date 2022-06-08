@@ -61,7 +61,7 @@ def allMinus(full, to_remove):
     return out
 
 
-f = open('inAB-close-check.txt', 'r')
+f = open('addr-close-check.txt', 'r')
 txt = f.readlines()
 f.close()
 C = []
@@ -82,9 +82,10 @@ uniqueLL = []
 line_to_remove = []
 while cc < len(C):
     addr = C[cc: cc+10]
+    #### key from https://console.amap.com/dev/key/app
     resp = urllib.request.urlopen(
            'https://restapi.amap.com/v3/geocode/geo?' +
-           'key=   @@      &batch=true&output=json&address=%s&city=%s' % (
+           'key=  @@  &batch=true&output=json&address=%s&city=%s' % (
            urllib.parse.quote('|'.join(addr)),
            urllib.parse.quote('上海') ) )
     r = resp.read().decode('utf-8')
