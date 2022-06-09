@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from urllib import request
+import re
 
 # os.system('scrapy fetch --nolog https://www.cell.com/cell/newarticles > cell.txt')
 
@@ -16,8 +17,8 @@ z = [
 #'0612','']
 #'0611','']
 #'0610','']
-#'0609','']
-'0608','']
+'0609','']
+#'0608','https://mp.weixin.qq.com/s/OKxw0qxTtCy_utS5ilh6Lw']
 #'0607','https://mp.weixin.qq.com/s/W9tBwbc2tSNe7-zDWw_ViA']
 #'0606','https://mp.weixin.qq.com/s/ft2t7EVyT96YmwXfvd-zQg']
 #'0605','https://mp.weixin.qq.com/s/zERWgFNJzWTydSmvjRPFLw']
@@ -513,7 +514,6 @@ elif z[1].endswith('.html'):
     page = f.read()
     f.close()
     pp = BeautifulSoup(page, features="lxml").find('div', {'id' : 'ivs_content'}).get_text("\n", strip=True)
-    import re
     ppp = re.findall(r'，居住于(\S{2,3}区[^，。]+)', pp) + re.findall(r'，居住地为(\S{2,3}区[^，。]+)', pp)
     print('就读于', re.findall(r'，就读于(\S{2,3}区[^，。]+)', pp) )
     print('外省市', re.findall(r'，外省市([^，。]+)', pp) )
@@ -536,7 +536,11 @@ for zz in Z:
     #if len( zz.strip() ) > 20: # 5/18 金山区 5/26 关闭长度提醒
     #    print('%s\n' % zz.strip() )
     if zz.find('成功') > -1 or zz.find('目前') > -1:
-        print('## 成功 | 目前\n%s\n' % zz.strip() )
+        print('## 成功 | 目前\n%s\n' % re.sub(r'\s', '', zz) )
+    if zz.find('住宅小区') > -1:
+        print('## 住宅小区 \n%s\n' % re.sub(r'\s', '', zz) )
+    if zz.find('当前中风险等级地区') > -1:
+        print('## 中风险 \n%s\n' % re.sub(r'\s', '', zz) )
 print(z[1])
 if not z[1]:
     print('###           shanghaifabu')
