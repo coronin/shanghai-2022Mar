@@ -9,7 +9,7 @@ AsBs = ('0306','0307','0308','0309','0310',
       '0501','0502','0503','0504','0505','0506','0507','0508','0509','0510',
       '0511','0512','0513','0514','0515','0516','0517','0518','0519','0520',
       '0521','0522','0523','0524','0525','0526','0527','0528','0529','0530','0531',
-      '0601','0602','0603','0604','0605','0606','0607','0608'
+      '0601','0602','0603','0604','0605','0606','0607','0608','0609'
       )
 #### 以上不能有末尾逗号 没有空字符检查
 As = AsBs[:-14]
@@ -134,9 +134,12 @@ def read_a_list(s, tag=''):
     f.close()
     post = []
     running_district = ''
+    s_dt = '（%s月%s日' % (int(s[:2]), int(s[2:]))
     for l in pre:
         line = l.strip().replace('（住宅）', ''
                        ).replace('（公寓）', '') ## 店铺）宿舍）
+        if line.find(s_dt) > 0:
+            line = line.split(s_dt)[0]
         if line == 'shanghaifabu' and tag != 'list':
             by_address[line] += [s]
             continue
@@ -180,12 +183,13 @@ def read_a_list(s, tag=''):
              ) > -1 or line.find('1例为'
              ) > -1 or line.find('病例'
              ) > -1 or line.find('感染者'
-             ) > -1 or line.find('中发现' # 隔离管控
+             ) > -1 or line.find('中发现' # 隔离管控 风险人群筛查
              ) > -1 or line.find('落实管控'
              ) > -1 or line.find('采取封控'
              ) > -1 or line.find('落实消毒'
              ) > -1 or line.find('落实终末消毒'
              ) > -1 or line.find('滑动查看'
+             ) > -1 or line.find('当前中风险等级地区'
              ) > -1 or line.find('关注我们'
              ) > -1 or line.find('转载请注明'
              ) > -1 or line.find('互动你我'
