@@ -1418,6 +1418,17 @@ async function load () {
   }
 }
 
+function hot_label (d, dtag) {
+  if (addr.value === '上海市') {
+    return hash2date(dtag);
+  } else if (addr.value && Ds.indexOf(addr.value) > -1) { //各区
+    if (d.indexOf(addr.value) !== 0) {
+      return hash2date(dtag) + d.substr(0, d.indexOf('区') );
+    }
+  }
+  return hash2date(dtag) + d.substr(d.indexOf('区')+1);
+}
+
 function draw_sh () { // map-address.html
   app.width = svgWidth;
   app.height = svgHeight;
@@ -1501,7 +1512,7 @@ function draw_sh () { // map-address.html
         map.fillRect(mapX( Ml.locations[d][0] ),
                      mapY( Ml.locations[d][1] ),
                      3, 3 );
-        map.fillText(hot_addr[d] + ' ' + d.substr(d.indexOf('区')+1),
+        map.fillText(hot_label(d, hot_addr[d]),
                  1.5+mapX( Ml.locations[d][0] ),
                  1.5+mapY( Ml.locations[d][1] ) - fontSize);
       } else if (hot_addr[d].length === 5) {
@@ -1522,7 +1533,7 @@ function draw_sh () { // map-address.html
           //d0xy[1] = d0xy[1] / d0.geometry.coordinates[0].length;
           map.fill();
         });
-        map.fillText(hot_addr[d].substr(1) + ' ' + d.substr(d.indexOf('区')+1),
+        map.fillText(hot_label(d, hot_addr[d].substr(1)),
                      1.5+d0xy[0], d0xy[1] );
       }
     });
