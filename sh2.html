@@ -1252,7 +1252,7 @@ async function load () {
   tag_m2.textContent = tag_m.textContent;
   tag_d.textContent = parseInt(j.tag.substr(2,2) );
   tag_d2.textContent = tag_d.textContent;
-  for (i = 3; i < 6; i += 1) {
+  for (i = 3; i <= 6; i += 1) {
     document.getElementById(ms[i]).value = '';
   }
   th_hot.textContent = '';
@@ -2388,6 +2388,18 @@ function setsOp (I) {
     I.checked = false;
   }
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+  load_js();
+  window.addEventListener('scroll', function () {
+    if (window.scrollY > 88) {
+      tag_note.style.position = 'fixed';
+      tag_note.style.top = '0';
+    } else {
+      tag_note.style.position = 'static';
+    }
+  });
+});
   </script>
   <!-- SukkaW/DisqusJS -->
   <script src="shanghaifabu/html2canvas.min.141.js"></script>
@@ -2503,7 +2515,7 @@ function setsOp (I) {
       color: red;
     }
     #ester_egg,
-    .tag_note {
+    #tag_note {
       vertical-align: middle;
       color:grey;
       font-size: 75%;
@@ -2520,19 +2532,19 @@ function setsOp (I) {
     }
   </style>
 </head>
-<body onload="load_js();">
+<body>
   <p>
-    数据来源 <a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">shanghaifabu</a>
+    数据来源<a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">shanghaifabu</a>
       <!-- span id="datestr" style="color:grey;"></span -->
       <span id="fetching" style="color:blue;"> <span id="loading_pr2">not ready,</span> loaded</span>
-    <br/>展示<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
+    <br/>以下展示<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
     <!-- br/>搜索<span onclick="search(this.textContent);" class="click _L">上海市</span> 可以在地图中定位相关地址 -->
   </p>
   <p>
     <label for="addr"><span style="color:red;font-weight:bold;">上榜地址</span>
       <input type="text" id="addr" name="addr" onkeydown="lastSearch=null;addrEnter();" /></label>
     <button id="search_button" onclick="scaleChange=true;lastSearch=null;search(addr.value);">搜索</button>
-    &nbsp; <span class="tag_note">以下基于2022/<span class="_tag"></span>的数据</span>
+    &nbsp; <span id="tag_note">本页基于2022/<span class="_tag"></span>的数据</span>
     &nbsp; <span id="ester_egg"></span>
   </p>
 
