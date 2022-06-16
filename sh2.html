@@ -337,7 +337,7 @@ async function asyncFirstSince0306 (k) {
 }
 
 async function fetch2 () {
-  const response = await fetch("shanghaifabu/early0306.json");
+  const response = await fetch("shanghaifabu/early0616.json");
   return await response.json();
 }
 const _m0f0 = {};
@@ -1191,7 +1191,7 @@ function tagsHTML (dl_, noClick) {
   const dl = [];
   let di;
   for (di = 0; di < dl_.length; di += 1) {
-    if (dl_[di].length === 4) {
+    if (dl_[di] && dl_[di].length === 4) {
       dl.push( dl_[di] );
     }
   }

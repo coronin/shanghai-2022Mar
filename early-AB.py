@@ -5,6 +5,28 @@ import os
 # os.system('scrapy fetch --nolog https://www.cell.com/cell/newarticles > cell.txt')
 import re
 
+# 2022-6-16: aggregate addresses (daily released need to re-run)
+f = open('addr-close2-list1.csv', 'r')
+csv = f.readlines()
+f.close()
+uniqAddr = {}
+for l in csv:
+    if not l:
+        continue
+    ll = l.strip().split(',')
+    if len(ll) < 2:
+        continue
+    for lll in ll[1:]:
+        if uniqAddr.get(lll):
+            raise ValueError(ll[0], lll)
+        uniqAddr[lll] = ll[0]
+# 707 print( len(uniqAddr) )
+
+def uniq_a(lll):
+    if uniqAddr.get(lll):
+        return uniqAddr[lll]
+    return lll
+
 districts = ('浦东新区', '黄浦区', '静安区', '徐汇区', '长宁区',
              '普陀区', '虹口区', '杨浦区', '宝山区', '闵行区',
              '嘉定区', '金山区', '松江区', '青浦区', '奉贤区', '崇明区' )
@@ -118,6 +140,8 @@ for z in _z:
         #if xi and not xi%20:# or xi in range(30,40): #@@@@
         if xi and not z[0] in checked_tags:
             print('    ', xi, ','.join(xx[xi]), zz)
+        # 2022-6-16
+        zz = uniq_a( '%s%s' % (running_k, zz) )[len(running_k):]
         try:
             if data.get(running_k + zz):
                 data[running_k + zz] += [ xx[xi] ]
@@ -136,11 +160,11 @@ for z in _z:
         print('%s' % z[1])
     else:
         print('#%s最后一个' % z[0], ','.join(xx[xi-1]), zz)
-    if max_dc != len(re.findall(max_d, pps)):
-        raise ValueError(z[0], max_d, max_dc, len(re.findall(max_d, pps)) )
+    # if max_dc != len(re.findall(max_d, pps)):
+    #     raise ValueError(z[0], max_d, max_dc, len(re.findall(max_d, pps)) )
     _data[z[0]] = data
 ####
-#@@@@ 菊园新区 -> 菊园新新
+# @@ 手动修复：菊园新新 --> 菊园新区
 from datetime import datetime
 fz = open('early%s.json' % z[0], 'w')
 fz.write( json.dumps({'version':str(datetime.now()),
