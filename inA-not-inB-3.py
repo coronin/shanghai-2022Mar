@@ -131,12 +131,17 @@ def bd09_to_wgs84(bd_lon, bd_lat):
     return gcj02_to_wgs84(lon, lat)
 
 
+def uniq_a(lll):
+    if uniqAddr.get(lll):
+        return uniqAddr[lll]
+    return lll
+
 def read_a_list(s, tag=''):
     if not s:
         return []
     global transition_int;
     if tag != 'list' and int(s) != transition_int:
-        raise ValueError(s, transition_int)
+        raise ValueError('%s.txt' % s, transition_int)
     transition_int += 1
     if tag != 'list' and transition_int == 332:
         transition_int = 401
@@ -225,12 +230,16 @@ def read_a_list(s, tag=''):
              ) > -1 or line.find('信息发布'
              ) > -1 or line.find('大小事' ) > -1:
             continue
-        elif running_district and tag == 'list':
+        if not running_district:
+            raise ValueError('%s.txt' % s, line, len(post) )
+        # 2022-6-16
+        line = uniq_a( '%s%s' % (running_district, line) )[len(running_district):]
+        if tag == 'list':
             post.append( '%s%s' % (running_district, line) )
             continue
-        elif running_district and '%s%s' % (running_district, line) not in post:
+        elif '%s%s' % (running_district, line) not in post:
             if re.match(r'\d+\D\D?$', line):
-                raise ValueError(s, line, len(post))
+                raise ValueError('%s.txt' % s, line, len(post) )
             post.append( '%s%s' % (running_district, line) )
             if line not in by_district[running_district]:
                 by_district[running_district].append(line)
@@ -252,7 +261,7 @@ def read_a_list(s, tag=''):
             else:
                 by_address[line] = [ '%s%s' % (s, running_district)]
         else:
-            print('>> %s.txt' % s, line, len(post) )
+            raise ValueError('%s.txt' % s, line, len(post) )
     return post
 
 
