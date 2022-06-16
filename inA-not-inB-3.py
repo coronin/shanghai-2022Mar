@@ -1,6 +1,6 @@
 ## EXCEL ##  =countif(B:B,A1)=0
 
-# 2022-6-16 aggregate addresses
+# 2022-6-16: aggregate addresses (daily released need to re-run)
 f = open('addr-close2-list1.csv', 'r')
 csv = f.readlines()
 f.close()
