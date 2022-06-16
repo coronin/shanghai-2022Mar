@@ -79,7 +79,7 @@ a_ = 0
 aa = 1
 print('will process:', len(csv)-aa)
 XX = []
-for l in csv[aa:2000]: # [1:]
+for l in csv[aa:]: # [1:]
     a_ += 1
     if not l:
         continue
@@ -166,12 +166,31 @@ print('ww object size:', len(ww) )
 
 Wls = sorted(list(set(W))) # for key,val in ww.items():
 
+def div(s):
+    ss = s.replace('区', '|'
+         ).replace('街道', '|'
+         ).replace('镇', '|'
+         ).replace('村', '|'
+         ).replace('宅', '|'
+         ).replace('路', '|'
+         ).replace('弄', '|'
+         ).replace('号', '|' )
+    if ss[-1] == '|':
+        return ss[:-1].split('|')[1:]
+    else:
+        return ss.split('|')[1:] # 区 已经检查了
+
 def abcdef(L):
-    return L
+    k0 = div(L[0])
+    kk = [ L[0] ]
+    for l in L[1:]:
+        k1 = div(l)
+        if len(k1) < len(k0) and k1[-1] == k0[-1]:
+            kk += [l]
+    return kk
 
 fz = open( 'addr-close2-list.txt', 'w')
 fz.write('# addr-close2.py %s\n' % datestr)
-import collections
 W0 = [Wls[0]] + sorted(ww[ Wls[0] ])
 for Wi in Wls[1:]:
     if len( list(set(W0)) ) == 1:
@@ -179,17 +198,14 @@ for Wi in Wls[1:]:
         continue
     if len( list(set([Wi] + ww[Wi])) ) == 1:
         continue
-    if collections.Counter(W0) == collections.Counter( [Wi] + ww[Wi] ):
-        continue
-    else:
-        W0d = W0[0][:3]
-        W0jj = []
-        W0jj.append(W0[0])
-        for W0j in W0[1:]:
-            if W0j[:3] == W0d:
-                W0jj.append(W0j)
-        if len(W0jj) > 1:
-            fz.write('%s\n' % ','.join(abcdef(W0jj)) )
-        W0 = [Wi] + sorted(ww[Wi])
+    W0d = W0[0][:3]
+    W0jj = []
+    W0jj.append(W0[0])
+    for W0j in W0[1:]:
+        if W0j[:3] == W0d:
+            W0jj.append(W0j)
+    if len( abcdef(W0jj) ) > 1:
+        fz.write('%s\n' % ','.join(abcdef(W0jj)) )
+    W0 = [Wi] + sorted(ww[Wi])
 fz.write('####')
 fz.close
