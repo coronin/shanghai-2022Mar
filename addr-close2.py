@@ -126,9 +126,9 @@ if nnnn:
     fz.close
 print('total unique address:', len(C) )
 
-# print('国权北路1450到1560距离',
-#       ll_to_meter(float(CC['杨浦区国权北路1566弄'][0]) - float(CC['杨浦区国权北路1450弄'][0]),
-#                   float(CC['杨浦区国权北路1566弄'][1]) - float(CC['杨浦区国权北路1450弄'][1]) ))
+print('国权北路1450到1560距离',
+      ll_to_meter(float(CC['杨浦区国权北路1566弄'][0]) - float(CC['杨浦区国权北路1450弄'][0]),
+                  float(CC['杨浦区国权北路1566弄'][1]) - float(CC['杨浦区国权北路1450弄'][1]) ))
 
 U = C[0]
 V = C[1:]
