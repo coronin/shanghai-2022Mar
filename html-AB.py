@@ -1,9 +1,8 @@
-# from bs4 import BeautifulSoup
-# from urllib import request
-# import json
-# import re
+from bs4 import BeautifulSoup
+import re
 import os
 # os.system('scrapy fetch --nolog https://www.cell.com/cell/newarticles > cell.txt')
+# import json
 
 # # 2022-6-16: aggregate addresses (daily released need to re-run)
 # f = open('addr-close2-list1.csv', 'r')
@@ -153,20 +152,14 @@ for z in _z:
             print( z[1] )
             os.system('scrapy fetch --nolog %s > html-files/%s.htm' % (z[1], z[0]) )
             #os.system('curl -o html-files/%s.htm %s' % (z[0], z[1]) )
-        # f = open('shanghaifabu/%s%s.txt' % (z[0],z[0]), 'r')
-        # page = f.read()
-        # f.close()
-        # if z[0] in ('0308','0309'): #@@@@ 本地文件 复制粘贴的文本
-        #     pp = page
-        # else:
-        #     pp = BeautifulSoup(page, features="lxml").find('div', {'id' : 'ivs_content'}).get_text("\n", strip=True)
-        # if pp.find('外省来沪') > 0 and pp.find(' 外省来沪') == -1:
-        #     raise ValueError(z[0], '外省来沪')
-        # if pp.find('来沪求职') > 0 and pp.find(' 来沪求职') == -1:
-        #     raise ValueError(z[0], '来沪求职')
-        # ppp = re.findall(r'，\s*居住于(\S{2,3}区[^，。]+)', pp ) + re.findall(r'，\s*居住地为(\S{2,3}区[^，。]+)', pp )
-        # #print('就读于', re.findall(r'，就读于(\S{2,3}区[^，。]+)', pp) )
-        # #print('外省市', re.findall(r'，外省市([^，。]+)', pp) )
+        f = open('html-files/%s.htm' % z[0], 'r')
+        page = f.read()
+        f.close()
+        #@@@@
+        pp = BeautifulSoup(page, features="lxml").find('div', {'id' : 'img-content'}).get_text("\n", strip=True)
+        ppp = re.findall(r'、\S+，', pp )
+        if len(ppp) > 1:
+            print( ppp[0] )
         # cc = re.findall('24时，新增本土[^0-9]+(\d{1,3})', pp)[1:]
         # if cc and sum([int(ccc) for ccc in cc]) != len(ppp):
         #     print('搜到新增本土数', '+'.join(cc) )
