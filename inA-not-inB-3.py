@@ -181,8 +181,8 @@ def read_a_list(s, tag=''):
                                  line.find('新闻办编辑') > -1):
             running_district = ''
             continue
-        if len( line.strip() ) > 20:
-            print('>> %s.txt' % s, 20, line)
+        if len( line.strip() ) > 26:
+            print('>> %s.txt' % s, 26, line)
         if not line or line == '新增' or line.find('区新增'
              ) > -1 or line.find('无新增'
              ) > -1 or line.find('微信号'
@@ -233,35 +233,35 @@ def read_a_list(s, tag=''):
         if not running_district:
             raise ValueError('%s.txt' % s, line, len(post) )
         # 2022-6-16
-        line = uniq_a( '%s%s' % (running_district, line) )[len(running_district):]
+        line1 = uniq_a( '%s%s' % (running_district, line) )[len(running_district):]
         if tag == 'list':
-            post.append( '%s%s' % (running_district, line) )
+            post.append( '%s%s' % (running_district, line1) )
             continue
-        elif '%s%s' % (running_district, line) not in post:
-            if re.match(r'\d+\D\D?$', line):
-                raise ValueError('%s.txt' % s, line, len(post) )
-            post.append( '%s%s' % (running_district, line) )
-            if line not in by_district[running_district]:
-                by_district[running_district].append(line)
+        elif '%s%s' % (running_district, line1) not in post:
+            if re.match(r'\d+\D\D?$', line1):
+                raise ValueError('%s.txt' % s, line1, len(post) )
+            post.append( '%s%s' % (running_district, line1) )
+            if line1 not in by_district[running_district]:
+                by_district[running_district].append(line1)
             if tag == 'today':
-                print(Bs[-1], running_district, line)
+                print(Bs[-1], running_district, line1)
                 # 2022-6-1
                 if districts_today.get(running_district):
-                    districts_today[running_district] += [line]
+                    districts_today[running_district] += [line1]
                 else:
-                    districts_today[running_district] = [line]
+                    districts_today[running_district] = [line1]
             if tag in ('inB', 'today'):
                 if districts_inB.get(running_district):
                     if line not in districts_inB[running_district]:
-                        districts_inB[running_district] += [line]
+                        districts_inB[running_district] += [line1]
                 else:
-                    districts_inB[running_district] = [line]
-            if by_address.get(line):
-                by_address[line] += ['%s%s' % (s, running_district) ]
+                    districts_inB[running_district] = [line1]
+            if by_address.get(line1):
+                by_address[line1] += ['%s%s' % (s, running_district) ]
             else:
-                by_address[line] = [ '%s%s' % (s, running_district)]
+                by_address[line1] = [ '%s%s' % (s, running_district)]
         else:
-            raise ValueError('%s.txt' % s, line, len(post) )
+            raise ValueError('%s.txt' % s, line, line1, len(post) )
     return post
 
 
@@ -488,20 +488,71 @@ for l in csv[1:]:
         continue
     ls = l.split(',')
     if len(ls) > 3 and ls[1] and ls[2]:
-        if ls[0] not in C:
-            C.append( ls[0].strip() )
+        ls0s = ls[0].strip()
+        if ls0s.startswith('浦东新区'):
+            line = ls0s[4:]
+        else:
+            line = ls0s[3:]
+        if len(by_address) > 1 and not by_address.get(line): # 只收录有上榜记录的地址
+            continue
+        #if len(by_address) > 1 and uniqAddr.get(ls0s):
+        #    print('map-location could be unique', ls0s, uniqAddr[ls0s])
+        # map-location could be unique 浦东新区光明村 浦东新区曹路镇光明村
+        # map-location could be unique 浦东新区红星村 浦东新区祝桥镇红星村
+        # map-location could be unique 浦东新区营房村 浦东新区康桥镇营房村
+        # map-location could be unique 浦东新区中新村 浦东新区高桥镇中新村
+        # map-location could be unique 浦东新区金星村 浦东新区祝桥镇金星村
+        # map-location could be unique 嘉定区桃园新村 嘉定区嘉定镇街道桃园新村
+        # map-location could be unique 浦东新区汇南村 浦东新区惠南镇汇南村
+        # map-location could be unique 浦东新区秀龙村 浦东新区康桥镇秀龙村
+        # map-location could be unique 嘉定区大陆村 嘉定区外冈镇大陆村
+        # map-location could be unique 浦东新区梅园村 浦东新区航头镇梅园村
+        # map-location could be unique 浦东新区灯塔村 浦东新区高东镇灯塔村
+        # map-location could be unique 浦东新区勤丰村 浦东新区惠南镇勤丰村
+        # map-location could be unique 嘉定区联西村 嘉定区安亭镇联西村
+        # map-location could be unique 浦东新区新苗村 浦东新区康桥镇新苗村
+        # map-location could be unique 浦东新区高桥镇中新村 浦东新区高桥镇北新村中新村
+        # map-location could be unique 浦东新区富强村 浦东新区惠南镇富强村
+        # map-location could be unique 嘉定区五四村 嘉定区江桥镇五四村
+        # map-location could be unique 浦东新区城南村 浦东新区川沙新镇城南村
+        # map-location could be unique 浦东新区前进村唐家新村 浦东新区唐镇前进村唐家新村
+        # map-location could be unique 浦东新区立新村 浦东新区祝桥镇立新村
+        # map-location could be unique 浦东新区幸福村 浦东新区惠南镇幸福村
+        # map-location could be unique 浦东新区光辉村 浦东新区宣桥镇光辉村
+        # map-location could be unique 嘉定区新丰村 嘉定区南翔镇新丰村
+        # map-location could be unique 浦东新区牌楼村 浦东新区航头镇牌楼村
+        # map-location could be unique 浦东新区罗家村 浦东新区曹路镇罗家村
+        # map-location could be unique 松江区中心村 松江区石湖荡镇中心村
+        # map-location could be unique 浦东新区先进村 浦东新区祝桥镇先进村
+        # map-location could be unique 浦东新区跃进新村 浦东新区合庆镇跃进新村
+        # map-location could be unique 浦东新区友谊村 浦东新区惠南镇友谊村
+        # map-location could be unique 浦东新区星火村 浦东新区祝桥镇星火村
+        # map-location could be unique 嘉定区星光村 嘉定区安亭镇星光村
+        # map-location could be unique 浦东新区永乐村 浦东新区惠南镇永乐村
+        # map-location could be unique 浦东新区高桥村 浦东新区泥城镇高桥村
+        # map-location could be unique 嘉定区灯塔村 嘉定区嘉定工业区灯塔村
+        # map-location could be unique 嘉定区黎明村 嘉定区嘉定工业区黎明村
+        # map-location could be unique 嘉定区永丰村 嘉定区南翔镇永丰村
+        # map-location could be unique 奉贤区横桥村 奉贤区四团镇横桥村
+        # map-location could be unique 浦东新区高桥村 浦东新区泥城镇高桥村
+        # map-location could be unique 浦东新区光明村 浦东新区曹路镇光明村
+        elif len(by_address) == 1 and uniqAddr.get(ls0s): # 只去掉了可被简化的短地址
+            continue
+        if ls0s not in C:
+            C.append( ls0s )
         # 1经度 2纬度
         # 3 是否精确
         # 4 可信度
         # 6 bd09_to_wgs84 gcj02_to_wgs84
         if len(ls) > 7 and ls[6] == 'bd09':
-            CC[ ls[0].strip() ] = bd09_to_wgs84(float(ls[1]), float(ls[2])
+            CC[ ls0s ] = bd09_to_wgs84(float(ls[1]), float(ls[2])
                                                ) + [ ls[3] ]
         elif len(ls) > 7 and ls[6] == 'gcj02':
-            CC[ ls[0].strip() ] = gcj02_to_wgs84(float(ls[1]), float(ls[2])
+            CC[ ls0s ] = gcj02_to_wgs84(float(ls[1]), float(ls[2])
                                                 ) + [ ls[3] ]
         else:
-            CC[ ls[0].strip() ] = [ ls[1], ls[2], ls[3] ]
+            CC[ ls0s ] = [ ls[1], ls[2], ls[3] ]
+
 fz = open('inAB-not-map.txt', 'w')
 fz.write('# AB %s' % datestr)
 fz.write('\n# https://maplocation.sjfkai.com/')

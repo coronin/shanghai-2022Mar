@@ -61,64 +61,30 @@ def bd09_to_wgs84(bd_lon, bd_lat):
     lon, lat = bd09_to_gcj02(bd_lon, bd_lat)
     return gcj02_to_wgs84(lon, lat)
 
+# https://stackoverflow.com/questions/1253499/
 # delta latitude: 1 deg = 110.574 km
 # delta longitude: 1 deg = 111.320*cos(latitude) km
-def ll_to_meter(dlat, dlon):
+def ll_to_meter(dlat, mlat, dlon):
     d0 = int(abs(dlat) * 110574)
-    d1 = int(abs(dlon) * 111320 * math.cos(abs(dlat) / pi / 180) )
+    d1 = int(abs(dlon) * 111320 * math.cos(pi * mlat/180) )
     return int(math.sqrt(math.pow(d0,2) + math.pow(d1,2) ))
 
 
-f = open('map-location.csv', 'r')
-csv = f.readlines()
+import json
+f = open('shanghaifabu/map-location.json', 'r')
+fj = json.loads( f.read()[5:-1] )
 f.close()
-C = []
-CC = {}
-cccc = 0
-cccd = 0
-nnnn = 0
-a_ = 0
-aa = 1
-print('will process:', len(csv)-aa)
-for l in csv[aa:]: # [1:]
-    a_ += 1
-    if not l:
-        continue
-    # if len(l) > 60:
-    #     print('\n\n\n\n%s' % (aa+a_), l, )
-    #     raise
-    ls = l.split(',')
-    if len(ls) > 4 and ls[1] and ls[2] and ls[4]:
-        if int(ls[4]) <= 30: # 可信度 大于30
-            nnnn += 1
-            continue
-        if ls[0] not in C:
-            C.append( ls[0].strip() )
-        # 1经度 2纬度
-        # 3 是否精确
-        # 4 可信度
-        # 6 bd09_to_wgs84 gcj02_to_wgs84
-        if len(ls) > 7 and ls[6] == 'bd09':
-            CC[ ls[0].strip() ] = bd09_to_wgs84(float(ls[1]), float(ls[2])
-                                               ) + [ ls[3] ]
-            cccc += 1
-        elif len(ls) > 7 and ls[6] == 'gcj02':
-            #gcj02unique
-            CC[ ls[0].strip() ] = gcj02_to_wgs84(float(ls[1]), float(ls[2])
-                                                ) + [ ls[3] ]
-            cccd += 1
-        else:
-            CC[ ls[0].strip() ] = [ ls[1], ls[2], ls[3] ]
-if cccc:
-    print('bd09_to_wgs84() str format:', cccc)
-if cccd:
-    print('gcj02_to_wgs84() str format:', cccd)
-if nnnn:
-    print('ignore: not precise location', nnnn)
+CC = fj['locations']
+C = list( CC.keys() )
+
 print('total unique address:', len(C) )
 
-print(ll_to_meter(float(CC['杨浦区国权北路1566弄'][0]) - float(CC['杨浦区国权北路1450弄'][0]),
-                  float(CC['杨浦区国权北路1566弄'][1]) - float(CC['杨浦区国权北路1450弄'][1]) ))
+print('lon E', CC['杨浦区国权北路1566弄'][0], 'lat N', CC['杨浦区国权北路1566弄'][1])
+print('lon E', CC['杨浦区国权北路1450弄'][0], 'lat N', CC['杨浦区国权北路1450弄'][1])
+print('Haversine formula 2943m vs', ll_to_meter(
+    float(CC['杨浦区国权北路1566弄'][1]) - float(CC['杨浦区国权北路1450弄'][1]),
+    (float(CC['杨浦区国权北路1566弄'][1]) + float(CC['杨浦区国权北路1450弄'][1]))/2,
+    float(CC['杨浦区国权北路1566弄'][0]) - float(CC['杨浦区国权北路1450弄'][0]) ))
 
 U = C[0]
 V = C[1:]
@@ -127,8 +93,9 @@ ww = {}
 www = 0
 while V:
     for v in V:
-        Uv = ll_to_meter(float(CC[U][0]) - float(CC[v][0]),
-                         float(CC[U][1]) - float(CC[v][1]) )
+        Uv = ll_to_meter(float(CC[U][1]) - float(CC[v][1]),
+                         (float(CC[U][1]) + float(CC[v][1]))/2,
+                         float(CC[U][0]) - float(CC[v][0]) )
         if Uv < within: ####
             if U not in W:
                 W.append(U)
@@ -171,7 +138,6 @@ fz.write('\n%s' % '\n'.join(to_check) )
 fz.write('\n####')
 fz.close
 
-import json
 j = {'date':datestr,
      'within':within,
      'ww size':len(ww),

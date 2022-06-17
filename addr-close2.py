@@ -59,11 +59,12 @@ def bd09_to_wgs84(bd_lon, bd_lat):
     lon, lat = bd09_to_gcj02(bd_lon, bd_lat)
     return gcj02_to_wgs84(lon, lat)
 
+# https://stackoverflow.com/questions/1253499/
 # delta latitude: 1 deg = 110.574 km
 # delta longitude: 1 deg = 111.320*cos(latitude) km
-def ll_to_meter(dlat, dlon):
+def ll_to_meter(dlat, mlat, dlon):
     d0 = int(abs(dlat) * 110574)
-    d1 = int(abs(dlon) * 111320 * math.cos(abs(dlat) / pi / 180) )
+    d1 = int(abs(dlon) * 111320 * math.cos(pi * mlat/180) )
     return int(math.sqrt(math.pow(d0,2) + math.pow(d1,2) ))
 
 
@@ -126,10 +127,6 @@ if nnnn:
     fz.close
 print('total unique address:', len(C) )
 
-print('国权北路1450到1560距离',
-      ll_to_meter(float(CC['杨浦区国权北路1566弄'][0]) - float(CC['杨浦区国权北路1450弄'][0]),
-                  float(CC['杨浦区国权北路1566弄'][1]) - float(CC['杨浦区国权北路1450弄'][1]) ))
-
 U = C[0]
 V = C[1:]
 W = []
@@ -137,8 +134,9 @@ ww = {}
 www = 0
 while V:
     for v in V:
-        Uv = ll_to_meter(float(CC[U][0]) - float(CC[v][0]),
-                         float(CC[U][1]) - float(CC[v][1]) )
+        Uv = ll_to_meter(float(CC[U][1]) - float(CC[v][1]),
+                         (float(CC[U][1]) + float(CC[v][1]))/2,
+                         float(CC[U][0]) - float(CC[v][0]) )
         if Uv < within: ####
             if U not in W:
                 W.append(U)
