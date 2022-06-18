@@ -1,4 +1,4 @@
-within = 125
+within = 200
 nearby = 12 # 仅用于输出check.txt
 # 2022-5-11 init
 # 2022-5-14 amap gcj02
@@ -96,7 +96,7 @@ while V:
         Uv = ll_to_meter(float(CC[U][1]) - float(CC[v][1]),
                          (float(CC[U][1]) + float(CC[v][1]))/2,
                          float(CC[U][0]) - float(CC[v][0]) )
-        if Uv < within: ####
+        if Uv < within and Uv >= 2: ####
             if U not in W:
                 W.append(U)
             W.append(v)
@@ -112,8 +112,8 @@ while V:
     U = V[0]
     V.pop(0)
     www += 1
-    if www % 10000 == 0:
-        print('>> V remain:', '%s, www ' % len(V), www)
+    if www % 2000 == 0:
+        print('>> V remain:', '%s, www' % len(V), www)
 
 print('addresses into ww:', len(W) )
 print('ww object size:', len(ww) )

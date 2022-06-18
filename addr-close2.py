@@ -156,7 +156,7 @@ while V:
     V.pop(0)
     www += 1
     if www % 10000 == 0:
-        print('>> V remain:', '%s, www ' % len(V), www)
+        print('>> V remain:', '%s, www' % len(V), www)
 
 print('addresses into ww:', len(W) )
 print('ww object size:', len(ww) )

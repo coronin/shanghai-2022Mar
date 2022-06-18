@@ -2083,7 +2083,11 @@ map_addr.push( Ds[ii] + As[i] );
     next_button.setAttribute('data-value', '');
     next_button.style.border = '';
     next_button2.style.border = '';
-    onListAppend(0, k.substr(0, k.length - 1), null, '&larr;可尝试');
+    if (k.length > 2) {
+      onListAppend(0, k.substr(0, k.length - 1), null, '&larr;可尝试');
+    } else {
+      onListAppend(0, '上海市', null, '&larr;可尝试');
+    }
   } else {
     if (map_i === 1 && map_addr[0].endsWith(k)) {
       ester_egg.textContent = '同区数据比较 建议先缩放 再点右箭头';

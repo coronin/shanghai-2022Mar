@@ -12,7 +12,7 @@
 腾讯CDN已经启用，更新COS文件后需要URL刷新，比如
 * https://cdn.teach.bio/map-location.json
 * https://cdn.teach.bio/inAB-close.json
-* https://cdn.teach.bio/full0615.json
+* https://cdn.teach.bio/full0616.json
 * https://cdn.teach.bio/full0514.json
 * https://cdn.teach.bio/full0505.json
 如大量更改COS文件，可刷新CDN目录
