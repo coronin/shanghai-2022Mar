@@ -436,11 +436,11 @@ function kd_related_ww (k, d) {
     if (dl1 !== d) {
       if (dlt) {
         dlt = false;
-        if (d3scale > 1000000) {
-          ks += '<br/><span class="inAB_close_click" onclick="draw_grey(\'' +
-                k + d + '\',this);">临近地址 '; // W.within
+        if (d3scale > 1000000) { // W.within
+          ks += '<br/><span class="inAB_close_left"><span onclick="draw_grey(\'' +
+                k + d + '\',this);" style="cursor:pointer;background-color:yellow;">临近地址</span> ';
         } else {
-          ks += '<br/><span class="inAB_close" style="padding-left:1.6em">临近地址 ';
+          ks += '<br/><span class="inAB_close_left">临近地址 ';
         }
       } else {
         ks += '<br/><span class="inAB_close">';
@@ -2497,15 +2497,14 @@ document.addEventListener('DOMContentLoaded', function () {
       display: inline-block;
       text-align: center;
     }
-    .inAB_close_click,
+    .inAB_close_left,
     .inAB_close {
       color: grey;
       padding-left: 6em;
       font-size: 75%;
     }
-    .inAB_close_click {
-      padding-left: 1.6em;
-      cursor: pointer;
+    .inAB_close_left {
+      padding-left: 1.6em !important;
     }
     em,
     span.em,
