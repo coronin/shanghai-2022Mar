@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>0616 sh listed address, since March 6th 2022</title><!-- @@ -->
+  <title>0617 sh listed address, since March 6th 2022</title><!-- @@ -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -1374,7 +1374,7 @@ async function load () {
       k.innerHTML = '<span style="color:black;" onclick="_check=\'released_today\';search(this.textContent);"' +
                     ' class="click _L">' + Ds[i] + '</span>: ' + j.released_today[ Ds[i] ];
     } else {
-      k.innerHTML = '<span style="color:black;">' + Ds[i] + ': 无</span>';
+      k.innerHTML = '<!-- span style="color:black;">' + Ds[i] + ': 无</span -->';
     }
     divLatestReleased.appendChild(k);
     k = document.createElement('p');
@@ -1382,9 +1382,15 @@ async function load () {
       k.innerHTML = '<span style="color:black;" onclick="_check=\'released\';search(this.textContent);"' +
                     ' class="click _L">' + Ds[i] + '</span>: ' + j.released[ Ds[i] ];
     } else {
-      k.innerHTML = '<span style="color:black;">' + Ds[i] + ': 无</span>';
+      k.innerHTML = '<!-- span style="color:black;">' + Ds[i] + ': 无</span -->';
     }
     divReleased.appendChild(k);
+  }
+  if (divLatestReleased.textContent === '') {
+    divLatestReleased.textContent = '无';
+  }
+  if (divReleased.textContent === '') {
+    divReleased.textContent = '无';
   }
   map = document.getElementById('app').getContext('2d');
   if (window.location.toString().indexOf('=') === -1 && !autoSavePNG) {
