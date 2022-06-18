@@ -2339,12 +2339,19 @@ function onlyOne (I) {
 }
 
 function mapOp (I) {
-  const checkboxes = document.getElementsByName('map');
+  let checkboxes = document.getElementsByName('map');
   Array.from(checkboxes).forEach((d) => {
     if (d !== I) d.checked = false;
   });
   _mapOp = '已' + I.parentNode.textContent;
-  search(addr.value);
+  if (addr.value) {
+    search(addr.value);
+  } else {
+    checkboxes = document.getElementsByName('sets');
+    Array.from(checkboxes).forEach((d) => {
+      d.checked = false;
+    });
+  }
 }
 
 function zero_people (s) {
