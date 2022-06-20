@@ -6,8 +6,8 @@ import re
 
 z = [
 #'0621','']
-#'0620','']
-'0619','']
+'0620','']
+#'0619','https://mp.weixin.qq.com/s/ZoMYifQ9nBHNqLlAzEETUA']
 #'0618','https://mp.weixin.qq.com/s/K2YZDEHeoJQC4oa2qN7rbA']
 #'0617','https://mp.weixin.qq.com/s/CzHc-xFiTbldTrX5g6NzQA']
 #'0616','https://mp.weixin.qq.com/s/86Ly4-B8zpVAtay0syJuwg']
