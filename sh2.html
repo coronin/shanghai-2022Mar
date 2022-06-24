@@ -1295,6 +1295,7 @@ async function load () {
   divLatestReleased.textContent = '';
   divReleased.textContent = '';
   let k;
+  let divTodayZero = 0;
   for (i = 0; i < Ds.length; i += 1) {
     k = document.createElement('tr');
     // if (Ds[i] === '普陀区') {
@@ -1353,6 +1354,7 @@ async function load () {
                     '个地址</span><br/><span style="color:grey;">' + j.today[Ds[i]] +
                     '</span>';
     }
+    divTodayZero += j.today[Ds[i]].length;
     divToday.appendChild(k); // j.latest_added
     k = document.createElement('p');
     if (j.released_today && j.released_today[ Ds[i] ] && j.released_today[ Ds[i] ].length > 0) {
@@ -1370,6 +1372,11 @@ async function load () {
       k.innerHTML = '<!-- span style="color:black;">' + Ds[i] + ': 无</span -->';
     }
     divReleased.appendChild(k);
+  }
+  if (divTodayZero === 0) {
+    divToday.textContent = '无';
+  } else {
+    console.log(j.tag, divTodayZero, 'positive detected');
   }
   if (divLatestReleased.textContent === '') {
     divLatestReleased.textContent = '无';
