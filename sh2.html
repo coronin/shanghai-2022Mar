@@ -854,6 +854,9 @@ function exportCanvasAsPNG (fo) {
 
 function updateLocation (hash_, q) {
   let url = baseURL + '#0' + hash_;
+  if (hash_ === 624 || hash_ === 625) {
+    url = baseURL + '#0626';
+  }
   if (q) {
     url += '?' + q;
   }
@@ -888,6 +891,9 @@ function preReload (q, oldest) {
   }
   if (oldest || hash_ < 307) {
     hash_ = 307;
+  }
+  if (hash_ === 624 || hash_ === 625) {
+    hash_ = 623;
   }
   if (oldest && lastAddrFirstTag &&
       lastAddrFirstTag !== j.tag &&
