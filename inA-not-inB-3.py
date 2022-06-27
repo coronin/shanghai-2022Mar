@@ -151,6 +151,8 @@ def read_a_list(s, tag=''):
         transition_int = 501
     elif tag != 'list' and transition_int == 532:
         transition_int = 601
+    elif tag != 'list' and transition_int in (624, 625):
+        transition_int = 626
     if len(s) != 4:
         f = open('%s.txt' % s, 'r')
     else:
