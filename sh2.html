@@ -846,6 +846,8 @@ function updateLocation (hash_, q) {
   let url = baseURL + '#0' + hash_;
   if (hash_ === 624 || hash_ === 625) {
     url = baseURL + '#0626';
+  } else if (hash_ === 627 || hash_ === 628 || hash_ === 629 || hash_ === 630 || hash_ === 701) {
+    url = baseURL + '#0702';
   }
   if (q) {
     url += '?' + q;
@@ -884,6 +886,8 @@ function preReload (q, oldest) {
   }
   if (hash_ === 624 || hash_ === 625) {
     hash_ = 623;
+  } else if (hash_ === 627 || hash_ === 628 || hash_ === 629 || hash_ === 630 || hash_ === 701) {
+    hash_ = 626;
   }
   if (oldest && lastAddrFirstTag &&
       lastAddrFirstTag !== j.tag &&
