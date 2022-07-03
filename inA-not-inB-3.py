@@ -28,12 +28,13 @@ AsBs = ('0306','0307','0308','0309','0310',
       '0521','0522','0523','0524','0525','0526','0527','0528','0529','0530','0531',
       '0601','0602','0603','0604','0605','0606','0607','0608','0609','0610',
       '0611','0612','0613','0614','0615','0616','0617','0618','0619','0620',
-      '0621','0622','0623',              '0626'
+      '0621','0622','0623',              '0626',
+             '0702'
       )
 #### 以上不能有末尾逗号 没有空字符检查
-As = AsBs[:-12]
-Bs = AsBs[-12:]
-#### 以上14会因为没有阳性感染者而变小
+As = AsBs[:-7]
+Bs = AsBs[-7:]
+#### 以上14会因为没有阳性感染者而变小 空7
 if len(Bs) > 14:
     raise ValueError('not in B 最多14天')
 
@@ -153,6 +154,8 @@ def read_a_list(s, tag=''):
         transition_int = 601
     elif tag != 'list' and transition_int in (624, 625):
         transition_int = 626
+    elif tag != 'list' and transition_int in (627, 628, 629, 630, 701): ####
+        transition_int = 702
     if len(s) != 4:
         f = open('%s.txt' % s, 'r')
     else:
@@ -452,7 +455,7 @@ fz.write('\n# 因微信页面可被编辑，本列表基于分析时的页面')
 fz.write('\n# 疾控，满足7+7和第13天全员核酸阴性，小区解封')
 fz.write('\n# 供参考\n')
 fz.write('\n'.join(Z) )
-fz.write('\n####')
+fz.write('\n##')
 fz.close()
 
 j = {'date':datestr,
@@ -564,7 +567,7 @@ AB = list(set(BB + A))
 for longline in AB:
     if longline not in C:
         fz.write('\n%s' % longline)
-fz.write('\n####')
+fz.write('\n##')
 fz.close
 
 j = {'date':datestr,
@@ -574,4 +577,4 @@ fz = open('shanghaifabu/map-location.json', 'w')
 fz.write("csv='%s'" % json.dumps(j, ensure_ascii=False) )
 #  jsonp  '%s(%s)' % (callback, out)
 fz.close()
-print('\ncheck inAB-not-map.txt, update map-location.csv and do ####\n')
+print('\ncheck inAB-not-map.txt, update map-location.csv and do ##\n')
