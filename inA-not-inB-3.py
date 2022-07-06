@@ -501,7 +501,19 @@ for l in csv[1:]:
             line = ls0s[4:]
         else:
             line = ls0s[3:]
-        if len(by_address) > 1 and not by_address.get(line): # 只收录有上榜记录的地址
+        if ls0s in [
+'松江区小昆山镇平原街86弄平原新村',
+'长宁区虹桥街道娄山关路85号A座2楼仙纳都量贩式KTV',
+'静安区共和新路街道沪太路785号B座501西区天空音乐量贩式KTV',
+'普陀区石泉路街道曹杨路1208号智尚酒店',
+'嘉定区安亭镇绿苑路82弄绿苑二邨',
+'静安区彭浦镇永和二村',
+'杨浦区定海路街道隆昌路394号',
+'普陀区兰溪路148号',
+'黄浦区建国东路391号',
+'普陀区兰溪路148号耕耘茶室' ]:
+            print('高风险+中风险 没进地址的', 10)
+        elif len(by_address) > 1 and not by_address.get(line): # 只收录有上榜记录的地址
             continue
         #if len(by_address) > 1 and uniqAddr.get(ls0s):
         #    print('map-location could be unique', ls0s, uniqAddr[ls0s])
