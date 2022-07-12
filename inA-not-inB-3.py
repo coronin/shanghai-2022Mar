@@ -29,11 +29,12 @@ AsBs = ('0306','0307','0308','0309','0310',
       '0601','0602','0603','0604','0605','0606','0607','0608','0609','0610',
       '0611','0612','0613','0614','0615','0616','0617','0618','0619','0620',
       '0621','0622','0623',              '0626', # 正好100个
-             '0702','0703','0704','0705','0706','0707','0708','0709','0710'
+             '0702','0703','0704','0705','0706','0707','0708','0709','0710',
+      '0711'
       )
 #### 以上不能有末尾逗号 没有空字符检查
-As = AsBs[:-9]
-Bs = AsBs[-9:]
+As = AsBs[:-10]
+Bs = AsBs[-10:]
 #### 以上14会因为没有阳性感染者而变小 空7
 if len(Bs) > 14:
     raise ValueError('not in B 最多14天')
@@ -247,7 +248,7 @@ def read_a_list(s, tag=''):
             post.append( '%s%s' % (running_district, line1) )
             continue
         elif '%s%s' % (running_district, line1) not in post:
-            if re.match(r'\d+\D\D?$', line1):
+            if re.match(r'\d+\D\D?$', line1) and line1 not in ('195街坊'):
                 raise ValueError('%s.txt' % s, line1, len(post) )
             post.append( '%s%s' % (running_district, line1) )
             if line1 not in by_district[running_district]:
@@ -504,6 +505,12 @@ for l in csv[1:]:
         else:
             line = ls0s[3:]
         if ls0s in [ #### @@ 复制进 drag-me.html 并获取定位，再缩短 进csv和sh2.html，然后查log导入此处
+'浦东新区兴荣家园',
+'徐汇区书香苑',
+'闵行区明申花园',
+'宝山区上河苑',
+'宝山区祥腾广场',
+'宝山区友谊康苑A区',
 '黄浦区三和里小区',
 '浦东新区和颐酒店世博园店',
 '浦东新区红枫苑',

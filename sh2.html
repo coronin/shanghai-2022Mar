@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>0710 sh listed address, since March 6th 2022</title><!-- @@ -->
+  <title>0711 sh listed address, since March 6th 2022</title><!-- @@ -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -74,7 +74,27 @@ const h0618 = '{"type":"Topology","objects":{"collection":{"type":"GeometryColle
 const h0626 = '{"type":"Topology","objects":{"collection":{"type":"GeometryCollection","geometries":[{"type":"Polygon","id":3481,"properties":{"_draw_type":"fill"},"bbox":[121.59643649,30.98520473,121.60628453,30.99476664],"arcs":[[0]]}]}},"arcs":[[[0,9421],[72,-8268],[348,-1153],[9579,996],[-804,9003],[-9195,-578]]],"transform":{"scale":[9.849972247077987e-7,9.555882705648607e-7],"translate":[121.592254295704,30.98754056283677]},"bbox":[121.592254295704,30.98754056283677,121.60210328295385,30.997095489954148]}'; // wgs84  奉贤区金汇镇梅园村部分区域 东至航塘港，西至航塘公路，南至梅园9组小排河，北至浦东/奉贤界河
 const h0707 = '{"type":"Topology","objects":{"collection":{"type":"GeometryCollection","geometries":[{"type":"Polygon","id":2881,"properties":{"_draw_type":"fill"},"bbox":[121.76246473,31.08099791,121.76502622,31.08352678],"arcs":[[0]]}]}},"arcs":[[[352,9843],[9647,156],[-59,-9999],[-9940,108],[352,9735]]],"transform":{"scale":[2.5617461746083014e-7,2.529122912290246e-7],"translate":[121.76246473,31.08099791]},"bbox":[121.76246473,31.08099791,121.76502622,31.08352678]}'; // wgs84 浦东新区祝桥镇星火村 东至星学路，西至南祝路，南至星勤路，北至星火二组支路
 const h0708 = '{"type":"Topology","objects":{"collection":{"type":"GeometryCollection","geometries":[{"type":"Polygon","id":6999,"properties":{"_draw_type":"fill"},"bbox":[121.46719034,31.22920899,121.46944233,31.23084695],"arcs":[[0]]}]}},"arcs":[[[0,9714],[560,-9714],[2156,1011],[1764,752],[1524,363],[1362,420],[1490,908],[745,34],[398,360],[-1058,1597],[-22,657],[-2182,3897],[-6737,-285]]],"transform":{"scale":[2.259300240923315e-7,1.64097362117552e-7],"translate":[121.4626466125639,31.23113487406229]},"bbox":[121.4626466125639,31.23113487406229,121.4649056868748,31.2327756835861]}'; // wgs84 黄浦区南京东路街道 成都北路以东、南京西路以南、明天广场以西、江阴路以北
-const hot_addr = { // 2022-7-11 17:12
+const hot_addr = { // 2022-7-12 7:52
+  '浦东新区兴荣家园': '0712',
+  '黄浦区河南中路166弄': '0712',
+  '徐汇区书香苑': '0712',
+  '普陀区真北路2087弄52支弄': '0712',
+  '虹口区霍山路219号': '0712',
+  '虹口区水电路1119弄': '0712',
+  '虹口区凉城路500弄': '0712',
+  '虹口区四平路59号': '0712',
+  '杨浦区飞虹路1047弄': '0712',
+  '杨浦区江浦路1199弄': '0712',
+  '杨浦区195街坊': '0712',
+  '杨浦区大连路1548号': '0712',
+  '杨浦区国和二村': '0712',
+  '闵行区明申花园': '0712',
+  '闵行区民建村': '0712',
+  '宝山区上河苑': '0712',
+  '宝山区祥腾广场': '0712',
+  '宝山区友谊康苑A区': '0712',
+  '宝山区通河八村': '0712',
+  '嘉定区漳翔路1165号': '0712',
   '长宁区延安西路1558弄': '0711', // 高风险
   '浦东新区和颐酒店世博园店': '0711', // 高风险
   '浦东新区南码头路451弄': '0711', // 高风险
@@ -2887,8 +2907,8 @@ document.addEventListener('DOMContentLoaded', function () {
       &nbsp; <span class="click april_button" onclick="jumpApr(addr.value,5);">5月</span><input type="text" id="may" name="may" onkeydown="aprilEnter(5);" />日
       &nbsp; <span class="click april_button" onclick="jumpApr(addr.value,6);">6月</span><input type="text" id="june" name="june" onkeydown="aprilEnter(6);" />日
       <br/>2022年2月7日零时，中风险清零；
-      <br/>2月24日，首位本土感染者；3月6日开始公布感染者地址；
-      <br/>6月24日无阳性感染者
+      <br/>2月24日，首位本土感染者；3月6日，开始公布感染者地址；
+      <br/>6月24日，无阳性感染者；7月3日，报道KTV疫情
     </div>
   </div>
 
