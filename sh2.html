@@ -1574,7 +1574,7 @@ async function load () {
         ' title="' + Ds[i] + '比昨日多" style="color:red;">' +
         (j.today[ Ds[i] ] || []).length +
         '</td><td class="click" onclick="_check=\'released\';search(\''+Ds[i]+'\');"' +
-        ' title="' + Ds[i] + '累计下榜" style="color:green;">' +
+        ' title="' + Ds[i] + '累计下榜">' +
         (j.released[ Ds[i] ] || []).length + '</td>';
     if (j.released_today[ Ds[i] ]) {
       k.innerHTML += '<td class="click" onclick="_check=\'released_today\';search(\''+Ds[i]+'\');"' +
@@ -1625,7 +1625,7 @@ async function load () {
     divLatestReleased.appendChild(k);
     k = document.createElement('p');
     if (j.released && j.released[ Ds[i] ] && j.released[ Ds[i] ].length > 0) {
-      k.innerHTML = '<span style="color:black;" onclick="_check=\'released\';search(this.textContent);"' +
+      k.innerHTML = '<span style="color:green;font-weight:bold;" onclick="_check=\'released\';search(this.textContent);"' +
                     ' class="click _L">' + Ds[i] + '</span>: ' + j.released[ Ds[i] ];
     } else {
       k.innerHTML = '<!-- span style="color:black;">' + Ds[i] + ': 无</span -->';
@@ -2939,7 +2939,7 @@ document.addEventListener('DOMContentLoaded', function () {
   <div style="color:green;display:none;" id="divLatestReleased" data-value="1"></div>
 
   <h2 onclick="show_full('divReleased');" class="click _L">累计下榜的地址<em id="divReleased_once">点击显示</em></h2>
-  <div style="color:green;display:none;" id="divReleased" data-value="1"></div>
+  <div style="display:none;" id="divReleased" data-value="1"></div>
 
   <pre id="end_pre">EOF</pre>
   <p><a href="https://support.qq.com/products/410541" target="blank">我要留言</a></p>
