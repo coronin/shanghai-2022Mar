@@ -8,9 +8,39 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
-  <script src="shanghaifabu/full0713.json"></script><!-- @@ -->
+  <script src="shanghaifabu/full0714.json"></script><!-- @@ -->
   <script>
-  const hot_addr = { // 2022-7-14 7:45
+  const hot_addr = { // 2022-7-15 7:45
+  '虹口区四川北路街道四平路59号': '0715', // 高风险
+  '浦东新区三林镇同济村果园队': '0715',
+  '浦东新区三林镇西泰林路158弄环球翡翠湾': '0715',
+  '浦东新区高行镇东沟三村小区': '0715',
+  '徐汇区凌云路街道梅陇七村': '0715',
+  '静安区彭浦新村街道保德路641弄': '0715',
+  '长宁区新华路街道幸福路211弄1号华山夏都苑': '0715',
+  '普陀区甘泉路街道黄陵路200弄': '0715',
+  '虹口区广中路街道广中路460号': '0715',
+  '虹口区广中路街道水电路583弄（1-8号）': '0715',
+  '虹口区曲阳路街道密云路471弄（46、48、50、52号）': '0715',
+  '虹口区曲阳路街道中山北一路865弄小区': '0715',
+  '虹口区欧阳路街道天宝西路252弄（16-19号）': '0715',
+  '虹口区欧阳路街道四达路58弄（29号）': '0715',
+  '杨浦区殷行街道国和一村122-127号': '0715',
+  '杨浦区五角场街道国顺路384-398双号、国顺路400弄': '0715',
+  '杨浦区长白新村街道控江路32、34号小区': '0715',
+  '杨浦区定海路街道隆昌路235号1号楼': '0715',
+  '杨浦区长海路街道中原路28弄1-8号': '0715',
+  '杨浦区江浦路街道信通浦皓园二期': '0715',
+  '杨浦区控江路街道195街坊第二居委': '0715',
+  '闵行区江川路街道华坪路69弄华江小区': '0715',
+  '宝山区杨行镇莲花山路517弄西区（37-72号，85-96号，106-117号，130-138号）': '0715',
+  '宝山区淞南镇长江路860弄9支弄8-30号': '0715',
+  '宝山区淞南镇长江西路755号碧家国际社区': '0715',
+  '宝山区顾村镇沈宅村陶家宅1-45号，沈宅村联杨路2447号和联杨路2398号': '0715',
+  '宝山区顾村镇陆翔路698弄海尚菊苑北区': '0715',
+  '宝山区大场镇环镇北路417弄509弄乾溪三村': '0715',
+  '宝山区友谊路街道宝钢二村B区': '0715',
+  '宝山区高境镇逸仙路2571号': '0715',
   '浦东新区南码头路街道东三小区': '0714',
   '浦东新区金杨新村街道浦东大道2511弄19-5号（长新汽修厂）': '0714',
   '浦东新区周浦镇韵浦路167弄沈默花苑': '0714',
@@ -247,6 +277,8 @@
       d -= 70; // 514-14=500(430), 501-14=487(417)
     } else if (531 < d && d <= 600) {
       d -= 69;
+    } else if (630 < d && d <= 700) {
+      d -= 70;
     }
     return d;
   }
@@ -530,12 +562,14 @@
             ks += '<span style="color:red">' + dl.join(', '
               ).replace(/030/g, '3/').replace(/040/g, '4/'
               ).replace(/050/g, '5/').replace(/060/g, '6/'
+              ).replace(/070/g, '7/').replace(/07/g, '7/'
               ).replace(/03/g, '3/').replace(/05/g, '5/'
               ).replace(/04/g, '4/').replace(/06/g, '6/') + '</span>';
           } else {
             ks += dl.join(', '
               ).replace(/030/g, '3/').replace(/040/g, '4/'
               ).replace(/050/g, '5/').replace(/060/g, '6/'
+              ).replace(/070/g, '7/').replace(/07/g, '7/'
               ).replace(/03/g, '3/').replace(/05/g, '5/'
               ).replace(/04/g, '4/').replace(/06/g, '6/');
           }
@@ -545,12 +579,14 @@
             ks += '<span style="color:red">' + s2.substr(s2.lastIndexOf(',') + 1
               ).replace(/030/g, '3/').replace(/040/g, '4/'
               ).replace(/050/g, '5/').replace(/060/g, '6/'
+              ).replace(/070/g, '7/').replace(/07/g, '7/'
               ).replace(/03/g, '3/').replace(/05/g, '5/'
               ).replace(/04/g, '4/').replace(/06/g, '6/') + '</span>';
           } else {
             ks += s2.substr(s2.lastIndexOf(',') + 1
               ).replace(/030/g, '3/').replace(/040/g, '4/'
               ).replace(/050/g, '5/').replace(/060/g, '6/'
+              ).replace(/070/g, '7/').replace(/07/g, '7/'
               ).replace(/03/g, '3/').replace(/05/g, '5/'
               ).replace(/04/g, '4/').replace(/06/g, '6/');
           }
@@ -577,13 +613,21 @@
           }
           ks += ' &rarr; 5/' + release +
                 ' <span style="color:green">已满14天</span>';
-        } else {
-          if (release > 300) { // 类似4月
+        } else if (release < 331) { // 类似4月
+          if (release > 300) {
             release -= 300;
           } else {
             release -= 231;
           }
-          ks += ' &rarr; 6/' + release;
+          ks += ' &rarr; 6/' + release +
+                ' <span style="color:green">已满14天</span>';
+        } else {
+          if (release > 400) { // 类似5月
+            release -= 400;
+          } else {
+            release -= 330;
+          }
+          ks += ' &rarr; 7/' + release;
           if (release < today.getDate() ) {
             ks += ' <span style="color:green">已满14天</span>';
           } else if (release === today.getDate() ) {
@@ -636,7 +680,7 @@
     更新时间 <span id="datestr" style="color:blue;">fetching... not ready</span><br/>
     本页的<span style="background-color:yellow;">今日</span>为2022年<span id="tag_m"></span>月<span id="tag_d"></span>日
     <!--   j.tag-1    @@ -->
-    搜索<a href="/#0712">昨日数据</a>
+    搜索<a href="/#0713">昨日数据</a>
   </p>
   <p>
     <label for="addr">上榜地址</label>
