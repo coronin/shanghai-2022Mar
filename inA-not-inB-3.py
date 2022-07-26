@@ -508,6 +508,7 @@ for l in csv[1:]:
         else:
             line = ls0s[3:]
         if ls0s in [ #### @@ 复制进 drag-me.html 并获取定位，再缩短 进csv和sh2.html，然后查log导入此处
+'宝山区宝通家园西区',
 '静安区彭顺小区',
 '静安区星际花苑',
 '松江区松南城嘉泽里',
