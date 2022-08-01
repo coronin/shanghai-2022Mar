@@ -963,7 +963,9 @@ function updateLocation (hash_, q) {
     url = baseURL + '#0626';
   } else if (hash_ === 627 || hash_ === 628 || hash_ === 629 || hash_ === 630 || hash_ === 701) {
     url = baseURL + '#0702';
-  }
+  } //else if (hash_ === 731) {
+    //url = baseURL + '#08';
+  //}
   if (q) {
     url += '?' + q;
   }
@@ -1003,6 +1005,8 @@ function preReload (q, oldest) {
     hash_ = 623;
   } else if (hash_ === 627 || hash_ === 628 || hash_ === 629 || hash_ === 630 || hash_ === 701) {
     hash_ = 626;
+  } else if (hash_ === 731) {
+    hash_ = 730;
   }
   if (oldest && lastAddrFirstTag &&
       lastAddrFirstTag !== j.tag &&
@@ -2778,7 +2782,8 @@ document.addEventListener('DOMContentLoaded', function () {
       <br/>2月24日报道首位本土感染者；3月2日徐汇华亭酒店；
       <br/><span class="click" onclick="updateLocation(306);">3月6日</span>开始公布感染者地址；
       <br/><span class="click" onclick="updateLocation(624);">6月24日</span>无阳性感染者；<span class="click" onclick="updateLocation(628);">6月28日</span>发布防控方案第九版；
-      <br/><span class="click" onclick="updateLocation(703);">7月3日</span>普陀兰溪路KTV；<span class="click" onclick="updateLocation(720);">7月20日</span>宝山隔离酒店
+      <br/><span class="click" onclick="updateLocation(703);">7月3日</span>普陀兰溪路KTV；<span class="click" onclick="updateLocation(720);">7月20日</span>宝山隔离酒店；
+      <br/><span class="click" onclick="updateLocation(731);">7月31日</span>无阳性感染者
     </div>
   </div>
 
