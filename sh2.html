@@ -2123,11 +2123,12 @@ kk = document.createElement('p');
 //kk.id = As[i];
 kk.innerHTML = ks;
 onList.appendChild(kk);
-map_x.push(parseFloat( Ml.locations[Ds[ii] + As[i]][0] ));
-map_y.push(parseFloat( Ml.locations[Ds[ii] + As[i]][1] ));
-map_addr.push( Ds[ii] + As[i] );
-
-        //if
+if (Ms.indexOf(Ds[ii] + As[i]) > -1) {
+  map_x.push(parseFloat( Ml.locations[Ds[ii] + As[i]][0] ));
+  map_y.push(parseFloat( Ml.locations[Ds[ii] + As[i]][1] ));
+  map_addr.push( Ds[ii] + As[i] );
+}
+        //if (j.districts
         }
       }
     }
