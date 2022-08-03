@@ -125,9 +125,10 @@ function jtagOffset (dd) {
   let d = parseInt(j.tag) - dd;
   if ((d > 331 && d <= 400) ||
       (d > 531 && d <= 600) ||
-      (d > 731 && d <= 800) ) {
+      (d > 731 && d <= 800) ||
+      (d > 831 && d <= 900) ) {
     // 401-14=387(318), 414-14=400(331),
-    // 331+1=332(401), 531+1=532(601)， 731+1=732(801)
+    // 331+1=332(401), 531+1=532(601), 731+1=732(801), 831+1=832(901)
     if (dd > 0) {
       d -= 69;
     } else {
@@ -1536,7 +1537,9 @@ function draw_sh () { // map-address.html
     map.fillStyle = purple_rgb + ',1)';
     let null_hot_addr = 0;
     Object.keys(hot_addr).forEach((d) => { // 2022-6-2
-      if (Ml.locations[d]) {
+      if (parseInt(hot_addr[d].slice(-4)) + 10 < 734) { // 731, 734 = 803
+        console.log('超过十天', d);
+      } else if (Ml.locations[d]) {
         //if (d.substr(0,3) === '杨浦区') console.log(d);
         map.beginPath();
         map.fillRect(mapX( Ml.locations[d][0] ),
@@ -2083,7 +2086,7 @@ if (release) {
     }
     ks += ' &rarr; 5/' + release +
           ' <span style="color:green">已满14天</span>';
-  } else if (release < 331) { // 类似4月
+  } else if (release < 331) { // 6月类似4月
     if (release > 300) {
       release -= 300;
     } else {
@@ -2091,13 +2094,21 @@ if (release) {
     }
     ks += ' &rarr; 6/' + release +
           ' <span style="color:green">已满14天</span>';
-  } else {
-    if (release > 400) { // 类似5月
+  } else if (release < 432) {
+    if (release > 400) { // 7月类似5月
       release -= 400;
     } else {
       release -= 330;
     }
-    ks += ' &rarr; 7/' + release;
+    ks += ' &rarr; 7/' + release +
+          ' <span style="color:green">已满14天</span>';
+  } else {
+    if (release > 500) { // 8月类似5月
+      release -= 500;
+    } else {
+      release -= 430;
+    }
+    ks += ' &rarr; 8/' + release;
     if (release < today.getDate() ) {
       ks += ' <span style="color:green">已满14天</span>';
     } else if (release === today.getDate() ) {
