@@ -872,7 +872,9 @@ function updateLocation (hash_, q) {
     url = baseURL + '#0702';
   } else if (hash_ === 731 || hash_ === 801 || hash_ === 802) {
     url = baseURL + '#0803';
-  }
+  }// else if (hash_ === 804) {
+  //  url = baseURL + '#08';
+  //}
   if (q) {
     url += '?' + q;
   }
@@ -914,6 +916,8 @@ function preReload (q, oldest) {
     hash_ = 626;
   } else if (hash_ === 731 || hash_ === 801 || hash_ === 802) {
     hash_ = 730;
+  } else if (hash_ === 804) {
+    hash_ = 803;
   }
   if (oldest && lastAddrFirstTag &&
       lastAddrFirstTag !== j.tag &&
