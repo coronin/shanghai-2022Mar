@@ -870,7 +870,7 @@ function updateLocation (hash_, q) {
     url = baseURL + '#0702';
   } else if (hash_ === 731 || hash_ === 801 || hash_ === 802) {
     url = baseURL + '#0803';
-  }// else if (hash_ === 804 || hash_ === 805 || hash_ === 806) {
+  }// else if (hash_ === 804 || hash_ === 805 || hash_ === 806 || hash_ === 807) {
   //  url = baseURL + '#08';
   //} //@@
   if (q) {
@@ -914,7 +914,7 @@ function preReload (q, oldest) {
     hash_ = 626;
   } else if (hash_ === 731 || hash_ === 801 || hash_ === 802) {
     hash_ = 730;
-  } else if (hash_ === 804 || hash_ === 805 || hash_ === 806) { //@@
+  } else if (hash_ === 804 || hash_ === 805 || hash_ === 806 || hash_ === 807) { //@@
     hash_ = 803;
   }
   if (oldest && lastAddrFirstTag &&
@@ -2698,12 +2698,12 @@ document.addEventListener('DOMContentLoaded', function () {
       &nbsp; <span class="click april_button" onclick="jumpApr(addr.value);">4月</span><input type="text" id="april" name="april" onkeydown="aprilEnter();" />日
       &nbsp; <span class="click april_button" onclick="jumpApr(addr.value,5);">5月</span><input type="text" id="may" name="may" onkeydown="aprilEnter(5);" />日
       &nbsp; <span class="click april_button" onclick="jumpApr(addr.value,6);">6月</span><input type="text" id="june" name="june" onkeydown="aprilEnter(6);" />日
-      <br/>2022年2月7日零时，中风险清零；
+      <br/>2022年2月7日，中风险清零；
       <br/>2月24日报道首位本土感染者；3月2日徐汇华亭酒店；
       <br/><span class="click" onclick="updateLocation(306);">3月6日</span>开始公布感染者地址；
       <br/><span class="click" onclick="updateLocation(624);">6月24日</span>无阳性感染者；<span class="click" onclick="updateLocation(628);">6月28日</span>发布防控方案第九版；
       <br/><span class="click" onclick="updateLocation(703);">7月3日</span>普陀兰溪路KTV；<span class="click" onclick="updateLocation(720);">7月20日</span>宝山隔离酒店；
-      <br/><span class="click" onclick="updateLocation(731);">7月31日</span>无阳性感染者
+      <br/><span class="click" onclick="updateLocation(731);">7月31日</span>无阳性感染者；<span class="click" onclick="updateLocation(807);">8月7日</span>中风险清零
     </div>
   </div>
 
