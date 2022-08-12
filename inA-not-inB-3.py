@@ -515,6 +515,7 @@ for l in csv[1:]:
         else:
             line = ls0s[3:]
         if ls0s in [ #### @@ 复制进 drag-me.html 并获取定位，再缩短 进csv和sh2.html，然后查log导入此处
+'徐汇区华展路113号',
 '徐汇区华欣家园',
 '徐汇区卫强足浴店',
 '普陀区耕耘茶室' ] and ls0s not in C:
