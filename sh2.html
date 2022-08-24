@@ -882,7 +882,7 @@ function updateLocation (hash_, q) {
     url = baseURL + '#0803';
   } else if (hash_ === 804 || hash_ === 805 || hash_ === 806 || hash_ === 807 || hash_ === 808 || hash_ === 809 || hash_ === 810) {
     url = baseURL + '#0811';
-  } //@@
+  } //@@ 823
   if (q) {
     url += '?' + q;
   }
@@ -924,9 +924,11 @@ function preReload (q, oldest) {
     hash_ = 626;
   } else if (hash_ === 731 || hash_ === 801 || hash_ === 802) {
     hash_ = 730;
-  } else if (hash_ === 804 || hash_ === 805 || hash_ === 806 || hash_ === 807 || hash_ === 808 || hash_ === 809 || hash_ === 810) { //@@
+  } else if (hash_ === 804 || hash_ === 805 || hash_ === 806 || hash_ === 807 || hash_ === 808 || hash_ === 809 || hash_ === 810) {
     hash_ = 803;
-  }
+  } else if (hash_ === 823) {
+    hash_ = 811;
+  } //@@
   if (oldest && lastAddrFirstTag &&
       lastAddrFirstTag !== j.tag &&
       [...Ds, '上海市'].indexOf(addr.value) === -1 ) {

@@ -165,6 +165,8 @@ def read_a_list(s, tag=''):
         transition_int = 803
     elif tag != 'list' and transition_int in (804, 805, 806, 807, 808, 809, 810):
         transition_int = 811
+    elif tag != 'list' and transition_int in (823):
+        transition_int = 824
     #### @@
     if len(s) != 4:
         f = open('%s.txt' % s, 'r')
@@ -522,18 +524,7 @@ for l in csv[1:]:
         else:
             line = ls0s[3:]
         if ls0s in [ #### @@ 复制进 drag-me.html 并获取定位，再缩短 进csv和sh2.html，然后查log导入此处
-'宝山区洛河桥小区',
-'虹口区何家宅小区',
-'虹口区白玉兰食品（溧阳路店）',
-'徐汇区福源汇居',
-'闵行区万源城尚郡',
-'徐汇区盛华景苑',
-'闵行区美琪花苑',
-'闵行区莘朱路1866号-1884号',
-'徐汇区华展路113号',
-'徐汇区华欣家园',
-'徐汇区卫强足浴店',
-'普陀区耕耘茶室' ] and ls0s not in C:
+'宝山区洛河桥小区' ] and ls0s not in C:
             hot_addr += 1
             print('高风险+中风险', hot_addr)
         elif len(by_address) > 1 and not by_address.get(line): # 只收录有上榜记录的地址
