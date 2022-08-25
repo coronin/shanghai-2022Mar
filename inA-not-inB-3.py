@@ -34,11 +34,11 @@ AsBs = ('0306','0307','0308','0309','0310',
       '0721','0722','0723','0724','0725','0726','0727','0728','0729','0730',
                     '0803',
       '0811','0812','0813','0814','0815','0816','0817','0818','0819','0820',
-      '0821','0822'
+      '0821','0822',       '0824'
       )
 #### 以上不能有末尾逗号 没有空字符检查
-As = AsBs[:-12]
-Bs = AsBs[-12:]
+As = AsBs[:-13]
+Bs = AsBs[-13:]
 #### 以上14会因为没有阳性感染者而变小 空7
 if len(Bs) > 14:
     raise ValueError('not in B 最多14天')
@@ -165,7 +165,7 @@ def read_a_list(s, tag=''):
         transition_int = 803
     elif tag != 'list' and transition_int in (804, 805, 806, 807, 808, 809, 810):
         transition_int = 811
-    elif tag != 'list' and transition_int in (823):
+    elif tag != 'list' and transition_int == 823:
         transition_int = 824
     #### @@
     if len(s) != 4:
