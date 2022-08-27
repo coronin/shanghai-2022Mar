@@ -524,6 +524,8 @@ for l in csv[1:]:
         else:
             line = ls0s[3:]
         if ls0s in [ #### @@ 复制进 drag-me.html 并获取定位，再缩短 进csv和sh2.html，然后查log导入此处
+'杨浦区富庆国定大厦',
+'宝山区世纪长江怡园',
 '宝山区洛河桥小区' ] and ls0s not in C:
             hot_addr += 1
             print('高风险+中风险', hot_addr)
