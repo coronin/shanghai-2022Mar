@@ -37,8 +37,8 @@ AsBs = ('0306','0307','0308','0309','0310',
       '0821','0822',       '0824','0825','0826','0827'
       )
 #### 以上不能有末尾逗号 没有空字符检查
-As = AsBs[:-13]
-Bs = AsBs[-13:]
+As = AsBs[:-12]
+Bs = AsBs[-12:]
 #### 以上14会因为没有阳性感染者而变小
 if len(Bs) > 14:
     raise ValueError('not in B 最多14天')
@@ -167,7 +167,7 @@ def read_a_list(s, tag=''):
         transition_int = 811
     elif tag != 'list' and transition_int == 823:
         transition_int = 824
-    #### @@
+    #### @@ 0828
     if len(s) != 4:
         f = open('%s.txt' % s, 'r')
     else:

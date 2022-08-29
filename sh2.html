@@ -898,7 +898,7 @@ function updateLocation (hash_, q) {
     url = baseURL + '#0811';
   } else if (hash_ === 823) {
     url = baseURL + '#0824';
-  } //@@
+  } //@@ 0828
   if (q) {
     url += '?' + q;
   }
@@ -944,7 +944,7 @@ function preReload (q, oldest) {
     hash_ = 803;
   } else if (hash_ === 823) {
     hash_ = 811;
-  } //@@
+  } //@@ 0828
   if (oldest && lastAddrFirstTag &&
       lastAddrFirstTag !== j.tag &&
       [...Ds, '上海市'].indexOf(addr.value) === -1 ) {
@@ -2732,7 +2732,8 @@ document.addEventListener('DOMContentLoaded', function () {
       <br/><span class="click" onclick="updateLocation(624);">6月24日</span>无阳性感染者；<span class="click" onclick="updateLocation(628);">6月28日</span>发布防控方案第九版；
       <br/><span class="click" onclick="updateLocation(703);">7月3日</span>普陀兰溪路KTV；<span class="click" onclick="updateLocation(720);">7月20日</span>宝山隔离酒店；
       <br/><span class="click" onclick="updateLocation(731);">7月31日</span>无阳性感染者；<span class="click" onclick="updateLocation(807);">8月7日</span>中风险清零；
-      <br/><span class="click" onclick="updateLocation(810);">8月10日</span>徐汇足浴棋牌；<span class="click" onclick="updateLocation(823);">8月23日</span>无阳性感染者
+      <br/><span class="click" onclick="updateLocation(810);">8月10日</span>徐汇足浴棋牌；
+      <br/><span class="click" onclick="updateLocation(823);">8月23日</span>无阳性感染者
     </div>
   </div>
 
