@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>0827 sh listed address, since March 6th 2022</title><!-- @@ -->
+  <title>0830 sh listed address, since March 6th 2022</title><!-- @@ -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -96,6 +96,7 @@ const b0813 = '{"type":"Topology","objects":{"collection":{"type":"GeometryColle
 const h0817 = '{"type":"Topology","objects":{"collection":{"type":"GeometryCollection","geometries":[{"type":"Polygon","id":5834,"properties":{"_draw_type":"fill"},"bbox":[121.471155,31.19829647,121.47565174,31.20168357],"arcs":[[0]]}]}},"arcs":[[[9961,5576],[-5261,4423],[-4700,-1168],[194,-2795],[926,-2342],[624,-1949],[583,-1745],[3304,1437],[2755,826],[1613,784],[-57,1132],[19,1397]]],"transform":{"scale":[4.5119728948838784e-7,3.38867000288095e-7],"translate":[121.4666262338207,31.20024996357448]},"bbox":[121.4666262338207,31.20024996357448,121.4711377555183,31.20363829471036]}'; // wsg84 打浦路以东、打浦路303弄公弄以南、全季酒店打浦桥鲁班路店以西、瞿溪路以北的区域
 
 const hot_addr = {
+  '闵行区瑞特国际大厦': '0831',
   '浦东新区惠南镇海燕苑': '0828',
   '浦东新区乳山路505弄': '0828',
   '徐汇区罗秀路57-77号': '0828', // （不含华馨公寓）
@@ -898,7 +899,9 @@ function updateLocation (hash_, q) {
     url = baseURL + '#0811';
   } else if (hash_ === 823) {
     url = baseURL + '#0824';
-  } //@@ 0828
+  } else if (hash_ === 828 || hash_ === 829) {
+    url = baseURL + '#0830';
+  } //@@
   if (q) {
     url += '?' + q;
   }
@@ -943,8 +946,10 @@ function preReload (q, oldest) {
   } else if (hash_ === 804 || hash_ === 805 || hash_ === 806 || hash_ === 807 || hash_ === 808 || hash_ === 809 || hash_ === 810) {
     hash_ = 803;
   } else if (hash_ === 823) {
-    hash_ = 811;
-  } //@@ 0828
+    hash_ = 822;
+  } else if (hash_ === 828 || hash_ === 829) {
+    hash_ = 827;
+  } //@@
   if (oldest && lastAddrFirstTag &&
       lastAddrFirstTag !== j.tag &&
       [...Ds, '上海市'].indexOf(addr.value) === -1 ) {
