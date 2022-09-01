@@ -169,7 +169,7 @@ def read_a_list(s, tag=''):
         transition_int = 824
     elif tag != 'list' and transition_int in (828, 829):
         transition_int = 830
-    #### @@
+    #### @@ 831
     if len(s) != 4:
         f = open('%s.txt' % s, 'r')
     else:
@@ -528,10 +528,8 @@ for l in csv[1:]:
         if ls0s in [
 #### @@ 复制进 drag-me.html 并获取定位，再缩短 进csv和sh2.html，然后查log导入此处
 '闵行区瑞特国际大厦',
-'浦东新区惠南镇海燕苑',
 '徐汇区罗秀路57-77号',
 '杨浦区富庆国定大厦',
-'宝山区世纪长江怡园',
 '宝山区洛河桥小区'
         ] and ls0s not in C:
             hot_addr += 1
