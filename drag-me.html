@@ -8,18 +8,17 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
-  <script src="shanghaifabu/full0901.json"></script><!-- @@ -->
+  <script src="shanghaifabu/full0902.json"></script><!-- @@ -->
   <script>
   const hot_addr = {
   '闵行区虹桥镇宜山路1999号10号楼字节跳动办公大楼': '0902', // 高风险
   '闵行区虹桥镇万源路2289弄万源新城一、二期': '0902', // 高风险
-  '闵行区虹桥镇宜山路1888号瑞特国际大厦': '0831',
+  '闵行区虹桥镇宜山路1888号瑞特国际大厦': '0831', // 高风险
   '杨浦区殷行街道包头路1150弄（包括沿街商铺）': '0828',
-  '杨浦区长海路街道民星路50号至162号和虬江机械厂（虬江码头路2号、5号）': '0828',
+  '杨浦区长海路街道民星路50号至162号和虬江机械厂（虬江码头路2号、5号）': '0828', // 纳入 '杨浦区长海路街道民星路158号、160号、162号（包括沿街商铺）': '0825'
   '杨浦区长海路街道军工路1300号园区所有区域': '0828',
-  '杨浦区长海路街道国京路50弄7-13号平安佳苑（包括沿街商铺）': '0827',
-  '杨浦区新江湾城街道国霞路399弄6号小区（包括沿街商铺）': '0825', // 高风险
-  '杨浦区长海路街道民星路158号、160号、162号（包括沿街商铺）': '0825'
+  '杨浦区长海路街道国京路50弄7-13号平安佳苑（包括沿街商铺）': '0827', // 高风险
+  '杨浦区新江湾城街道国霞路399弄6号小区（包括沿街商铺）': '0825' // 高风险
   };
   let i; let j; let As; let Ds;
   const today = new Date();
@@ -324,6 +323,8 @@
               ).replace(/030/g, '3/').replace(/040/g, '4/'
               ).replace(/050/g, '5/').replace(/060/g, '6/'
               ).replace(/070/g, '7/').replace(/07/g, '7/'
+              ).replace(/080/g, '8/').replace(/08/g, '8/'
+              ).replace(/090/g, '9/').replace(/09/g, '9/'
               ).replace(/03/g, '3/').replace(/05/g, '5/'
               ).replace(/04/g, '4/').replace(/06/g, '6/') + '</span>';
           } else {
@@ -331,6 +332,8 @@
               ).replace(/030/g, '3/').replace(/040/g, '4/'
               ).replace(/050/g, '5/').replace(/060/g, '6/'
               ).replace(/070/g, '7/').replace(/07/g, '7/'
+              ).replace(/080/g, '8/').replace(/08/g, '8/'
+              ).replace(/090/g, '9/').replace(/09/g, '9/'
               ).replace(/03/g, '3/').replace(/05/g, '5/'
               ).replace(/04/g, '4/').replace(/06/g, '6/');
           }
@@ -341,6 +344,8 @@
               ).replace(/030/g, '3/').replace(/040/g, '4/'
               ).replace(/050/g, '5/').replace(/060/g, '6/'
               ).replace(/070/g, '7/').replace(/07/g, '7/'
+              ).replace(/080/g, '8/').replace(/08/g, '8/'
+              ).replace(/090/g, '9/').replace(/09/g, '9/'
               ).replace(/03/g, '3/').replace(/05/g, '5/'
               ).replace(/04/g, '4/').replace(/06/g, '6/') + '</span>';
           } else {
@@ -348,6 +353,8 @@
               ).replace(/030/g, '3/').replace(/040/g, '4/'
               ).replace(/050/g, '5/').replace(/060/g, '6/'
               ).replace(/070/g, '7/').replace(/07/g, '7/'
+              ).replace(/080/g, '8/').replace(/08/g, '8/'
+              ).replace(/090/g, '9/').replace(/09/g, '9/'
               ).replace(/03/g, '3/').replace(/05/g, '5/'
               ).replace(/04/g, '4/').replace(/06/g, '6/');
           }
@@ -390,13 +397,21 @@
           }
           ks += ' &rarr; 7/' + release +
                 ' <span style="color:green">已满14天</span>';
-        } else {
+        } else if (release < 532) {
           if (release > 500) { // 8月类似5月
             release -= 500;
           } else {
             release -= 430;
           }
-          ks += ' &rarr; 8/' + release;
+          ks += ' &rarr; 8/' + release +
+                ' <span style="color:green">已满14天</span>';
+        } else { // 9月类似4月
+          if (release > 600) {
+            release -= 600;
+          } else {
+            release -= 531;
+          }
+          ks += ' &rarr; 9/' + release;
           if (release < today.getDate() ) {
             ks += ' <span style="color:green">已满14天</span>';
           } else if (release === today.getDate() ) {
@@ -449,7 +464,7 @@
     更新时间 <span id="datestr" style="color:blue;">fetching... not ready</span><br/>
     本页的<span style="background-color:yellow;">今日</span>为2022年<span id="tag_m"></span>月<span id="tag_d"></span>日
     <!--   j.tag-1    @@ -->
-    搜索<a href="/#0830">昨日数据</a>
+    搜索<a href="/#0901">昨日数据</a>
   </p>
   <p>
     <label for="addr">上榜地址</label>

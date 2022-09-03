@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>0901 sh listed address, since March 6th 2022</title><!-- @@ -->
+  <title>0902 sh listed address, since March 6th 2022</title><!-- @@ -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -98,13 +98,12 @@ const h0817 = '{"type":"Topology","objects":{"collection":{"type":"GeometryColle
 const hot_addr = {
   '闵行区字节跳动办公大楼': '0902', // 高风险
   '闵行区万源新城': '0902', // 高风险
-  '闵行区瑞特国际大厦': '0831',
+  '闵行区瑞特国际大厦': '0831', // 高风险
   '杨浦区包头路1150弄': '0828',
-  '杨浦区民星路50号': '0828', // 至162号和虬江机械厂（虬江码头路2号、5号）
+  '杨浦区民星路50号': '0828', // 至162号和虬江机械厂（虬江码头路2号、5号） 纳入 杨浦区民星路158号、160号、162号 0825
   '杨浦区军工路1300号': '0828', // 园区所有区域
-  '杨浦区国京路50弄': '0827', // 7-13号平安佳苑（包括沿街商铺）
-  '杨浦区国霞路399弄': '0825', // 高风险
-  '杨浦区民星路162号': '0825' // 158号、160号、
+  '杨浦区国京路50弄': '0827', // 高风险 7-13号平安佳苑（包括沿街商铺）
+  '杨浦区国霞路399弄': '0825' // 高风险
 }; //@@
 
 const purple_rgb = 'rgba(127,0,128';
@@ -2130,13 +2129,21 @@ if (release) {
     }
     ks += ' &rarr; 7/' + release +
           ' <span style="color:green">已满14天</span>';
-  } else {
+  } else if (release < 532) {
     if (release > 500) { // 8月类似5月
       release -= 500;
     } else {
       release -= 430;
     }
-    ks += ' &rarr; 8/' + release;
+    ks += ' &rarr; 8/' + release +
+          ' <span style="color:green">已满14天</span>';
+  } else { // 9月类似4月
+    if (release > 600) {
+      release -= 600;
+    } else {
+      release -= 531;
+    }
+    ks += ' &rarr; 9/' + release;
     if (release < today.getDate() ) {
       ks += ' <span style="color:green">已满14天</span>';
     } else if (release === today.getDate() ) {
