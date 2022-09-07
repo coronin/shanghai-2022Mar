@@ -172,7 +172,7 @@ def read_a_list(s, tag=''):
         transition_int = 830
     elif tag != 'list' and transition_int == 831:
         transition_int = 901
-    #### @@ 903 904 905
+    #### @@ 903 904 905 906
     if len(s) != 4:
         f = open('%s.txt' % s, 'r')
     else:
@@ -530,6 +530,10 @@ for l in csv[1:]:
             line = ls0s[3:]
         if ls0s in [
 #### @@ 复制进 drag-me.html 并获取定位，再缩短 进csv和sh2.html，然后查log导入此处
+'松江区三新生活园区',
+'浦东新区东荷小区',
+'松江区复地香堤苑',
+'松江区宰相府酒店',
 '闵行区字节跳动办公大楼',
 '闵行区万源新城',
 '闵行区瑞特国际大厦'

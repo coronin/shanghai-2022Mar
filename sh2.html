@@ -97,6 +97,12 @@ const h0817 = '{"type":"Topology","objects":{"collection":{"type":"GeometryColle
 const h0906 = '{"type":"Topology","objects":{"collection":{"type":"GeometryCollection","geometries":[{"type":"Polygon","id":2672,"properties":{"_draw_type":"fill"},"bbox":[121.48028476,31.23102324,121.48130327,31.23213824],"arcs":[[0]]}]}},"arcs":[[[0,5906],[4397,2120],[5602,1973],[-1787,-6523],[-1721,-3476],[-6491,5906]]],"transform":{"scale":[1.0220549280884515e-7,1.1156198504634414e-7],"translate":[121.47578356287804,31.232985460870875]},"bbox":[121.47578356287804,31.232985460870875,121.47680551560063,31.234100969159353]}'; // wsg84 以浙江中路、广东路、海口路为界的区域
 
 const hot_addr = {
+  '松江区三新生活园区': '0907', // 高风险
+  '浦东新区东荷小区': '0907', // 高风险
+  '松江区复地香堤苑': '0907',
+  '松江区宰相府酒店': '0907',
+  '黄浦区西藏中路168号': '0907',
+  '黄浦区中山南路589号': '0907',
   '静安区秣陵路83号': '0906', // 高风险 汉庭酒店
   '普陀区远景路616号': '0906', // A座106室
   '黄浦区南京东路街道合围': 'h0906',
@@ -892,7 +898,7 @@ function updateLocation (hash_, q) {
     url = baseURL + '#0830';
   } else if (hash_ === 831) {
     url = baseURL + '#0901';
-  } //@@ 0903 0904 0905
+  } //@@ 0903 0904 0905 0906
   if (q) {
     url += '?' + q;
   }
@@ -942,7 +948,7 @@ function preReload (q, oldest) {
     hash_ = 827;
   } else if (hash_ === 831) {
     hash_ = 830;
-  } else if (hash_ === 903 || hash_ === 904 || hash_ === 905) {
+  } else if (hash_ === 903 || hash_ === 904 || hash_ === 905 || hash_ === 906) {
     hash_ = 902;
   } //@@
   if (oldest && lastAddrFirstTag &&
