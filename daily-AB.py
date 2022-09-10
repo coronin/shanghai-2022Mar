@@ -5,8 +5,18 @@ import re
 # os.system('scrapy fetch --nolog https://www.cell.com/cell/newarticles > cell.txt')
 
 z = [
-#'0909','']
-'0908','']
+#'0919','']
+#'0918','']
+#'0917','']
+#'0916','']
+#'0915','']
+#'0914','']
+#'0913','']
+#'0912','']
+#'0911','']
+#'0910','']
+'0909','https://mp.weixin.qq.com/s/WA4cV62lWfZqREIh2xlQKw']
+#'0908','']
 #'0907','https://mp.weixin.qq.com/s/HhuRDuNuhWKo_8GJdKe-AQ']
 #'0906','']
 #'0905','']
