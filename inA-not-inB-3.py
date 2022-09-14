@@ -177,7 +177,7 @@ def read_a_list(s, tag=''):
         transition_int = 907
     elif tag != 'list' and transition_int == 908:
         transition_int = 909
-    #### @@
+    #### @@ 912 913
     if len(s) != 4:
         f = open('%s.txt' % s, 'r')
     else:
@@ -535,6 +535,7 @@ for l in csv[1:]:
             line = ls0s[3:]
         if ls0s in [
 #### @@ 复制进 drag-me.html 并获取定位，再缩短 进csv和sh2.html，然后查log导入此处
+'闵行区剑川路901号',
 '闵行区瑞特国际大厦',
 '松江区佘山茂御臻品之选酒店',
 '松江区佘山世茂洲际酒店',

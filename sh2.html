@@ -97,16 +97,13 @@ const h0817 = '{"type":"Topology","objects":{"collection":{"type":"GeometryColle
 const h0906 = '{"type":"Topology","objects":{"collection":{"type":"GeometryCollection","geometries":[{"type":"Polygon","id":2672,"properties":{"_draw_type":"fill"},"bbox":[121.48028476,31.23102324,121.48130327,31.23213824],"arcs":[[0]]}]}},"arcs":[[[0,5906],[4397,2120],[5602,1973],[-1787,-6523],[-1721,-3476],[-6491,5906]]],"transform":{"scale":[1.0220549280884515e-7,1.1156198504634414e-7],"translate":[121.47578356287804,31.232985460870875]},"bbox":[121.47578356287804,31.232985460870875,121.47680551560063,31.234100969159353]}'; // wsg84 以浙江中路、广东路、海口路为界的区域
 
 const hot_addr = {
+  '闵行区剑川路901号': '0914',
   '静安区中山北路814弄': '0911',
   '普陀区交通路1913弄': '0910',
   '松江区佘山茂御臻品之选酒店': '0910',
-  '松江区佘山世茂洲际酒店': '0908',
   '松江区三新生活园区': '0907', // 高风险
   '浦东新区东荷小区': '0907', // 高风险
-  '黄浦区西藏中路168号': '0907',
-  '黄浦区中山南路589号': '0907',
-  '静安区秣陵路83号': '0906', // 高风险 汉庭酒店
-  '黄浦区南京东路街道合围': 'h0906'
+  '静安区秣陵路83号': '0906' // 高风险 汉庭酒店
 }; //@@
 
 const purple_rgb = 'rgba(127,0,128';
@@ -899,7 +896,7 @@ function updateLocation (hash_, q) {
     url = baseURL + '#0907';
   } else if (hash_ === 908) {
     url = baseURL + '#0909';
-  } //@@
+  } //@@ 912 913
   if (q) {
     url += '?' + q;
   }
@@ -953,6 +950,8 @@ function preReload (q, oldest) {
     hash_ = 902;
   } else if (hash_ === 908) {
     hash_ = 907;
+  } else if (hash_ === 912 || hash_ === 913) {
+    hash_ = 911;
   } //@@
   if (oldest && lastAddrFirstTag &&
       lastAddrFirstTag !== j.tag &&
