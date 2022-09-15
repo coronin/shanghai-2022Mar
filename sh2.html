@@ -100,8 +100,6 @@ const hot_addr = {
   '闵行区剑川路901号': '0914',
   '静安区中山北路814弄': '0911',
   '普陀区交通路1913弄': '0910',
-  '松江区佘山茂御臻品之选酒店': '0910',
-  '松江区三新生活园区': '0907', // 高风险
   '浦东新区东荷小区': '0907', // 高风险
   '静安区秣陵路83号': '0906' // 高风险 汉庭酒店
 }; //@@
@@ -896,7 +894,7 @@ function updateLocation (hash_, q) {
     url = baseURL + '#0907';
   } else if (hash_ === 908) {
     url = baseURL + '#0909';
-  } //@@ 912 913
+  } //@@ 912 913 914
   if (q) {
     url += '?' + q;
   }
@@ -950,7 +948,7 @@ function preReload (q, oldest) {
     hash_ = 902;
   } else if (hash_ === 908) {
     hash_ = 907;
-  } else if (hash_ === 912 || hash_ === 913) {
+  } else if (hash_ === 912 || hash_ === 913 || hash_ === 914) {
     hash_ = 911;
   } //@@
   if (oldest && lastAddrFirstTag &&
