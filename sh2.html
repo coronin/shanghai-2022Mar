@@ -893,7 +893,7 @@ function updateLocation (hash_, q) {
     url = baseURL + '#0909';
   } else if (hash_ === 912 || hash_ === 913 || hash_ === 914 || hash_ === 915) {
     url = baseURL + '#0916';
-  } //@@
+  } //@@ 917
   if (q) {
     url += '?' + q;
   }
@@ -949,6 +949,8 @@ function preReload (q, oldest) {
     hash_ = 907;
   } else if (hash_ === 912 || hash_ === 913 || hash_ === 914 || hash_ === 915) {
     hash_ = 911;
+  } else if (hash_ === 917) {
+    hash_ = 916;
   } //@@
   if (oldest && lastAddrFirstTag &&
       lastAddrFirstTag !== j.tag &&
