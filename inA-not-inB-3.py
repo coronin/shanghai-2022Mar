@@ -36,11 +36,11 @@ AsBs = ('0306','0307','0308','0309','0310',
       '0811','0812','0813','0814','0815','0816','0817','0818','0819','0820',
       '0821','0822',       '0824','0825','0826','0827',              '0830'  ,
       '0901','0902',                            '0907',       '0909','0910',
-      '0911',                            '0916'
+      '0911',                            '0916',       '0918'
       )
 #### 以上不能有末尾逗号 没有空字符检查
-As = AsBs[:-5]
-Bs = AsBs[-5:]
+As = AsBs[:-6]
+Bs = AsBs[-6:]
 #### 以上14会因为没有阳性感染者而变小
 if len(Bs) > 14:
     raise ValueError('not in B 最多14天')
@@ -179,7 +179,9 @@ def read_a_list(s, tag=''):
         transition_int = 909
     elif tag != 'list' and transition_int in (912, 913, 914, 915):
         transition_int = 916
-    #### @@ 917
+    elif tag != 'list' and transition_int == 917:
+        transition_int = 918
+    #### @@ 919
     if len(s) != 4:
         f = open('%s.txt' % s, 'r')
     else:
@@ -537,7 +539,7 @@ for l in csv[1:]:
             line = ls0s[3:]
         if ls0s in [
 #### @@ 复制进 drag-me.html 并获取定位，再缩短 进csv和sh2.html，然后查log导入此处
-'闵行区剑川路901号'
+'松江区江虹小区'
         ] and ls0s not in C:
             hot_addr += 1
             print('手动+中高风险', hot_addr)

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>0916 sh listed address, since March 6th 2022</title><!-- @@ -->
+  <title>0918 sh listed address, since March 6th 2022</title><!-- @@ -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -99,9 +99,9 @@ const a0918 = '{"type":"Topology","objects":{"collection":{"type":"GeometryColle
 const b0918 = '{"type":"Topology","objects":{"collection":{"type":"GeometryCollection","geometries":[{"type":"Polygon","id":7285,"properties":{"_draw_type":"fill"},"bbox":[121.07298418,30.98552843,121.0847235,30.99165891],"arcs":[[0]]}]}},"arcs":[[[0,8444],[27,-8444],[2382,632],[2327,1580],[1131,-338],[1673,223],[1225,504],[1234,1197],[-228,5700],[-1909,501],[-3586,-896],[-4276,-659]]],"transform":{"scale":[0.0000011726924388728294,6.118954399606169e-7],"translate":[121.06840887937754,30.987515366637158]},"bbox":[121.06840887937754,30.987515366637158,121.08013463107383,30.993633709141324]}'; // wsg84 西至西泾江、东至泖阳港、南至老松蒸公路、北至松蒸公路的区域
 
 const hot_addr = {
+  '松江区江虹小区': '0919',
   '青浦区练塘镇蒸夏村区域': 'a0918',
-  '青浦区练塘镇合围区域': 'b0918',
-  '闵行区剑川路901号': '0914'
+  '青浦区练塘镇合围区域': 'b0918'
 }; //@@
 
 const purple_rgb = 'rgba(127,0,128';
@@ -896,7 +896,9 @@ function updateLocation (hash_, q) {
     url = baseURL + '#0909';
   } else if (hash_ === 912 || hash_ === 913 || hash_ === 914 || hash_ === 915) {
     url = baseURL + '#0916';
-  } //@@ 917
+  } else if (hash_ === 917) {
+    url = baseURL + '#0918';
+  } //@@ 919
   if (q) {
     url += '?' + q;
   }
@@ -954,6 +956,8 @@ function preReload (q, oldest) {
     hash_ = 911;
   } else if (hash_ === 917) {
     hash_ = 916;
+  } else if (hash_ === 919) {
+    hash_ = 918;
   } //@@
   if (oldest && lastAddrFirstTag &&
       lastAddrFirstTag !== j.tag &&
