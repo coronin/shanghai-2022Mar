@@ -99,9 +99,6 @@ const a0918 = '{"type":"Topology","objects":{"collection":{"type":"GeometryColle
 const b0918 = '{"type":"Topology","objects":{"collection":{"type":"GeometryCollection","geometries":[{"type":"Polygon","id":7285,"properties":{"_draw_type":"fill"},"bbox":[121.07298418,30.98552843,121.0847235,30.99165891],"arcs":[[0]]}]}},"arcs":[[[0,8444],[27,-8444],[2382,632],[2327,1580],[1131,-338],[1673,223],[1225,504],[1234,1197],[-228,5700],[-1909,501],[-3586,-896],[-4276,-659]]],"transform":{"scale":[0.0000011726924388728294,6.118954399606169e-7],"translate":[121.06840887937754,30.987515366637158]},"bbox":[121.06840887937754,30.987515366637158,121.08013463107383,30.993633709141324]}'; // wsg84 西至西泾江、东至泖阳港、南至老松蒸公路、北至松蒸公路的区域
 
 const hot_addr = {
-  '松江区江虹小区': '0919',
-  '青浦区练塘镇蒸夏村区域': 'a0918',
-  '青浦区练塘镇合围区域': 'b0918'
 }; //@@
 
 const purple_rgb = 'rgba(127,0,128';
@@ -898,7 +895,7 @@ function updateLocation (hash_, q) {
     url = baseURL + '#0916';
   } else if (hash_ === 917) {
     url = baseURL + '#0918';
-  } //@@ 919
+  } //@@ 919 920 921 922 923 924 925 926
   if (q) {
     url += '?' + q;
   }
@@ -956,7 +953,7 @@ function preReload (q, oldest) {
     hash_ = 911;
   } else if (hash_ === 917) {
     hash_ = 916;
-  } else if (hash_ === 919) {
+  } else if (hash_ === 919 || hash_ === 920 || hash_ === 921 || hash_ === 922 || hash_ === 923 || hash_ === 924 || hash_ === 925 || hash_ === 926) {
     hash_ = 918;
   } //@@
   if (oldest && lastAddrFirstTag &&

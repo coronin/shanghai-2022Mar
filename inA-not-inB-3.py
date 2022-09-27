@@ -181,7 +181,7 @@ def read_a_list(s, tag=''):
         transition_int = 916
     elif tag != 'list' and transition_int == 917:
         transition_int = 918
-    #### @@ 919
+    #### @@ 919 920 921 922 923 924 925 926
     if len(s) != 4:
         f = open('%s.txt' % s, 'r')
     else:
