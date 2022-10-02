@@ -37,11 +37,12 @@ AsBs = ('0306','0307','0308','0309','0310',
       '0821','0822',       '0824','0825','0826','0827',              '0830'  ,
       '0901','0902',                            '0907',       '0909','0910',
       '0911',                            '0916',       '0918',
-                                                              '0929','0930'
+                                                              '0929','0930',
+      '1001'
       )
 #### 以上不能有末尾逗号 没有空字符检查
-As = AsBs[:-3]
-Bs = AsBs[-3:]
+As = AsBs[:-4]
+Bs = AsBs[-4:]
 #### 以上14会因为没有阳性感染者而变小
 if len(Bs) > 14:
     raise ValueError('not in B 最多14天')
@@ -162,9 +163,9 @@ def read_a_list(s, tag=''):
         transition_int = 601
     elif tag != 'list' and transition_int in (624, 625):
         transition_int = 626
-    elif tag != 'list' and transition_int in (627, 628, 629, 630, 701):
+    elif tag != 'list' and transition_int in (627, 628, 629, 630, 701): # 631
         transition_int = 702
-    elif tag != 'list' and transition_int in (731, 801, 802):
+    elif tag != 'list' and transition_int in (731, 801, 802): # 732
         transition_int = 803
     elif tag != 'list' and transition_int in (804, 805, 806, 807, 808, 809, 810):
         transition_int = 811
@@ -172,7 +173,7 @@ def read_a_list(s, tag=''):
         transition_int = 824
     elif tag != 'list' and transition_int in (828, 829):
         transition_int = 830
-    elif tag != 'list' and transition_int == 831:
+    elif tag != 'list' and transition_int == 831: # 832
         transition_int = 901
     elif tag != 'list' and transition_int in (903, 904, 905, 906):
         transition_int = 907
@@ -184,6 +185,8 @@ def read_a_list(s, tag=''):
         transition_int = 918
     elif tag != 'list' and transition_int in (919, 920, 921, 922, 923, 924, 925, 926, 927, 928):
         transition_int = 929
+    elif tag != 'list' and transition_int == 931:
+        transition_int = 1001
     #### @@
     if len(s) != 4:
         f = open('%s.txt' % s, 'r')
@@ -547,7 +550,8 @@ for l in csv[1:]:
 '浦东新区绿城玉兰花园',
 '闵行区新明星花园二期',
 '浦东新区丽思卡尔顿酒店',
-'闵行区航华二村景丽苑'
+'闵行区航华二村景丽苑',
+'浦东新区浦航5298文创园'
         ] and ls0s not in C:
             hot_addr += 1
             print('手动+中高风险', hot_addr)

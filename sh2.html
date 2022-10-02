@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>0930 sh listed address, since March 6th 2022</title><!-- @@ -->
+  <title>1001 sh listed address, since March 6th 2022</title><!-- @@ -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -99,6 +99,7 @@ const a0918 = '{"type":"Topology","objects":{"collection":{"type":"GeometryColle
 const b0918 = '{"type":"Topology","objects":{"collection":{"type":"GeometryCollection","geometries":[{"type":"Polygon","id":7285,"properties":{"_draw_type":"fill"},"bbox":[121.07298418,30.98552843,121.0847235,30.99165891],"arcs":[[0]]}]}},"arcs":[[[0,8444],[27,-8444],[2382,632],[2327,1580],[1131,-338],[1673,223],[1225,504],[1234,1197],[-228,5700],[-1909,501],[-3586,-896],[-4276,-659]]],"transform":{"scale":[0.0000011726924388728294,6.118954399606169e-7],"translate":[121.06840887937754,30.987515366637158]},"bbox":[121.06840887937754,30.987515366637158,121.08013463107383,30.993633709141324]}'; // wsg84 西至西泾江、东至泖阳港、南至老松蒸公路、北至松蒸公路的区域
 
 const hot_addr = {
+  '浦东新区浦航5298文创园':'1002',
   '虹口区旅顺路66号':'1001',
   '闵行区新明星花园二期':'1001',
   '宝山区智尚酒店':'1001',
@@ -147,7 +148,8 @@ function jtagOffset (dd) {
     } else {
       d += 69; }
   } else if ((d > 430 && d <= 500) ||
-             (d > 630 && d <= 700) ) {
+             (d > 630 && d <= 700) ||
+             (d > 930 && d <= 1000) ) {
     // 514-14=500(430), 501-14=487(417)
     if (dd > 0) {
       d -= 70;
@@ -880,6 +882,9 @@ function exportCanvasAsPNG (fo) {
 
 function updateLocation (hash_, q) {
   let url = baseURL + '#0' + hash_;
+  if (hash_ > 1000) {
+    url = baseURL + '#' + hash_;
+  }
   if (hash_ === 624 || hash_ === 625) {
     url = baseURL + '#0626';
   } else if (hash_ === 627 || hash_ === 628 || hash_ === 629 || hash_ === 630 || hash_ === 701) {
@@ -1117,7 +1122,11 @@ function load_js () {
   }
   let hash_ = parseInt(hash);
   if (hash.length !== 4 || hash_ > j_data_init) {
-    hash = '0' + j_data_init;
+    if (j_data_init > 1000) {
+      hash = '' + j_data_init;
+    } else {
+      hash = '0' + j_data_init;
+    }
     hash_ = j_data_init;
   } else if (hash_ < 307) {
     hash = '0307';
@@ -2159,13 +2168,21 @@ if (release) {
     }
     ks += ' &rarr; 8/' + release +
           ' <span style="color:green">已满14天</span>';
-  } else { // 9月类似4月
+  } else if (release < 631) { // 9月类似4月
     if (release > 600) {
       release -= 600;
     } else {
       release -= 531;
     }
-    ks += ' &rarr; 9/' + release;
+    ks += ' &rarr; 9/' + release +
+          ' <span style="color:green">已满14天</span>';
+  } else { // 10月类似5月
+    if (release > 700) {
+      release -= 700;
+    } else {
+      release -= 630;
+    }
+    ks += ' &rarr; 10/' + release;
     if (release < today.getDate() ) {
       ks += ' <span style="color:green">已满14天</span>';
     } else if (release === today.getDate() ) {
