@@ -271,7 +271,6 @@ def big_boss():
         #print('>>>>', dd, len(by_district[dd]) )
         ddc += len(by_district[dd])
     print('by district total, w/dupl', ddc )
-    # import re
     # for zz in list(set(A + BB)):
     #     # if len(zz) > 13: # 浦东新区世纪大道1239号
     #     #     print(zz)

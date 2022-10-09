@@ -38,11 +38,11 @@ AsBs = ('0306','0307','0308','0309','0310',
       '0901','0902',                            '0907',       '0909','0910',
       '0911',                            '0916',       '0918',
                                                               '0929','0930',
-      '1001'
+      '1001',              '1004','1005','1006','1007'
       )
 #### 以上不能有末尾逗号 没有空字符检查
-As = AsBs[:-4]
-Bs = AsBs[-4:]
+As = AsBs[:-7]
+Bs = AsBs[-7:]
 #### 以上14会因为没有阳性感染者而变小
 if len(Bs) > 14:
     raise ValueError('not in B 最多14天')
@@ -187,6 +187,8 @@ def read_a_list(s, tag=''):
         transition_int = 929
     elif tag != 'list' and transition_int == 931:
         transition_int = 1001
+    elif tag != 'list' and transition_int in (1002, 1003):
+        transition_int = 1004
     #### @@
     if len(s) != 4:
         f = open('%s.txt' % s, 'r')
@@ -340,7 +342,6 @@ for dd in districts:
     #print('>>>>', dd, len(by_district[dd]) )
     ddc += len(by_district[dd])
 print('by district total, w/dupl', ddc )
-# import re
 # for zz in list(set(A + BB)):
 #     # if len(zz) > 13: # 浦东新区世纪大道1239号
 #     #     print(zz)
@@ -482,7 +483,7 @@ to_check = ('东川路800号', '海波路850弄', '龙吴路2588弄', '凤城三
             '国权北路1566弄', '国权北路1450弄', '东安路130号', '邯郸路220号', '武东路57号' )
 for ch in to_check:
     if by_address.get(ch):
-        print(ch, '\tlast on', by_address[ch][-1], '\ttotal', len(by_address[ch]) )
+        print(ch, '\tlast', by_address[ch][-1], '\ttotal', len(by_address[ch]) )
         if by_address[ch][-1][:4] == Bs[-1]:
             print('    ^^\n')
     else:
@@ -545,13 +546,13 @@ for l in csv[1:]:
             line = ls0s[3:]
         if ls0s in [
 #### @@ 复制进 drag-me.html 并获取定位，再缩短 进csv和sh2.html，然后查log导入此处
-'宝山区锦秋路743号',
-'宝山区智尚酒店',
-'浦东新区绿城玉兰花园',
-'闵行区新明星花园二期',
-'浦东新区丽思卡尔顿酒店',
-'闵行区航华二村景丽苑',
-'浦东新区浦航5298文创园'
+'嘉定区缘圆宝邸',
+'浦东新区自在居酒店式服务公寓26栋',
+'浦东新区北蔡镇如家精选酒店',
+'长宁区秋果酒店',
+'普陀区锐思特酒店',
+'普陀区长征镇丁香苑',
+'黄浦区斯格威铂尔曼大酒店'
         ] and ls0s not in C:
             hot_addr += 1
             print('手动+中高风险', hot_addr)

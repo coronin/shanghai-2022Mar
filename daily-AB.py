@@ -6,13 +6,13 @@ import re
 
 z = [
 #'1009','']
-#'1008','']
-#'1007','']
-#'1006','']
-#'1005','']
-#'1004','']
+'1008','']
+#'1007','https://mp.weixin.qq.com/s/8m3_UzSVXzxXdlKx9D8boQ']
+#'1006','https://mp.weixin.qq.com/s/CI1NPofVeFusmXTHLKseZg']
+#'1005','https://mp.weixin.qq.com/s/CQveQLCYdDNgZEJQEFunsw']
+#'1004','https://mp.weixin.qq.com/s/Qx_1tvzZAtHbGRurmEQ0Ew']
 #'1003','']
-'1002','']
+#'1002','']
 #'1001','https://mp.weixin.qq.com/s/r8d1dN-aIvJzL54JUhuQaQ']
 #'0930','https://mp.weixin.qq.com/s/HmnPMLPRSaTjZMIbjKTF1Q']
 #'0929','https://mp.weixin.qq.com/s/S9YKxPXc3V1Lql8j47AvfA']
@@ -586,7 +586,6 @@ if not z[1]:
     zz0 = list(day.keys())
     zz1 = list(day.values())
     wxx = '\n\n\n\n'
-    import re
     for i,z1 in enumerate(zz1):
         if not z1:
             print('day%s 没有%s的链接' % (z[0],zz0[i]) )
