@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>1017 sh listed address, since March 6th 2022</title><!-- @@ -->
+  <title>1018 sh listed address, since March 6th 2022</title><!-- @@ -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -107,6 +107,9 @@ const b1018 = '{"type":"Topology","objects":{"collection":{"type":"GeometryColle
 const h1015 = '{"type":"Topology","objects":{"collection":{"type":"GeometryCollection","geometries":[{"type":"Polygon","id":5003,"properties":{"_draw_type":"fill"},"bbox":[121.28383068,30.80161493,121.2851605,30.8026032],"arcs":[[0]]}]}},"arcs":[[[1462,9999],[-1462,-4702],[7694,-5297],[2305,5690],[-2657,1681],[-626,227],[-664,-872],[-1080,129],[-3510,3144]]],"transform":{"scale":[1.3279513540270385e-7,9.888362106342751e-8],"translate":[121.2794128118085,30.803854785489015]},"bbox":[121.2794128118085,30.803854785489015,121.28074063036739,30.80484352281603]}';
 
 const hot_addr = {
+  '静安区山西北路388弄':'1019',
+  '闵行区自由公寓':'1019',
+  '闵行区平阳路50弄':'1019',
   '杨浦区延吉东路1弄':'1018', // 、5弄小区（包括沿街商铺）
   '杨浦区安图小区':'1018', // 长白新村街道安图小区（包括安图新村1-61号、xx1-30号、长白二村201-207号，及沿街商铺）
   '青浦区重固镇合围':'a1018', // 中新村中新艾祁港以东、董家桥河以南（含董家组河北）、中淮路以西、朱家宅基浜以北区域
@@ -1656,11 +1659,11 @@ function draw_sh () { // map-address.html
                      mapY( Ml.locations[d][1] ),
                      3, 3 );
         map.fillStyle = purple_rgb + ',0.67)';
-        if (hot_label_left > 1.5+mapX( Ml.locations[d][0] ) ) {
+        if (hot_label_left > mapX( Ml.locations[d][0] ) ) {
           map.fillText(hot_label(d, hot_addr[d]),
                    1.5+mapX( Ml.locations[d][0] ),
                    1.5+mapY( Ml.locations[d][1] ) - fontSize);
-        } else {
+        } else if (mapX( Ml.locations[d][0] ) < svgWidth) {
           map.fillText(hot_label(d, hot_addr[d]),
                    hot_label_left,
                    1.5+mapY( Ml.locations[d][1] ) - fontSize);
