@@ -562,7 +562,7 @@ for l in csv[1:]:
 '宝山区岭南家园'
         ] and ls0s not in C:
             hot_addr += 1
-            print('手动+中高风险', hot_addr)
+            print('手动+中高风险', hot_addr, ls0s)
         elif len(by_address) > 1 and not by_address.get(line): # 只收录有上榜记录的地址
             continue
         #if len(by_address) > 1 and uniqAddr.get(ls0s):
