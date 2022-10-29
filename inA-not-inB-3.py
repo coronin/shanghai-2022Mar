@@ -555,6 +555,7 @@ for l in csv[1:]:
             line = ls0s[3:]
         if ls0s in [
 #### @@ 复制进 drag-me.html 并获取定位，再缩短 进csv和sh2.html，然后查log导入此处
+'浦东新区CitiGO欢阁酒店',
 '普陀区新锦绣里',
 '杨浦区张家浜小区',
 '静安区中兴路726号',
