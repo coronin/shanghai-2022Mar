@@ -8,8 +8,8 @@ z = [
 #'1101',''] #### new month
 #'1031','']
 #'1030','']
-#'1029','']
-'1028','']
+'1029','']
+#'1028','https://mp.weixin.qq.com/s/C10URiybQOjioMjMFOv_3w']
 #'1027','https://mp.weixin.qq.com/s/J8hhoZK0_maxAw9QF9-qvg']
 #'1026','https://mp.weixin.qq.com/s/mPvzsvsod-cUNXv_wBUWkw']
 #'1025','https://mp.weixin.qq.com/s/WjCGAMkd_cpZswjLFFWL8A']
