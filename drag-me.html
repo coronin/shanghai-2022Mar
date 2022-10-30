@@ -8,7 +8,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
-  <script src="shanghaifabu/full1028.json"></script><!-- @@ -->
+  <script src="shanghaifabu/full1029.json"></script><!-- @@ -->
   <script>
   const hot_addr = {
   '静安区临汾路街道江杨南路466弄17号、18号':'1030',
@@ -338,7 +338,7 @@
               ).replace(/070/g, '7/').replace(/07/g, '7/'
               ).replace(/080/g, '8/').replace(/08/g, '8/'
               ).replace(/090/g, '9/').replace(/09/g, '9/'
-              ).replace(/100/g, '10/'
+              ).replace(/100/g, '10/').replace(/110/g, '11/').replace(/120/g, '12/'
               ).replace(/03/g, '3/').replace(/05/g, '5/'
               ).replace(/04/g, '4/').replace(/06/g, '6/') + '</span>'; //@@
           } else {
@@ -348,7 +348,7 @@
               ).replace(/070/g, '7/').replace(/07/g, '7/'
               ).replace(/080/g, '8/').replace(/08/g, '8/'
               ).replace(/090/g, '9/').replace(/09/g, '9/'
-              ).replace(/100/g, '10/'
+              ).replace(/100/g, '10/').replace(/110/g, '11/').replace(/120/g, '12/'
               ).replace(/03/g, '3/').replace(/05/g, '5/'
               ).replace(/04/g, '4/').replace(/06/g, '6/'); //@@
           }
@@ -361,7 +361,7 @@
               ).replace(/070/g, '7/').replace(/07/g, '7/'
               ).replace(/080/g, '8/').replace(/08/g, '8/'
               ).replace(/090/g, '9/').replace(/09/g, '9/'
-              ).replace(/100/g, '10/'
+              ).replace(/100/g, '10/').replace(/110/g, '11/').replace(/120/g, '12/'
               ).replace(/03/g, '3/').replace(/05/g, '5/'
               ).replace(/04/g, '4/').replace(/06/g, '6/') + '</span>'; //@@
           } else {
@@ -371,7 +371,7 @@
               ).replace(/070/g, '7/').replace(/07/g, '7/'
               ).replace(/080/g, '8/').replace(/08/g, '8/'
               ).replace(/090/g, '9/').replace(/09/g, '9/'
-              ).replace(/100/g, '10/'
+              ).replace(/100/g, '10/').replace(/110/g, '11/').replace(/120/g, '12/'
               ).replace(/03/g, '3/').replace(/05/g, '5/'
               ).replace(/04/g, '4/').replace(/06/g, '6/'); //@@
           }
@@ -430,19 +430,27 @@
           }
           ks += ' &rarr; 9/' + release +
                 ' <span style="color:green">已满14天</span>';
-        } else { // 10月类似5月
+        } else if (release < 732) { // 10月类似5月
           if (release > 700) {
             release -= 700;
           } else {
             release -= 630;
           }
-          ks += ' &rarr; 10/' + release;
+          ks += ' &rarr; 10/' + release +
+                ' <span style="color:green">已满14天</span>';
+        } else { // 11月类似4月
+          if (release > 800) {
+            release -= 800;
+          } else {
+            release -= 731;
+          }
+          ks += ' &rarr; 11/' + release;
           if (release < today.getDate() ) {
             ks += ' <span style="color:green">已满14天</span>';
           } else if (release === today.getDate() ) {
             ks += '<span style="color:green">是第14天</span>';
           }
-        }
+        } //@@
         const kk = document.createElement('p');
         //kk.id = As[i];
         kk.style.padding = '0';
@@ -489,7 +497,7 @@
     更新时间 <span id="datestr" style="color:blue;">fetching... not ready</span><br/>
     本页的<span style="background-color:yellow;">今日</span>为2022年<span id="tag_m"></span>月<span id="tag_d"></span>日
     <!--   j.tag-1    @@ -->
-    搜索<a href="/#1027">昨日数据</a>
+    搜索<a href="/#1028">昨日数据</a>
   </p>
   <p>
     <label for="addr">上榜地址</label>

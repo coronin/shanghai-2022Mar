@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>1028 sh listed address, since March 6th 2022</title><!-- @@ -->
+  <title>1029 sh listed address, since March 6th 2022</title><!-- @@ -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -2219,13 +2219,21 @@ if (release) {
     }
     ks += ' &rarr; 9/' + release +
           ' <span style="color:green">已满14天</span>';
-  } else { // 10月类似5月
+  } else if (release < 732) { // 10月类似5月
     if (release > 700) {
       release -= 700;
     } else {
       release -= 630;
     }
-    ks += ' &rarr; 10/' + release;
+    ks += ' &rarr; 10/' + release +
+          ' <span style="color:green">已满14天</span>';
+  } else { // 11月类似4月
+    if (release > 800) {
+      release -= 800;
+    } else {
+      release -= 731;
+    }
+    ks += ' &rarr; 11/' + release;
     if (release < today.getDate() ) {
       ks += ' <span style="color:green">已满14天</span>';
     } else if (release === today.getDate() ) {

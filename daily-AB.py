@@ -5,10 +5,28 @@ import re
 # os.system('scrapy fetch --nolog https://www.cell.com/cell/newarticles > cell.txt')
 
 z = [
-#'1101',''] #### new month
+#'1119','']
+#'1118','']
+#'1117','']
+#'1116',''] #### release in new month
+#'1115','']
+#'1114','']
+#'1113','']
+#'1112','']
+#'1111','']
+#'1110','']
+#'1109','']
+#'1108','']
+#'1107','']
+#'1106','']
+#'1105','']
+#'1104','']
+#'1103','']
+#'1102','']
+#'1101','']
 #'1031','']
-#'1030','']
-'1029','']
+'1030','']
+#'1029','https://mp.weixin.qq.com/s/Xrn3UGRdjXN8We2znzpP6w']
 #'1028','https://mp.weixin.qq.com/s/C10URiybQOjioMjMFOv_3w']
 #'1027','https://mp.weixin.qq.com/s/J8hhoZK0_maxAw9QF9-qvg']
 #'1026','https://mp.weixin.qq.com/s/mPvzsvsod-cUNXv_wBUWkw']
