@@ -41,11 +41,11 @@ AsBs = ('0306','0307','0308','0309','0310',
       '1001',              '1004','1005','1006','1007','1008','1009','1010',
       '1011','1012','1013','1014','1015','1016','1017','1018','1019','1020',
       '1021','1022','1023','1024','1025','1026','1027','1028','1029','1030'  ,
-             '1102','1103',       '1105'
+             '1102','1103',       '1105',       '1107'
       )
 #### 以上不能有末尾逗号 没有空字符检查
-As = AsBs[:-11]
-Bs = AsBs[-11:]
+As = AsBs[:-10]
+Bs = AsBs[-10:]
 #### 以上14会因为没有阳性感染者而变小
 if len(Bs) > 14:
     raise ValueError('not in B 最多14天')
@@ -196,6 +196,8 @@ def read_a_list(s, tag=''):
         transition_int = 1102
     elif tag != 'list' and transition_int == 1104:
         transition_int = 1105
+    elif tag != 'list' and transition_int == 1106:
+        transition_int = 1107
     #### @@
     if len(s) != 4:
         f = open('%s.txt' % s, 'r')
@@ -265,6 +267,7 @@ def read_a_list(s, tag=''):
              ) > -1 or line.find('系外省'
              ) > -1 or line.find('抵沪'
              ) > -1 or line.find('落地检'
+             ) > -1 or line.find('暂住于'
              ) > -1 or line.find('自我健康监测'
              ) > -1 or line.find('1例'
              ) > -1 or line.find('病例'
@@ -275,7 +278,7 @@ def read_a_list(s, tag=''):
              ) > -1 or line.find('落实消毒'
              ) > -1 or line.find('落实终末消毒'
              ) > -1 or line.find('滑动查看'
-             ) > -1 or line.find('当前中风险等级地区'
+             ) > -1 or line.find('当前中风险'
              ) > -1 or line.find('当前高中风险'
              ) > -1 or line.find('当前中高风险'
              ) > -1 or line.find('关注我们'
@@ -560,6 +563,8 @@ for l in csv[1:]:
             line = ls0s[3:]
         if ls0s in [
 #### @@ 复制进 drag-me.html 并获取定位，再缩短 进csv和sh2.html，然后查log导入此处
+'静安区共和国际商务广场',
+'浦东新区海潮村',
 '浦东新区金石村',
 '静安区中兴路726号'
         ] and ls0s not in C:
