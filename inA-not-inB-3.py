@@ -41,11 +41,12 @@ AsBs = ('0306','0307','0308','0309','0310',
       '1001',              '1004','1005','1006','1007','1008','1009','1010',
       '1011','1012','1013','1014','1015','1016','1017','1018','1019','1020',
       '1021','1022','1023','1024','1025','1026','1027','1028','1029','1030'  ,
-             '1102','1103',       '1105',       '1107','1108','1109','1110'
+             '1102','1103',       '1105',       '1107','1108','1109','1110',
+                    '1113'
       )
 #### 以上不能有末尾逗号 没有空字符检查
-As = AsBs[:-10]
-Bs = AsBs[-10:]
+As = AsBs[:-8]
+Bs = AsBs[-8:]
 #### 以上14会因为没有阳性感染者而变小
 if len(Bs) > 14:
     raise ValueError('not in B 最多14天')
@@ -198,6 +199,8 @@ def read_a_list(s, tag=''):
         transition_int = 1105
     elif tag != 'list' and transition_int == 1106:
         transition_int = 1107
+    elif tag != 'list' and transition_int in (1111, 1112):
+        transition_int = 1113
     #### @@
     if len(s) != 4:
         f = open('%s.txt' % s, 'r')
@@ -278,9 +281,10 @@ def read_a_list(s, tag=''):
              ) > -1 or line.find('落实消毒'
              ) > -1 or line.find('落实终末消毒'
              ) > -1 or line.find('滑动查看'
-             ) > -1 or line.find('当前中风险'
              ) > -1 or line.find('当前高中风险'
              ) > -1 or line.find('当前中高风险'
+             ) > -1 or line.find('当前中风险'
+             ) > -1 or line.find('当前高风险'
              ) > -1 or line.find('关注我们'
              ) > -1 or line.find('转载请注明'
              ) > -1 or line.find('互动你我'
@@ -649,4 +653,4 @@ fz.write("csv='%s'" % json.dumps(j, ensure_ascii=False) )
 #  jsonp  '%s(%s)' % (callback, out)
 fz.close()
 print('\ncheck inAB-not-map.txt, update map-location.csv and do ##')
-print('\nrefresh CDN, especially https://cdn.teach.bio/map-location.json ##\n')
+print('refresh CDN, especially https://cdn.teach.bio/map-location.json ##\n')

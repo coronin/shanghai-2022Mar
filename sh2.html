@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>1110 sh listed address, since March 6th 2022</title><!-- @@ -->
+  <title>1113 sh listed address, since March 6th 2022</title><!-- @@ -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -935,6 +935,8 @@ function updateLocation (hash_, q) {
     url = baseURL + '#1105';
   } else if (hash_ === 1106) {
     url = baseURL + '#1107';
+  } else if (hash_ === 1111 || hash_ === 1112) {
+    url = baseURL + '#1113';
   } //@@
   if (q) {
     url += '?' + q;
@@ -1003,6 +1005,8 @@ function preReload (q, oldest) {
     hash_ = 1103;
   } else if (hash_ === 1106) {
     hash_ = 1105;
+  } else if (hash_ === 1111 || hash_ === 1112) {
+    hash_ = 1110;
   } //@@
   if (oldest && lastAddrFirstTag &&
       lastAddrFirstTag !== j.tag &&
