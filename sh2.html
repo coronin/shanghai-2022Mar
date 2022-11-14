@@ -1301,7 +1301,7 @@ function tagsHTML (dl_, noClick) {
   if (!dl || dl.length === 0) { return ''; }
   let ds = '<span'; let inwhile;
   if (dl[0] === '0306') {
-    ds += ' style="background-color:yellow;"';
+    ds += ' style="background-color:yellow"';
   }
   if (noClick) {
     ds += '>' + hash2date(dl[0]) + '</span>';
@@ -1321,7 +1321,7 @@ function tagsHTML (dl_, noClick) {
     if (inwhile) {
       di -= 1;
       if ((di+1) === dl.length && dl[di] === j.tag) {
-        ds += '<span style="background-color:yellow;"';
+        ds += '<span style="background-color:yellow"';
       } else {
         ds += '<span';
       }
@@ -1336,7 +1336,7 @@ function tagsHTML (dl_, noClick) {
         ds += ', ';
       }
       if ((di+1) === dl.length && dl[di] === j.tag) {
-        ds += '<span style="background-color:yellow;"';
+        ds += '<span style="background-color:yellow"';
       } else {
         ds += '<span';
       }
@@ -2745,7 +2745,7 @@ document.addEventListener('DOMContentLoaded', function () {
     数据来源<a href="https://wsjkw.sh.gov.cn/xwfb/index.html" target="_blank">shanghaifabu</a>
       <!-- span id="datestr" style="color:grey;"></span -->
       <span id="fetching" style="color:blue;"> <span id="loading_pr2">not ready,</span> loaded</span>
-    <br/>以下展示<span style="background-color:yellow;">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
+    <br/>以下展示<span style="background-color:yellow">2022年<span id="tag_m"></span>月<span id="tag_d"></span>日</span>的数据
     <!-- br/>搜索<span onclick="search(this.textContent);" class="click _L">上海市</span> 可以在地图中定位相关地址 -->
   </p>
   <p>
@@ -2835,12 +2835,13 @@ document.addEventListener('DOMContentLoaded', function () {
       &nbsp; <span class="click april_button" onclick="jumpApr(addr.value,6);">6月</span><input type="text" id="june" name="june" onkeydown="aprilEnter(6);" />日
       <br/>2022年2月7日，中风险清零；
       <br/>2月24日报道首位本土感染者；3月2日徐汇华亭酒店；
-      <br/><span class="click" onclick="updateLocation(306);">3月6日</span>开始公布感染者地址；
+      <br/><span class="click" onclick="updateLocation(306);" style="background-color:yellow">3月6日</span>开始公布感染者地址；
       <br/><span class="click" onclick="updateLocation(624);">6月24日</span>无阳性感染者；<span class="click" onclick="updateLocation(628);">6月28日</span>发布防控方案第九版；
       <br/><span class="click" onclick="updateLocation(703);">7月3日</span>普陀兰溪路KTV；<span class="click" onclick="updateLocation(720);">7月20日</span>宝山隔离酒店；
       <br/><span class="click" onclick="updateLocation(731);">7月31日</span>无阳性感染者；<span class="click" onclick="updateLocation(807);">8月7日</span>中风险清零；
       <br/><span class="click" onclick="updateLocation(810);">8月10日</span>徐汇足浴棋牌；<span class="click" onclick="updateLocation(823);">8月23日</span>无阳性感染者；
-      <br/><span class="click" onclick="updateLocation(1007);">10月7日</span>青浦流调存疑；<span class="click" onclick="updateLocation(1027);">10月27日</span>迪士尼餐厅溢出
+      <br/><span class="click" onclick="updateLocation(1007);">10月7日</span>青浦流调存疑；<span class="click" onclick="updateLocation(1027);">10月27日</span>迪士尼餐厅溢出；
+      <br/><span class="click" onclick="updateLocation(1111);">11月11日</span>取消中风险区
     </div>
   </div>
 
