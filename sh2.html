@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>1118 sh listed address, since March 6th 2022</title><!-- @@ -->
+  <title>1120 sh listed address, since March 6th 2022</title><!-- @@ -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -111,6 +111,11 @@ const h1027 = '{"type":"Topology","objects":{"collection":{"type":"GeometryColle
 const h1029 = '{"type":"Topology","objects":{"collection":{"type":"GeometryCollection","geometries":[{"type":"Polygon","id":2870,"properties":{"_draw_type":"fill"},"bbox":[121.34528301,30.71812792,121.35085332,30.72193812],"arcs":[[0]]}]}},"arcs":[[[0,6924],[1480,645],[3444,1167],[3726,1263],[1349,-7984],[-5440,-1220],[-3503,-795],[-1056,6924]]],"transform":{"scale":[5.559513249203839e-7,3.801230552060671e-7],"translate":[121.34074532247728,30.72030584993764]},"bbox":[121.34074532247728,30.72030584993764,121.34630427977515,30.724106700366644]}'; // wsg84 蒙山路以东、隆平路以南、战斗港河以西、隆安路以北（包括沿街商铺）
 
 const hot_addr = {
+  '普陀区礼泉路305弄':'1121', // 2号
+  '杨浦区国顺路81弄':'1121', // 1号楼
+  '杨浦区长阳路1318弄':'1121', // 41号楼
+  '杨浦区鞍山四村':'1121', // 第一小区26号
+  '青浦区秀禾路235弄':'1121', // 9号楼
   '嘉定区浏翔村676号':'1119',
   '宝山区陈家行村':'1119', // 花家桥村民小组
   '普陀区富平路299弄':'1120', // 16号
@@ -120,19 +125,14 @@ const hot_addr = {
   '宝山区沈杨村':'1120', // 戴南村民小组
   '宝山区沈杨村':'1120', // 沈巷村民小组
   '松江区玉乐小区':'1120', // 西区78号楼
-  '静安区延长中路628弄':'1118', // 43号
   '普陀区交通西路108弄':'1118', // 1号
   '普陀区交通西路129弄':'1118', // 1号
   '虹口区大连西路201弄':'1118', // 51号
   '虹口区汉庭酒店大柏树店':'1118',
-  '宝山区塘祁路577弄':'1118', // 5号
   '松江区九新公路1785号':'1118', // 01-14地块项目
   '青浦区赵重公路2811弄':'1118', // 90号
   '静安区中华新路199弄':'1117', // 6号102、302别墅
   '普陀区交通西路95号':'1117',
-  '宝山区苏家浜路435弄':'1117', // 51号
-  '松江区沪松公路1399弄':'1117', // 87号、88号
-  '青浦区马阳村':'1117', // 马桥203号
   '崇明区侯南村':'1117', // 洪生5组
   '杨浦区江浦路740弄':'1109',
   '浦东新区海潮村':'1106',
@@ -2262,13 +2262,21 @@ if (release) {
     }
     ks += ' &rarr; 10/' + release +
           ' <span style="color:green">已满14天</span>';
-  } else { // 11月类似4月
+  } else if (release < 831) { // 11月类似4月
     if (release > 800) {
       release -= 800;
     } else {
       release -= 731;
     }
-    ks += ' &rarr; 11/' + release;
+    ks += ' &rarr; 11/' + release +
+          ' <span style="color:green">已满14天</span>';
+  } else { // 12月类似5月
+    if (release > 900) {
+      release -= 900;
+    } else {
+      release -= 830;
+    }
+    ks += ' &rarr; 12/' + release;
     if (release < today.getDate() ) {
       ks += ' <span style="color:green">已满14天</span>';
     } else if (release === today.getDate() ) {

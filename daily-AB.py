@@ -14,9 +14,9 @@ z = [
 #'1124','']
 #'1123','']
 #'1122','']
-#'1121','']
-#'1120','']
-'1119','']
+'1121','']
+#'1120','https://mp.weixin.qq.com/s/9R2mvY0s9EXXNWiMjZLj9w']
+#'1119','https://mp.weixin.qq.com/s/0C0fw_vkH-j52l-5SGV5lw']
 #'1118','https://mp.weixin.qq.com/s/4rowIR5E0O4qIjhuCmsH7g']
 #'1117','https://mp.weixin.qq.com/s/N9JrMm0gK-2ISnsvrSuxwA']
 #'1116','https://mp.weixin.qq.com/s/1UhcmbUbYcOu4HSbMy4W5g'] #### release in new month
