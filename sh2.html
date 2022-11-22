@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>1120 sh listed address, since March 6th 2022</title><!-- @@ -->
+  <title>1121 sh listed address, since March 6th 2022</title><!-- @@ -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -1243,8 +1243,8 @@ function load_js () {
         j = JSON.parse(data);
       } catch (err) {
         hard_off();
-        window.alert('数据无法下载\nhttps://sh.teach.bio/');
-        window.location.replace(baseURL);
+        window.alert(k_src + '数据无法下载');
+        //window.location.replace(baseURL);
         return false;
       }
       data = '';
@@ -1297,7 +1297,7 @@ function hash2date (_s) {
   try {
     const _m = parseInt(_s.substr(0,2) );
     const _d = parseInt(_s.substr(2,2) );
-    if (_s.length === 4 && [3,4,5,6,7,8].indexOf(_m) > -1 && _d > 0 && _d < 32) {
+    if (_s.length === 4 && [3,4,5,6,7,8,9,10,11,12].indexOf(_m) > -1 && _d > 0 && _d < 32) {
       return _m + '/' + _d;
     } else {
       return tag_m.textContent + '/' + tag_d.textContent;
