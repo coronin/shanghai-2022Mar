@@ -43,7 +43,7 @@ AsBs = ('0306','0307','0308','0309','0310',
       '1021','1022','1023','1024','1025','1026','1027','1028','1029','1030'  ,
              '1102','1103',       '1105',       '1107','1108','1109','1110',
                     '1113','1114','1115','1116','1117','1118','1119','1120',
-      '1121','1122','1123'
+      '1121','1122','1123','1124'
       )
 #### 以上不能有末尾逗号 没有空字符检查
 As = AsBs[:-12]
@@ -255,6 +255,7 @@ def read_a_list(s, tag=''):
              ) > -1 or line.find('各区信息'
              ) > -1 or line.find('居住于'
              ) > -1 or line.find('居住地址'
+             ) > -1 or line.find('居住地在'
              ) > -1 or line.find('无居住地'
              ) > -1 or line.find('2022年'
              ) > -1 or line.find('3月'
@@ -265,6 +266,8 @@ def read_a_list(s, tag=''):
              ) > -1 or line.find('8月'
              ) > -1 or line.find('9月'
              ) > -1 or line.find('10月'
+             ) > -1 or line.find('11月'
+             ) > -1 or line.find('12月'
              ) > -1 or line.find('上述人员'
              ) > -1 or line.find('外省市返沪'
              ) > -1 or line.find('外省市来沪'
@@ -278,6 +281,7 @@ def read_a_list(s, tag=''):
              ) > -1 or line.find('1例'
              ) > -1 or line.find('病例'
              ) > -1 or line.find('感染者'
+             ) > -1 or line.find('密切接触者'
              ) > -1 or line.find('中发现' # 隔离管控 风险人群筛查
              ) > -1 or line.find('落实管控'
              ) > -1 or line.find('采取封控'
