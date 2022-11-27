@@ -43,11 +43,11 @@ AsBs = ('0306','0307','0308','0309','0310',
       '1021','1022','1023','1024','1025','1026','1027','1028','1029','1030'  ,
              '1102','1103',       '1105',       '1107','1108','1109','1110',
                     '1113','1114','1115','1116','1117','1118','1119','1120',
-      '1121','1122','1123','1124','1125'
+      '1121','1122','1123','1124','1125','1126'
       )
 #### 以上不能有末尾逗号 没有空字符检查
-As = AsBs[:-13]
-Bs = AsBs[-13:]
+As = AsBs[:-14]
+Bs = AsBs[-14:]
 #### 以上14会因为没有阳性感染者而变小
 if len(Bs) > 14:
     raise ValueError('not in B 最多14天')
@@ -237,9 +237,11 @@ def read_a_list(s, tag=''):
             continue
         if len( line.strip() ) > 26:
             print('>> %s.txt' % s, 26, line)
+        else if len( line.strip() ) <= 2:
+            raise ValueError('两个字符的地址', line)
         if line.find('已通报') > 0:
             raise ValueError('%s.txt' % s, line, line )
-        if not line or line == '新增' or line.find('区新增'
+        if not line or line == '其中' or line == '新增' or line.find('区新增'
              ) > -1 or line.find('无新增'
              ) > -1 or line.find('微信号'
              ) > -1 or line.find('微信平台'
@@ -256,6 +258,7 @@ def read_a_list(s, tag=''):
              ) > -1 or line.find('居住于'
              ) > -1 or line.find('居住地址'
              ) > -1 or line.find('居住地在'
+             ) > -1 or line.find('居住地分别'
              ) > -1 or line.find('无居住地'
              ) > -1 or line.find('2022年'
              ) > -1 or line.find('3月'
@@ -574,6 +577,9 @@ for l in csv[1:]:
             line = ls0s[3:]
         if ls0s in [
 #### @@ 复制进 drag-me.html 并获取定位，再缩短 进csv和sh2.html，然后查log导入此处
+'青浦区虹桥睿景酒店',
+'宝山区全季酒店',
+'浦东新区浦发华庭',
 '杨浦区佳木斯路277号',
 '宝山区Zsmart智尚酒店',
 '宝山区同济路99号',
