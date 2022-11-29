@@ -43,7 +43,7 @@ AsBs = ('0306','0307','0308','0309','0310',
       '1021','1022','1023','1024','1025','1026','1027','1028','1029','1030'  ,
              '1102','1103',       '1105',       '1107','1108','1109','1110',
                     '1113','1114','1115','1116','1117','1118','1119','1120',
-      '1121','1122','1123','1124','1125','1126','1127'
+      '1121','1122','1123','1124','1125','1126','1127','1128'
       )
 #### 以上不能有末尾逗号 没有空字符检查
 As = AsBs[:-14]
@@ -239,7 +239,7 @@ def read_a_list(s, tag=''):
             print('>> %s.txt' % s, 26, line)
         if line.find('已通报') > 0:
             raise ValueError('%s.txt' % s, line, line )
-        if not line or line == '其中' or line == '新增' or line.find('区新增'
+        if not line or line == '其中' or line == '其余' or line == '新增' or line.find('区新增'
              ) > -1 or line.find('无新增'
              ) > -1 or line.find('微信号'
              ) > -1 or line.find('微信平台'
@@ -279,6 +279,7 @@ def read_a_list(s, tag=''):
              ) > -1 or line.find('落地检'
              ) > -1 or line.find('暂住于'
              ) > -1 or line.find('自我健康监测'
+             ) > -1 or line.find('结果异常'
              ) > -1 or line.find('1例'
              ) > -1 or line.find('病例'
              ) > -1 or line.find('感染者'
@@ -575,6 +576,7 @@ for l in csv[1:]:
             line = ls0s[3:]
         if ls0s in [
 #### @@ 复制进 drag-me.html 并获取定位，再缩短 进csv和sh2.html，然后查log导入此处
+'金山区金舸路1118号',
 '宝山区新新五村',
 '嘉定区漪园新村',
 '嘉定区安福市场',
