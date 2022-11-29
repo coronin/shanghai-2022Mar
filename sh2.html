@@ -2284,6 +2284,7 @@ if (dl.length > 0) {
 }
 if (release) {
   release += (14 - 300);
+  const release1111 = release - 9; // 825-->816
   if (release < 32) {
     //onList.textContent += ' --> 4/' + release + '\n';
     ks += ' &rarr; 3/' + release +
@@ -2344,27 +2345,33 @@ if (release) {
     }
     ks += ' &rarr; 10/' + release +
           ' <span style="color:green">已满14天</span>';
-  } else if (release < 831) { // 11月类似4月
-    if (release > 800) {
-      release -= 800;
+  } else if (release1111 < 831) {
+    if (release > 825) {
+      release = release1111 - 800;
+      ks += ' &rarr; 11/' + release +
+            ' <span style="color:green">满5天</span>';
     } else {
-      release -= 731;
+      if (release > 800) { // 11月类似4月
+        release -= 800;
+      } else {
+        release -= 731;
+      }
+      ks += ' &rarr; 11/' + release +
+            ' <span style="color:green">满14天</span>';
     }
-    ks += ' &rarr; 11/' + release +
-          ' <span style="color:green">已满14天</span>';
   } else { // 12月类似5月
-    if (release > 900) {
-      release -= 900;
+    if (release1111 > 900) {
+      release = release1111 - 900;
     } else {
-      release -= 830;
+      release = release1111 - 830;
     }
     ks += ' &rarr; 12/' + release;
-    if (release < today.getDate() ) {
-      ks += ' <span style="color:green">已满14天</span>';
-    } else if (release === today.getDate() ) {
-      ks += '<span style="color:green">是第14天</span>';
-    }
-  }
+    //if (release < today.getDate() ) {
+    //  ks += ' <span style="color:green">已满14天</span>';
+    //} else if (release === today.getDate() ) {
+    //  ks += '<span style="color:green">是第14天</span>';
+    //}
+  } //@@
 }
 if (_ww && _ww.indexOf(Ds[ii] + As[i]) > -1) {
   ks += kd_related_ww(Ds[ii], As[i]);

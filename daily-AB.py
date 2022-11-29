@@ -5,6 +5,7 @@ import re
 # os.system('scrapy fetch --nolog https://www.cell.com/cell/newarticles > cell.txt')
 
 z = [
+#'1201',''] ####
 #'1130','']
 '1129','']
 #'1128','https://mp.weixin.qq.com/s/LCKA8pfmiJXzGV-_LBvQ7g']
@@ -19,7 +20,7 @@ z = [
 #'1119','https://mp.weixin.qq.com/s/0C0fw_vkH-j52l-5SGV5lw']
 #'1118','https://mp.weixin.qq.com/s/4rowIR5E0O4qIjhuCmsH7g']
 #'1117','https://mp.weixin.qq.com/s/N9JrMm0gK-2ISnsvrSuxwA']
-#'1116','https://mp.weixin.qq.com/s/1UhcmbUbYcOu4HSbMy4W5g'] #### release in new month
+#'1116','https://mp.weixin.qq.com/s/1UhcmbUbYcOu4HSbMy4W5g'] #### release 12月 html 修改
 #'1115','https://mp.weixin.qq.com/s/nde03aFQuJ3pv0te7tYfGA']
 #'1114','https://mp.weixin.qq.com/s/9r7cOFIkNFiEed0fRiXPoA']
 #'1113','https://mp.weixin.qq.com/s/ArcRHEN6tEVFEHIblTVZVg']
