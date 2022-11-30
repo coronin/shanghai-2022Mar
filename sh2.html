@@ -289,7 +289,8 @@ function jtagOffset (dd) {
   if ((d > 331 && d <= 400) ||
       (d > 531 && d <= 600) ||
       (d > 731 && d <= 800) ||
-      (d > 831 && d <= 900) ) {
+      (d > 831 && d <= 900) ||
+     (d > 1031 && d <= 1100) ) {
     // 401-14=387(318), 414-14=400(331),
     // 331+1=332(401), 531+1=532(601), 731+1=732(801), 831+1=832(901)
     if (dd > 0) {
@@ -298,7 +299,8 @@ function jtagOffset (dd) {
       d += 69; }
   } else if ((d > 430 && d <= 500) ||
              (d > 630 && d <= 700) ||
-             (d > 930 && d <= 1000) ) {
+            (d > 930 && d <= 1000) ||
+           (d > 1130 && d <= 1200) ) {
     // 514-14=500(430), 501-14=487(417)
     if (dd > 0) {
       d -= 70;
@@ -1030,45 +1032,45 @@ function exportCanvasAsPNG (fo) {
 }
 
 function updateLocation (hash_, q) {
+  if (hash_ === 624 || hash_ === 625) {
+    hash_ = 626;
+  } else if (hash_ === 627 || hash_ === 628 || hash_ === 629 || hash_ === 630 || hash_ === 701) {
+    hash_ = 702;
+  } else if (hash_ === 731 || hash_ === 801 || hash_ === 802) {
+    hash_ = 803;
+  } else if (hash_ === 804 || hash_ === 805 || hash_ === 806 || hash_ === 807 || hash_ === 808 || hash_ === 809 || hash_ === 810) {
+    hash_ = 811;
+  } else if (hash_ === 823) {
+    hash_ = 824;
+  } else if (hash_ === 828 || hash_ === 829) {
+    hash_ = 830;
+  } else if (hash_ === 831) {
+    hash_ = 901;
+  } else if (hash_ === 903 || hash_ === 904 || hash_ === 905 || hash_ === 906) {
+    hash_ = 907;
+  } else if (hash_ === 908) {
+    hash_ = 909;
+  } else if (hash_ === 912 || hash_ === 913 || hash_ === 914 || hash_ === 915) {
+    hash_ = 916;
+  } else if (hash_ === 917) {
+    hash_ = 918;
+  } else if (hash_ === 919 || hash_ === 920 || hash_ === 921 || hash_ === 922 || hash_ === 923 || hash_ === 924 || hash_ === 925 || hash_ === 926 || hash_ === 927 || hash_ === 928) {
+    hash_ = 929;
+  } else if (hash_ === 1002 || hash_ === 1003) {
+    hash_ = 1004;
+  } else if (hash_ === 1031 || hash_ === 1101) {
+    hash_ = 1102;
+  } else if (hash_ === 1104) {
+    hash_ = 1105;
+  } else if (hash_ === 1106) {
+    hash_ = 1107;
+  } else if (hash_ === 1111 || hash_ === 1112) {
+    hash_ = 1113;
+  } //@@
   let url = baseURL + '#0' + hash_;
   if (hash_ > 1000) {
     url = baseURL + '#' + hash_;
   }
-  if (hash_ === 624 || hash_ === 625) {
-    url = baseURL + '#0626';
-  } else if (hash_ === 627 || hash_ === 628 || hash_ === 629 || hash_ === 630 || hash_ === 701) {
-    url = baseURL + '#0702';
-  } else if (hash_ === 731 || hash_ === 801 || hash_ === 802) {
-    url = baseURL + '#0803';
-  } else if (hash_ === 804 || hash_ === 805 || hash_ === 806 || hash_ === 807 || hash_ === 808 || hash_ === 809 || hash_ === 810) {
-    url = baseURL + '#0811';
-  } else if (hash_ === 823) {
-    url = baseURL + '#0824';
-  } else if (hash_ === 828 || hash_ === 829) {
-    url = baseURL + '#0830';
-  } else if (hash_ === 831) {
-    url = baseURL + '#0901';
-  } else if (hash_ === 903 || hash_ === 904 || hash_ === 905 || hash_ === 906) {
-    url = baseURL + '#0907';
-  } else if (hash_ === 908) {
-    url = baseURL + '#0909';
-  } else if (hash_ === 912 || hash_ === 913 || hash_ === 914 || hash_ === 915) {
-    url = baseURL + '#0916';
-  } else if (hash_ === 917) {
-    url = baseURL + '#0918';
-  } else if (hash_ === 919 || hash_ === 920 || hash_ === 921 || hash_ === 922 || hash_ === 923 || hash_ === 924 || hash_ === 925 || hash_ === 926 || hash_ === 927 || hash_ === 928) {
-    url = baseURL + '#0929';
-  } else if (hash_ === 1002 || hash_ === 1003) {
-    url = baseURL + '#1004';
-  } else if (hash_ === 1031 || hash_ === 1101) {
-    url = baseURL + '#1102';
-  } else if (hash_ === 1104) {
-    url = baseURL + '#1105';
-  } else if (hash_ === 1106) {
-    url = baseURL + '#1107';
-  } else if (hash_ === 1111 || hash_ === 1112) {
-    url = baseURL + '#1113';
-  } //@@
   if (q) {
     url += '?' + q;
   }
@@ -1149,7 +1151,7 @@ function preReload (q, oldest) {
   }
 }
 
-function nextReload (q, lastest) {
+function nextReload (q, lastest) { //@@@@ 单独地址前进有问题 出现所在区的1-6
   let hash_;
   try {
     hash_ = jtagOffset(-1); // hash
