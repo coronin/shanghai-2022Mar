@@ -8,9 +8,38 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
-  <script src="shanghaifabu/full1130.json"></script><!-- @@ -->
+  <script src="shanghaifabu/full1201.json"></script><!-- @@ -->
   <script>
   const hot_addr = {
+  '浦东新区洋泾街道灵山路1000弄1号':'1202',
+  '黄浦区五里桥街道斜土路456号':'1202',
+  '静安区曹家渡街道延平路10弄2号':'1202',
+  '静安区北站街道山西北路399弄5号楼':'1202',
+  '静安区宝山路街道中兴路814号':'1202',
+  '普陀区长风新村街道顺义路100弄45号楼':'1202',
+  '普陀区桃浦镇古浪路355弄127号':'1202',
+  '普陀区甘泉路街道双山路101弄8号':'1202',
+  '普陀区长征镇同普路1441弄门卫室':'1202',
+  '杨浦区五角场街道国权后路15弄1号楼':'1202',
+  '闵行区华漕镇北翟路2000弄51支弄8号':'1202',
+  '闵行区吴泾镇曹家塘路399弄5号':'1202',
+  '闵行区吴泾镇东川路333弄6号':'1202',
+  '闵行区七宝镇七莘路3333号3区26号':'1202',
+  '宝山区月浦镇德都路218弄82号':'1202',
+  '宝山区大场镇华和路255弄10号':'1202',
+  '宝山区大场镇环镇南路1506弄1号':'1202',
+  '宝山区张庙街道呼玛三村163号':'1202',
+  '宝山区顾村镇长白山路633弄16号':'1202',
+  '宝山区顾村镇长白山路633弄25号':'1202',
+  '宝山区大场镇沪太路3611弄6号':'1202',
+  '嘉定区安亭镇曹安公路4068号东华拓楼公寓':'1202',
+  '松江区永丰街道玉树路2480号兴益农贸市场':'1202',
+  '松江区佘山镇马尾山路188弄10号楼':'1202',
+  '金山区朱泾镇广福街125弄6号':'1202',
+  '金山区朱泾镇万联村联盟1062号':'1202',
+  '金山区朱泾镇万枫公路225号':'1202',
+  '青浦区盈浦街道盈米路38弄13号':'1202',
+  '青浦区徐泾镇崧泽大道2333弄7号':'1202',
   '浦东新区三林镇西泰林路850弄28号':'1201',
   '黄浦区半淞园路街道中山南一路198弄13号':'1201',
   '徐汇区龙华街道龙南三村63号':'1201',
@@ -511,7 +540,7 @@
           if (release > 825) {
             release = release1111 - 800;
             ks += ' &rarr; 11/' + release +
-                  ' <span style="color:green">满5天</span>';
+                  ' <span style="color:green">已满5天</span>';
           } else {
             if (release > 800) { // 11月类似4月
               release -= 800;
@@ -519,7 +548,7 @@
               release -= 731;
             }
             ks += ' &rarr; 11/' + release +
-                  ' <span style="color:green">满14天</span>';
+                  ' <span style="color:green">已满14天</span>';
           }
           // 11/8  江浦路740弄
           // 11/9  永兴小马路20号
@@ -548,11 +577,11 @@
             release = release1111 - 830;
           }
           ks += ' &rarr; 12/' + release;
-          //if (release < today.getDate() ) {
-          //  ks += ' <span style="color:green">已满5天</span>';
-          //} else if (release === today.getDate() ) {
-          // ks += '<span style="color:green">是第5天</span>';
-          //}
+          if (release < today.getDate() ) {
+            ks += ' <span style="color:green">已满5天</span>';
+          } else if (release === today.getDate() ) {
+            ks += '<span style="color:green">是第5天</span>';
+          }
         } //@@
         const kk = document.createElement('p');
         //kk.id = As[i];
@@ -600,7 +629,7 @@
     更新时间 <span id="datestr" style="color:blue;">fetching... not ready</span><br/>
     本页的<span style="background-color:yellow">今日</span>为2022年<span id="tag_m"></span>月<span id="tag_d"></span>日
     <!--   j.tag-1    @@ -->
-    搜索<a href="/#1129">昨日数据</a>
+    搜索<a href="/#1130">昨日数据</a>
   </p>
   <p>
     <label for="addr">上榜地址</label>

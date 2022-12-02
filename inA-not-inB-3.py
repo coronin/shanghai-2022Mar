@@ -43,7 +43,8 @@ AsBs = ('0306','0307','0308','0309','0310',
       '1021','1022','1023','1024','1025','1026','1027','1028','1029','1030'  ,
              '1102','1103',       '1105',       '1107','1108','1109','1110',
                     '1113','1114','1115','1116','1117','1118','1119','1120',
-      '1121','1122','1123','1124','1125','1126','1127','1128','1129','1130'
+      '1121','1122','1123','1124','1125','1126','1127','1128','1129','1130',
+      '1201'
       )
 #### 以上不能有末尾逗号 没有空字符检查
 As = AsBs[:-14]
@@ -160,11 +161,11 @@ def read_a_list(s, tag=''):
     if tag != 'list' and int(s) != transition_int:
         raise ValueError('%s.txt' % s, transition_int)
     transition_int += 1
-    if tag != 'list' and transition_int == 332:
+    if tag != 'list' and transition_int == 332: #
         transition_int = 401
-    elif tag != 'list' and transition_int == 431:
+    elif tag != 'list' and transition_int == 431: #
         transition_int = 501
-    elif tag != 'list' and transition_int == 532:
+    elif tag != 'list' and transition_int == 532: #
         transition_int = 601
     elif tag != 'list' and transition_int in (624, 625):
         transition_int = 626
@@ -190,11 +191,11 @@ def read_a_list(s, tag=''):
         transition_int = 918
     elif tag != 'list' and transition_int in (919, 920, 921, 922, 923, 924, 925, 926, 927, 928):
         transition_int = 929
-    elif tag != 'list' and transition_int == 931:
+    elif tag != 'list' and transition_int == 931: #
         transition_int = 1001
     elif tag != 'list' and transition_int in (1002, 1003):
         transition_int = 1004
-    elif tag != 'list' and transition_int in (1031, 1101):
+    elif tag != 'list' and transition_int in (1031, 1101): # 1032
         transition_int = 1102
     elif tag != 'list' and transition_int == 1104:
         transition_int = 1105
@@ -202,6 +203,8 @@ def read_a_list(s, tag=''):
         transition_int = 1107
     elif tag != 'list' and transition_int in (1111, 1112):
         transition_int = 1113
+    elif tag != 'list' and transition_int == 1131: #
+        transition_int = 1201
     #### @@
     if len(s) != 4:
         f = open('%s.txt' % s, 'r')
@@ -578,6 +581,13 @@ for l in csv[1:]:
             line = ls0s[3:]
         if ls0s in [
 #### @@ 复制进 drag-me.html 并获取定位，再缩短 进csv和sh2.html，然后查log导入此处
+'嘉定区东华拓楼',
+'黄浦区马当路458弄',
+'青浦区杨家庄村',
+'金山区万枫公路225号',
+'徐汇区天钥桥南路1130号',
+'松江区涞坊路408号',
+'松江区兴益农贸市场',
 '松江区摩卡小城',
 '宝山区江阳水产品批发市场',
 '闵行区同心小区',

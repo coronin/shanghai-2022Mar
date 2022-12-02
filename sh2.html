@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>1130 sh listed address, since March 6th 2022</title><!-- @@ -->
+  <title>1201 sh listed address, since March 6th 2022</title><!-- @@ -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -121,6 +121,35 @@ const h1029 = '{"type":"Topology","objects":{"collection":{"type":"GeometryColle
 //
 //
 const hot_addr = {
+  '浦东新区灵山路1000弄':'1202',
+  '黄浦区斜土路456号':'1202',
+  '静安区延平路10弄':'1202',
+  '静安区山西北路399弄':'1202',
+  '静安区中兴路814号':'1202',
+  '普陀区顺义路100弄45号楼':'1202',
+  '普陀区古浪路355弄':'1202',
+  '普陀区双山路101弄':'1202',
+  '普陀区同普路1441弄':'1202',
+  '杨浦区国权后路15弄':'1202',
+  '闵行区北翟路2000弄51支弄':'1202',
+  '闵行区曹家塘路399弄':'1202',
+  '闵行区东川路333弄':'1202',
+  '闵行区七莘路3333号':'1202',
+  '宝山区德都路218弄':'1202',
+  '宝山区华和路255弄':'1202',
+  '宝山区环镇南路1506弄':'1202',
+  '宝山区呼玛三村':'1202',
+  '宝山区长白山路633弄':'1202',
+  '宝山区长白山路633弄25号':'1202',
+  '宝山区沪太路3611弄':'1202',
+  '嘉定区东华拓楼':'1202',
+  '松江区兴益农贸市场':'1202',
+  '松江区马尾山路188弄':'1202',
+  '金山区广福街125弄':'1202',
+  '金山区万联村':'1202', // 联盟1062号
+  '金山区万枫公路225号':'1202',
+  '青浦区盈米路38弄':'1202',
+  '青浦区崧泽大道2333弄':'1202',
   '浦东新区西泰林路850弄':'1201',
   '黄浦区中山南一路198弄':'1201',
   '徐汇区龙南三村':'1201',
@@ -2352,7 +2381,7 @@ if (release) {
     if (release > 825) {
       release = release1111 - 800;
       ks += ' &rarr; 11/' + release +
-            ' <span style="color:green">满5天</span>';
+            ' <span style="color:green">已满5天</span>';
     } else {
       if (release > 800) { // 11月类似4月
         release -= 800;
@@ -2360,7 +2389,7 @@ if (release) {
         release -= 731;
       }
       ks += ' &rarr; 11/' + release +
-            ' <span style="color:green">满14天</span>';
+            ' <span style="color:green">已满14天</span>';
     }
   } else { // 12月类似5月
     if (release1111 > 900) {
@@ -2369,11 +2398,11 @@ if (release) {
       release = release1111 - 830;
     }
     ks += ' &rarr; 12/' + release;
-    //if (release < today.getDate() ) {
-    //  ks += ' <span style="color:green">已满14天</span>';
-    //} else if (release === today.getDate() ) {
-    //  ks += '<span style="color:green">是第14天</span>';
-    //}
+    if (release < today.getDate() ) {
+      ks += ' <span style="color:green">已满14天</span>';
+    } else if (release === today.getDate() ) {
+      ks += '<span style="color:green">是第14天</span>';
+    }
   } //@@
 }
 if (_ww && _ww.indexOf(Ds[ii] + As[i]) > -1) {
