@@ -1745,7 +1745,9 @@ function hot_label (d, dtag) {
       return hash2date(dtag) + d.substr(0, 2);
     }
   }
-  return hash2date(dtag) + d.substr(d.indexOf('区')+1);
+  //return hash2date(dtag) + d.substr(d.indexOf('区')+1);
+  console.log('hash2date reduced', d);
+  return hash2date(dtag); // many in 2022 Dec
 }
 
 function draw_sh () { // map-address.html
