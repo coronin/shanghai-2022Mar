@@ -121,6 +121,24 @@ const h1029 = '{"type":"Topology","objects":{"collection":{"type":"GeometryColle
 //
 //
 const hot_addr = {
+  '黄浦区南昌路148弄':'1208',
+  '静安区闻喜路555弄':'1208',
+  '静安区平型关路2199弄':'1208',
+  '静安区平型关路1088弄':'1208',
+  '静安区广延路1199弄':'1208',
+  '静安区万荣路1199弄':'1208',
+  '静安区原平路689弄9号':'1208',
+  '静安区共和新路3650弄':'1208',
+  '普陀区光复西路133号':'1208',
+  '虹口区虹湾路86弄':'1208',
+  '闵行区虹梅南路1555弄':'1208',
+  '宝山区高境二村':'1208',
+  '宝山区康宁路2199弄':'1208',
+  '嘉定区金耀南路300弄':'1208',
+  '松江区泽悦路22号':'1208', // 桂花锦苑11号
+  '青浦区沪青平公路5000弄':'1208',
+  '青浦区乐天路208弄':'1208',
+  '青浦区叶联路699弄':'1208',
   '静安区洛川东路320弄15号':'1207',
   '静安区原平路689弄':'1207',
   '静安区大宁路883弄':'1207',
@@ -268,6 +286,7 @@ const hot_addr = {
   '松江区松南城华乐苑':'1203',
   '静安区康定路445弄':'1129'
 };
+console.log('hot_addr', Object.keys(hot_addr).length);
 
 const purple_rgb = 'rgba(127,0,128';
 // https://mp.weixin.qq.com/s/6Wpa0b-l7uvVjnCWPoOOng
@@ -1698,6 +1717,9 @@ function hot_label (d, dtag) {
   console.log('hash2date', d);
   return hash2date(dtag); // many in 2022 Dec
 }
+
+// uniqByKeepFirst set
+// uniqByKeepLast  map
 
 function draw_sh () { // map-address.html
   app.width = svgWidth;
