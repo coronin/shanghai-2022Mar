@@ -2117,6 +2117,14 @@ function search (kt, pngNot) {
     window.location.replace(baseURL + '#' + j.tag); // #hash
     return;
   }
+  if (nextSpecial && nextSpecial.endsWith(addr.value)) {
+    k = nextSpecial.substr(0, nextSpecial.indexOf('区')+1);
+    //_check = 'today';
+    // released_today, released,
+    // districts, inB, today, latest_added, latest_added2, latest_added7
+  } else {
+    nextSpecial = '';
+  }
   if (addr.value !== k) {
     addr.value = k;
   }
@@ -2127,14 +2135,6 @@ function search (kt, pngNot) {
   init_map();
   if (scaleChange) { d3scale = 72000; }
   let ii;
-  if (nextSpecial && nextSpecial.endsWith(addr.value)) {
-    k = nextSpecial.substr(0, nextSpecial.indexOf('区')+1);
-    //_check = 'today';
-    // released_today, released,
-    // districts, inB, today, latest_added, latest_added2, latest_added7
-  } else {
-    nextSpecial = '';
-  }
   if (Ds.indexOf(k) > -1) { //各区
     // if (!j.today[k]) { // .latest_added [_check]
     //   addr.value = '';
