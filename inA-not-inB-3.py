@@ -583,10 +583,6 @@ for l in csv[1:]:
             line = ls0s[3:]
         if ls0s in [
 #### @@ 复制进 drag-me.html 并获取定位，再缩短 进csv和sh2.html，然后查log导入此处
-'静安区平型关路465号',
-'青浦区青赵公路6666弄',
-'青浦区赵华路512弄',
-'松江区松南城华乐苑',
 '崇明区庙镇启瀛村'
         ] and ls0s not in C:
             hot_addr += 1
